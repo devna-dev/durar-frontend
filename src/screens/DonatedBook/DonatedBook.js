@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {TextInput, Text, View} from "react-native";
+import {TextInput, Text, View, TouchableOpacity} from "react-native";
 import styles from "./styles";
 import {colors} from "../../config/styles";
 import Button from "../../components/Button/Button";
@@ -22,8 +22,10 @@ export default class DonatedBook extends Component {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <SvgUri style={styles.back_img}
+                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                        <SvgUri style={styles.back_img}
                             uri={svg_photo.back}/>
+                    </TouchableOpacity>
                     <Text style={styles.headerTitle}> التبرع بكتاب</Text>
                 </View>
                 <Content style={styles.content}>

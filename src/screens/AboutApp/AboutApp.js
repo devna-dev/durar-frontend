@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {Image, Text, View} from "react-native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import styles from "./styles";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
@@ -22,8 +22,10 @@ export default class AboutApp extends Component {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <SvgUri style={styles.back_img}
+                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                        <SvgUri style={styles.back_img}
                             uri={svg_photo.back}/>
+                    </TouchableOpacity>
                     <Text style={styles.headerTitle}> عن التطبيق</Text>
                 </View>
                 <Content style={styles.content}>

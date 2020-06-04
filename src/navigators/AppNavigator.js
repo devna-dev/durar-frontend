@@ -122,7 +122,7 @@ export function DrawerNavigator() {
 }
 export function DrawerNavigator1() {
     return (
-        <Drawer.Navigator drawerPosition={'right'} initialRouteName="Search"
+        <Drawer.Navigator drawerPosition={'right'} initialRouteName="Search1"
                           drawerContent={(props) => <CustomDrawerContent {...props} />}>
             <Drawer.Screen name="Search1" component={Search1}/>
             <Drawer.Screen name="Search" component={Search}/>

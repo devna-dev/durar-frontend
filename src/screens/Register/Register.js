@@ -8,6 +8,7 @@ import Button from "../../components/Button/Button";
 import {SvgUri} from "react-native-svg";
 import svg, {svg_photo} from '../../assets/svg/svg'
 import VerificationCode from "../VerificationCode/VerificationCode";
+import TouchableOpacity from "react-native-gesture-handler/touchables/TouchableOpacity";
 
 
 export default class Register extends Component {
@@ -23,8 +24,10 @@ export default class Register extends Component {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <SvgUri style={styles.back_img}
+                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                        <SvgUri style={styles.back_img}
                             uri={svg_photo.back}/>
+                    </TouchableOpacity>
                     <Text style={styles.headerTitle}>تسجيل حساب جديد</Text>
                     <View style={styles.back_img}/>
                 </View>

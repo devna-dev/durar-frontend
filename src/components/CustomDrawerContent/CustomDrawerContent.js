@@ -6,6 +6,7 @@ import styles from './styles';
 import {SvgUri} from 'react-native-svg';
 import storage from '../../config/storage';
 import {svg_photo} from "../../assets/svg/svg";
+import UploadVoiceBook from "../../screens/UploadVoiceBook/UploadVoiceBook";
 
 const data = [
     {
@@ -16,7 +17,7 @@ const data = [
     {
         image: svg_photo.upload,
         title: 'رفع كتاب صوتى',
-        route: 'DonatedBook'
+        route: 'UploadVoiceBook'
     },
     {
         image: svg_photo.donation,

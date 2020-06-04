@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {Image, Text, TextInput, View} from "react-native";
+import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
 import styles from "./styles";
 import {colors} from "../../config/styles";
 import Button from "../../components/Button/Button";
@@ -24,8 +24,10 @@ export default class VerificationCode extends Component {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <SvgUri style={styles.back_img}
+                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                        <SvgUri style={styles.back_img}
                             uri={svg_photo.back}/>
+                    </TouchableOpacity>
                     <Text style={styles.headerTitle}>كود التفعيل</Text>
                     <View style={styles.back_img}/>
                 </View>
