@@ -43,7 +43,8 @@ export default class CurrentReadings extends Component {
                             </TouchableOpacity>
                             <FlatList data={[{}, {}, {}, {}, {}]}
                                       style={{marginLeft: '5%'}}
-                                      renderItem={() => <HomeBookItem now/>}/>
+                                      renderItem={() => <HomeBookItem navigation={this.props.navigation} now
+                                      read={this.props.read}/>}/>
                         </View>
                     </Content>
                 </Container>

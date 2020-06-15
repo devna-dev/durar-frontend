@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import styles from './styles'
-import {Image, Text, View} from "react-native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from "../../assets/svg/svg";
 import {colors} from "../../config/styles";
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import ReadingPage from "../../screens/ReadingPage/ReadingPage";
 
 export default class HomeBookItem extends Component {
 
@@ -14,7 +15,7 @@ export default class HomeBookItem extends Component {
 
     render() {
         return (
-            <View style={[styles.container, {
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Book')}  style={[styles.container, {
                 flexDirection: this.props.now || this.props.search ? 'row' : 'column',
                 width: this.props.now || this.props.search ? '100%' : 100,
                 height: this.props.now || this.props.search? 100 : 181,
@@ -25,7 +26,7 @@ export default class HomeBookItem extends Component {
                         width: this.props.now || this.props.search ? 75 : 100,
                         height: this.props.now || this.props.search ? 100 : 130,
                     }]}
-                       source={{uri: 'https://www.kutubpdfbook.com/kutubpdfcafe/cover/safwat-altfasser.jpg'}}/>
+                       source={{uri: this.props.image?this.props.image:'https://api.kashback.co.uk/storage/yatijMWTlBnUJO7M0TYVlw7TDbpIAjtXL0zOKY9w.jpeg'}}/>
                 <View style={{
                     justifyContent: this.props.now || this.props.search ? 'flex-start' : 'center',
                     marginTop: this.props.now || this.props.search ? 15 : 0,
@@ -44,7 +45,9 @@ export default class HomeBookItem extends Component {
                                 <View style={[styles.progress,{backgroundColor:colors.secondary,width:'80%'}]}/>
                             </View>
                             <Text style={styles.text3}>   80%  </Text>
+                            <TouchableOpacity onPress={()=>this.props.read()}>
                             <SvgUri uri={svg_photo.play}/>
+                            </TouchableOpacity>
                         </View>
                     }
                     {
@@ -61,7 +64,7 @@ export default class HomeBookItem extends Component {
                         </View>
                     }
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 

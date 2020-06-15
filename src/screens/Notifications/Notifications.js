@@ -15,7 +15,12 @@ export default class Notifications extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            all:true,
+            version:true,
+            recommended:false,
+
+        };
     }
 
     render() {
@@ -31,33 +36,33 @@ export default class Notifications extends Component {
                 <Content style={styles.content}>
                     <View style={styles.header1}>
                         <Text style={styles.find}>وضع الإشعارات</Text>
-                        <Switch value={true}
-                                onChange={()=>{}}/>
+                        <Switch value={this.state.all}
+                                onChange={()=>{this.setState({all:!this.state.all})}}/>
                     </View>
 
                     <View style={styles.header1}>
                         <Text style={[styles.find,{...common.BoldFont,fontSize:14}]}>عند وصول أي إصدارات جديده</Text>
-                        <Switch value={true}
-                                onChange={()=>{}}/>
+                        <Switch value={this.state.version}
+                                onChange={()=>{this.setState({version:!this.state.version})}}/>
                     </View>
 
                     <View style={[styles.header1,{backgroundColor:colors.grey1}]}>
                         <Text style={styles.headerTitle}>عن التوصيه ببعض الكتب</Text>
-                        <Switch value={false}
-                                onChange={()=>{}}/>
+                        <Switch value={this.state.recommended}
+                                onChange={()=>{this.setState({recommended:!this.state.recommended})}}/>
                     </View>
 
-                    <View style={[styles.header1,{backgroundColor:colors.grey1}]}>
-                        <Text style={styles.headerTitle}>عند وصول أي إصدارات جديده</Text>
-                        <Switch value={false}
-                                onChange={()=>{}}/>
-                    </View>
+                    {/*<View style={[styles.header1,{backgroundColor:colors.grey1}]}>*/}
+                        {/*<Text style={styles.headerTitle}>عند وصول أي إصدارات جديده</Text>*/}
+                        {/*<Switch value={false}*/}
+                                {/*onChange={()=>{}}/>*/}
+                    {/*</View>*/}
 
-                    <View style={[styles.header1,{backgroundColor:colors.grey1}]}>
-                        <Text style={styles.headerTitle}>عن التوصيه ببعض الكتب</Text>
-                        <Switch value={false}
-                                onChange={()=>{}}/>
-                    </View>
+                    {/*<View style={[styles.header1,{backgroundColor:colors.grey1}]}>*/}
+                        {/*<Text style={styles.headerTitle}>عن التوصيه ببعض الكتب</Text>*/}
+                        {/*<Switch value={false}*/}
+                                {/*onChange={()=>{}}/>*/}
+                    {/*</View>*/}
                 </Content>
             </Container>
         )

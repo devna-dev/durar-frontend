@@ -18,7 +18,8 @@ export default class SearchFilters extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            multiSliderValue: [0, 1]
+            multiSliderValue: [0, 1],
+            select:false
         };
     }
 
@@ -50,15 +51,14 @@ export default class SearchFilters extends Component {
                                 </View>
                                 <Text style={styles.text3}> إلغاء</Text>
                             </TouchableOpacity>
-                            <View style={[styles.bar2]}>
+                            <TouchableOpacity onPress={()=>this.setState({select:!this.state.select})} style={[styles.bar2]}>
                                 <Text style={styles.text3}> المتاح صوتيا فقط</Text>
-                                <SvgUri style={styles.back_img}
-                                        uri={svg_photo.empty_circle}/>
-                            </View>
+                                <SvgUri style={styles.back_img} uri={this.state.select ? svg_photo.checked_square : svg_photo.unchecked_square}/>
+                            </TouchableOpacity>
                             <View style={[styles.bar]}>
                                 <Text style={styles.active_item_text1}> الحقبة الزمنيه</Text>
                             </View>
-                            <MultiRangeSlider value={[3, 7]} onRangeChanged={(values) => alert(values)}/>
+                            <MultiRangeSlider value={[1446, 2000]} onRangeChanged={(values) => {}}/>
                             <View style={[styles.bar3]}>
                                 <Text style={styles.active_item_text}>2000م</Text>
                                 <Text style={styles.active_item_text}>1446م</Text>
@@ -78,8 +78,7 @@ export default class SearchFilters extends Component {
                                           <Text
                                               style={[styles.text3, {color: this.state.index == item.index ? colors.primary : colors.grey3}]}> على
                                               محمد الصلابى</Text>
-                                          <SvgUri style={styles.back_img}
-                                                  uri={this.state.index == item.index ? svg_photo.checked_square : svg_photo.unchecked_square}/>
+                                          <SvgUri style={styles.back_img} uri={this.state.index == item.index ? svg_photo.checked_square : svg_photo.unchecked_square}/>
                                       </TouchableOpacity>}
                             />
                         </View>
@@ -87,12 +86,11 @@ export default class SearchFilters extends Component {
                     <View style={styles.footer}>
                         <Button title={'مسح'}
                                 style={styles.btn1}
-                                onPress={() => this.props.navigation.navigate('RecoverPassword')}
                                 textColor={colors.primary}
                         />
                         <Button title={'تطبيق'}
                                 style={styles.btn}
-                                onPress={() => this.props.navigation.navigate('RecoverPassword')}
+                                onPress={this.props.onRequestClose}
                                 textColor={colors.white}
                         />
                     </View>

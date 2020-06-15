@@ -12,30 +12,13 @@ const Item = ({item, active, onPress, tab, tab1, style}) => {
             onPress={() => onPress(item)}
             style={[styles.item, style]}
         >
-            {tab || tab1 ?
                 <Text
                     style={[
                         styles.tabName,
-                        active ? styles.activeItem1 : {
-                            color: colors.white,
-                            ...common.RegularFont,
-                            fontSize: 15,
-                        },
-                    ]}
+                        active ? styles.activeItem1:styles.activeItem]}
                 >
                     {item.label}
-                </Text> :
-                <Text
-                    style={[
-                        styles.tabName,
-                        active ? styles.activeItem : {
-                            ...common.RegularFont,
-                            fontSize: 15,
-                        },
-                    ]}
-                >
-                    {item.label}
-                </Text>}
+                </Text>
         </TouchableOpacity>
     );
 };
@@ -47,14 +30,14 @@ class RoundedTabs extends React.Component {
             selected: props.selected,
             tab: props.tab,
             enableScrolling: props.enableScrolling,
-            widthOfItem: props.tab1 ? 130 : 100,
+            widthOfItem: props.tab1 ? 130 : 120,
         };
     }
 
     find_dimesions(layout) {
         const {x, y, width, height} = layout;
         this.setState({
-            widthOfItem: this.state.tab ? (Platform.OS=='ios'?100:130) : this.props.two ? width/2 : width/3,
+            widthOfItem: this.props.two ? width/2 : width/2.7,
         });
     }
 

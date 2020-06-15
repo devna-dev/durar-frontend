@@ -28,11 +28,13 @@ export default class Search extends Component {
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
-                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()} style={styles.header0}>
+                    <View  style={styles.header0}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
                         <SvgUri style={styles.back_img}
                                 uri={svg_photo.back}/>
+                        </TouchableOpacity>
                         <Text style={styles.headerTitle}>  "تاريخ الخلفاء"</Text>
-                    </TouchableOpacity>
+                    </View>
                     <View style={styles.header2}>
                         <TouchableOpacity onPress={()=>this.setState({filter:true})} style={styles.item_view1}>
                             <SvgUri style={styles.back_img}
@@ -50,7 +52,7 @@ export default class Search extends Component {
                     <Text style={styles.active_item_text2}>مرتبه حسب الأكثر مشاهدة</Text>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem search/>}/>
+                              renderItem={() => <HomeBookItem navigation={this.props.navigation} search/>}/>
 
 
                 </Content>

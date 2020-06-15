@@ -10,6 +10,9 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import HomeBookItem from "../../components/HomeBookItem/HomeBookItem";
 import Button from "../../components/Button/Button";
 import CurrentReadings from "../CurrentReadings/CurrentReadings";
+import NotificationsList from "../NotificationsList/NotificationsList";
+import SystemPoints from "../SystemPoints/SystemPoints";
+import MyBooks from "../MyBooks/MyBooks";
 
 export default class Home extends Component {
 
@@ -24,7 +27,7 @@ export default class Home extends Component {
 
     _renderItem = ({item}) => {
         return (
-            <View style={styles.item_view}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Activities')} style={styles.item_view}>
                 <View style={styles.right_side}/>
                 <ImageBackground style={styles.item_img}
                                  imageStyle={{borderRadius: 5}}
@@ -37,7 +40,7 @@ export default class Home extends Component {
                     </ImageBackground>
                 </ImageBackground>
                 <View style={styles.left_side}/>
-            </View>
+            </TouchableOpacity>
         )
     };
 
@@ -45,23 +48,27 @@ export default class Home extends Component {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={()=>this.props.navigation.openDrawer()}>
-                    <SvgUri style={styles.back_img}
-                            uri={svg_photo.menu}/>
+                    <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+                        <SvgUri style={styles.back_img}
+                                uri={svg_photo.menu}/>
                     </TouchableOpacity>
                     <View style={styles.leftHeader}>
-                        <View style={[styles.headerItemView, {flexDirection: 'row'}]}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('SystemPoints')}
+                                          style={[styles.headerItemView, {flexDirection: 'row'}]}>
                             <SvgUri style={styles.back_img}
                                     uri={svg_photo.gift}/>
                             <Text style={styles.text2}>160 </Text>
-                        </View>
-                        <View style={[styles.headerItemView, {width: 40}]}>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('NotificationsList')}
+                                          style={[styles.headerItemView, {width: 40}]}>
                             <SvgUri style={styles.back_img}
                                     uri={svg_photo.bell}/>
                             <SvgUri style={styles.back_img1}
                                     uri={svg_photo.badge}/>
-                        </View>
-                        <Image source={require('../../assets/images/avatar.png')}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
+                            <Image source={require('../../assets/images/avatar.png')}/>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <Content style={styles.content}>
@@ -74,42 +81,51 @@ export default class Home extends Component {
                     </View>
                     <View style={styles.bar}>
                         <Text style={styles.headerTitle}>الأكثر قراءه هذا الشهر</Text>
-                        <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('HistoryCategories')}>
+                            <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                        </TouchableOpacity>
                     </View>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               horizontal
                               style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem/>}/>
+                              renderItem={() => <HomeBookItem navigation={this.props.navigation} image={'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'}/>}/>
 
                     <View style={styles.bar}>
                         <Text style={styles.headerTitle}>أخر الإضافات</Text>
-                        <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('HistoryCategories')}>
+                            <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                        </TouchableOpacity>
                     </View>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               horizontal
                               style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem/>}/>
+                              renderItem={() => <HomeBookItem navigation={this.props.navigation} image={'https://api.kashback.co.uk/storage/yatijMWTlBnUJO7M0TYVlw7TDbpIAjtXL0zOKY9w.jpeg'}/>}/>
                     <FlatList data={[{
                         image: svg_photo.library,
-                        title: 'قراءاتى الأن'
+                        title: 'قراءاتى الأن',
+                        route:'MyBooks'
                     }, {
                         image: svg_photo.note,
-                        title: 'دفتر الملاحظات'
+                        title: 'دفتر الملاحظات',
+                        route:'NotesBook'
                     }, {
                         image: svg_photo.voice_book,
-                        title: 'كتب صوتية'
+                        title: 'كتب صوتية',
+                        route:'MyBooks'
                     },]}
                               horizontal
                               style={{marginLeft: '5%', marginTop: '3%'}}
                               renderItem={(item) => this.notes_bar(item)}/>
-                    <View style={styles.bar}>
+                    <View  style={styles.bar}>
                         <Text style={styles.headerTitle}>الأكثر إستماعا</Text>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('HistoryCategories')}>
                         <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                        </TouchableOpacity>
                     </View>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               horizontal
                               style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem/>}/>
+                              renderItem={() => <HomeBookItem navigation={this.props.navigation} image={'https://api.kashback.co.uk/storage/HUE2pyizlNzMEVlNLhCzheTJxhO4k5pXMbBP0DXe.jpeg'}/>}/>
 
 
                 </Content>
@@ -119,17 +135,25 @@ export default class Home extends Component {
                     <SvgUri uri={svg_photo.up_arrow}/>
                 </TouchableOpacity>
                 <CurrentReadings visible={this.state.readable}
-                                 onRequestClose={()=>this.setState({readable: false})}/>
+                                 navigation={this.props.navigation}
+                                 read={()=>{
+                                     this.setState({readable: false})
+                                     this.props.navigation.navigate('ReadingPage')
+                                 }}
+                                 onRequestClose={() => {
+                                     this.setState({readable: false})
+                                     this.props.navigation.navigate('Book')
+                                 }}/>
             </Container>
         )
     }
 
     notes_bar(item) {
         return (
-            <View style={styles.bar_item_view}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate(item.item.route)} style={styles.bar_item_view}>
                 <SvgUri uri={item.item.image}/>
                 <Text style={styles.text3}>  {item.item.title} </Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 }

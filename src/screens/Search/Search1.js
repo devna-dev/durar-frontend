@@ -36,7 +36,7 @@ export default class Search1 extends Component {
                 <Content style={styles.content}>
 
                     <View style={styles.header1}>
-                        <View
+                        <TouchableOpacity onPress={()=>this.setState({selected:0})}
                             style={[styles.item_view, {
                                 backgroundColor: this.state.selected == 0 ? colors.secondary : colors.white,
                                 borderColor: this.state.selected == 0 ? colors.secondary : colors.grey1, borderWidth: 1
@@ -46,8 +46,8 @@ export default class Search1 extends Component {
                             }
                             <Text style={this.state.selected == 0 ? styles.item_text : styles.active_item_text}> بحث
                                 كتاب</Text>
-                        </View>
-                        <View
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.setState({selected:1})}
                             style={[styles.item_view, {
                                 backgroundColor: this.state.selected == 1 ? colors.secondary : colors.white,
                                 borderColor: this.state.selected == 1 ? colors.secondary : colors.grey1, borderWidth: 1
@@ -57,9 +57,9 @@ export default class Search1 extends Component {
                             }
                             <Text style={this.state.selected == 1 ? styles.item_text : styles.active_item_text}> بحث
                                 محتوى</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
-                    <View
+                    <TouchableOpacity onPress={()=>this.setState({selected:2})}
                         style={[styles.item_view, {
                             backgroundColor: this.state.selected == 2 ? colors.secondary : colors.white,
                             borderColor: this.state.selected == 2 ? colors.secondary : colors.grey1, borderWidth: 1,
@@ -70,23 +70,23 @@ export default class Search1 extends Component {
                         }
                         <Text style={this.state.selected == 2 ? styles.item_text : styles.active_item_text}> بحث عن
                             كاتب</Text>
-                    </View>
+                    </TouchableOpacity>
                     <Text style={styles.item_text1}>التصنيف</Text>
                     <TouchableOpacity
                         onPress={() => this.setState({index: !this.state.index})}
-                        style={[styles.bar4, {borderColor: this.state.index ? colors.primary : colors.grey1}]}>
+                        style={[styles.bar4, {borderColor: colors.grey1}]}>
                         <Text
-                            style={[styles.text3, {color: this.state.index ? colors.primary : colors.grey3}]}>إختر
+                            style={[styles.text3, {color:  colors.grey3}]}>إختر
                             تصنيفات معينه</Text>
                         <SvgUri style={styles.back_img}
                                 uri={this.state.index ? svg_photo.down_arrow : svg_photo.down_arrow}/>
                     </TouchableOpacity>
-                    <FlatList data={[{}, {},]}
+                    <FlatList data={[{name:'التاريخ'}, {name:'فقه'},]}
                               style={{marginHorizontal:'3.5%'}}
                               numColumns={2}
                               renderItem={(item) => <TouchableOpacity
                                   onPress={() => {
-                                      this.props.navigation.navigate('Search')
+                                     // this.props.navigation.navigate('Search')
                                       this.setState({index: item.index})}}
                                   style={[styles.item_view, {
                                       backgroundColor: this.state.index == item.index ? colors.secondary : colors.white,
@@ -95,10 +95,16 @@ export default class Search1 extends Component {
                                       marginHorizontal: '2%'
                                   }]}>
                                   <Text
-                                      style={[styles.text3, {color: colors.primary}]}>التاريخ   </Text>
+                                      style={[styles.text3, {color: colors.primary}]}>{item.item.name}   </Text>
                                   <SvgUri style={styles.back_img1}
                                           uri={svg_photo.active_close}/>
                               </TouchableOpacity>}
+
+                    />
+                    <Button title={'بحث'}
+                            style={styles.btn1}
+                            onPress={()=>this.props.navigation.navigate('Search')}
+                            textColor={colors.white}
                     />
                 </Content>
             </Container>
