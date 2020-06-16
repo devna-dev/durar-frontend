@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* shamelaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shamelaTests.m */; };
+		041D96FE7338406DAB9B9D52 /* Cairo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C14DC3AD3A204799A74A0896 /* Cairo-Bold.ttf */; };
+		0BE941DACA2475AF2F5CE5CD /* libPods-shamela.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAAA31421FE7911A9192FAC /* libPods-shamela.a */; };
+		11BD70F6D0994EF1B6DD0ED8 /* Cairo-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1F287CDD06B4E6BAC712206 /* Cairo-Light.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -16,12 +19,13 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* shamelaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shamelaTests.m */; };
-		B5203B7A15F44AEE8A4ADA87 /* Cairo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACDB1E1DF5AC4835BFF78708 /* Cairo-Black.ttf */; };
-		041D96FE7338406DAB9B9D52 /* Cairo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C14DC3AD3A204799A74A0896 /* Cairo-Bold.ttf */; };
-		5D6AEC34F089490EA8AB5616 /* Cairo-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7A547BFEF31498A9F0D2055 /* Cairo-ExtraLight.ttf */; };
-		11BD70F6D0994EF1B6DD0ED8 /* Cairo-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1F287CDD06B4E6BAC712206 /* Cairo-Light.ttf */; };
-		9C0E438CBA9640148FD29D3E /* Cairo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 303C9DA5FD3C4E4A84366D65 /* Cairo-Regular.ttf */; };
+		32F38FB350863B285CFD3B2C /* libPods-shamela-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D97BA15B169F4AB9CC85413 /* libPods-shamela-tvOS.a */; };
 		5555532867684A45A2300C2D /* Cairo-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E7CE8D2295F41EEA898D07B /* Cairo-SemiBold.ttf */; };
+		55CB10567A20E0C8EEB24AA8 /* libPods-shamela-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4FB80EE59B9BA72124CD31 /* libPods-shamela-tvOSTests.a */; };
+		5D6AEC34F089490EA8AB5616 /* Cairo-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7A547BFEF31498A9F0D2055 /* Cairo-ExtraLight.ttf */; };
+		9C0E438CBA9640148FD29D3E /* Cairo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 303C9DA5FD3C4E4A84366D65 /* Cairo-Regular.ttf */; };
+		A11CA286DDF1EB92513D60EC /* libPods-shamela-shamelaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B6107B6185BBCEE2E946852 /* libPods-shamela-shamelaTests.a */; };
+		B5203B7A15F44AEE8A4ADA87 /* Cairo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACDB1E1DF5AC4835BFF78708 /* Cairo-Black.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,16 +57,28 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = shamela/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = shamela/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = shamela/main.m; sourceTree = "<group>"; };
+		1B6107B6185BBCEE2E946852 /* libPods-shamela-shamelaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shamela-shamelaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F36C2C0E1DF8C1F20486BC3 /* Pods-shamela-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-shamela-tvOSTests/Pods-shamela-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* shamela-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "shamela-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* shamela-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "shamela-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		303C9DA5FD3C4E4A84366D65 /* Cairo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-Regular.ttf"; path = "../assets/fonts/Cairo-Regular.ttf"; sourceTree = "<group>"; };
+		430A4717FE691EC3253F3AB3 /* Pods-shamela-shamelaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela-shamelaTests.debug.xcconfig"; path = "Target Support Files/Pods-shamela-shamelaTests/Pods-shamela-shamelaTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4D97BA15B169F4AB9CC85413 /* libPods-shamela-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shamela-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E7CE8D2295F41EEA898D07B /* Cairo-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-SemiBold.ttf"; path = "../assets/fonts/Cairo-SemiBold.ttf"; sourceTree = "<group>"; };
+		801273453977EC89646D86C5 /* Pods-shamela-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-shamela-tvOS/Pods-shamela-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8E234935DB1A8D99BF016E75 /* Pods-shamela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela.release.xcconfig"; path = "Target Support Files/Pods-shamela/Pods-shamela.release.xcconfig"; sourceTree = "<group>"; };
+		ACDB1E1DF5AC4835BFF78708 /* Cairo-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-Black.ttf"; path = "../assets/fonts/Cairo-Black.ttf"; sourceTree = "<group>"; };
+		B3BE277498D77B51F3B02466 /* Pods-shamela.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela.debug.xcconfig"; path = "Target Support Files/Pods-shamela/Pods-shamela.debug.xcconfig"; sourceTree = "<group>"; };
+		B7A547BFEF31498A9F0D2055 /* Cairo-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-ExtraLight.ttf"; path = "../assets/fonts/Cairo-ExtraLight.ttf"; sourceTree = "<group>"; };
+		C14DC3AD3A204799A74A0896 /* Cairo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-Bold.ttf"; path = "../assets/fonts/Cairo-Bold.ttf"; sourceTree = "<group>"; };
+		C1F287CDD06B4E6BAC712206 /* Cairo-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-Light.ttf"; path = "../assets/fonts/Cairo-Light.ttf"; sourceTree = "<group>"; };
+		CF4FB80EE59B9BA72124CD31 /* libPods-shamela-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shamela-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		ACDB1E1DF5AC4835BFF78708 /* Cairo-Black.ttf */ = {isa = PBXFileReference; name = "Cairo-Black.ttf"; path = "../assets/fonts/Cairo-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C14DC3AD3A204799A74A0896 /* Cairo-Bold.ttf */ = {isa = PBXFileReference; name = "Cairo-Bold.ttf"; path = "../assets/fonts/Cairo-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B7A547BFEF31498A9F0D2055 /* Cairo-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Cairo-ExtraLight.ttf"; path = "../assets/fonts/Cairo-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C1F287CDD06B4E6BAC712206 /* Cairo-Light.ttf */ = {isa = PBXFileReference; name = "Cairo-Light.ttf"; path = "../assets/fonts/Cairo-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		303C9DA5FD3C4E4A84366D65 /* Cairo-Regular.ttf */ = {isa = PBXFileReference; name = "Cairo-Regular.ttf"; path = "../assets/fonts/Cairo-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4E7CE8D2295F41EEA898D07B /* Cairo-SemiBold.ttf */ = {isa = PBXFileReference; name = "Cairo-SemiBold.ttf"; path = "../assets/fonts/Cairo-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EDAAA31421FE7911A9192FAC /* libPods-shamela.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shamela.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F05CD7D7A1857AA6BBBF524C /* Pods-shamela-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela-tvOS.release.xcconfig"; path = "Target Support Files/Pods-shamela-tvOS/Pods-shamela-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		F30B97C34911E216B6C826F9 /* Pods-shamela-shamelaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela-shamelaTests.release.xcconfig"; path = "Target Support Files/Pods-shamela-shamelaTests/Pods-shamela-shamelaTests.release.xcconfig"; sourceTree = "<group>"; };
+		FB384EE4CA946A85C374372B /* Pods-shamela-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-shamela-tvOSTests/Pods-shamela-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A11CA286DDF1EB92513D60EC /* libPods-shamela-shamelaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BE941DACA2475AF2F5CE5CD /* libPods-shamela.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32F38FB350863B285CFD3B2C /* libPods-shamela-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55CB10567A20E0C8EEB24AA8 /* libPods-shamela-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +153,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
+				EDAAA31421FE7911A9192FAC /* libPods-shamela.a */,
+				1B6107B6185BBCEE2E946852 /* libPods-shamela-shamelaTests.a */,
+				4D97BA15B169F4AB9CC85413 /* libPods-shamela-tvOS.a */,
+				CF4FB80EE59B9BA72124CD31 /* libPods-shamela-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -153,6 +177,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				866DDFA11E4E4B2D8B413226 /* Resources */,
+				D4EFD211FB66312E29CFBA62 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -171,7 +196,7 @@
 			sourceTree = "<group>";
 		};
 		866DDFA11E4E4B2D8B413226 /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
 				ACDB1E1DF5AC4835BFF78708 /* Cairo-Black.ttf */,
 				C14DC3AD3A204799A74A0896 /* Cairo-Bold.ttf */,
@@ -181,8 +206,24 @@
 				4E7CE8D2295F41EEA898D07B /* Cairo-SemiBold.ttf */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
 			path = "";
+			sourceTree = "<group>";
+		};
+		D4EFD211FB66312E29CFBA62 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B3BE277498D77B51F3B02466 /* Pods-shamela.debug.xcconfig */,
+				8E234935DB1A8D99BF016E75 /* Pods-shamela.release.xcconfig */,
+				430A4717FE691EC3253F3AB3 /* Pods-shamela-shamelaTests.debug.xcconfig */,
+				F30B97C34911E216B6C826F9 /* Pods-shamela-shamelaTests.release.xcconfig */,
+				801273453977EC89646D86C5 /* Pods-shamela-tvOS.debug.xcconfig */,
+				F05CD7D7A1857AA6BBBF524C /* Pods-shamela-tvOS.release.xcconfig */,
+				FB384EE4CA946A85C374372B /* Pods-shamela-tvOSTests.debug.xcconfig */,
+				1F36C2C0E1DF8C1F20486BC3 /* Pods-shamela-tvOSTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -191,6 +232,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "shamelaTests" */;
 			buildPhases = (
+				7FE4EFC7097015B3C89609A0 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -209,6 +251,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "shamela" */;
 			buildPhases = (
+				8B3BFF867C6D6432687F47FF /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -228,6 +271,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "shamela-tvOS" */;
 			buildPhases = (
+				53F9C5ED98A4CB7FE6898926 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -247,6 +291,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "shamela-tvOSTests" */;
 			buildPhases = (
+				9BB7CD4F9237BA606604EB6A /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -377,6 +422,94 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		53F9C5ED98A4CB7FE6898926 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shamela-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7FE4EFC7097015B3C89609A0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shamela-shamelaTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B3BFF867C6D6432687F47FF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shamela-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9BB7CD4F9237BA606604EB6A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shamela-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -482,6 +615,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 430A4717FE691EC3253F3AB3 /* Pods-shamela-shamelaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -504,6 +638,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F30B97C34911E216B6C826F9 /* Pods-shamela-shamelaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -523,6 +658,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B3BE277498D77B51F3B02466 /* Pods-shamela.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -549,6 +685,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E234935DB1A8D99BF016E75 /* Pods-shamela.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -569,6 +706,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 801273453977EC89646D86C5 /* Pods-shamela-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -596,6 +734,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F05CD7D7A1857AA6BBBF524C /* Pods-shamela-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -623,6 +762,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB384EE4CA946A85C374372B /* Pods-shamela-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -649,6 +789,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F36C2C0E1DF8C1F20486BC3 /* Pods-shamela-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
