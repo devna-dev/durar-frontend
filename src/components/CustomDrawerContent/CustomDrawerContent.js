@@ -11,6 +11,11 @@ import NotesBook from "../../screens/NotesBook/NotesBook";
 
 const data = [
     {
+        image: svg_photo.person,
+        title: 'حسابي',
+        route: 'Profile'
+    },
+    {
         image: svg_photo.setting,
         title: 'إعدادات الحساب',
         route: 'Settings'
@@ -21,9 +26,30 @@ const data = [
         route: 'UploadVoiceBook'
     },
     {
+        image: svg_photo.thesis,
+        title: 'أطروحات',
+        route: 'Thesis'
+    },
+    {
         image: svg_photo.donation,
         title: 'التبرع بكتاب',
         route: 'DonatedBook'
+    },
+    {
+        image: svg_photo.chat,
+        title: 'الأكثر تحميلاً',
+        route: 'DownloadedBooks'
+    },
+
+    {
+        image: svg_photo.suggested_book,
+        title: 'إقتراح كتاب',
+        route: 'SuggestionBooks'
+    },
+    {
+        image: svg_photo.notes,
+        title: 'دفتر الملاحظات',
+        route: 'NotesBook'
     },
     {
         image: svg_photo.setting,
@@ -36,24 +62,9 @@ const data = [
         route: 'AboutApp'
     },
     {
-        image: svg_photo.chat,
-        title: 'الأكثر تحميلاً',
-        route: 'DownloadedBooks'
-    },
-    {
         image: svg_photo.support,
         title: 'الدعم الفني',
         route: 'Support'
-    },
-    {
-        image: svg_photo.suggested_book,
-        title: 'إقتراح كتاب',
-        route: 'SuggestionBooks'
-    },
-    {
-        image: svg_photo.notes,
-        title: 'دفتر الملاحظات',
-        route: 'NotesBook'
     },
 ]
 export default class CustomDrawerContent extends Component {
@@ -93,7 +104,9 @@ export default class CustomDrawerContent extends Component {
                                   <SvgUri style={styles.back_img}
                                           uri={item.item['image']}/>
                               </TouchableOpacity>}/>
-
+                    <TouchableOpacity style={styles.btn}>
+                        <Text style={styles.text}>تسجيل الخروج</Text>
+                    </TouchableOpacity>
                 </Content>
             </Container>
         );

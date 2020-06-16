@@ -41,29 +41,71 @@ export default StyleSheet.create({
         paddingHorizontal: '5%',
         height:50
     },
-    btn:{
-        width:'90%',
-        backgroundColor:colors.secondary,
-        alignSelf:'center',
-        height:50,
-        borderRadius:10,
-        marginTop:'10%',
-        marginBottom:'5%'
+    btn: {
+        width: '90%',
+        backgroundColor: colors.secondary,
+        alignSelf: 'center',
+        height: 50,
+        borderRadius: 10,
+        marginTop: '10%',
+        marginBottom: '5%'
     },
-    btn1:{
-        width:'90%',
-        backgroundColor:colors.primary,
-        alignSelf:'center',
-        height:50,
-        borderRadius:10,
-        marginTop:'5%'
+    btn1: {
+        width: '90%',
+        backgroundColor: colors.primary,
+        alignSelf: 'center',
+        height: 50,
+        borderRadius: 10,
+        marginTop: '5%'
     },
     text2: {
         ...common.BoldFont,
         fontSize: 14,
-        color:colors.grey3,
-        textAlign:'center',
-        marginTop:'5%',
+        color: colors.grey3,
+        textAlign: 'center',
+        marginTop: '5%',
 
+    },
+    error: {
+        color: colors.error,
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
+    },
+    eye: {
+
+        marginHorizontal: '5%',
+    },
+    view:{
+        backgroundColor: 'white',
+        width: '90%',
+        alignSelf: 'center',
+        borderColor: colors.border,
+        borderWidth: 1,
+        borderRadius: 10,
+        shadowColor: "#727272",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 4,
+        ...common.RegularFont,
+        marginTop: '5%',
+        paddingHorizontal: '5%',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center'
+    },
+    input1: {
+        backgroundColor: 'white',
+        width: '90%',
+        alignSelf: 'center',
+        ...common.RegularFont,
+        paddingHorizontal: '5%',
+        textAlign:'right'
     },
 })

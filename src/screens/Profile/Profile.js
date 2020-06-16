@@ -29,8 +29,8 @@ export default class Profile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            items: [{key:'fav'}, {key:'saved'}],
-            items1: [{key:'fav'}, {key:'fav'},{key:'fav'}, {key:'fav'},],
+            items: [{key: 'fav'}, {key: 'saved'}],
+            items1: [{key: 'fav'}, {key: 'fav'}, {key: 'fav'}, {key: 'fav'},],
             sliderActiveSlide: 0,
             readable: false,
             selected: 0,
@@ -43,9 +43,9 @@ export default class Profile extends Component {
         let i = 0;
 
         while (i < this.state.items.length) {
-console.log(this.state.items[i])
+            console.log(this.state.items[i])
             items.push(
-                <ProfileItem item={this.state.items[i]} />
+                <ProfileItem item={this.state.items[i]}/>
             );
             i++;
         }
@@ -61,7 +61,7 @@ console.log(this.state.items[i])
         while (i < this.state.items1.length) {
             console.log(this.state.items1[i])
             items.push(
-                <ProfileItem item={this.state.items1[i]} />
+                <ProfileItem item={this.state.items1[i]}/>
             );
             i++;
         }
@@ -93,10 +93,12 @@ console.log(this.state.items[i])
                     age={'50 سنة'}
                     backText=''
                     title={require('../../assets/images/avatar.png')}
-                    renderLeft={() => (<SvgUri style={styles.back_img}
-                                               uri={svg_photo.menu}/>)}
+                    renderLeft={() => (<TouchableOpacity onPress={()=>this.props.navigation.openDrawer()} style={[styles.back_img,{marginTop:5}]}>
+                        <SvgUri  style={styles.back_img}
+                                uri={svg_photo.menu}/>
+                    </TouchableOpacity>)}
                     // renderRight={() => (<Image style={styles.back_img1} source={require('../../assets/images/avatar.png')}/>)}
-                    backStyle={{marginLeft: -20,marginTop:25}}
+                    backStyle={{marginLeft: -20, marginTop: 25}}
                     backTextStyle={{fontSize: 14, color: '#000'}}
                     titleStyle={{left: Platform.OS=='ios'?157:137, bottom: -40}}
                     headerMaxHeight={100}
@@ -135,7 +137,8 @@ console.log(this.state.items[i])
                                 <SvgUri style={styles.back_img}
                                         uri={svg_photo.not_active_search}/>
                             </View>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Activities')} style={styles.sort}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Activities')}
+                                              style={styles.sort}>
                                 <SvgUri uri={svg_photo.sort}/>
                             </TouchableOpacity>
                         </View>
