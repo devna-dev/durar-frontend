@@ -2,7 +2,17 @@ import React, {Component} from 'react';
 import styles from './styles';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {FlatList, ScrollView, Animated, NativeModules, Text, View, TouchableOpacity, TextInput} from "react-native";
+import {
+    FlatList,
+    ScrollView,
+    Animated,
+    NativeModules,
+    Text,
+    View,
+    TouchableOpacity,
+    TextInput,
+    Platform,
+} from 'react-native';
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
 import AnimatedHeader from 'react-native-animated-header';
@@ -88,7 +98,7 @@ console.log(this.state.items[i])
                     // renderRight={() => (<Image style={styles.back_img1} source={require('../../assets/images/avatar.png')}/>)}
                     backStyle={{marginLeft: -20,marginTop:25}}
                     backTextStyle={{fontSize: 14, color: '#000'}}
-                    titleStyle={{left: 137, bottom: -40}}
+                    titleStyle={{left: Platform.OS=='ios'?157:137, bottom: -40}}
                     headerMaxHeight={100}
                     toolbarColor='#FFF'
                     disabled={false}

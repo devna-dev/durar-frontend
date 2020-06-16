@@ -1,15 +1,15 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {colors} from "../../config/styles";
 import common from "../../styles/common.style";
 
 export default StyleSheet.create({
     container: {
-        height: 187,
+        height: Platform.OS=='ios'?220:187,
         backgroundColor: 'red',
         paddingHorizontal: 5
     },
     container1: {
-        height: 186.5,
+        height: Platform.OS=='ios'?215:186.5,
         backgroundColor: 'red',
         marginHorizontal: 6
     },
