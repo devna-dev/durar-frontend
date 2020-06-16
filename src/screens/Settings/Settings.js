@@ -32,23 +32,26 @@ export default class Settings extends Component {
                 <Content style={styles.content}>
                     <View style={styles.header1}>
                         <Text style={styles.find}>المعلومات الشخصيه</Text>
-                        <View style={styles.item_view1}>
+                        <TouchableOpacity style={styles.item_view1}>
                             <SvgUri style={[styles.back_img,{paddingHorizontal: '5%',}]}
                                     uri={svg_photo.edit}/>
+
                             <Text style={styles.active_item_text1}> تعديل</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={styles.avatar_view}>
-                        <View style={styles.input1}>
+                        <TouchableOpacity style={styles.input1}>
                             <Text style={styles.label}>الصورة الشخصية</Text>
                             <Text style={styles.inputStyle}>إضغط هنا للتعديل</Text>
-                        </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
                         <Image source={require('../../assets/images/avatar.png')}/>
+                        </TouchableOpacity>
                     </View>
 
                     <TextInput label={'الإسم'}
-                               value={'فاطمة الرباعي'}
+                               value={'عيسى النونو'}
                                img
                                style={styles.input}/>
 
@@ -58,12 +61,12 @@ export default class Settings extends Component {
                                style={styles.input}/>
 
                     <TextInput label={'الميلاد'}
-                               value={'12/01/1994'}
+                               value={'12/01/1980'}
                                img
                                style={styles.input}/>
 
                     <TextInput label={'المكان'}
-                               value={'ألمانيا'}
+                               value={'بريطانيا'}
                                img
                                style={styles.input}/>
 

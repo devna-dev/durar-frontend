@@ -4,28 +4,36 @@ import {colors} from "../../config/styles";
 
 export default StyleSheet.create({
     container: {
-        height: 181,
-        width: 100,
-        marginRight: 7
+        width: 194,
+        height: 185,
+        marginHorizontal:5
     },
     img: {
+        width: 194,
         height: 130,
-        width: 100,
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
+        borderRadius:5
+    },
+    img1: {
+        width: '100%',
+        height: '100%',
+        //resizeMode: 'contain',
         borderRadius:5
     },
     text1: {
-        ...common.BlackFont,
-        fontSize: 12
+        ...common.BoldFont,
+        fontSize: 14
     },
     text2: {
         ...common.SemiBoldFont,
-        fontSize: 13,
+        fontSize: 12,
         color:colors.grey3
     },
     text3: {
         ...common.BoldFont,
         fontSize: 12,
+        color:colors.white,
+        marginBottom:'5%'
     },
     player:{
         flexDirection:'row',

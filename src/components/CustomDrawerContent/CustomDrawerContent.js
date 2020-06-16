@@ -7,6 +7,7 @@ import {SvgUri} from 'react-native-svg';
 import storage from '../../config/storage';
 import {svg_photo} from "../../assets/svg/svg";
 import UploadVoiceBook from "../../screens/UploadVoiceBook/UploadVoiceBook";
+import NotesBook from "../../screens/NotesBook/NotesBook";
 
 const data = [
     {
@@ -36,8 +37,23 @@ const data = [
     },
     {
         image: svg_photo.chat,
+        title: 'الأكثر تحميلاً',
+        route: 'DownloadedBooks'
+    },
+    {
+        image: svg_photo.support,
+        title: 'الدعم الفني',
+        route: 'Support'
+    },
+    {
+        image: svg_photo.suggested_book,
         title: 'إقتراح كتاب',
         route: 'SuggestionBooks'
+    },
+    {
+        image: svg_photo.notes,
+        title: 'دفتر الملاحظات',
+        route: 'NotesBook'
     },
 ]
 export default class CustomDrawerContent extends Component {

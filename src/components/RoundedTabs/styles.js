@@ -5,8 +5,9 @@ import theme from '../../styles/theme.style';
 
 export default StyleSheet.create({
   bar: {
-     height: 45,
+     height: 60,
     margin: 1,
+    borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: colors.grey0,
     flexDirection: 'row',
@@ -17,7 +18,7 @@ export default StyleSheet.create({
     fontSize: 18,
     flex: 1,
     textAlign: 'center',
-    paddingVertical: 6,
+  //  paddingVertical: 6,
 
   },
   item: {
@@ -29,23 +30,24 @@ export default StyleSheet.create({
 
   },
   activeItem: {
-    backgroundColor: colors.white,
-    color:colors.primary,
-    borderBottomColor:colors.primary,
-    borderBottomWidth:2,
-    ...common.RegularFont,
-    fontSize: 15,
-    height:'100%'
+    //backgroundColor: colors.white,
+   // color:colors.grey3,
+   // borderBottomColor:colors.primary,
+   // borderBottomWidth:1,
+    ...common.SemiBoldFont,
+    fontSize: 14,
+      height:60,
+      textAlignVertical:'center',
+    //  backgroundColor:"red"
   },
   activeItem1: {
-    //backgroundColor: colors.twitter,
-    color:colors.white,
-    borderBottomColor:colors.white,
-    borderBottomWidth:2,
-    ...common.RegularFont,
-    fontSize: 15,
-    height:'100%',
-
-
+      color:colors.primary,
+    borderBottomColor:colors.primary,
+    borderBottomWidth:3,
+    ...common.BlackFont,
+    fontSize: 14,
+      height:60,
+      textAlignVertical:'center',
+      marginHorizontal:5
   }
 })

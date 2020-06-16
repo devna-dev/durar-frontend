@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {Image, Text, TextInput, View} from "react-native";
+import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
 import styles from "./styles";
 import {colors} from "../../config/styles";
 import Button from "../../components/Button/Button";
@@ -28,12 +28,17 @@ export default class Login extends Component {
                                style={styles.input}/>
                     <Button title={'تسجيل دخول'}
                             style={styles.btn1}
-                            onPress={() => this.props.navigation.navigate('RecoverPassword')}
+                            onPress={() => this.props.navigation.navigate('TabNavigator')}
                             textColor={colors.white}
                     />
-                    <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>نسيت كلمة المرور</Text>
-                    <Text style={styles.text2}>إذا كنت مستخدم جديد</Text>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RecoverPassword')}>
+                        <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>نسيت كلمة المرور</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                        <Text style={styles.text2}>إذا كنت مستخدم جديد</Text>
+                    </TouchableOpacity>
                     <Button title={'إنشاء حساب جديد'}
+                            onPress={() => this.props.navigation.navigate('Register')}
                             style={styles.btn}/>
 
 

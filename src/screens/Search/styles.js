@@ -146,4 +146,12 @@ export default StyleSheet.create({
         color: colors.grey3,
         textAlignVertical:'center'
     },
+    btn1:{
+        width: '90%',
+        backgroundColor: colors.primary,
+        alignSelf: 'center',
+        height: 50,
+        borderRadius: 10,
+        marginBottom: '5%'
+    }
 })

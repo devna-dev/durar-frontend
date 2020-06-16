@@ -41,23 +41,36 @@ export default class Sort extends Component {
                 <Container>
                     <Content style={{height: '100%', backgroundColor: 'rgba(0,0,0,0.7)'}}>
                         <View style={styles.modalContainer}>
-                            <TouchableOpacity onPress={this.props.onRequestClose}
-                                              style={styles.bar1}>
+                            <View
+                                style={styles.bar1}>
                                 <View style={styles.item_view1}>
-                                    <SvgUri style={styles.back_img}
-                                            uri={svg_photo.active_sort}/>
+                                        <SvgUri style={styles.back_img}
+                                                uri={svg_photo.active_sort}/>
                                     <Text style={styles.active_item_text1}> ترتيب حسب</Text>
                                 </View>
+                                <TouchableOpacity onPress={this.props.onRequestClose}>
                                 <Text style={styles.text3}> إلغاء</Text>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                            </View>
 
-                            <FlatList data={[{}, {},{}, {},{}, {},{}, {},]}
+                            <FlatList data={[{
+                                name: 'الأكثر قراءه'
+                            }, {
+                                name: 'المضاف حديثا'
+                            }, {
+                                name: 'عدد الصفحات من الاٌقل'
+                            }, {
+                                name: 'عدد الصفحات من الأكثر'
+                            }, {
+                                name: 'أعلى التقييمات'
+                            }, {
+                                name: 'الأكثر تحميلا'
+                            }]}
                                       renderItem={(item) => <TouchableOpacity
                                           onPress={() => this.setState({index: item.index})}
                                           style={styles.bar2}>
                                           <Text
-                                              style={[styles.text3, {color: this.state.index == item.index ? colors.primary : colors.grey3}]}> على
-                                              محمد الصلابى</Text>
+                                              style={[styles.text3, {color: this.state.index == item.index ? colors.primary : colors.grey3}]}>{item.item.name}</Text>
                                           <SvgUri style={styles.back_img}
                                                   uri={this.state.index == item.index ? svg_photo.checked_square : svg_photo.unchecked_square}/>
                                       </TouchableOpacity>}
@@ -66,7 +79,7 @@ export default class Sort extends Component {
                     </Content>
                     <Button title={'تطبيق'}
                             style={styles.btn}
-                            onPress={() => this.props.navigation.navigate('RecoverPassword')}
+                            onPress={this.props.onRequestClose}
                             textColor={colors.white}
                     />
                 </Container>

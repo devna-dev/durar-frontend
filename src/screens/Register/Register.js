@@ -49,8 +49,9 @@ export default class Register extends Component {
                             onPress={()=>this.props.navigation.navigate('VerificationCode')}
                             textColor={colors.white}
                     />
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>لديك حساب بالفعل</Text>
-
+                    </TouchableOpacity>
                 </Content>
             </Container>
         )

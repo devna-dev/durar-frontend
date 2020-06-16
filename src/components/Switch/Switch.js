@@ -11,7 +11,10 @@ export default class Switch extends Component {
 
     render() {
         return (
-            <TouchableOpacity onPress={()=>this.onChange()} style={this.props.value==true?styles.container:styles.not_active}>
+            <TouchableOpacity onPress={()=>this.props.onChange()} style={[this.props.value==true?styles.container:styles.not_active,
+                {
+                    alignItems:this.props.value==true?'flex-end':'flex-start'
+                }]}>
                <View style={styles.active}></View>
             </TouchableOpacity>
         )

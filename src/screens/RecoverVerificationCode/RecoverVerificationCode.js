@@ -46,7 +46,7 @@ export default class RecoverVerificationCode extends Component {
                     <Button title={'تأكيد'}
                             style={styles.btn1}
                             textColor={colors.white}
-                            onPress={()=>this.props.navigation.navigate('Register')}
+                            onPress={()=>this.props.navigation.navigate('Login')}
                     />
                     <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>لم تصل إليك رساله التفعيل؟</Text>
 

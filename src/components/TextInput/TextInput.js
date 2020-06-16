@@ -22,7 +22,7 @@ const TextInput = props => {
                    style={styles.container}
                    inputStyle={[styles.inputStyle,]}
                    borderColor={props.borderColor ? props.borderColor : colors.grey1}
-                   labelStyle={Platform.OS == 'ios' ? styles.label : styles.label1}
+                   labelStyle={[Platform.OS == 'ios' ? styles.label : styles.label1,props.labelStyle]}
                    inputPadding={16}
                    labelHeight={24}
                    borderHeight={0.5}

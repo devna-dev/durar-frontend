@@ -55,8 +55,8 @@ export default class UploadVoiceBook extends Component {
                     <Text style={styles.label}>ملحوظات</Text>
                     <Text style={styles.book_label1}>
                         يجب أن يكون الصوت واضح وليس بطئ أو سريعا جدا
-                        يجب أن يكون الصوت واضح وليس بطئ أو سريعا جدا
-                        يجب أن يكون الصوت واضح وليس بطئ أو سريعا جدا
+                    يجب أن يكون امتداد الملف  "mp3,.mp4  or  .wav."
+                        يجب أن لا يزيد حجم ملف الصوت عن 20 ميجا بايت
                     </Text>
 
                     <Button title={'رفع الملف'}

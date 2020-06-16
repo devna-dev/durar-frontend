@@ -14,7 +14,7 @@ import SearchFilters from "../SearchFilters/SearchFilters";
 import Sort from "../Sort/Sort";
 import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
 
-export default class SuggestionBooks extends Component {
+export default class DownloadedBooks extends Component {
 
     constructor(props) {
         super(props)
@@ -35,21 +35,21 @@ export default class SuggestionBooks extends Component {
                     </TouchableOpacity>
 
                     <View style={styles.header1}>
-                        <View
+                        <TouchableOpacity onPress={()=>this.setState({selected:0})}
                             style={[styles.item_view, {
                                 backgroundColor: this.state.selected !== 0 ? colors.grey1 : colors.white,
                                 borderColor: this.state.selected !== 0 ? colors.grey1 : colors.white, borderWidth: 1
                             }]}>
 
                             <Text style={this.state.selected == 0 ? styles.item_text : styles.active_item_text}>تم تحميلها</Text>
-                        </View>
-                        <View
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.setState({selected:1 })}
                             style={[styles.item_view, {
                                 backgroundColor: this.state.selected !== 1 ? colors.grey1 : colors.white,
                                 borderColor: this.state.selected !== 1 ? colors.grey1 : colors.white, borderWidth: 1
                             }]}>
                             <Text style={this.state.selected == 1 ? styles.item_text : styles.active_item_text}>أقرأها الأن</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.header}>
                         <TextInput placeholder={'بحث عن كتاب'}
@@ -60,7 +60,7 @@ export default class SuggestionBooks extends Component {
                     <Text style={styles.find}>10 كتب تم تحميلها</Text>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               style={{marginLeft: '5%'}}
-                              renderItem={(item) => <HomeBookItemLoaded search item={item}/>}/>
+                              renderItem={(item) => <HomeBookItemLoaded navigation={this.props.navigation} search item={item}/>}/>
 
 
                 </Content>

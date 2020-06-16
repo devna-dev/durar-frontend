@@ -1,11 +1,11 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigationActions} from '@react-navigation/native';
 import Walkthrough from "../screens/Wallthrough/Wallthrough";
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from "../screens/Login/Login";
 import RecoverPassword from "../screens/RecoverPassword/RecoverPassword";
-import {Text, View} from "react-native";
+import {Text, TouchableOpacity, View} from "react-native";
 import VerificationCode from "../screens/VerificationCode/VerificationCode";
 import Register from "../screens/Register/Register";
 import RecoverVerificationCode from "../screens/RecoverVerificationCode/RecoverVerificationCode";
@@ -16,7 +16,7 @@ import {SvgUri} from "react-native-svg";
 import {svg_photo} from "../assets/svg/svg";
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import CustomDrawerContent from "../components/CustomDrawerContent/CustomDrawerContent";
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import Search from "../screens/Search/Search";
 import Settings from "../screens/Settings/Settings";
 import Search1 from "../screens/Search/Search1";
@@ -25,6 +25,24 @@ import DonatedBook from "../screens/DonatedBook/DonatedBook";
 import Notifications from "../screens/Notifications/Notifications";
 import AboutApp from "../screens/AboutApp/AboutApp";
 import SuggestionBooks from "../screens/SuggestionBooks/SuggestionBooks";
+import Support from "../screens/Support/Support";
+import DownloadedBooks from "../screens/DownloadedBooks/DownloadedBooks";
+import MyBooks from "../screens/MyBooks/MyBooks";
+import HistoryCategories from "../screens/HistoryCategories/HistoryCategories";
+import Library from "../screens/Library/Library";
+import NotificationsList from "../screens/NotificationsList/NotificationsList";
+import Profile from "../screens/Profile/Profile";
+import Book from "../screens/Book/Book";
+import NotesBook from "../screens/NotesBook/NotesBook";
+import Activities from "../screens/Activities/Activities";
+import Activity from "../screens/Activity/Activity";
+import Discussions from "../screens/Discussions/Discussions";
+import Thesis from "../screens/Thesis/Thesis";
+import SystemPoints from "../screens/SystemPoints/SystemPoints";
+import ReadingPage from "../screens/ReadingPage/ReadingPage";
+import Menu from "../components/Menu/Menu";
+import storage from "../config/storage";
+import AudioBooks from "../screens/AudioBooks/AudioBooks";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,15 +59,25 @@ export default function AppNavigator() {
                 <Stack.Screen name="RecoverVerificationCode" component={RecoverVerificationCode}/>
                 <Stack.Screen name="Home" component={Home}/>
                 <Stack.Screen name="TabNavigator" component={TabNavigator}/>
+                <Stack.Screen name="ReadingPage" component={ReadingPageNavigator}/>
             </Stack.Navigator>
         </NavigationContainer>
+    );
+}
+
+export function ReadingPageNavigator() {
+    return (
+        <Drawer.Navigator drawerPosition={'left'} initialRouteName="ReadingPage"
+                          drawerContent={(props) => <Menu {...props} />}>
+            <Drawer.Screen name="ReadingPage" component={ReadingPage}/>
+        </Drawer.Navigator>
     );
 }
 
 export function TabNavigator() {
     return (
         <Tab.Navigator
-            screenOptions={({route, descriptors}) => ({
+            screenOptions={({route, descriptors, jumpToIndex, navigation}) => ({
                 tabBarIcon: ({focused, color, size}) => {
                     let iconName;
                     if (route.name === 'Home') {
@@ -66,22 +94,23 @@ export function TabNavigator() {
                     return <View
                         style={{alignItems: 'center', justifyContent: 'center', height: 60, flexDirection: 'column'}}>
                         <View>
-                                <SvgUri width={20} height={20}
-                                        uri={iconName}
-                                        style={{marginTop: 10}}
-                                />
-                            {focused && <View style={{
-                                width: 5,
-                                height: 5,
-                                backgroundColor: colors.textPrimary,
-                                borderRadius: 2.5,
-                                alignSelf: 'center',
-                                marginTop: '5%'
-                            }}/>
-                            }
-                        </View>
+                        <SvgUri width={20} height={20}
+                                uri={iconName}
+                                style={{marginTop: 10}}
+                        />
+                        {focused && <View style={{
+                            width: 5,
+                            height: 5,
+                            backgroundColor: colors.textPrimary,
+                            borderRadius: 2.5,
+                            alignSelf: 'center',
+                            marginTop: '5%'
+                        }}/>
+                        }
+                    </View>
 
-                    </View>;
+                </View>
+                    ;
                 },
             })}
             tabBarOptions={{
@@ -117,9 +146,24 @@ export function DrawerNavigator() {
             <Drawer.Screen name="Notifications" component={Notifications}/>
             <Drawer.Screen name="AboutApp" component={AboutApp}/>
             <Drawer.Screen name="SuggestionBooks" component={SuggestionBooks}/>
+            <Drawer.Screen name="DownloadedBooks" component={DownloadedBooks}/>
+            <Drawer.Screen name="Support" component={Support}/>
+            <Drawer.Screen name="NotificationsList" component={NotificationsList}/>
+            <Drawer.Screen name="Profile" component={Profile}/>
+            <Drawer.Screen name="NotesBook" component={NotesBook}/>
+            <Drawer.Screen name="Activities" component={Activities}/>
+            <Drawer.Screen name="Activity" component={Activity}/>
+            <Drawer.Screen name="Discussions" component={Discussions}/>
+            <Drawer.Screen name="Thesis" component={Thesis}/>
+            <Drawer.Screen name="SystemPoints" component={SystemPoints}/>
+            <Drawer.Screen name="Book" component={Book}/>
+            <Drawer.Screen name="HistoryCategories" component={HistoryCategories}/>
+            <Drawer.Screen name="MyBooks" component={MyBooks}/>
+            <Drawer.Screen name="AudioBooks" component={AudioBooks}/>
         </Drawer.Navigator>
     );
 }
+
 export function DrawerNavigator1() {
     return (
         <Drawer.Navigator drawerPosition={'right'} initialRouteName="Search1"
@@ -129,27 +173,70 @@ export function DrawerNavigator1() {
         </Drawer.Navigator>
     );
 }
+
 export function DrawerNavigator2() {
     return (
-        <Drawer.Navigator drawerPosition={'right'} initialRouteName="Home"
+        <Drawer.Navigator drawerPosition={'right'} initialRouteName="HistoryCategories"
                           drawerContent={(props) => <CustomDrawerContent {...props} />}>
-            <Drawer.Screen name="Home" component={Home}/>
+            <Drawer.Screen name="HistoryCategories" component={HistoryCategories}/>
+            <Drawer.Screen name="Library" component={Library}/>
+
         </Drawer.Navigator>
     );
 }
+
 export function DrawerNavigator3() {
     return (
         <Drawer.Navigator drawerPosition={'right'} initialRouteName="Home"
                           drawerContent={(props) => <CustomDrawerContent {...props} />}>
             <Drawer.Screen name="Home" component={Home}/>
+            <Drawer.Screen name="Settings" component={Settings}/>
+            <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook}/>
+            <Drawer.Screen name="DonatedBook" component={DonatedBook}/>
+            <Drawer.Screen name="Notifications" component={Notifications}/>
+            <Drawer.Screen name="AboutApp" component={AboutApp}/>
+            <Drawer.Screen name="SuggestionBooks" component={SuggestionBooks}/>
+            <Drawer.Screen name="DownloadedBooks" component={DownloadedBooks}/>
+            <Drawer.Screen name="Support" component={Support}/>
+            <Drawer.Screen name="NotificationsList" component={NotificationsList}/>
+            <Drawer.Screen name="Profile" component={Profile}/>
+            <Drawer.Screen name="NotesBook" component={NotesBook}/>
+            <Drawer.Screen name="Activities" component={Activities}/>
+            <Drawer.Screen name="Activity" component={Activity}/>
+            <Drawer.Screen name="Discussions" component={Discussions}/>
+            <Drawer.Screen name="Thesis" component={Thesis}/>
+            <Drawer.Screen name="SystemPoints" component={SystemPoints}/>
+            <Drawer.Screen name="Book" component={Book}/>
+            <Drawer.Screen name="HistoryCategories" component={HistoryCategories}/>
+            <Drawer.Screen name="MyBooks" component={MyBooks}/>
         </Drawer.Navigator>
     );
 }
+
 export function DrawerNavigator4() {
     return (
-        <Drawer.Navigator drawerPosition={'right'} initialRouteName="Home"
+        <Drawer.Navigator drawerPosition={'right'} initialRouteName="MyBooks"
                           drawerContent={(props) => <CustomDrawerContent {...props} />}>
+            <Drawer.Screen name="MyBooks" component={MyBooks}/>
+            <Drawer.Screen name="Book" component={Book}/>
+            <Drawer.Screen name="NotificationsList" component={NotificationsList}/>
             <Drawer.Screen name="Home" component={Home}/>
+            <Drawer.Screen name="Settings" component={Settings}/>
+            <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook}/>
+            <Drawer.Screen name="DonatedBook" component={DonatedBook}/>
+            <Drawer.Screen name="Notifications" component={Notifications}/>
+            <Drawer.Screen name="AboutApp" component={AboutApp}/>
+            <Drawer.Screen name="SuggestionBooks" component={SuggestionBooks}/>
+            <Drawer.Screen name="DownloadedBooks" component={DownloadedBooks}/>
+            <Drawer.Screen name="Support" component={Support}/>
+            <Drawer.Screen name="Profile" component={Profile}/>
+            <Drawer.Screen name="NotesBook" component={NotesBook}/>
+            <Drawer.Screen name="Activities" component={Activities}/>
+            <Drawer.Screen name="Activity" component={Activity}/>
+            <Drawer.Screen name="Discussions" component={Discussions}/>
+            <Drawer.Screen name="Thesis" component={Thesis}/>
+            <Drawer.Screen name="SystemPoints" component={SystemPoints}/>
+            <Drawer.Screen name="HistoryCategories" component={HistoryCategories}/>
         </Drawer.Navigator>
     );
 }
