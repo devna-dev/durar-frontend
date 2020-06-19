@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, View, Text, TouchableOpacity, Image, TextInput, FlatList} from 'react-native';
 import styles from './styles';
-import Content from '../../components/Containers/Content';
-import Container from '../../components/Containers/Container';
-import HomeBookItem from "../../components/HomeBookItem/HomeBookItem";
 import {colors} from "../../config/styles";
 import {svg_photo} from "../../assets/svg/svg";
 import {SvgUri} from "react-native-svg";

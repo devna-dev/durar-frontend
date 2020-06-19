@@ -105,5 +105,28 @@ export default StyleSheet.create({
         ...common.SemiBoldFont,
         fontSize: 13,
         color:colors.grey3
+    },
+    edit:{
+        alignItems:'center',
+        justifyContent:'center',
+        //marginTop:5,
+        height:115,
+        backgroundColor:'#CB3F24',
+        alignSelf:'center',
+        width:'100%'
+    },
+    edit1:{
+        alignItems:'center',
+        justifyContent:'center',
+        //marginBottom:20,
+         height:'100%',
+        backgroundColor:'white',
+        alignSelf:'center',
+        width:'100%'
+    },
+    swipe:{
+        backgroundColor:'white',
+
     }
+
 })

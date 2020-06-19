@@ -8,9 +8,12 @@ import Button from "../../components/Button/Button";
 import RecoverPassword from "../RecoverPassword/RecoverPassword";
 import {svg_photo} from "../../assets/svg/svg";
 import {SvgUri} from "react-native-svg";
+import {login} from "../../stores/saga/models/user-store/actions";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 
-export default class Login extends Component {
+class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -33,9 +36,12 @@ export default class Login extends Component {
                     <TextInput placeholder={'البريد الالكتروني'}
                                value={this.state.email}
                                onChangeText={(value) => this.onChangeEmail(value)}
-                               style={[styles.input,{borderColor: this.state.email_error != ''?colors.error:colors.border,borderWidth:  this.state.email_error != ''?2:1}]}/>
+                               style={[styles.input, {
+                                   borderColor: this.state.email_error != '' ? colors.error : colors.border,
+                                   borderWidth: this.state.email_error != '' ? 2 : 1
+                               }]}/>
                     {this.state.email_error != '' && <Text style={styles.error}>{this.state.email_error}</Text>}
-                    <View style={[styles.view,{
+                    <View style={[styles.view, {
                         borderColor: this.state.password_error != '' ? colors.error : colors.border,
                         borderWidth: this.state.password_error != '' ? 2 : 1
                     }]}>
@@ -43,7 +49,7 @@ export default class Login extends Component {
                                    value={this.state.password}
                                    secureTextEntry={this.state.secureTextEntry}
                                    onChangeText={(value) => this.onChangePassword(value)}
-                                   style={[styles.input1, ]}/>
+                                   style={[styles.input1,]}/>
                         <TouchableOpacity style={styles.eye}
                                           onPress={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}>
                             <SvgUri uri={svg_photo.eye}/>
@@ -53,7 +59,7 @@ export default class Login extends Component {
 
                     <Button title={'تسجيل دخول'}
                             style={styles.btn1}
-                            onPress={this.login.bind(this)}
+                            onPress={this.props.login}
                             textColor={colors.white}
                     />
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('RecoverPassword')}>
@@ -103,9 +109,35 @@ export default class Login extends Component {
         }
     }
 
-    login = () => {
-        if (this.validateEmail() & this.validatePassword()) {
-            this.props.navigation.navigate('TabNavigator')
-        }
-    }
+    // login = () => {
+    //     if (this.validateEmail() & this.validatePassword()) {
+    //         this.props.navigation.navigate('TabNavigator')
+    //     }
+    // }
 }
+
+const mapStateToProps = (state) => {
+    console.log('State:');
+    console.log(state);
+    return {
+        email: state.email,
+        password: state.password
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    // bindActionCreators({
+    //     login,
+    // }, dispatch);
+    //console.log()
+   return {
+       login: () => dispatch({
+           type: 'login',
+           // email: this.state.email,
+           // password: this.state.password
+       })
+   }
+
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

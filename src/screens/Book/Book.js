@@ -9,12 +9,18 @@ import {Rating, AirbnbRating} from 'react-native-ratings';
 import BookItem from "../../components/BookItem/BookItem";
 import Button from "../../components/Button/Button";
 import {colors} from "../../config/styles";
+import BookReview from "../BookReview/BookReview";
+import EditBookReview from "../BookReview/EditBookReview";
 
 
 export default class Book extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            book_review: false,
+            EditBookReview: false,
+        }
     }
 
     render() {
@@ -94,20 +100,25 @@ export default class Book extends Component {
                     <FlatList data={[{}, {}]}
                               renderItem={(item) => <BookItem item={item}/>}/>
                     <Button title={'تقييم الكتاب'}
+                            onPress={() => this.setState({book_review: true})}
                             textColor={colors.white}
-                            style={[styles.btn,{backgroundColor:colors.primary}]}/>
+                            style={[styles.btn, {backgroundColor: colors.primary}]}/>
                     <View style={styles.bar}>
                         <Text style={styles.headerTitle}>المستخدمون يقرأون أيضا</Text>
                         <Text style={styles.headerTitle1}>عرض المزيد</Text>
                     </View>
-                    <FlatList data={[{}, {},{}, {},{}, {},]}
+                    <FlatList data={[{}, {}, {}, {}, {}, {},]}
                               horizontal
-                              renderItem={(item) =><Image style={styles.img} source={{uri: 'https://www.kutubpdfbook.com/kutubpdfcafe/cover/safwat-altfasser.jpg'}}/>}
-                              />
+                              renderItem={(item) => <Image style={styles.img}
+                                                           source={{uri: 'https://www.kutubpdfbook.com/kutubpdfcafe/cover/safwat-altfasser.jpg'}}/>}
+                    />
                     <Button title={'قراءة الكتاب'}
                             style={styles.btn}/>
 
                 </Content>
+                <BookReview visible={this.state.book_review}
+                            onRequestClose={() => this.setState({book_review: false})}/>
+
             </Container>
         )
     }

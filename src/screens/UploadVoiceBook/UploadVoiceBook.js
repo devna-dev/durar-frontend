@@ -16,16 +16,18 @@ export default class UploadVoiceBook extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            upload_voice_book: false
+        };
     }
 
     render() {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <SvgUri style={styles.back_img}
-                            uri={svg_photo.back}/>
+                                uri={svg_photo.back}/>
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}> رفع كتاب صوتى</Text>
                 </View>
@@ -46,22 +48,23 @@ export default class UploadVoiceBook extends Component {
                         <Text style={styles.find}> رفع الملف الصوتى</Text>
                     </View>
 
-                    <View style={styles.book_view1}>
-                            <SvgUri style={styles.back_img}
-                                    uri={svg_photo.upload}/>
+                    <View style={this.state.upload_voice_book ? styles.book_view1 : styles.not_book_view1}>
+                        <SvgUri style={styles.back_img}
+                                uri={svg_photo.upload}/>
                         <Text style={styles.book_label}>إضغط لرفع الملف الصوتى</Text>
                     </View>
-
+                    {!this.state.upload_voice_book && <Text style={styles.error}>*حقل مطلوب</Text>}
                     <Text style={styles.label}>ملحوظات</Text>
                     <Text style={styles.book_label1}>
                         يجب أن يكون الصوت واضح وليس بطئ أو سريعا جدا
-                    يجب أن يكون امتداد الملف  "mp3,.mp4  or  .wav."
+                        يجب أن يكون امتداد الملف "mp3,.mp4 or .wav."
                         يجب أن لا يزيد حجم ملف الصوت عن 20 ميجا بايت
                     </Text>
 
                     <Button title={'رفع الملف'}
                             style={styles.btn1}
-                            onPress={() =>{}}
+                            onPress={() => {
+                            }}
                             textColor={colors.white}
                     />
                 </Content>

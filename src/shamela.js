@@ -1,14 +1,30 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {I18nManager} from 'react-native';
-
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {Provider as StoreProvider} from 'react-redux';
 import storage from './config/storage';
 import AppNavigator from '../src/navigators/AppNavigator';
+import store from '../src/stores';
+import {handler} from '../src/stores/saga/models/user-store/sagas'
 
+const initMapStateToProps = (state) => {
+    return {user: {...state}};
+};
+const initMapDispatchToProps = (actions) => {
+    const {handler} = actions;
+    return bindActionCreators(
+        {
+            handler
+        }
+    )
+}
+const Container =  connect(initMapStateToProps, initMapDispatchToProps)(AppNavigator);
 
-export default class shamela extends Component {
-    constructor() {
-        super();
+class shamela extends Component {
+    constructor(props) {
+        super(props);
         this.state = {
             // rootPage: <Splash/>,
             language: 'ar',
@@ -18,18 +34,6 @@ export default class shamela extends Component {
         };
         this.onLayout = this.onLayout.bind(this);
         I18nManager.forceRTL(true);
-        setTimeout(async () => {
-            let user = await storage.getItem('access_token');
-            //console.log(user)
-
-            this.setState({
-                rootPage:
-                    <View style={{flex: 1}}>
-                        <AppNavigator/>
-                    </View>,
-            });
-
-        }, 1000);
     }
 
     onLayout(event) {
@@ -40,10 +44,14 @@ export default class shamela extends Component {
     }
 
     render() {
+        const { state, actions } = this.props;
         return (
-            <View style={{flex: 1}}>
-                <AppNavigator/>
-            </View>
+            <StoreProvider store={store}>
+               <Container/>
+            </StoreProvider>
         );
     }
 }
+
+
+export default shamela;

@@ -43,10 +43,13 @@ import ReadingPage from "../screens/ReadingPage/ReadingPage";
 import Menu from "../components/Menu/Menu";
 import storage from "../config/storage";
 import AudioBooks from "../screens/AudioBooks/AudioBooks";
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
 export default function AppNavigator() {
     return (
         <NavigationContainer>
@@ -64,6 +67,8 @@ export default function AppNavigator() {
         </NavigationContainer>
     );
 }
+
+
 
 export function ReadingPageNavigator() {
     return (
@@ -94,23 +99,23 @@ export function TabNavigator() {
                     return <View
                         style={{alignItems: 'center', justifyContent: 'center', height: 60, flexDirection: 'column'}}>
                         <View>
-                        <SvgUri width={20} height={20}
-                                uri={iconName}
-                                style={{marginTop: 10}}
-                        />
-                        {focused && <View style={{
-                            width: 5,
-                            height: 5,
-                            backgroundColor: colors.textPrimary,
-                            borderRadius: 2.5,
-                            alignSelf: 'center',
-                            marginTop: '5%'
-                        }}/>
-                        }
-                    </View>
+                            <SvgUri width={20} height={20}
+                                    uri={iconName}
+                                    style={{marginTop: 10}}
+                            />
+                            {focused && <View style={{
+                                width: 5,
+                                height: 5,
+                                backgroundColor: colors.textPrimary,
+                                borderRadius: 2.5,
+                                alignSelf: 'center',
+                                marginTop: '5%'
+                            }}/>
+                            }
+                        </View>
 
-                </View>
-                    ;
+                    </View>
+                        ;
                 },
             })}
             tabBarOptions={{

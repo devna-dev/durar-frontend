@@ -6,8 +6,7 @@ import styles from './styles'
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from "../../assets/svg/svg";
 import {colors} from "../../config/styles";
-import SideMenu from 'react-native-side-menu'
-import Menu from "../../components/Menu/Menu";
+import Swipeout from 'react-native-swipeout';
 import storage from "../../config/storage";
 import HTML from 'react-native-render-html';
 import {SelectableText} from "@astrocoders/react-native-selectable-text";
@@ -20,27 +19,6 @@ const htmlContent = `
     <img src="https://i.imgur.com/dHLmxfO.jpg?2" />
     <em style="textAlign: center;">Look at how happy this native cat is</em>
 `;
-// const DEFAULT_PROPS = {
-//     renderers: CUSTOM_RENDERERS,
-//     imagesMaxWidth: Dimensions.get('window').width,
-//     textSelectable: true,
-// };
-// const renderText = (htmlAttribs, children,navigation) => {
-//     console.log('htm', htmlAttribs)
-//     return (
-//         <SelectableText menuItems={["Copy", "Add Note", "Voice"]}
-//             //style={{ fontSize: 20,color:'red' }}
-//                         onHighlightPress={() => alert('g')}
-//                         onSelection={({eventType, content, selectionStart, selectionEnd}) => {
-//                             if (eventType == 'Copy') {
-//                                 Clipboard.setString(children)
-//                             } else if (eventType == "Add Note") {
-//                                 navigation.navigate('Login')
-//                             }
-//                         }}
-//                         value={children}/>
-//     )
-// };
 
 export default class ReadingPage extends Component {
 
@@ -120,7 +98,20 @@ export default class ReadingPage extends Component {
                         <View>
                             <FlatList data={[{}, {}, {}, {}, {}]}
                                       style={{}}
-                                      renderItem={(item) => <View style={styles.diff_view}>
+                                      renderItem={(item) => <Swipeout style={styles.swipe}
+                                                                      right={[{
+                                                                          component: (
+                                                                              <TouchableOpacity onPress={()=>{}}
+                                                                                                style={styles.edit1}>
+                                                                                  <View style={styles.edit}>
+                                                                                      <SvgUri uri={svg_photo.trash}/>
+                                                                                  </View>
+                                                                              </TouchableOpacity>
+
+                                                                          ),
+                                                                      }]}
+                                      >
+                                          <View style={styles.diff_view}>
                                           <Text
                                               style={[styles.address_text, {color: this.state.moon == 2 ? colors.white : colors.primary}]}>وجه
                                               الإختلاف
@@ -133,7 +124,8 @@ export default class ReadingPage extends Component {
                                               بعض
                                               النوادر أو الكلمات</Text>
                                           {/*<Text style={[styles.address_text,{color:colors.primary}]}>كتاب: تاريح الخلفاء</Text>*/}
-                                      </View>}/>
+                                      </View>
+                                      </Swipeout>}/>
 
                         </View> :
                         <ScrollView style={{flex: 1}}>

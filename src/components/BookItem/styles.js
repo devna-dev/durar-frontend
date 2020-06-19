@@ -55,5 +55,27 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 5
+    },
+    edit:{
+        alignItems:'center',
+        justifyContent:'center',
+        marginBottom:20,
+        height:191,
+        backgroundColor:'#CB3F24',
+        alignSelf:'center',
+        width:'100%'
+    },
+    edit1:{
+        alignItems:'center',
+        justifyContent:'center',
+        //marginBottom:20,
+        // height:191,
+        backgroundColor:'white',
+        alignSelf:'center',
+        width:'100%'
+    },
+    swipe:{
+        backgroundColor:'transparent',
+
     }
 })

@@ -78,6 +78,19 @@ export default StyleSheet.create({
         borderStyle: 'dashed',
 
     },
+    not_book_view1: {
+        height: 110,
+        width: '90%',
+        borderRadius: 10,
+        borderColor: colors.error,
+        borderWidth: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: '3%',
+        borderStyle: 'dashed',
+
+    },
     book_label: {
         ...common.SemiBoldFont,
         fontSize: 13,
@@ -107,5 +120,12 @@ export default StyleSheet.create({
         height:50,
         borderRadius:10,
         marginVertical:'10%'
+    },
+    error: {
+        color: colors.error,
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
     },
 })
