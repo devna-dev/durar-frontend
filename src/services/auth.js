@@ -4,9 +4,10 @@ export function user_login(form) {
     return fetch(settings.API_URL + 'accounts/login/', {
         method: 'POST',
         headers: {
-            Accept: 'application/json'
+            accept: 'application/json',
+            "content-Type": 'application/json',
         },
-        data: form
+        body: JSON.stringify(form)
     }).then(response => response.json())
 
 }

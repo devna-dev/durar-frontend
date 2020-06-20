@@ -11,6 +11,7 @@ const handler = function* () {
 function* loginApi(action) {
     try {
         let result = yield user_login(action.form)
+        console.log('api',result)
         if (result['token']) {
             yield put({type: success, form: result})
         } else {
