@@ -4,6 +4,8 @@ const GET_ALL_USER_INFO_REQUEST_FAILURE = 'user/GET_ALL_USER_INFO_REQUEST_FAILUR
 const login = 'login';
 const success = 'success';
 const error = 'error';
+const loading = 'loading';
+const stop_loading = 'stop_loading';
 const clear = 'clear';
 
 export {
@@ -13,5 +15,7 @@ export {
     login,
     success,
     error,
+    loading,
+    stop_loading,
     clear
 };

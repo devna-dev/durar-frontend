@@ -1,6 +1,6 @@
 import {takeLatest, put, takeEvery} from 'redux-saga/effects';
 
-import {login, success, error} from './actions';
+import {login, success, error, loading} from './actions';
 import {user_login} from "../../../../services/auth";
 
 const handler = function* () {

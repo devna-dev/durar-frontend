@@ -74,5 +74,12 @@ export default StyleSheet.create({
     headerTitle:{
         ...common.BlackFont,
         fontSize:18
-    }
+    },
+    error: {
+        color: colors.error,
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
+    },
 })

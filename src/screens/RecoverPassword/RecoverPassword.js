@@ -1,17 +1,19 @@
 import React, {Component} from 'react';
-import Container from "../../components/Containers/Container";
-import Content from "../../components/Containers/Content";
-import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
-import styles from "./styles";
-import {colors} from "../../config/styles";
-import Button from "../../components/Button/Button";
-import {SvgUri} from "react-native-svg";
-import svg, {svg_photo} from '../../assets/svg/svg'
-import VerificationCode from "../VerificationCode/VerificationCode";
-import RecoverVerificationCode from "../RecoverVerificationCode/RecoverVerificationCode";
+import Container from '../../components/Containers/Container';
+import Content from '../../components/Containers/Content';
+import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import styles from './styles';
+import {colors} from '../../config/styles';
+import Button from '../../components/Button/Button';
+import {SvgUri} from 'react-native-svg';
+import svg, {svg_photo} from '../../assets/svg/svg';
+import VerificationCode from '../VerificationCode/VerificationCode';
+import RecoverVerificationCode from '../RecoverVerificationCode/RecoverVerificationCode';
+import {clear, loading} from '../../stores/saga/models/user-store/actions';
+import {connect} from 'react-redux';
 
 
-export default class RecoverPassword extends Component {
+class RecoverPassword extends Component {
 
 
     constructor(props) {
@@ -20,6 +22,7 @@ export default class RecoverPassword extends Component {
             email: '',
             email_error: '',
         };
+        props.clear();
     }
 
     render() {
@@ -40,7 +43,7 @@ export default class RecoverPassword extends Component {
                                    onChangeText={(value) => this.onChangeEmail(value)}
                                    style={[styles.input, {
                                        borderColor: this.state.email_error != '' ? colors.error : colors.border,
-                                       borderWidth: this.state.email_error != '' ? 2 : 1
+                                       borderWidth: this.state.email_error != '' ? 2 : 1,
                                    }]}/>
                     </View>
                     {this.state.email_error != '' && <Text style={styles.error}>{this.state.email_error}</Text>}
@@ -53,11 +56,11 @@ export default class RecoverPassword extends Component {
 
                 </Content>
             </Container>
-        )
+        );
     }
 
     onChangeEmail(value) {
-        this.setState({email: value, email_error: ''})
+        this.setState({email: value, email_error: ''});
     }
 
     validateEmail() {
@@ -76,7 +79,38 @@ export default class RecoverPassword extends Component {
 
     recover = () => {
         if (this.validateEmail()) {
-            this.props.navigation.navigate('RecoverVerificationCode')
+
+            //this.props.navigation.navigate('RecoverVerificationCode')
+            let form = {
+                email: this.state.email,
+            };
+            this.props.forget(form);
+            if (this.props.user.allow_navigate) {
+                this.props.navigation.navigate('RecoverVerificationCode');
+            }
         }
-    }
+    };
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        ...state,
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+    clear: () => dispatch({
+        type: clear,
+    }),
+    // forget: (form) => dispatch({
+    //     type: forget,
+    //     form,
+    //}),
+    loading: (form) => dispatch({
+        type: loading,
+        form,
+    }),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecoverPassword);

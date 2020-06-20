@@ -43,14 +43,14 @@ class Login extends Component {
                                value={this.state.email}
                                onChangeText={(value) => this.onChangeEmail(value)}
                                style={[styles.input, {
-                                   borderColor: this.props.user.email_error != '' ? colors.error : colors.border,
-                                   borderWidth: this.props.user.email_error != '' ? 2 : 1,
+                                   borderColor: this.props.user.email_error != '' || this.state.email_error != '' ? colors.error : colors.border,
+                                   borderWidth: this.props.user.email_error != '' || this.state.email_error != '' ? 2 : 1,
                                }]}/>
-                    {this.props.user.email_error != '' &&
-                    <Text style={styles.error}>{this.props.user.email_error}</Text>}
+                    {this.props.user.email_error != '' || this.state.email_error != '' &&
+                    <Text style={styles.error}>{this.props.user.email_error||this.state.email_error}</Text>}
                     <View style={[styles.view, {
-                        borderColor: this.props.user.password_error != '' ? colors.error : colors.border,
-                        borderWidth: this.props.user.password_error != '' ? 2 : 1,
+                        borderColor: this.props.user.password_error != '' || this.state.password_error != '' ? colors.error : colors.border,
+                        borderWidth: this.props.user.password_error != '' || this.state.password_error != '' ? 2 : 1,
                     }]}>
                         <TextInput placeholder={'كلمة المرور'}
                                    value={this.state.password}
@@ -62,12 +62,13 @@ class Login extends Component {
                             <SvgUri uri={svg_photo.eye}/>
                         </TouchableOpacity>
                     </View>
-                    {this.props.user.password_error != '' &&
-                    <Text style={styles.error}>{this.props.user.password_error}</Text>}
+                    {this.props.user.password_error != '' || this.state.password_error != '' &&
+                    <Text style={styles.error}>{this.props.user.password_error || this.state.password_error}</Text>}
                     {this.props.user.non_field_errors != '' &&
                     <Text style={styles.error}>{this.props.user.non_field_errors}</Text>}
                     <Button title={'تسجيل دخول'}
                             style={styles.btn1}
+                            load={this.props.user.load}
                             onPress={this.login.bind(this)}
                             textColor={colors.white}
                     />
@@ -110,7 +111,7 @@ class Login extends Component {
     }
 
     validatePassword() {
-        if (this.props.password == '') {
+        if (this.state.password == '') {
             this.setState({password_error: '*حقل مطلوب'});
             return false;
         } else {
@@ -120,13 +121,14 @@ class Login extends Component {
 
     login = () => {
         if (this.validateEmail() & this.validatePassword()) {
-            // this.props.navigation.navigate('TabNavigator')
             let form = {
                 email: this.state.email,
                 password: this.state.password,
             };
             this.props.login(form);
-            console.log(this.props.user, 'this.props');
+            if (this.props.user.allow_navigate) {
+                this.props.navigation.navigate('TabNavigator');
+            }
         }
     };
 }
@@ -144,6 +146,10 @@ const mapDispatchToProps = (dispatch) => ({
     }),
     login: (form) => dispatch({
         type: login,
+        form,
+    }),
+    loading: (form) => dispatch({
+        type: loading,
         form,
     }),
 });
