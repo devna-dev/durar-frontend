@@ -7,9 +7,8 @@ import {colors} from '../../config/styles';
 import Button from '../../components/Button/Button';
 import {SvgUri} from 'react-native-svg';
 import svg, {svg_photo} from '../../assets/svg/svg';
-import VerificationCode from '../VerificationCode/VerificationCode';
 import RecoverVerificationCode from '../RecoverVerificationCode/RecoverVerificationCode';
-import {clear, loading} from '../../stores/saga/models/user-store/actions';
+import {clear, forget, loading} from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
 
 
@@ -42,14 +41,16 @@ class RecoverPassword extends Component {
                                    value={this.state.email}
                                    onChangeText={(value) => this.onChangeEmail(value)}
                                    style={[styles.input, {
-                                       borderColor: this.state.email_error != '' ? colors.error : colors.border,
-                                       borderWidth: this.state.email_error != '' ? 2 : 1,
+                                       borderColor: this.props.user.detail != '' || this.state.email_error != '' ? colors.error : colors.border,
+                                       borderWidth: this.props.user.detail != '' || this.state.email_error != ''? 2 : 1,
                                    }]}/>
                     </View>
-                    {this.state.email_error != '' && <Text style={styles.error}>{this.state.email_error}</Text>}
+                    {this.props.user.detail != '' || this.state.email_error != ''&& <Text style={styles.error}>{this.props.user.details||this.state.email_error}</Text>}
+                    {this.props.user.details != ''&& <Text style={styles.success}>{this.props.user.details}</Text>}
 
                     <Button title={'إستعادة كلمة المرور'}
                             style={styles.btn1}
+                            load={this.props.user.load}
                             onPress={this.recover.bind(this)}
                             textColor={colors.white}
                     />
@@ -85,6 +86,7 @@ class RecoverPassword extends Component {
                 email: this.state.email,
             };
             this.props.forget(form);
+
             if (this.props.user.allow_navigate) {
                 this.props.navigation.navigate('RecoverVerificationCode');
             }
@@ -102,10 +104,10 @@ const mapDispatchToProps = (dispatch) => ({
     clear: () => dispatch({
         type: clear,
     }),
-    // forget: (form) => dispatch({
-    //     type: forget,
-    //     form,
-    //}),
+    forget: (form) => dispatch({
+        type: forget,
+        form,
+    }),
     loading: (form) => dispatch({
         type: loading,
         form,

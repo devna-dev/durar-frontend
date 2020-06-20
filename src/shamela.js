@@ -9,18 +9,6 @@ import AppNavigator from '../src/navigators/AppNavigator';
 import store from '../src/stores';
 import {handler} from '../src/stores/saga/models/user-store/sagas'
 
-const initMapStateToProps = (state) => {
-    return {user: {...state}};
-};
-const initMapDispatchToProps = (actions) => {
-    const {handler} = actions;
-    return bindActionCreators(
-        {
-            handler
-        }
-    )
-}
-const Container =  connect(initMapStateToProps, initMapDispatchToProps)(AppNavigator);
 
 class shamela extends Component {
     constructor(props) {
@@ -47,7 +35,7 @@ class shamela extends Component {
         const { state, actions } = this.props;
         return (
             <StoreProvider store={store}>
-               <Container/>
+               <AppNavigator/>
             </StoreProvider>
         );
     }

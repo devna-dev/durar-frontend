@@ -10,12 +10,12 @@ function init(history) {
     // Middleware Configuration
     // ======================================================
     let sagaMiddleware;
-    // if (_DEV_) {
-    //     const sagaMonitor = Reactotron.createSagaMonitor();
-    //     sagaMiddleware = createSagaMiddleware({ sagaMonitor });
-    // } else {
+    if (__DEV__) {
+        const sagaMonitor = Reactotron.createSagaMonitor();
+        sagaMiddleware = createSagaMiddleware({ sagaMonitor });
+    } else {
         sagaMiddleware = createSagaMiddleware();
-   // }
+   }
     const middleware = [sagaMiddleware];
 
     // ======================================================

@@ -7,6 +7,7 @@ const error = 'error';
 const loading = 'loading';
 const stop_loading = 'stop_loading';
 const clear = 'clear';
+const forget = 'forget';
 
 export {
     GET_ALL_USER_INFO_REQUEST,
@@ -17,5 +18,6 @@ export {
     error,
     loading,
     stop_loading,
-    clear
+    clear,
+    forget
 };

@@ -82,4 +82,11 @@ export default StyleSheet.create({
         width: '85%',
         alignSelf: 'center',
     },
+    success: {
+        color: colors.green1,
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
+    },
 })
