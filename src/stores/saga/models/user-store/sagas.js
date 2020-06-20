@@ -4,14 +4,14 @@ import {login, success, error} from './actions';
 import {user_login} from "../../../../services/auth";
 
 const handler = function* () {
-    yield takeLatest(login, loginApi);
+    yield takeEvery(login, loginApi);
 }
 
 
 function* loginApi(action) {
     try {
         let result = yield user_login(action.form)
-        console.log('api',result)
+        // console.log('api',result)
         if (result['token']) {
             yield put({type: success, form: result})
         } else {

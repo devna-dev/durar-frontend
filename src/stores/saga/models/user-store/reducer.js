@@ -12,13 +12,30 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    console.log('reducer action',action)
+    // console.log('reducer action',action)
+    console.log('//////////////////////////////////////////////////////////////////////////////////////////////////////////////////')
+    console.log(action.type, 'action.type')
+    console.log('//////////////////////////////////////////////////////////////////////////////////////////////////////////////////')
+
     switch (action.type) {
         case clear: return {...initialState, loading: 'clear'};
-        case login: return {loading: 'login'};
-        case success: return {...action['form'], loading: 'success',...initialState};
-        case error: return {password_error: action['form'].password[0],
-            email_error: action['form'].email, non_field_errors:action['form'].non_field_errors[0],loading: 'error', ...initialState}
+        case login: return {loading: 'login', ...initialState };
+        case success: return {...action['form'], loading: 'success'};
+        case error:
+            console.log('//////////////////////////////////////////////////////////////////////////////////////////////////////////////////')
+            console.log('error start')
+            console.log('//////////////////////////////////////////////////////////////////////////////////////////////////////////////////')
+            console.log(action.form, 'action.form')
+            console.log({
+                non_field_errors: action['form'].non_field_errors[0],
+                loading: 'error'
+            })
+            console.log('//////////////////////////////////////////////////////////////////////////////////////////////////////////////////')
+
+            return {
+                non_field_errors: action.form.non_field_errors[0],
+                loading: 'error'
+            }
         default:
             return state;
     }

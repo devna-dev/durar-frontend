@@ -33,7 +33,6 @@ class Login extends Component {
 
 
     render() {
-        console.log(this.props.user, 'this.props');
         return (
             <Container style={styles.container}>
                 <Content>
@@ -127,7 +126,7 @@ class Login extends Component {
                 password: this.state.password,
             };
             this.props.login(form);
-            console.log('login resylt', this.props.user);
+            console.log(this.props.user, 'this.props');
         }
     };
 }
