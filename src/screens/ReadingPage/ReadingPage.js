@@ -105,7 +105,7 @@ export default class ReadingPage extends Component {
                                           backgroundColor: this.state.menu ? '#FFCA2E' : 'transparent',
                                           borderColor: this.state.menu ? '#FFCA2E' : colors.grey2
                                       }]}>
-                        <SvgUri uri={this.state.menu ? svg_photo.white_menu : svg_photo.read_menu}/>
+                        <SvgUri uri={this.state.menu==true ? svg_photo.white_menu : svg_photo.read_menu}/>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={async () => {
                         this.props.navigation.openDrawer()
@@ -122,12 +122,12 @@ export default class ReadingPage extends Component {
                                       style={{}}
                                       renderItem={(item) => <View style={styles.diff_view}>
                                           <Text
-                                              style={[styles.address_text, {color: this.state.moon == 2 ? colors.white : colors.primary}]}>وجه
+                                              style={[styles.address_text, {color: this.state.moon == 2 ? colors.white : colors.primary,textAlign:'left',}]}>وجه
                                               الإختلاف
                                               بين</Text>
                                           <Text style={[styles.address_text, {
-                                              fontSize: 13,
-                                              color: this.state.moon == 2 ? colors.grey2 : colors.grey3
+                                              fontSize: 13,textAlign:'left',
+                                              color: this.state.moon == 2 ? colors.grey2 : colors.grey3,
                                           }]}>هنالك العديد من الأنواع
                                               المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال
                                               بعض

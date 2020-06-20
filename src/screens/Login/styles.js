@@ -39,7 +39,8 @@ export default StyleSheet.create({
         ...common.RegularFont,
         marginTop: '5%',
         paddingHorizontal: '5%',
-        height:50
+        height:50,
+        textAlign: 'right'
     },
     btn:{
         width:'90%',
