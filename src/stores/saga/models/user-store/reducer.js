@@ -1,4 +1,4 @@
-import {success, login, error, clear,forget} from './actions';
+import {success, login, error, clear,forget,success_login} from './actions';
 
 const initialState = {
     id: '',
@@ -23,6 +23,8 @@ const reducer = (state = initialState, action) => {
             return {...initialState, loading: 'clear'};
         case login:
             return {loading: 'login', ...initialState, load: true};
+        case success_login:
+            return {...action['form'], allow_navigate: true,load: false, loading: 'success_login'};
         case success:
             return {...action['form'], allow_navigate: true, details: action.form.detail,detail:'',load: false, loading: 'success'};
         case error:

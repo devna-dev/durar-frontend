@@ -8,7 +8,7 @@ import Button from '../../components/Button/Button';
 import RecoverPassword from '../RecoverPassword/RecoverPassword';
 import {svg_photo} from '../../assets/svg/svg';
 import {SvgUri} from 'react-native-svg';
-import {login, clear} from '../../stores/saga/models/user-store/actions';
+import {login, clear, loading} from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
 
 
@@ -47,7 +47,7 @@ class Login extends Component {
                                    borderWidth: this.props.user.email_error != '' || this.state.email_error != '' ? 2 : 1,
                                }]}/>
                     {this.props.user.email_error != '' || this.state.email_error != '' &&
-                    <Text style={styles.error}>{this.props.user.email_error||this.state.email_error}</Text>}
+                    <Text style={styles.error}>{this.props.user.email_error || this.state.email_error}</Text>}
                     <View style={[styles.view, {
                         borderColor: this.props.user.password_error != '' || this.state.password_error != '' ? colors.error : colors.border,
                         borderWidth: this.props.user.password_error != '' || this.state.password_error != '' ? 2 : 1,

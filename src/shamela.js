@@ -14,7 +14,7 @@ class shamela extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // rootPage: <Splash/>,
+             //rootPage: <Splash/>,
             language: 'ar',
             user: null,
             connection_Status: '',

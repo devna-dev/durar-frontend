@@ -22,3 +22,14 @@ export function user_forget(form) {
     }).then(response => response.json());
 
 }
+
+export function user_info(token) {
+    return fetch(settings.API_URL + 'accounts/user/', {
+        method: 'Get',
+        headers: {
+            Authorization: 'Bearer ' + token,
+            accept: 'application/json',
+        },
+    }).then(response => response.json());
+
+}
