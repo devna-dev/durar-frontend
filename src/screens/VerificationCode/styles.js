@@ -88,5 +88,13 @@ export default StyleSheet.create({
         elevation: 2,
         borderColor:"#E0E0E0",
         color:colors.primary
-    }
+    },
+    error: {
+        color: colors.error,
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
+        textAlign:'center'
+    },
 })

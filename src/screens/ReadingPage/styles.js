@@ -1,4 +1,4 @@
-import {Platform, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {colors} from "../../config/styles";
 import common from "../../styles/common.style";
 
@@ -45,8 +45,7 @@ export default StyleSheet.create({
     address_text: {
         ...common.BoldFont,
         fontSize: 16,
-        color: colors.grey3,
-
+        color: colors.grey3
     },
     search_bar: {
         backgroundColor: 'white',
@@ -65,7 +64,7 @@ export default StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
-        marginTop: Platform.OS=='ios'?90:60,
+        marginTop: 60,
         flexDirection: 'row',
         alignItems: 'center'
     },
@@ -74,7 +73,6 @@ export default StyleSheet.create({
         fontSize: 14,
         paddingHorizontal: 15,
         width: '90%',
-        textAlign:'right',
     },
     item1: {
         flexDirection: 'row',

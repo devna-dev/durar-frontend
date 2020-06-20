@@ -68,25 +68,35 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: 50,
-        paddingHorizontal:'3.5%'
+        paddingHorizontal: '3.5%'
     },
-    headerTitle:{
+    headerTitle: {
         ...common.BlackFont,
-        fontSize:18
+        fontSize: 18
     },
-    underlineStyleBase:{
-        backgroundColor:colors.white,
-        borderRadius:5,
+    underlineStyleBase: {
+        backgroundColor: colors.white,
+        borderRadius: 5,
         shadowColor: "#f9f9f9",
         shadowOffset: {
             width: 0,
             height: 1,
         },
         shadowOpacity: 0.22,
-       // shadowRadius: 1.22,
+        // shadowRadius: 1.22,
 
         elevation: 2,
-        borderColor:"#E0E0E0",
-        color:colors.primary
-    }
+        borderColor: "#E0E0E0",
+        color: colors.primary,
+        ...common.BoldFont,
+        fontSize:18
+    },
+    error: {
+        color: colors.error,
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
+        textAlign:'center'
+    },
 })

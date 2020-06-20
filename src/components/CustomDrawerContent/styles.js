@@ -1,4 +1,4 @@
-import {StyleSheet,Platform,NativeModules} from 'react-native';
+import {StyleSheet, Platform, NativeModules} from 'react-native';
 import {colors} from '../../config/styles';
 import common from '../../styles/common.style';
 
@@ -8,8 +8,8 @@ const deviceLanguage =
         NativeModules.SettingsManager.settings.AppleLanguages[0] //iOS 13
         : NativeModules.I18nManager.localeIdentifier;
 export default StyleSheet.create({
-    back_img:{
-        margin:20
+    back_img: {
+        margin: 20
     },
     text3: {
         ...common.BoldFont,
@@ -31,4 +31,18 @@ export default StyleSheet.create({
         borderTopColor: colors.grey1,
         borderBottomColor: colors.grey1,
     },
+    btn: {
+        width: 120, height: 40,
+        backgroundColor: '#D63737',
+        alignSelf: 'center',
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop:'5%'
+    },
+    text:{
+        color:colors.white,
+        ...common.BoldFont,
+        fontSize:13
+    }
 });

@@ -37,7 +37,7 @@ export default class Library extends Component {
                     <FlatList data={[{}, {}, {}, {}, {},{}, {}, {}, {}, {},]}
                               numColumns={2}
                               style={{alignSelf:'center'}}
-                              renderItem={() => <LibraryItem navigation={this.navigation}/>}/>
+                              renderItem={() => <LibraryItem navigation={this.props.navigation}/>}/>
 
 
                 </Content>

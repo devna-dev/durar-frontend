@@ -11,47 +11,72 @@ import {svg_photo} from "../../assets/svg/svg";
 import {SvgUri} from "react-native-svg";
 
 
-
 export default class RecoverVerificationCode extends Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            code: '',
+            code_error: ''
+        };
     }
 
     render() {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <SvgUri style={styles.back_img}
-                            uri={svg_photo.back}/>
+                                uri={svg_photo.back}/>
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>كود إستعادة الحساب</Text>
                     <View style={styles.back_img}/>
                 </View>
                 <Content style={styles.content}>
 
-                    <OTPInputView   style={{width: '80%', height: 55,alignSelf:'center'}}
-                                    pinCount={5}
-                        // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-                        // onCodeChanged = {code => { this.setState({code})}}
-                                    autoFocusOnLoad
-                                    codeInputFieldStyle={styles.underlineStyleBase}
-                                    onCodeFilled = {(code => {
-                                        console.log(`Code is ${code}, you are good to go!`)
-                                    })}/>
+                    <OTPInputView style={{width: '80%', height: 55, alignSelf: 'center'}}
+                                  pinCount={5}
+                                  code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+                                  onCodeChanged={code => this.onChangeCode(code)}
+                                  autoFocusOnLoad
+                                  codeInputFieldStyle={[styles.underlineStyleBase, {
+                                      borderColor: this.state.code_error != '' ? colors.error : colors.border,
+                                      borderWidth: this.state.code_error != '' ? 2 : 1
+                                  }]}
+                        // onCodeFilled={(code => this.onChangeCode(code))}
+                    />
+                    {this.state.code_error != '' && <Text style={styles.error}>{this.state.code_error}</Text>}
 
                     <Button title={'تأكيد'}
                             style={styles.btn1}
                             textColor={colors.white}
-                            onPress={()=>this.props.navigation.navigate('Login')}
+                            onPress={this.verifyCode.bind(this)}
                     />
                     <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>لم تصل إليك رساله التفعيل؟</Text>
 
                 </Content>
             </Container>
         )
+    }
+
+    onChangeCode(code) {
+        this.setState({code: code, code_error: ''})
+    }
+
+    validateCode() {
+        if (this.state.code == '') {
+            this.setState({code_error: '*أدخل الرمز'})
+            return true
+        } else {
+            return false
+        }
+    }
+
+    verifyCode = () => {
+        if (!this.validateCode()) {
+            this.props.navigation.navigate('Login')
+
+        }
     }
 }

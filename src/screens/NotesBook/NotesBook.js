@@ -6,10 +6,7 @@ import {FlatList, TextInput, Image, ImageBackground, Text, View, TouchableOpacit
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
 import {colors} from "../../config/styles";
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import HomeBookItem from "../../components/HomeBookItem/HomeBookItem";
-import Button from "../../components/Button/Button";
-import CurrentReadings from "../CurrentReadings/CurrentReadings";
+import Swipeout from 'react-native-swipeout';
 import SearchFilters from "../SearchFilters/SearchFilters";
 import Sort from "../Sort/Sort";
 import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
@@ -71,11 +68,26 @@ export default class NotesBook extends Component {
                     </View>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               style={{}}
-                              renderItem={(item) => <View style={styles.diff_view}>
+                              renderItem={(item) =>  <Swipeout style={styles.swipe}
+                                                               right={[{
+                                                                   component: (
+                                                                       <TouchableOpacity onPress={()=>{}}
+                                                                                         style={styles.edit1}>
+                                                                           <View style={styles.edit}>
+                                                                               <SvgUri uri={svg_photo.trash}/>
+                                                                           </View>
+                                                                       </TouchableOpacity>
+
+                                                                   ),
+                                                               }]}
+                              >
+                                  <View style={styles.diff_view}>
                                   <Text style={[styles.address_text,{color:colors.primary}]}>وجه الإختلاف بين</Text>
                                   <Text style={[styles.address_text,{fontSize:13}]}>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو الكلمات</Text>
                                   <Text style={[styles.address_text,{color:colors.primary}]}>كتاب: تاريح الخلفاء</Text>
-                              </View>}/>
+                              </View>
+                              </Swipeout>
+                              }/>
 
 
                 </Content>

@@ -6,13 +6,25 @@ import styles from "./styles";
 import {colors} from "../../config/styles";
 import Button from "../../components/Button/Button";
 import RecoverPassword from "../RecoverPassword/RecoverPassword";
+import {svg_photo} from "../../assets/svg/svg";
+import {SvgUri} from "react-native-svg";
+import {login} from "../../stores/saga/models/user-store/actions";
+import {connect} from "react-redux";
 
 
-export default class Login extends Component {
+
+class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            email: '',
+            email_error: '',
+            password: '',
+            password_error: '',
+            secureTextEntry: true
+        };
+        this.login = this.login.bind(this)
     }
 
     render() {
@@ -23,12 +35,32 @@ export default class Login extends Component {
                     <Text style={styles.address}>الشاملة</Text>
                     <Text style={styles.title}>تسجيل الدخول</Text>
                     <TextInput placeholder={'البريد الالكتروني'}
-                               style={styles.input}/>
-                    <TextInput placeholder={'كلمة المرور'}
-                               style={styles.input}/>
+                               value={this.state.email}
+                               onChangeText={(value) => this.onChangeEmail(value)}
+                               style={[styles.input, {
+                                   borderColor: this.state.email_error != '' ? colors.error : colors.border,
+                                   borderWidth: this.state.email_error != '' ? 2 : 1
+                               }]}/>
+                    {this.state.email_error != '' && <Text style={styles.error}>{this.state.email_error}</Text>}
+                    <View style={[styles.view, {
+                        borderColor: this.state.password_error != '' ? colors.error : colors.border,
+                        borderWidth: this.state.password_error != '' ? 2 : 1
+                    }]}>
+                        <TextInput placeholder={'كلمة المرور'}
+                                   value={this.state.password}
+                                   secureTextEntry={this.state.secureTextEntry}
+                                   onChangeText={(value) => this.onChangePassword(value)}
+                                   style={[styles.input1,]}/>
+                        <TouchableOpacity style={styles.eye}
+                                          onPress={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}>
+                            <SvgUri uri={svg_photo.eye}/>
+                        </TouchableOpacity>
+                    </View>
+                    {this.state.password_error != '' && <Text style={styles.error}>{this.state.password_error}</Text>}
+
                     <Button title={'تسجيل دخول'}
                             style={styles.btn1}
-                            onPress={() => this.props.navigation.navigate('TabNavigator')}
+                            onPress={this.login.bind(this)}
                             textColor={colors.white}
                     />
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('RecoverPassword')}>
@@ -46,4 +78,69 @@ export default class Login extends Component {
             </Container>
         )
     }
+
+    onChangeEmail(value) {
+        this.setState({email: value, email_error: ''})
+    }
+
+    validateEmail() {
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (this.state.email == '') {
+            this.setState({email_error: '*حقل مطلوب'});
+            return false;
+        } else if (!re.test(this.state.email)) {
+            this.setState({email_error: 'ادخل بريداً الكترونياً صحيحاً'});
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    onChangePassword(value) {
+        this.setState({password: value, password_error: ''})
+    }
+
+    validatePassword() {
+        if (this.state.password == '') {
+            this.setState({password_error: '*حقل مطلوب'})
+            return false
+        } else {
+            return true
+        }
+    }
+
+    login = () => {
+        if (this.validateEmail() & this.validatePassword()) {
+            // this.props.navigation.navigate('TabNavigator')
+            let form = {
+                email: this.state.email,
+                password: this.state.password
+            }
+            this.props.login(form)
+            console.log("login resylt", this.props)
+        }
+    }
 }
+
+const mapStateToProps = (state) => {
+    console.log('State for error');
+    console.log(state);
+    return {
+        email: state.user.email,
+        password: state.user.password,
+        password_error:state.user.password_error,
+        email_error:state.user.email_error
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+
+    login: (form) => dispatch({
+        type: login,
+        form
+    })
+})
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

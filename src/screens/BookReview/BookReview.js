@@ -5,25 +5,17 @@ import {colors} from "../../config/styles";
 import {svg_photo} from "../../assets/svg/svg";
 import {SvgUri} from "react-native-svg";
 import Button from "../../components/Button/Button";
+import {Rating, AirbnbRating} from 'react-native-ratings';
 
 
-export default class AddNotes extends Component {
+export default class BookReview extends Component{
 
-
-    constructor(props) {
-        super(props);
-        this.state = {};
+    constructor(props){
+        super(props)
     }
 
-    componentDidMount() {
-
-    }
-
-
-    render() {
-
-        return (
-
+    render(){
+        return(
             <Modal
                 propagateSwipe={true}
                 style={styles.modal}
@@ -36,25 +28,28 @@ export default class AddNotes extends Component {
                         <View
                             style={styles.bar1}>
                             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                                <SvgUri uri={svg_photo.active_add}/>
-
-                                <Text style={[styles.text3]}>إضافة ملاحظه</Text>
+                                <SvgUri uri={svg_photo.empty_star}/>
+                                <Text style={[styles.text3]}>تقييم الكتاب</Text>
                             </View>
                             <TouchableOpacity onPress={this.props.onRequestClose}>
                                 <Text style={[styles.text3, {color: colors.grey3}]}>إلغاء</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={[styles.text]}>الملاحظات</Text>
+                        <View style={{marginVertical:'5%'}}>
+                            <AirbnbRating
+                                count={5}
+                                showRating={false}
+                                defaultRating={3}
+                                size={28}
+                            />
+                        </View>
                         <View style={styles.book_view}>
-                            <TextInput placeholder={'إسم الكتاب'}
+                            <TextInput placeholder={'تعليق على الكتاب'}
                                 // value={'ذكر'}
                                        style={styles.input}/>
                         </View>
-                        <View style={styles.upload_view}>
-                            <SvgUri uri={svg_photo.upload}/>
-                            <Text style={[styles.text1,]}>إدراج صورة أو فديو</Text>
-                        </View>
-                        <Button title={'إضافة'}
+
+                        <Button title={'تقييم'}
                                 style={styles.btn}
                                 textColor={colors.white}
                         />
@@ -62,8 +57,6 @@ export default class AddNotes extends Component {
                     </View>
                 </View>
             </Modal>
-        );
+        )
     }
-
-
 }

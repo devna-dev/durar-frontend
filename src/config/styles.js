@@ -26,7 +26,7 @@ export const colors = {
     twitter: '#76C0CC',
     twitter1: '#95dce4',
     googlePlus: '#FC3850',
-    error: '#ff190c',
+    error: '#EE5959',
     red: '#e82006',
     textPrimary: '#293340',
     dateGreen: '#6d7b6e',

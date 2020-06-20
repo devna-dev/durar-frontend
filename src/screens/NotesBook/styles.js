@@ -161,5 +161,28 @@ export default StyleSheet.create({
         ...common.BoldFont,
         fontSize: 16,
         color: colors.grey3
+    },
+    edit:{
+        alignItems:'center',
+        justifyContent:'center',
+        marginBottom:20,
+        height:191,
+        backgroundColor:'red',
+        alignSelf:'center',
+        width:'100%'
+    },
+    edit1:{
+        alignItems:'center',
+        justifyContent:'center',
+        //marginBottom:20,
+        // height:191,
+        backgroundColor:'white',
+        alignSelf:'center',
+        width:'100%'
+    },
+    swipe:{
+        backgroundColor:'transparent',
+
     }
+
 })

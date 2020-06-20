@@ -75,5 +75,47 @@ export default StyleSheet.create({
     headerTitle:{
         ...common.BlackFont,
         fontSize:18
-    }
+    },
+    eye: {
+
+        marginHorizontal: '5%',
+    },
+    view:{
+        backgroundColor: 'white',
+        width: '90%',
+        alignSelf: 'center',
+        borderColor: colors.border,
+        borderWidth: 1,
+        borderRadius: 10,
+        // shadowColor: "#727272",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        //
+        // elevation: 4,
+        ...common.RegularFont,
+        marginTop: '5%',
+        paddingHorizontal: '5%',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center'
+    },
+    input1: {
+        backgroundColor: 'white',
+        width: '90%',
+        alignSelf: 'center',
+        ...common.RegularFont,
+        paddingHorizontal: '5%',
+        textAlign:'right'
+    },
+    error: {
+        color: colors.error,
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
+    },
 })
