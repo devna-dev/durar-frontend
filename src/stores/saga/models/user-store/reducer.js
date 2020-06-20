@@ -1,23 +1,17 @@
 import { GET_ALL_USER_INFO_REQUEST_SUCCESS,login } from './actions';
 
 const initialState = {
-    id: 'id1',
-    name: 'Michael',
-    email: 'michael@example.com',
+    id: '',
+    name: '',
+    email: '',
     password:''
 };
 
 const reducer = (state = initialState, action) => {
+    console.log('reducer action',action)
+    //const {email, password} = action.form;
     switch (action.type) {
-        case GET_ALL_USER_INFO_REQUEST_SUCCESS: {
-            const { id, name, email } = action.payload;
-            return {
-                id,
-                name,
-                email,
-            };
-        }
-        case login:(state) => ({...state, loading: 'login'})
+        case login: return {...action['form'], loading: 'login'}
         default:
             return state;
     }

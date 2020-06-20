@@ -1,8 +1,9 @@
-import {takeLatest, put} from 'redux-saga/effects';
+import {takeLatest, put,takeEvery} from 'redux-saga/effects';
 
 import {GET_ALL_USER_INFO_REQUEST, GET_ALL_USER_INFO_REQUEST_SUCCESS, login} from './actions';
 
 const handler = function* () {
+    alert('jj')
     yield takeLatest(GET_ALL_USER_INFO_REQUEST, getAllUserInfo);
     yield takeLatest(login, loginApi);
 }
@@ -25,17 +26,17 @@ function* getAllUserInfo(action) {
 }
 
 function* loginApi(action) {
-  //  alert('dd')
+    console.log("action", action)
     try {
         // API call
         let r = yield put({
             type: login,
-            payload: {
-                email: 'fatma1211994@hotmail.com',
-                password: '12345'
+            form: {
+                email: action.form.email,
+                password: action.form.password
             },
         });
-        console.log(r)
+        console.log('r',r)
     } catch (err) {
         // Handle error
     }

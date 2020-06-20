@@ -10,7 +10,7 @@ import {svg_photo} from "../../assets/svg/svg";
 import {SvgUri} from "react-native-svg";
 import {login} from "../../stores/saga/models/user-store/actions";
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+
 
 
 class Login extends Component {
@@ -24,6 +24,7 @@ class Login extends Component {
             password_error: '',
             secureTextEntry: true
         };
+        this.login = this.login.bind(this)
     }
 
     render() {
@@ -59,7 +60,7 @@ class Login extends Component {
 
                     <Button title={'تسجيل دخول'}
                             style={styles.btn1}
-                            onPress={this.props.login}
+                            onPress={this.login.bind(this)}
                             textColor={colors.white}
                     />
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('RecoverPassword')}>
@@ -109,11 +110,17 @@ class Login extends Component {
         }
     }
 
-    // login = () => {
-    //     if (this.validateEmail() & this.validatePassword()) {
-    //         this.props.navigation.navigate('TabNavigator')
-    //     }
-    // }
+    login = () => {
+        if (this.validateEmail() & this.validatePassword()) {
+            // this.props.navigation.navigate('TabNavigator')
+            let form = {
+                email: this.state.email,
+                password: this.state.password
+            }
+            let result = this.props.login(form)
+            console.log(this.props, "alial  l")
+        }
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -124,20 +131,14 @@ const mapStateToProps = (state) => {
         password: state.password
     };
 };
-const mapDispatchToProps = (dispatch) => {
-    // bindActionCreators({
-    //     login,
-    // }, dispatch);
-    //console.log()
-   return {
-       login: () => dispatch({
-           type: 'login',
-           // email: this.state.email,
-           // password: this.state.password
-       })
-   }
+const mapDispatchToProps = (dispatch) => ({
 
-};
+    login: (form) => dispatch({
+        type: login,
+        form
+    })
+})
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
