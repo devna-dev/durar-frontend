@@ -117,18 +117,20 @@ class Login extends Component {
                 email: this.state.email,
                 password: this.state.password
             }
-            let result = this.props.login(form)
-            console.log(this.props, "alial  l")
+            this.props.login(form)
+            console.log("login resylt", this.props)
         }
     }
 }
 
 const mapStateToProps = (state) => {
-    console.log('State:');
+    console.log('State for error');
     console.log(state);
     return {
-        email: state.email,
-        password: state.password
+        email: state.user.email,
+        password: state.user.password,
+        password_error:state.user.password_error,
+        email_error:state.user.email_error
     };
 };
 const mapDispatchToProps = (dispatch) => ({

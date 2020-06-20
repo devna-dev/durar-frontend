@@ -1,6 +1,6 @@
-import {takeLatest, put,takeEvery} from 'redux-saga/effects';
+import {takeLatest, put, takeEvery} from 'redux-saga/effects';
 
-import {GET_ALL_USER_INFO_REQUEST, GET_ALL_USER_INFO_REQUEST_SUCCESS, login} from './actions';
+import {login, success, error} from './actions';
 import {user_login} from "../../../../services/auth";
 
 const handler = function* () {
@@ -9,20 +9,16 @@ const handler = function* () {
 
 
 function* loginApi(action) {
-    console.log("action", action.form)
     try {
-        alert('jj')
-    //     let r = yield put({
-    //     type: login,
-    //     form: {
-    //         email: action.form.email,
-    //         password: action.form.password
-    //     },
-    // });
         let result = yield user_login(action.form)
-        console.log('r', r)
+        if (result['token']) {
+            yield put({type: success, form: result})
+        } else {
+            yield put({type: error, form: result})
+        }
     } catch (err) {
-        // Handle error
+        console.log('err', err)
+
     }
 }
 

@@ -8,12 +8,5 @@ export function user_login(form) {
         },
         data: form
     }).then(response => response.json())
-        .then(response => {
-            console.log(response)
-            return response;
-        })
-        .catch(error => {
-            console.log(error.response)
-            return error.response
-        })
+
 }
