@@ -13,6 +13,7 @@ function init(history) {
     if (__DEV__) {
         const sagaMonitor = Reactotron.createSagaMonitor();
         sagaMiddleware = createSagaMiddleware({ sagaMonitor });
+        console.tron =  Reactotron;
     } else {
         sagaMiddleware = createSagaMiddleware();
    }
