@@ -14,25 +14,14 @@ import {
   REGISTER_USER_REQUEST_PENDING,
 } from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
+import Toast from '../../components/Toast';
 
 class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      name_error: '',
-      email: '',
-      email_error: '',
-      password: '',
-      password_error: '',
-      confirm_password: '',
-      confirm_password_error: '',
-      secureTextEntry: true,
-      secureTextEntryConfirm: true,
-    };
-  }
-  componentDidMount() {
-    this.props.clear();
+    this.state = this.initialState;
+    this.toast = React.createRef();
+    props.clear();
   }
 
   render() {
@@ -44,6 +33,10 @@ class Register extends Component {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>تسجيل حساب جديد</Text>
           <View style={styles.back_img} />
+
+        </View>
+        <View style={{alignItems: 'center'}}>
+          <Toast ref={this.toast} backgroundColor={'#000000'} />
         </View>
         <Content style={styles.content}>
           <TextInput
@@ -54,11 +47,11 @@ class Register extends Component {
               styles.input,
               {
                 borderColor:
-                  this.state.name_error != '' || !!this.getRegErrorProp('name')
+                  !!this.getRegErrorProp('name') || this.state.name_error != ''
                     ? colors.error
                     : colors.border,
                 borderWidth:
-                  this.state.name_error != '' || !!this.getRegErrorProp('name')
+                  !!this.getRegErrorProp('name') || this.state.name_error != ''
                     ? 2
                     : 1,
               },
@@ -66,7 +59,7 @@ class Register extends Component {
           />
           {(!!this.getRegErrorProp('name') || this.state.name_error != '') && (
             <Text style={styles.error}>
-              {this.getRegErrorProp('name') ?? this.state.name_error}
+              {this.getRegErrorProp('name') || this.state.name_error}
             </Text>
           )}
           <TextInput
@@ -92,7 +85,7 @@ class Register extends Component {
           {(!!this.getRegErrorProp('email') ||
             this.state.email_error != '') && (
             <Text style={styles.error}>
-              {this.getRegErrorProp('email') ?? this.state.email_error}
+              {this.getRegErrorProp('email') || this.state.email_error}
             </Text>
           )}
 
@@ -122,10 +115,10 @@ class Register extends Component {
               <SvgUri uri={svg_photo.eye} />
             </TouchableOpacity>
           </View>
-          {(this.state.password_error != '' ||
-            !!this.getRegErrorProp('password')) && (
+          {(!!this.getRegErrorProp('password') || this.state.password_error != '')
+          && (
             <Text style={styles.error}>
-              {this.getRegErrorProp('password') ?? this.state.password_error}
+              {this.getRegErrorProp('password') || this.state.password_error}
             </Text>
           )}
           <View
@@ -162,9 +155,11 @@ class Register extends Component {
             </TouchableOpacity>
           </View>
           {(!!this.getRegErrorProp('passwordConfirm') ||
+            !!this.getRegErrorProp('non_field_errors') ||
             this.state.confirm_password_error != '') && (
             <Text style={styles.error}>
-              {this.getRegErrorProp('passwordConfirm') ??
+              {this.getRegErrorProp('non_field_errors') ||
+                this.getRegErrorProp('passwordConfirm') ||
                 this.state.confirm_password_error}
             </Text>
           )}
@@ -186,7 +181,33 @@ class Register extends Component {
       </Container>
     );
   }
-
+  get initialState() {
+    return {
+      name: '',
+      name_error: '',
+      email: '',
+      email_error: '',
+      password: '',
+      password_error: '',
+      confirm_password: '',
+      confirm_password_error: '',
+      secureTextEntry: true,
+      secureTextEntryConfirm: true,
+    };
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.user.allow_navigate !== this.props.user.allow_navigate) {
+      this.setState(this.initialState);
+      this.props.clear();
+      this.props.navigation.navigate('Login');
+    }
+    if (this.getRegErrorProp('network_error')) {
+      this.toast.current.showToast(
+        'Please make sure you are connected',
+      );
+      this.props.clear();
+    }
+  }
   onChangeEmail(value) {
     this.setState({email: value, email_error: ''});
   }
@@ -258,23 +279,7 @@ class Register extends Component {
         password,
         passwordConfirm: confirm_password,
       };
-      // console.log(
-      //   'createNewAccount started \n ///////////////////////////////////////////////////////////////// \n',
-      // );
-
       this.props.createNewAccount(user);
-      // console.tron.log(
-      //   'this.props.user.allow_navigate ================================= \n',
-      //   this.props.user.allow_navigate,
-      // );
-      // console.tron.display({
-      //   name: 'LOG DATA OF dfdf',
-      //   value: this.props.user,
-      //   preview: 'Click for details: ' + 'dfdf',
-      // });
-      if (this.props.user.allow_navigate) {
-        this.props.navigation.navigate('Login');
-      }
     }
   };
   getRegErrorProp = (key) => {
@@ -287,7 +292,6 @@ class Register extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log('State \n ///////////////////////////////////////////////////////////////// \n', state);
   return {
     ...state,
   };

@@ -10,13 +10,94 @@ import {svg_photo} from '../../assets/svg/svg';
 import {SvgUri} from 'react-native-svg';
 import {login, clear, loading} from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
-
+import Toast from '../../components/Toast';
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.initialState;
+    this.login = this.login.bind(this);
+    this.toast = React.createRef();
+}
 
-    constructor(props) {
-        super(props);
-        this.state = {
+  componentDidMount() {
+    this.props.clear();
+  }
+
+  render() {
+    return (
+      <Container style={styles.container}>
+        <Content>
+          <View style={{alignItems: 'center'}}>
+            <Toast ref={this.toast} backgroundColor={'#000000'} />
+          </View>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/images/Screenshot_3.png')}
+          />
+          <Text style={styles.address}>الشاملة</Text>
+          <Text style={styles.title}>تسجيل الدخول</Text>
+          <TextInput placeholder={'البريد الالكتروني'}
+            value={this.state.email}
+            onChangeText={(value) => this.onChangeEmail(value)}
+            style={[
+              styles.input,
+              {
+                borderColor:
+                  (this.getLogErrorProp('email_error') != '' ||
+                  this.state.email_error != '')
+                    ? colors.error
+                    : colors.border,
+                borderWidth:
+                  (this.getLogErrorProp('email_error') != '' ||
+                  this.state.email_error != '')
+                    ? 2
+                    : 1,
+              }]}
+          />
+            {(this.getLogErrorProp('email_error') != '' || this.state.email_error != '') &&
+            <Text style={styles.error}>{this.getLogErrorProp('email_error') || this.state.email_error}</Text>}
+            <View style={[styles.view, {
+                borderColor: (this.getLogErrorProp('password_error') != '' || this.state.password_error != '') ? colors.error : colors.border,
+                borderWidth: (this.getLogErrorProp('password_error') != '' || this.state.password_error != '') ? 2 : 1,
+            }]}>
+                <TextInput placeholder={'كلمة المرور'}
+                           value={this.state.password}
+                           secureTextEntry={this.state.secureTextEntry}
+                           onChangeText={(value) => this.onChangePassword(value)}
+                           style={[styles.input1]}/>
+                <TouchableOpacity style={styles.eye}
+                                  onPress={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}>
+                    <SvgUri uri={svg_photo.eye}/>
+                </TouchableOpacity>
+            </View>
+            {(this.getLogErrorProp('password_error') != '' || this.state.password_error != '') &&
+            <Text style={styles.error}>{this.getLogErrorProp('password_error') || this.state.password_error}</Text>}
+            {this.getLogErrorProp('non_field_errors') != '' &&
+            <Text style={styles.error}>{this.getLogErrorProp('non_field_errors')}</Text>}
+            <Button title={'تسجيل دخول'}
+                    style={styles.btn1}
+                    load={this.props.user.load}
+                    onPress={this.login.bind(this)}
+                    textColor={colors.white}
+            />
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('RecoverPassword')}>
+                <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>نسيت كلمة المرور</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                <Text style={styles.text2}>إذا كنت مستخدم جديد</Text>
+            </TouchableOpacity>
+            <Button title={'إنشاء حساب جديد'}
+                    onPress={() => this.props.navigation.navigate('Register')}
+                    style={styles.btn}/>
+
+
+        </Content>
+      </Container>
+    );
+  }
+    get initialState() {
+        return{
             email: '',
             email_error: '',
             password: '',
@@ -24,70 +105,13 @@ class Login extends Component {
             non_field_errors: '',
             secureTextEntry: true,
         };
-        this.login = this.login.bind(this);
     }
-
-    componentDidMount() {
-        this.props.clear();
+  componentDidUpdate(prevProps) {
+    if (!!this.getLogErrorProp('network_error')) {
+      this.toast.current.showToast(this.getLogErrorProp('network_error'));
+      this.props.clear();
     }
-
-
-    render() {
-        return (
-            <Container style={styles.container}>
-                <Content>
-                    <Image style={styles.logo} source={require('../../assets/images/Screenshot_3.png')}/>
-                    <Text style={styles.address}>الشاملة</Text>
-                    <Text style={styles.title}>تسجيل الدخول</Text>
-                    <TextInput placeholder={'البريد الالكتروني'}
-                               value={this.state.email}
-                               onChangeText={(value) => this.onChangeEmail(value)}
-                               style={[styles.input, {
-                                   borderColor: this.props.user.email_error != '' || this.state.email_error != '' ? colors.error : colors.border,
-                                   borderWidth: this.props.user.email_error != '' || this.state.email_error != '' ? 2 : 1,
-                               }]}/>
-                    {this.props.user.email_error != '' || this.state.email_error != '' &&
-                    <Text style={styles.error}>{this.props.user.email_error || this.state.email_error}</Text>}
-                    <View style={[styles.view, {
-                        borderColor: this.props.user.password_error != '' || this.state.password_error != '' ? colors.error : colors.border,
-                        borderWidth: this.props.user.password_error != '' || this.state.password_error != '' ? 2 : 1,
-                    }]}>
-                        <TextInput placeholder={'كلمة المرور'}
-                                   value={this.state.password}
-                                   secureTextEntry={this.state.secureTextEntry}
-                                   onChangeText={(value) => this.onChangePassword(value)}
-                                   style={[styles.input1]}/>
-                        <TouchableOpacity style={styles.eye}
-                                          onPress={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}>
-                            <SvgUri uri={svg_photo.eye}/>
-                        </TouchableOpacity>
-                    </View>
-                    {this.props.user.password_error != '' || this.state.password_error != '' &&
-                    <Text style={styles.error}>{this.props.user.password_error || this.state.password_error}</Text>}
-                    {this.props.user.non_field_errors != '' &&
-                    <Text style={styles.error}>{this.props.user.non_field_errors}</Text>}
-                    <Button title={'تسجيل دخول'}
-                            style={styles.btn1}
-                            load={this.props.user.load}
-                            onPress={this.login.bind(this)}
-                            textColor={colors.white}
-                    />
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RecoverPassword')}>
-                        <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>نسيت كلمة المرور</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                        <Text style={styles.text2}>إذا كنت مستخدم جديد</Text>
-                    </TouchableOpacity>
-                    <Button title={'إنشاء حساب جديد'}
-                            onPress={() => this.props.navigation.navigate('Register')}
-                            style={styles.btn}/>
-
-
-                </Content>
-            </Container>
-        );
-    }
-
+  }
     onChangeEmail(value) {
         this.setState({email: value, email_error: ''});
     }
@@ -130,6 +154,13 @@ class Login extends Component {
                 this.props.navigation.navigate('TabNavigator');
             }
         }
+    };
+    getLogErrorProp = (key) => {
+        return !!this.props.user &&
+        !!this.props.user.login_errors &&
+        !!this.props.user?.login_errors[key]
+            ? this.props.user.login_errors[key][0]
+            : '';
     };
 }
 

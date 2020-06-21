@@ -15,9 +15,11 @@ const initialState = {
   name: '',
   email: '',
   password: '',
-  password_error: '',
-  email_error: '',
-  non_field_errors: '',
+  // password_error: '',
+  // email_error: '',
+  // non_field_errors: '',
+  // network_error: '',
+  login_errors: null,
   token: '',
   allow_navigate: false,
   load: false,
@@ -48,7 +50,7 @@ const reducer = (state = initialState, action) => {
       return {
         load: false,
         allow_navigate: false,
-        non_field_errors: action.form.non_field_errors[0],
+        login_errors: action.form,
         detail: action.form.detail,
         loading: 'error',
       };

@@ -63,7 +63,8 @@ export default StyleSheet.create({
     },
     back_img: {
         width: 30,
-        height: 25
+        height: 25,
+
     },
     header: {
         flexDirection: 'row',

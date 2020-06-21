@@ -36,8 +36,13 @@ function* loginApi(action) {
       yield put({type: error, form: result});
     }
   } catch (err) {
+    if (err.message === 'Timeout' || err.message === 'Network request failed') {
+      yield put({
+        type: error,
+        form: {network_error: ['Please make sure you are connected']},
+      });
+    }
     console.log('err', err);
-    yield put({type: error, form: err});
   }
 }
 
@@ -68,8 +73,13 @@ function* registerApi(action) {
       yield put({type: REGISTER_USER_REQUEST_FAILURE, form: result});
     }
   } catch (err) {
+    if (err.message === 'Timeout' || err.message === 'Network request failed') {
+      yield put({
+        type: REGISTER_USER_REQUEST_FAILURE,
+        form: {network_error: [err.message]},
+      });
+    }
     console.log('err', err);
-    yield put({type: REGISTER_USER_REQUEST_FAILURE, form: err});
   }
 }
 export {handler};
