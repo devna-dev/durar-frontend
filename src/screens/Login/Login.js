@@ -107,6 +107,11 @@ class Login extends Component {
         };
     }
   componentDidUpdate(prevProps) {
+      if (prevProps.user.allow_navigate !== this.props.user.allow_navigate) {
+          this.setState(this.initialState);
+          this.props.clear();
+          this.props.navigation.navigate('TabNavigator');
+      }
     if (!!this.getLogErrorProp('network_error')) {
       this.toast.current.showToast(this.getLogErrorProp('network_error'));
       this.props.clear();
@@ -150,9 +155,7 @@ class Login extends Component {
                 password: this.state.password,
             };
             this.props.login(form);
-            if (this.props.user.allow_navigate) {
-                this.props.navigation.navigate('TabNavigator');
-            }
+
         }
     };
     getLogErrorProp = (key) => {

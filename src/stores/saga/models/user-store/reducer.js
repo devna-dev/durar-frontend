@@ -1,5 +1,5 @@
 import {
-  success,
+  success_login,
   login,
   error,
   clear,
@@ -37,7 +37,7 @@ const reducer = (state = initialState, action) => {
       return {...initialState, loading: 'clear'};
     case login:
       return {loading: 'login', ...initialState, load: true};
-    case success:
+    case success_login:
       return {
         ...action.form,
         allow_navigate: true,
