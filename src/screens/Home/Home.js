@@ -1,33 +1,40 @@
 import React, {Component} from 'react';
 import styles from './styles';
-import Container from "../../components/Containers/Container";
-import Content from "../../components/Containers/Content";
-import {FlatList, Dimensions, Image, ImageBackground, Text, View, TouchableOpacity} from "react-native";
-import {SvgUri} from "react-native-svg";
-import {svg_photo} from '../../assets/svg/svg'
-import {colors} from "../../config/styles";
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import HomeBookItem from "../../components/HomeBookItem/HomeBookItem";
-import Button from "../../components/Button/Button";
-import CurrentReadings from "../CurrentReadings/CurrentReadings";
-import NotificationsList from "../NotificationsList/NotificationsList";
-import SystemPoints from "../SystemPoints/SystemPoints";
-import MyBooks from "../MyBooks/MyBooks";
+import Container from '../../components/Containers/Container';
+import Content from '../../components/Containers/Content';
+import {FlatList, Dimensions, Image, ImageBackground, Text, View, TouchableOpacity} from 'react-native';
+import {SvgUri} from 'react-native-svg';
+import {svg_photo} from '../../assets/svg/svg';
+import {colors} from '../../config/styles';
+import HomeBookItem from '../../components/HomeBookItem/HomeBookItem';
+import Button from '../../components/Button/Button';
+import CurrentReadings from '../CurrentReadings/CurrentReadings';
+import NotificationsList from '../NotificationsList/NotificationsList';
+import SystemPoints from '../SystemPoints/SystemPoints';
+import MyBooks from '../MyBooks/MyBooks';
+import {
+    clear,
+    get_books,
+    loading,
+} from '../../stores/saga/models/user-store/actions';
+import {connect} from 'react-redux';
 
-export default class Home extends Component {
+
+class Home extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            items: [{}, {}, {}, {}, {}, {}, {}, {},],
+            items: [{}, {}, {}, {}, {}, {}, {}, {}],
             sliderActiveSlide: 0,
-            readable: false
-        }
+            readable: false,
+        };
+
     }
 
     _renderItem = ({item}) => {
         return (
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Activities')} style={styles.item_view}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Activities')} style={styles.item_view}>
                 <View style={styles.right_side}/>
                 <ImageBackground style={styles.item_img}
                                  imageStyle={{borderRadius: 5}}
@@ -41,7 +48,7 @@ export default class Home extends Component {
                 </ImageBackground>
                 <View style={styles.left_side}/>
             </TouchableOpacity>
-        )
+        );
     };
 
     render() {
@@ -72,7 +79,7 @@ export default class Home extends Component {
                     </View>
                 </View>
                 <Content style={styles.content}>
-                    <View style={{width: '100%',}}>
+                    <View style={{width: '100%'}}>
                         <FlatList data={[{}, {}, {}, {}, {}]}
                                   horizontal
                                   style={{marginLeft: '2%'}}
@@ -81,51 +88,54 @@ export default class Home extends Component {
                     </View>
                     <View style={styles.bar}>
                         <Text style={styles.headerTitle}>الأكثر قراءه هذا الشهر</Text>
-                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('HistoryCategories')}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
                             <Text style={styles.headerTitle1}>عرض المزيد</Text>
                         </TouchableOpacity>
                     </View>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               horizontal
                               style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem navigation={this.props.navigation} image={'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'}/>}/>
+                              renderItem={() => <HomeBookItem navigation={this.props.navigation}
+                                                              image={'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'}/>}/>
 
                     <View style={styles.bar}>
                         <Text style={styles.headerTitle}>أخر الإضافات</Text>
-                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('HistoryCategories')}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
                             <Text style={styles.headerTitle1}>عرض المزيد</Text>
                         </TouchableOpacity>
                     </View>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               horizontal
                               style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem navigation={this.props.navigation} image={'https://api.kashback.co.uk/storage/yatijMWTlBnUJO7M0TYVlw7TDbpIAjtXL0zOKY9w.jpeg'}/>}/>
+                              renderItem={() => <HomeBookItem navigation={this.props.navigation}
+                                                              image={'https://api.kashback.co.uk/storage/yatijMWTlBnUJO7M0TYVlw7TDbpIAjtXL0zOKY9w.jpeg'}/>}/>
                     <FlatList data={[{
                         image: svg_photo.library,
                         title: 'قراءاتى الأن',
-                        route:'MyBooks'
+                        route: 'MyBooks',
                     }, {
                         image: svg_photo.note,
                         title: 'دفتر الملاحظات',
-                        route:'NotesBook'
+                        route: 'NotesBook',
                     }, {
                         image: svg_photo.voice_book,
                         title: 'كتب صوتية',
-                        route:'MyBooks'
-                    },]}
+                        route: 'MyBooks',
+                    }]}
                               horizontal
                               style={{marginLeft: '5%', marginTop: '3%'}}
                               renderItem={(item) => this.notes_bar(item)}/>
-                    <View  style={styles.bar}>
+                    <View style={styles.bar}>
                         <Text style={styles.headerTitle}>الأكثر إستماعا</Text>
-                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('HistoryCategories')}>
-                        <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
+                            <Text style={styles.headerTitle1}>عرض المزيد</Text>
                         </TouchableOpacity>
                     </View>
                     <FlatList data={[{}, {}, {}, {}, {}]}
                               horizontal
                               style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem navigation={this.props.navigation} image={'https://api.kashback.co.uk/storage/HUE2pyizlNzMEVlNLhCzheTJxhO4k5pXMbBP0DXe.jpeg'}/>}/>
+                              renderItem={() => <HomeBookItem navigation={this.props.navigation}
+                                                              image={'https://api.kashback.co.uk/storage/HUE2pyizlNzMEVlNLhCzheTJxhO4k5pXMbBP0DXe.jpeg'}/>}/>
 
 
                 </Content>
@@ -136,24 +146,46 @@ export default class Home extends Component {
                 </TouchableOpacity>
                 <CurrentReadings visible={this.state.readable}
                                  navigation={this.props.navigation}
-                                 read={()=>{
-                                     this.setState({readable: false})
-                                     this.props.navigation.navigate('ReadingPage')
+                                 read={() => {
+                                     this.setState({readable: false});
+                                     this.props.navigation.navigate('ReadingPage');
                                  }}
                                  onRequestClose={() => {
-                                     this.setState({readable: false})
-                                     this.props.navigation.navigate('Book')
+                                     this.setState({readable: false});
+                                     this.props.navigation.navigate('Book');
                                  }}/>
             </Container>
-        )
+        );
     }
 
     notes_bar(item) {
         return (
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate(item.item.route)} style={styles.bar_item_view}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate(item.item.route)}
+                              style={styles.bar_item_view}>
                 <SvgUri uri={item.item.image}/>
                 <Text style={styles.text3}>  {item.item.title} </Text>
             </TouchableOpacity>
-        )
+        );
     }
 }
+
+
+const mapStateToProps = (state) => {
+    console.log(state);
+    return {
+        ...state,
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+    clear: () => dispatch({
+        type: clear,
+    }),
+
+    loading: (form) => dispatch({
+        type: loading,
+        form,
+    }),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

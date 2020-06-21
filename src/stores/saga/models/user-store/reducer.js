@@ -9,7 +9,6 @@ import {
   REGISTER_USER_REQUEST_FAILURE,
 } from './actions';
 
-
 const initialState = {
   id: '',
   name: '',
@@ -25,13 +24,18 @@ const initialState = {
   details: '',
   isUserRegistered: false,
   register_errors: null,
+  books: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case forget:
-      return {...initialState, loading: 'forget', load: true};
-    case clear:
+      return {
+        ...initialState,
+        loading: 'forget',
+        load: true,
+      };
+   case clear:
       return {...initialState, loading: 'clear'};
     case login:
       return {loading: 'login', ...initialState, load: true};

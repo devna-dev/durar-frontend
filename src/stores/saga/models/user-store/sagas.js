@@ -57,11 +57,6 @@ function* forgetApi(action) {
 function* registerApi(action) {
   try {
     let result = yield user_register(action.form);
-    // console.tron.display({
-    //   name: 'LOG DATA OF result',
-    //   value: result,
-    //   preview: 'Click for details: ' + 'result',
-    // });
     if (result.token) {
       yield put({type: REGISTER_USER_REQUEST_SUCCESS, form: result});
     } else {
@@ -72,4 +67,5 @@ function* registerApi(action) {
     yield put({type: REGISTER_USER_REQUEST_FAILURE, form: err});
   }
 }
+
 export {handler};
