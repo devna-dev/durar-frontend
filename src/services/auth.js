@@ -23,7 +23,6 @@ export function user_forget(form) {
 }
 
 export function user_register(form) {
-  console.log('form //////////// \n', JSON.stringify(form));
   return fetch(settings.API_URL + 'accounts/registration/', {
     method: 'POST',
     headers: {

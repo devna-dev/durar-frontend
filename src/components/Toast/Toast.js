@@ -135,7 +135,8 @@ const styles = StyleSheet.create(
        // borderRadius: 5,
         zIndex: 9999,
         position: 'absolute',
-        justifyContent: 'center'
+        justifyContent: 'center',
+
       },
 
     toastText:

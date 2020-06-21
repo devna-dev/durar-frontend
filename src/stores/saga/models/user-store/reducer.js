@@ -1,5 +1,5 @@
 import {
-  success,
+  success_login,
   login,
   error,
   clear,
@@ -14,9 +14,11 @@ const initialState = {
   name: '',
   email: '',
   password: '',
-  password_error: '',
-  email_error: '',
-  non_field_errors: '',
+  // password_error: '',
+  // email_error: '',
+  // non_field_errors: '',
+  // network_error: '',
+  login_errors: null,
   token: '',
   allow_navigate: false,
   load: false,
@@ -39,7 +41,7 @@ const reducer = (state = initialState, action) => {
       return {...initialState, loading: 'clear'};
     case login:
       return {loading: 'login', ...initialState, load: true};
-    case success:
+    case success_login:
       return {
         ...action.form,
         allow_navigate: true,
@@ -52,7 +54,7 @@ const reducer = (state = initialState, action) => {
       return {
         load: false,
         allow_navigate: false,
-        non_field_errors: action.form.non_field_errors[0],
+        login_errors: action.form,
         detail: action.form.detail,
         loading: 'error',
       };
