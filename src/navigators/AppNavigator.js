@@ -45,6 +45,7 @@ import storage from "../config/storage";
 import AudioBooks from "../screens/AudioBooks/AudioBooks";
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import Splash from '../screens/Splash/Splash';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,7 +54,8 @@ const Drawer = createDrawerNavigator();
 export default function AppNavigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Walkthrough" headerMode={'none'}>
+            <Stack.Navigator initialRouteName="Splash" headerMode={'none'}>
+                <Stack.Screen name="Splash" component={Splash}/>
                 <Stack.Screen name="Walkthrough" component={Walkthrough}/>
                 <Stack.Screen name="Login" component={Login}/>
                 <Stack.Screen name="RecoverPassword" component={RecoverPassword}/>

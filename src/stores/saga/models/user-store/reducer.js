@@ -9,6 +9,7 @@ import {
   REGISTER_USER_REQUEST_FAILURE,
 } from './actions';
 
+
 const initialState = {
   id: '',
   name: '',

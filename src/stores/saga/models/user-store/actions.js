@@ -4,6 +4,7 @@ const GET_ALL_USER_INFO_REQUEST_SUCCESS =
 const GET_ALL_USER_INFO_REQUEST_FAILURE =
   'user/GET_ALL_USER_INFO_REQUEST_FAILURE';
 const login = 'login';
+const success_login = 'success_login';
 const success = 'success';
 const error = 'error';
 const loading = 'loading';
