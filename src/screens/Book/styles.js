@@ -29,12 +29,12 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '60%'
+        width: '40%',
     },
     headerItemView: {
         // backgroundColor: colors.grey1,
         height: 40,
-        width: 90,
+        // width: 90,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20

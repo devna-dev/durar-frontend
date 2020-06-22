@@ -14,6 +14,8 @@ function init(history) {
         const sagaMonitor = Reactotron.createSagaMonitor();
         sagaMiddleware = createSagaMiddleware({ sagaMonitor });
         console.tron =  Reactotron;
+        console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+
     } else {
         sagaMiddleware = createSagaMiddleware();
    }
