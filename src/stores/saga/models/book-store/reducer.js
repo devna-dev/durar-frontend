@@ -4,13 +4,15 @@ import {
   get_categories,
   get_books_success,
   get_categories_success,
-  get_authors,
-  get_authors_success,
+  GET_BOOK_DETAIL_PENDING,
+  GET_BOOK_DETAIL_SUCCESS,
+  GET_BOOK_DETAIL_FAILURE,
 } from './actions';
 
 const initialState = {
   books: [],
   categories: [],
+  bookDetail: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,18 +35,22 @@ const reducer = (state = initialState, action) => {
         categories: action.form,
         load: false,
       };
-      case get_authors:
-      return {loading: 'get_authors', load: true};
-    case get_authors_success:
+    case GET_BOOK_DETAIL_PENDING:
+      return {loading: 'get_book_detail', load: true};
+    case GET_BOOK_DETAIL_SUCCESS:
       return {
-        ...initialState,
-        loading: 'get_authors_success',
-        authors: action.form,
+        ...state,
+        bookDetail: action.form,
+        load: false,
+      };
+    case GET_BOOK_DETAIL_FAILURE:
+      return {
+        ...state,
+        bookDetail: action.form,
         load: false,
       };
     case clear:
       return {...initialState, loading: 'clear'};
-
     default:
       return state;
   }
