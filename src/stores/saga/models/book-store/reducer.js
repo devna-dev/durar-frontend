@@ -4,6 +4,8 @@ import {
   get_categories,
   get_books_success,
   get_categories_success,
+  get_authors,
+  get_authors_success,
 } from './actions';
 
 const initialState = {
@@ -29,6 +31,15 @@ const reducer = (state = initialState, action) => {
         ...initialState,
         loading: 'get_categories_success',
         categories: action.form,
+        load: false,
+      };
+      case get_authors:
+      return {loading: 'get_authors', load: true};
+    case get_authors_success:
+      return {
+        ...initialState,
+        loading: 'get_authors_success',
+        authors: action.form,
         load: false,
       };
     case clear:

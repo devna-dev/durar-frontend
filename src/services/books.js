@@ -18,3 +18,12 @@ export async function getCategories() {
     },
   }).then((response) => response.json());
 }
+
+export async function getAuthors() {
+  return fetch(settings.API_URL + 'authors/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
+}

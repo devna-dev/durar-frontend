@@ -3,6 +3,8 @@ const get_books = 'get_books';
 const get_categories = 'get_categories';
 const get_books_success = 'get_books_success';
 const get_categories_success = 'get_categories_success';
+const get_authors = 'get_authors';
+const get_authors_success = 'get_authors_success';
 
 
 export {
@@ -11,4 +13,6 @@ export {
     get_books_success,
     get_categories,
     get_categories_success,
+    get_authors,
+    get_authors_success
 };
