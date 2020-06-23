@@ -14,10 +14,6 @@ const initialState = {
   name: '',
   email: '',
   password: '',
-  // password_error: '',
-  // email_error: '',
-  // non_field_errors: '',
-  // network_error: '',
   login_errors: null,
   token: '',
   allow_navigate: false,
@@ -37,7 +33,7 @@ const reducer = (state = initialState, action) => {
         loading: 'forget',
         load: true,
       };
-   case clear:
+    case clear:
       return {...initialState, loading: 'clear'};
     case login:
       return {loading: 'login', ...initialState, load: true};

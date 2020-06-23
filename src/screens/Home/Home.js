@@ -96,7 +96,7 @@ class Home extends Component {
                               horizontal
                               style={{marginLeft: '5%'}}
                               renderItem={() => <HomeBookItem navigation={this.props.navigation}
-                                                              image={'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'}/>}/>
+                                              image={'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'}/>}/>
 
                     <View style={styles.bar}>
                         <Text style={styles.headerTitle}>أخر الإضافات</Text>
@@ -152,7 +152,7 @@ class Home extends Component {
                                  }}
                                  onRequestClose={() => {
                                      this.setState({readable: false});
-                                     this.props.navigation.navigate('Book');
+                                     this.props.navigation.navigate('Book', { lookupId: 1});
                                  }}/>
             </Container>
         );
@@ -181,10 +181,6 @@ const mapDispatchToProps = (dispatch) => ({
         type: clear,
     }),
 
-    loading: (form) => dispatch({
-        type: loading,
-        form,
-    }),
 });
 
 

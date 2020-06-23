@@ -26,6 +26,7 @@ const handler = function* () {
 
 function* loginApi(action) {
   try {
+    console.log(action.form, "dssdfsdfsdfsfdsfdsfsdfsdfsfdsf");
     let result = yield user_login(action.form);
     if (result.token) {
       yield storage.setItem('token', 'Bearer ' + result.token);
@@ -74,7 +75,7 @@ function* registerApi(action) {
         form: {network_error: [err.message]},
       });
     }
-    console.log('err', err);
+    console.log('err', JSON.stringify(err));
   }
 }
 
