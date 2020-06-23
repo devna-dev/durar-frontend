@@ -110,6 +110,7 @@ export default StyleSheet.create({
         alignSelf: 'center',
         ...common.RegularFont,
         paddingHorizontal: '5%',
+        height: 50,
         textAlign:'right'
     },
     error: {
