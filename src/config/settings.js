@@ -1,5 +1,5 @@
 export const settings = {
-    API_URL: 'http://c04bffeb19fb.ngrok.io/api/v1/'
+    API_URL: 'http://5c35acf28b42.ngrok.io/api/v1/'
 };
 
 export default settings;

@@ -24,21 +24,21 @@ const handler = function* () {
   yield takeLatest(REGISTER_USER_REQUEST_PENDING, registerApi);
 };
 
-function* loginApi(action) {
+async function loginApi(action) {
   try {
-    console.log(action.form, "dssdfsdfsdfsfdsfdsfsdfsdfsfdsf");
-    let result = yield user_login(action.form);
+    let result = await user_login(action.form);
     if (result.token) {
-      yield storage.setItem('token', 'Bearer ' + result.token);
-      let user = yield user_info(result.token);
-      yield storage.setItem('user', user);
-      yield put({type: success_login, form: result});
+      await storage.setItem('token', 'Bearer ' + result.token);
+      let user = await user_info(result.token);
+      console.log(user)
+      await storage.setItem('user', user);
+      await put({type: success_login, form: result});
     } else {
-      yield put({type: error, form: result});
+      await put({type: error, form: result});
     }
   } catch (err) {
     if (err.message === 'Timeout' || err.message === 'Network request failed') {
-      yield put({
+      await put({
         type: error,
         form: {network_error: ['Please make sure you are connected']},
       });
