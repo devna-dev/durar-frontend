@@ -19,6 +19,15 @@ export async function getCategories() {
   }).then((response) => response.json());
 }
 
+export async function getAuthors() {
+  return fetch(settings.API_URL + 'authors/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
+}
+
 export async function getBookDetailApi(payload) {
   console.tron.log(payload);
   return fetch(settings.API_URL + `books/${payload}/`, {
@@ -32,6 +41,15 @@ export async function getBookDetailApi(payload) {
 export async function getBookCommentsApi(payload) {
   console.tron.log(payload);
   return fetch(settings.API_URL + `books/${payload}/comments/`, {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
+}
+
+export async function search_resultApi() {
+  return fetch(settings.API_URL + `books/`, {
     method: 'Get',
     headers: {
       accept: 'application/json',

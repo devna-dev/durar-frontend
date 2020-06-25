@@ -96,6 +96,7 @@ class Login extends Component {
       </Container>
     );
   }
+
     get initialState() {
         return{
             email: '',

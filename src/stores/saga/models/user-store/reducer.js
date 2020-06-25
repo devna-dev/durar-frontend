@@ -7,6 +7,7 @@ import {
   REGISTER_USER_REQUEST_PENDING,
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
+  logout,
 } from './actions';
 
 const initialState = {
@@ -23,6 +24,7 @@ const initialState = {
   isUserRegistered: false,
   register_errors: null,
   books: [],
+
 };
 
 const reducer = (state = initialState, action) => {
@@ -35,6 +37,8 @@ const reducer = (state = initialState, action) => {
       };
     case clear:
       return {...initialState, loading: 'clear'};
+      case logout:
+      return {...initialState, loading: 'logout'};
     case login:
       return {loading: 'login', ...initialState, load: true};
     case success_login:

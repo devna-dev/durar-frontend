@@ -35,14 +35,23 @@ export function user_register(form) {
 }
 
 export async function user_info(token) {
-    console.log(token);
-    return fetch(settings.API_URL + 'accounts/user/', {
+    return fetch(settings.API_URL + 'user/', {
         method: 'Get',
         headers: {
             Authorization: await storage.getItem('token'),
             accept: 'application/json',
         },
-    }).then(response => response.json()).then(pp =>
-        console.log(pp)).catch(err => console.log(err));
+    }).then(response => response.json());
+
+}
+
+export async function user_logout() {
+    return fetch(settings.API_URL + 'accounts/logout/', {
+        method: 'POST',
+        headers: {
+            Authorization: await storage.getItem('token'),
+            accept: 'application/json',
+        },
+    }).then(response => response.json());
 
 }
