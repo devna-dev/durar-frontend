@@ -1,5 +1,6 @@
 import settings from '../config/settings';
 import storage from '../config/storage';
+import {queryString} from '../utils/queryString';
 
 export async function getBook() {
   return fetch(settings.API_URL + 'books/', {
@@ -29,7 +30,6 @@ export async function getAuthors() {
 }
 
 export async function getBookDetailApi(payload) {
-  console.tron.log(payload);
   return fetch(settings.API_URL + `books/${payload}/`, {
     method: 'Get',
     headers: {
@@ -48,8 +48,9 @@ export async function getBookCommentsApi(payload) {
   }).then((response) => response.json());
 }
 
-export async function search_resultApi() {
-  return fetch(settings.API_URL + `books/`, {
+export async function search_resultApi(payload) {
+  const query = queryString(payload);
+  return fetch(settings.API_URL + `books/${query ? '?' + query : ''}`, {
     method: 'Get',
     headers: {
       accept: 'application/json',

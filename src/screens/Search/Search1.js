@@ -23,7 +23,10 @@ class Search1 extends Component {
             index: 0,
             show_categories: false,
             loading: false,
-            category_id:''
+            payload: {
+                category_id:'',
+                title: ''
+            }
         };
     }
 
@@ -35,20 +38,23 @@ class Search1 extends Component {
     start() {
         this.props.clear();
         this.props.get_categories();
-        console.log('test', this.props.book.categories);
     }
 
     render() {
+        console.log('=======================================================================================================');
+        console.log(this.props.book.categories)
+        console.log('=======================================================================================================');
+    const { state } = this;
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
-                    <TextInput placeholder={'البحث'} style={styles.input}/>
+                    <TextInput placeholder={'البحث'} style={styles.input} onChangeText={(text) => this.setState({...state, payload: {title: text} })}/>
                     <SvgUri style={styles.back_img} uri={svg_photo.voice}/>
                 </View>
                 <Content style={styles.content}>
                     <View style={styles.header1}>
                         <TouchableOpacity
-                            onPress={() => this.setState({selected: 0})}
+                            onPress={() => this.setState({...state, selected: 0})}
                             style={[
                                 styles.item_view,
                                 {
@@ -73,7 +79,7 @@ class Search1 extends Component {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => this.setState({selected: 1})}
+                            onPress={() => this.setState({...state, selected: 1})}
                             style={[
                                 styles.item_view,
                                 {
@@ -99,7 +105,7 @@ class Search1 extends Component {
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
-                        onPress={() => this.setState({selected: 2})}
+                        onPress={() => this.setState({...state, selected: 2})}
                         style={[
                             styles.item_view,
                             {
@@ -148,7 +154,7 @@ class Search1 extends Component {
                             <TouchableOpacity
                                 onPress={() => {
                                     // this.props.navigation.navigate('Search')
-                                    this.setState({index: item.index,category_id:item.item.id});
+                                    this.setState({...state, index: item.index, payload: { ...state.payload, category_id: item.item.id }});
                                 }}
                                 style={[
                                     styles.item_view,
@@ -183,11 +189,12 @@ class Search1 extends Component {
                         style={styles.btn1}
                         onPress={() => {
                             let form={
-                                category_id:this.state.category_id
+                                category_id: this.state.payload.category_id,
+                                title: this.state.payload.title,
+                                content: this.state.selected,
                             }
-                            let result  = this.props.search_result(form)
-                            console.log('from search',result)
-                            //this.props.navigation.navigate('Search',{category_id:this.state.category_id})
+                            this.props.search_result(form)
+                            this.props.navigation.navigate('Search',{category_id: this.state.payload.category_id})
                         }}
                         textColor={colors.white}
                     />
@@ -217,7 +224,7 @@ const mapDispatchToProps = (dispatch) => ({
             type: loading,
             form,
         }),
-    search_result:()=>
+    search_result:(form)=>
         dispatch({
             type:search_result,
             form

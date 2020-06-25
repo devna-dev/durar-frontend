@@ -55,14 +55,14 @@ function* get_authorsApi(action) {
 
 function* get_search_result(form) {
   try {
-    const [books, repos] = yield all([call(search_resultApi)]);
+    const [books, repos] = yield all([call(search_resultApi, form.form)]);
     console.tron.display({
-      name: 'LOG DATA OF books',
+      name: 'LOG DATA OF Books',
       value: books,
       preview: 'Click for details: ' + 'books',
     });
     console.tron.display({
-      name: 'LOG DATA OF repos',
+      name: 'LOG DATA OF Repos',
       value: repos,
       preview: 'Click for details: ' + 'repos',
     });
@@ -80,16 +80,16 @@ function* getBookDetail(form) {
       call(getBookCommentsApi, form.form.lookupId),
     ]);
     // let result = yield getBookDetailApi(form.form.lookupId);
-    console.tron.display({
-      name: 'LOG DATA OF books',
-      value: books,
-      preview: 'Click for details: ' + 'books',
-    });
-    console.tron.display({
-      name: 'LOG DATA OF repos',
-      value: repos,
-      preview: 'Click for details: ' + 'repos',
-    });
+    // console.tron.display({
+    //   name: 'LOG DATA OF books',
+    //   value: books,
+    //   preview: 'Click for details: ' + 'books',
+    // });
+    // console.tron.display({
+    //   name: 'LOG DATA OF repos',
+    //   value: repos,
+    //   preview: 'Click for details: ' + 'repos',
+    // });
     console.log('book detail', books);
     yield put({type: GET_BOOK_DETAIL_SUCCESS, form: books});
   } catch (err) {
