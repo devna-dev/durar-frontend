@@ -13,6 +13,7 @@ import {
     GET_Search_Result_SUCCESS,
 
 } from './actions';
+import { addLog } from 'react-native/Libraries/LogBox/Data/LogBoxData';
 
 const initialState = {
     books: [],
@@ -46,7 +47,7 @@ const reducer = (state = initialState, action) => {
         case get_authors:
             return {loading: 'get_authors', load: true};
         case search_result:
-            return {loading: 'search_result', load: true};
+            return {...state, loading: 'search_result', load: true};
             case GET_Search_Result_SUCCESS:
             return {
                 ...state,
