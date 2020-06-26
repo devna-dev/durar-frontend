@@ -182,12 +182,12 @@ class Search1 extends Component {
                         load={this.props.book.load}
                         style={styles.btn1}
                         onPress={() => {
-                            let form={
-                                category_id:this.state.category_id
-                            }
-                            let result  = this.props.search_result(form)
-                            console.log('from search',result)
-                            //this.props.navigation.navigate('Search',{category_id:this.state.category_id})
+                            // let form={
+                            //     category_id:this.state.category_id
+                            // }
+                            // let result  = this.props.search_result(form)
+                           // console.log('from search',result)
+                            this.props.navigation.navigate('Search',{category_id:this.state.category_id})
                         }}
                         textColor={colors.white}
                     />
@@ -217,7 +217,7 @@ const mapDispatchToProps = (dispatch) => ({
             type: loading,
             form,
         }),
-    search_result:()=>
+    search_result:(form)=>
         dispatch({
             type:search_result,
             form

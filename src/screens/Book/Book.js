@@ -96,7 +96,7 @@ class Book extends Component {
           <View style={styles.address_view}>
             <View>
               <Text style={[styles.light_font, {height: 20}]}>
-                {bookDetail && bookDetail.author}
+                {bookDetail && bookDetail.author.name}
               </Text>
               <Text style={styles.dark_font2}>
                 {bookDetail && bookDetail.title}

@@ -55,3 +55,14 @@ export async function user_logout() {
     }).then(response => response.json());
 
 }
+
+export async function get_user_books() {
+    return fetch(settings.API_URL + `user/books`, {
+        method: 'Get',
+        headers: {
+            accept: 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json());
+}
+

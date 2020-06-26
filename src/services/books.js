@@ -56,3 +56,4 @@ export async function search_resultApi() {
     },
   }).then((response) => response.json());
 }
+

@@ -8,6 +8,8 @@ import {
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
   logout,
+  GET_user_books,
+  GET_user_books_SUCCESS
 } from './actions';
 
 const initialState = {
@@ -74,6 +76,14 @@ const reducer = (state = initialState, action) => {
         register_errors: action.form,
         load: false,
         allow_navigate: false,
+      };
+    case GET_user_books:
+      return {loading: 'user_books', load: true};
+    case GET_user_books_SUCCESS:
+      return {
+        ...state,
+        books: action.form,
+        load: false,
       };
     default:
       return state;

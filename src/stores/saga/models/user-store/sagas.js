@@ -10,21 +10,25 @@ import {
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
   logout,
-  clear
+  clear,
+  GET_user_books,
+  GET_user_books_SUCCESS
 } from './actions';
 import {
   user_forget,
   user_login,
   user_register,
-  user_info, user_logout,
+  user_info, user_logout, get_user_books,
 } from '../../../../services/auth';
 import storage from '../../../../config/storage';
+import {GET_BOOK_DETAIL_SUCCESS} from '../book-store/actions';
 
 const handler = function* () {
   yield takeLatest(login, loginApi);
   yield takeLatest(forget, forgetApi);
   yield takeLatest(REGISTER_USER_REQUEST_PENDING, registerApi);
   yield takeLatest(logout, logoutApi);
+  yield takeLatest(GET_user_books, user_books);
 };
 
 function* loginApi(action) {
@@ -99,4 +103,19 @@ function* logoutApi(action) {
   }
 }
 
+
+function* user_books() {
+  try {
+    const books = yield get_user_books();
+    console.tron.display({
+      name: 'LOG DATA OF books',
+      value: books,
+      preview: 'Click for books: ' + 'books',
+    });
+    console.log('book for user', books);
+    yield put({type: GET_user_books_SUCCESS, form: books});
+  } catch (err) {
+    console.log(err, 'err user books');
+  }
+}
 export {handler};
