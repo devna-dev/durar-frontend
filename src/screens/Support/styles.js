@@ -112,7 +112,7 @@ export default StyleSheet.create({
     input: {
         ...common.SemiBoldFont,
         fontSize: 13,
-        color: colors.grey3,
+        //color: colors.grey3,
         width: '100%'
     },
     labelStyle: {

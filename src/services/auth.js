@@ -66,3 +66,14 @@ export async function get_user_books() {
     }).then((response) => response.json());
 }
 
+export async function support_api(form) {
+    return fetch(settings.API_URL + 'support/', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: await storage.getItem('token'),
+        },
+        body:JSON.stringify(form)
+    }).then((response) => response.json());
+}
+
