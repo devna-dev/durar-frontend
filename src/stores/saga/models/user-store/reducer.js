@@ -3,11 +3,14 @@ import {
   login,
   error,
   clear,
-  forget,
+  reset,
   REGISTER_USER_REQUEST_PENDING,
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
   logout,
+  success_reset,
+  verify_email_pending,
+  verify_email_success,
 } from './actions';
 
 const initialState = {
@@ -24,20 +27,40 @@ const initialState = {
   isUserRegistered: false,
   register_errors: null,
   books: [],
-
+  isEmailVerified: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case forget:
+    case reset:
       return {
-        ...initialState,
+        ...state,
         loading: 'forget',
         load: true,
       };
+    case success_reset:
+      return {
+        ...state,
+        loading: 'success_forget',
+        load: false,
+        detail: action.form.detail,
+      };
+    case verify_email_pending:
+      return {
+        ...state,
+        loading: 'verify_email',
+        load: true,
+      };
+    case verify_email_success:
+      return {
+        ...state,
+        loading: 'verify_email_success',
+        load: false,
+        isEmailVerified: action.form.detail,
+      };
     case clear:
       return {...initialState, loading: 'clear'};
-      case logout:
+    case logout:
       return {...initialState, loading: 'logout'};
     case login:
       return {loading: 'login', ...initialState, load: true};
@@ -45,7 +68,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...action.form,
         allow_navigate: true,
-        details: action.form.detail,
         detail: '',
         load: false,
         loading: 'success',

@@ -8,7 +8,7 @@ import Button from '../../components/Button/Button';
 import {SvgUri} from 'react-native-svg';
 import svg, {svg_photo} from '../../assets/svg/svg';
 import RecoverVerificationCode from '../RecoverVerificationCode/RecoverVerificationCode';
-import {clear, forget, loading} from '../../stores/saga/models/user-store/actions';
+import {clear, reset, loading} from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
 
 
@@ -59,7 +59,13 @@ class RecoverPassword extends Component {
             </Container>
         );
     }
-
+    componentDidUpdate(prevProps) {
+        const isPasswordReset = this.props.user.detail === 'Password reset e-mail has been sent.';
+        if (isPasswordReset) {
+            this.props.clear();
+            this.props.navigation.navigate('RecoverVerificationCode');
+        }
+    }
     onChangeEmail(value) {
         this.setState({email: value, email_error: ''});
     }
@@ -87,9 +93,6 @@ class RecoverPassword extends Component {
             };
             this.props.forget(form);
 
-            if (this.props.user.allow_navigate) {
-                this.props.navigation.navigate('RecoverVerificationCode');
-            }
         }
     };
 }
@@ -105,7 +108,7 @@ const mapDispatchToProps = (dispatch) => ({
         type: clear,
     }),
     forget: (form) => dispatch({
-        type: forget,
+        type: reset,
         form,
     }),
     loading: (form) => dispatch({

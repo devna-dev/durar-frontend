@@ -15,7 +15,7 @@ export default class HomeBookItem extends Component {
 
     render() {
         return (
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Book', { lookupId: 1})}  style={[styles.container, {
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Book', { lookupId: 1})}  style={[styles.container, {
                 flexDirection: this.props.now || this.props.search ? 'row' : 'column',
                 width: this.props.now || this.props.search ? '100%' : 100,
                 height: this.props.now || this.props.search? 100 : 181,

@@ -73,12 +73,14 @@ export default function AppNavigator() {
 
 
 export function ReadingPageNavigator() {
-    return (
-        <Drawer.Navigator drawerPosition={'left'} initialRouteName="ReadingPage"
-                          drawerContent={(props) => <Menu {...props} />}>
-            <Drawer.Screen name="ReadingPage" component={ReadingPage}/>
-        </Drawer.Navigator>
-    );
+  return (
+    <Drawer.Navigator
+      drawerPosition={'left'}
+      initialRouteName="ReadingPage"
+      drawerContent={(props) => <Menu {...props} />}>
+      <Drawer.Screen name="ReadingPage" component={ReadingPage} />
+    </Drawer.Navigator>
+  );
 }
 
 export function TabNavigator() {

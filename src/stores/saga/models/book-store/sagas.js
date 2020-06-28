@@ -10,26 +10,39 @@ import {
   get_authors_success,
   get_authors,
   search_result,
-  GET_Search_Result_SUCCESS
+  GET_Search_Result_SUCCESS,
+  GET_BOOK_PENDING,
+  GET_BOOK_SUCCESS,
+  GET_BOOK_FAILURE,
+  GET_BOOK_CONTENT_PENDING,
+  GET_BOOK_CONTENT_SUCCESS,
+  increase_page,
+  decrease_page,
 } from './actions';
 import {
-  getBook,
+  getBooks,
+  getBookApi,
   getCategories,
   getBookDetailApi,
-  getBookCommentsApi, getAuthors, search_resultApi,
+  getBookCommentsApi,
+  getAuthors,
+  search_resultApi,
+  getBookPageContent,
 } from '../../../../services/books';
 
 const handler = function* () {
   yield takeLatest(get_books, get_booksApi);
   yield takeLatest(get_categories, get_categoriesApi);
+  yield takeEvery(GET_BOOK_PENDING, getBook);
   yield takeEvery(GET_BOOK_DETAIL_PENDING, getBookDetail);
   yield takeEvery(get_authors, get_authorsApi);
   yield takeEvery(search_result, get_search_result);
+  yield takeEvery(GET_BOOK_CONTENT_PENDING, get_Book_Content);
 };
 
 function* get_booksApi(action) {
   try {
-    let result = yield getBook();
+    let result = yield getBooks();
     yield put({type: get_books_success, form: result});
   } catch (err) {
   }
@@ -66,7 +79,7 @@ function* get_search_result(form) {
       value: repos,
       preview: 'Click for details: ' + 'repos',
     });
-    console.log('book detail', books);
+    // console.log('book detail', books);
     yield put({type: GET_Search_Result_SUCCESS, form: books});
   } catch (err) {
     console.log(err, 'err getBookDetail');
@@ -75,26 +88,48 @@ function* get_search_result(form) {
 
 function* getBookDetail(form) {
   try {
-    const [books, repos] = yield all([
-      call(getBookDetailApi, form.form.lookupId),
+    const [bookDetail, bookPageContent, comments] = yield all([
+      call(getBookDetailApi, form.form),
+      call(getBookPageContent, form.form),
       call(getBookCommentsApi, form.form.lookupId),
     ]);
-    // let result = yield getBookDetailApi(form.form.lookupId);
-    // console.tron.display({
-    //   name: 'LOG DATA OF books',
-    //   value: books,
-    //   preview: 'Click for details: ' + 'books',
-    // });
-    // console.tron.display({
-    //   name: 'LOG DATA OF repos',
-    //   value: repos,
-    //   preview: 'Click for details: ' + 'repos',
-    // });
-    console.log('book detail', books);
-    yield put({type: GET_BOOK_DETAIL_SUCCESS, form: books});
+    // const bookDetail = yield getBookDetailApi(form.form);
+    if (bookDetail) {
+      yield put({
+        type: GET_BOOK_DETAIL_SUCCESS,
+        form: {bookDetail, bookPageContent, comments},
+      });
+    }
   } catch (err) {
+    yield put({type: GET_BOOK_FAILURE, form: err});
     console.log(err, 'err getBookDetail');
   }
 }
 
+function* get_Book_Content(form) {
+  try {
+    console.log(form);
+    const bookPageContent = yield getBookPageContent(form.form);
+    if (bookPageContent) {
+      yield put({type: GET_BOOK_CONTENT_SUCCESS, form: bookPageContent});
+    }
+  } catch (err) {
+    yield put({type: GET_BOOK_FAILURE, form: err});
+    console.log(err, 'err getBookDetail');
+  }
+}
+
+function* getBook(form) {
+  try {
+    const [book] = yield all([
+      call(getBookApi, form.form.lookupId),
+    ]);
+    if (book) {
+      yield put({type: GET_BOOK_SUCCESS, form: {book}});
+    }
+  } catch (err) {
+    yield put({type: GET_BOOK_FAILURE, form: err});
+    console.log(err, 'err getBookDetail');
+  }
+}
 export {handler};

@@ -9,10 +9,12 @@ import OTPInputView from '@twotalltotems/react-native-otp-input'
 import Register from "../Register/Register";
 import {svg_photo} from "../../assets/svg/svg";
 import {SvgUri} from "react-native-svg";
+import { clear, loading, reset, verify_email_pending } from '../../stores/saga/models/user-store/actions';
+import { connect } from 'react-redux';
 
 
 
-export default class VerificationCode extends Component {
+class VerificationCode extends Component {
 
     constructor(props) {
         super(props);
@@ -61,6 +63,12 @@ export default class VerificationCode extends Component {
         )
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.user.isEmailVerified) {
+            this.props.clear();
+            this.props.navigation.navigate('Login');
+        }
+    }
     onChangeCode(code) {
         this.setState({code: code, code_error: ''})
     }
@@ -76,9 +84,26 @@ export default class VerificationCode extends Component {
 
     verifyCode = () => {
         if (!this.validateCode()) {
-            //this.props.navigation.navigate('Login')
+            this.props.verifyEmail({code: this.state.code})
 
         }
     }
 
 }
+const mapStateToProps = (state) => {
+    return {
+        ...state,
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+    clear: () => dispatch({
+        type: clear,
+    }),
+    verifyEmail: (form) => dispatch({
+        type: verify_email_pending,
+        form,
+    }),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerificationCode);

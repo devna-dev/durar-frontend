@@ -2,7 +2,7 @@ import settings from '../config/settings';
 import storage from '../config/storage';
 import {queryString} from '../utils/queryString';
 
-export async function getBook() {
+export async function getBooks() {
   return fetch(settings.API_URL + 'books/', {
     method: 'Get',
     headers: {
@@ -30,6 +30,32 @@ export async function getAuthors() {
 }
 
 export async function getBookDetailApi(payload) {
+  return fetch(
+    settings.API_URL +
+      `books/${payload.lookupId}/details/?tashkeel=${payload.isWithTashkeel}`,
+    {
+      method: 'Get',
+      headers: {
+        accept: 'application/json',
+      },
+    },
+  ).then((response) => response.json());
+}
+
+export async function getBookPageContent(payload) {
+  return fetch(
+    settings.API_URL +
+      `books/${payload.lookupId}/view/?tashkeel=${payload.isWithTashkeel}&page=${payload.page}`,
+    {
+      method: 'Get',
+      headers: {
+        accept: 'application/json',
+      },
+    },
+  ).then((response) => response.json());
+}
+
+export async function getBookApi(payload) {
   return fetch(settings.API_URL + `books/${payload}/`, {
     method: 'Get',
     headers: {
@@ -44,6 +70,7 @@ export async function getBookCommentsApi(payload) {
     method: 'Get',
     headers: {
       accept: 'application/json',
+      Authorization: await storage.getItem('token'),
     },
   }).then((response) => response.json());
 }

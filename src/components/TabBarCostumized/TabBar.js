@@ -6,7 +6,7 @@ import {colors} from '../../config/styles';
 import svg_photo from '../../assets/images/svg/svg_photo';
 
 export const TabBar =  (props) => {
-    console.log(props.type);
+    // console.log(props.type);
 
     return (
         <View style={styles.listView}>

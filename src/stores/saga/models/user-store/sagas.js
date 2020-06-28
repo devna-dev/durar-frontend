@@ -2,27 +2,32 @@ import {takeLatest, put, takeEvery} from 'redux-saga/effects';
 
 import {
   login,
-  success,
   error,
-  forget,
+  reset,
+  success_reset,
   success_login,
   REGISTER_USER_REQUEST_PENDING,
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
   logout,
-  clear
+  clear,
+  verify_email_pending,
+  verify_email_success,
 } from './actions';
 import {
   user_forget,
   user_login,
   user_register,
-  user_info, user_logout,
+  user_info,
+  verify_email,
+  user_logout,
 } from '../../../../services/auth';
 import storage from '../../../../config/storage';
 
 const handler = function* () {
   yield takeLatest(login, loginApi);
-  yield takeLatest(forget, forgetApi);
+  yield takeLatest(reset, forgetApi);
+  yield takeLatest(verify_email_pending, verifyEmailApi);
   yield takeLatest(REGISTER_USER_REQUEST_PENDING, registerApi);
   yield takeLatest(logout, logoutApi);
 };
@@ -50,11 +55,11 @@ function* loginApi(action) {
   }
 }
 
-function* forgetApi(action) {
+function* verifyEmailApi(action) {
   try {
-    let result = yield user_forget(action.form);
+    let result = yield verify_email(action.form);
     if (result.detail) {
-      yield put({type: success, form: result});
+      yield put({type: verify_email_success, form: result});
     } else {
       yield put({type: error, form: result});
     }
@@ -63,6 +68,18 @@ function* forgetApi(action) {
   }
 }
 
+function* forgetApi(action) {
+  try {
+    let result = yield user_forget(action.form);
+    if (result.detail) {
+      yield put({type: success_reset, form: result});
+    } else {
+      yield put({type: error, form: result});
+    }
+  } catch (err) {
+    console.log('err', err);
+  }
+}
 function* registerApi(action) {
   try {
     let result = yield user_register(action.form);

@@ -8,11 +8,14 @@ const error = 'error';
 const loading = 'loading';
 const stop_loading = 'stop_loading';
 const clear = 'clear';
-const forget = 'forget';
+const reset = 'reset';
+const success_reset = 'success_reset';
 const REGISTER_USER_REQUEST_PENDING = 'user/REGISTER_USER_REQUEST_PENDING';
 const REGISTER_USER_REQUEST_SUCCESS = 'user/REGISTER_USER_REQUEST_SUCCESS';
 const REGISTER_USER_REQUEST_FAILURE = 'user/REGISTER_USER_REQUEST_FAILURE';
 const logout = 'logout';
+const verify_email_pending = 'verify_email_pending';
+const verify_email_success = 'verify_email_success';
 
 export {
   GET_ALL_USER_INFO_REQUEST,
@@ -25,9 +28,12 @@ export {
   loading,
   stop_loading,
   clear,
-  forget,
+  reset,
+  success_reset,
+  verify_email_pending,
+  verify_email_success,
   REGISTER_USER_REQUEST_PENDING,
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
-  logout
+  logout,
 };

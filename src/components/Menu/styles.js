@@ -14,9 +14,8 @@ export default StyleSheet.create({
         margin: 10
     },
     item: {
-
         paddingHorizontal: 5,
-
+    justifyContent: 'center',
         // height:55,
         //alignItems:'center'
     },
@@ -38,15 +37,14 @@ export default StyleSheet.create({
         fontSize: 16,
     },
     item1_text: {
-        height: 50,
+        // height: 50,
         textAlignVertical: 'center',
         ...common.BoldFont,
         fontSize: 14,
-        color:colors.grey3
+        color:colors.grey3,
     },
     item2_text: {
-
-        height: 50,
+        // height: 50,
         textAlignVertical: 'center',
         ...common.SemiBoldFont,
         fontSize: 13,
