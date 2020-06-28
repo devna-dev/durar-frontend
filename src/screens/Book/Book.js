@@ -41,8 +41,10 @@ class Book extends Component {
 
   render() {
     const {
-      book: {book, comments},
+      book: {book, bookReviews},
+        user
     } = this.props;
+    console.log(user, "user");
     return (
       <Container style={styles.container}>
         <View style={styles.header}>
@@ -139,8 +141,10 @@ class Book extends Component {
               <Text style={styles.headerTitle1}>عرض المزيد</Text>
             </View>
             <FlatList
-              data={comments}
-              renderItem={(item) => <BookItem item={item} />}
+              data={bookReviews}
+              renderItem={({item, index}) => (
+                <BookItem item={item} index={index} />
+              )}
             />
             <Button
               title={'تقييم الكتاب'}
@@ -181,7 +185,7 @@ class Book extends Component {
   }
   onPressReadBook = () => {
     const {
-      book: {book, comments},
+      book: {book},
     } = this.props;
     this.props.navigation.navigate('ReadingPage', {
       screen: 'ReadingPage',
@@ -194,6 +198,7 @@ const mapStateToProps = (state) => {
   // console.log(state);
   return {
     book: {...state.book},
+    user: {...state.user},
   };
 };
 
