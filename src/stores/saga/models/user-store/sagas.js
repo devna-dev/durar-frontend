@@ -2,35 +2,39 @@ import {takeLatest, put, takeEvery} from 'redux-saga/effects';
 
 import {
   login,
-  success,
   error,
-  forget,
+  reset,
+  success_reset,
   success_login,
   REGISTER_USER_REQUEST_PENDING,
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
   logout,
   clear,
+  verify_email_pending,
+  verify_email_success,
   GET_user_books,
   GET_user_books_SUCCESS,
   support,
   support_success,
 } from './actions';
+
 import {
   user_forget,
   user_login,
   user_register,
   user_info,
+  verify_email,
   user_logout,
   get_user_books,
   support_api,
 } from '../../../../services/auth';
 import storage from '../../../../config/storage';
-import {GET_BOOK_DETAIL_SUCCESS} from '../book-store/actions';
 
 const handler = function* () {
   yield takeLatest(login, loginApi);
-  yield takeLatest(forget, forgetApi);
+  yield takeLatest(reset, forgetApi);
+  yield takeLatest(verify_email_pending, verifyEmailApi);
   yield takeLatest(REGISTER_USER_REQUEST_PENDING, registerApi);
   yield takeLatest(logout, logoutApi);
   yield takeLatest(GET_user_books, user_books);
@@ -43,7 +47,6 @@ function* loginApi(action) {
     if (result.token) {
       yield storage.setItem('token', 'Bearer ' + result.token);
       let user = yield user_info(result.token);
-      console.log(user);
       yield storage.setItem('user', user);
       yield put({type: success_login, form: result});
     } else {
@@ -60,11 +63,11 @@ function* loginApi(action) {
   }
 }
 
-function* forgetApi(action) {
+function* verifyEmailApi(action) {
   try {
-    let result = yield user_forget(action.form);
+    let result = yield verify_email(action.form);
     if (result.detail) {
-      yield put({type: success, form: result});
+      yield put({type: verify_email_success, form: result});
     } else {
       yield put({type: error, form: result});
     }
@@ -73,6 +76,18 @@ function* forgetApi(action) {
   }
 }
 
+function* forgetApi(action) {
+  try {
+    let result = yield user_forget(action.form);
+    if (result.detail) {
+      yield put({type: success_reset, form: result});
+    } else {
+      yield put({type: error, form: result});
+    }
+  } catch (err) {
+    console.log('err', err);
+  }
+}
 function* registerApi(action) {
   try {
     let result = yield user_register(action.form);
@@ -88,7 +103,6 @@ function* registerApi(action) {
         form: {network_error: [err.message]},
       });
     }
-    console.log('err', JSON.stringify(err));
   }
 }
 

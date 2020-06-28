@@ -46,7 +46,7 @@ export default class Profile extends Component {
         let i = 0;
 
         while (i < this.state.items.length) {
-            console.log(this.state.items[i]);
+            // console.log(this.state.items[i])
             items.push(
                 <ProfileItem item={this.state.items[i]}/>,
             );

@@ -21,7 +21,7 @@ export default  {
   removeItem: async (key) => {
     try {
       await AsyncStorage.removeItem(key);
-      console.log("ketyty", key)
+      // console.log("ketyty", key)
     } catch (error) {
       console.error('AsyncStorage error: ' + error.message);
     }

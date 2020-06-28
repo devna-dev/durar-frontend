@@ -80,11 +80,12 @@ export default StyleSheet.create({
         color: colors.primary,
         textAlign: 'center',
         textAlignVertical: 'center',
-        width: 111,
+        // width: 111,
         borderRadius: 13,
         borderColor: colors.grey2,
         borderWidth: 1,
-        height:35
+        // height:35,
+        paddingVertical: 5
     },
     dark_font2: {
         ...common.BlackFont,
@@ -105,7 +106,8 @@ export default StyleSheet.create({
         fontSize: 12,
         color: colors.grey3,
         width:'90%',
-        alignSelf:'center'
+        alignSelf:'center',
+        textAlign: 'left'
     },
     headerTitle1: {
         ...common.SemiBoldFont,

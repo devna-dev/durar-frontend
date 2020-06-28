@@ -23,6 +23,15 @@ export function user_forget(form) {
     }).then((response) => response.json());
 }
 
+export async function verify_email(form) {
+    return fetch(settings.API_URL + `/accounts/verify-email/${form.code}/`, {
+        method: 'PUT',
+        headers: {
+            accept: 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json());
+}
 export function user_register(form) {
     return fetch(settings.API_URL + 'accounts/registration/', {
         method: 'POST',
