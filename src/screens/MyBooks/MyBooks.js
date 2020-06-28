@@ -78,9 +78,9 @@ class MyBooks extends Component {
                     {this.props.user.load &&
                     <ActivityIndicator animating={this.props.user.load} size={'large'} color={colors.primary}/>}
                     {/*{!this.props.user.load && <Text style={styles.find}>كتاب</Text>}*/}
-                    {!this.props.user.load && this.state.selected == 0 && this.props.user.books.reads !== [] ? (
+                    {!this.props.user.load && this.state.selected == 0 && this.props.user?.books?.reads !== [] ? (
                             <FlatList
-                                data={this.props.user.books.reads}
+                                data={this.props.user?.books?.reads}
                                 style={{marginLeft: '5%'}}
                                 renderItem={(item) => (
                                     <HomeBookItemLoaded
@@ -130,7 +130,7 @@ class MyBooks extends Component {
                     }
                     {!this.props.user.load && this.state.selected == 3 && this.props.user.books.listens !== [] ? (
                             <FlatList
-                                data={this.props.user.books.listens}
+                                data={this.props.user?.books?.listens}
                                 style={{marginLeft: '5%'}}
                                 renderItem={(item) => (
                                     <HomeBookItemLoaded

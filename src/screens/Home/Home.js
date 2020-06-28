@@ -120,8 +120,8 @@ class Home extends Component {
                                 <Text style={styles.headerTitle1}>عرض المزيد</Text>
                             </TouchableOpacity>
                         </View>
-                        {this.props.book.books.reads != undefined &&
-                        <FlatList data={this.props.book.books.reads}
+                        {this.props.book?.books?.reads &&
+                        <FlatList data={this.props.book?.books?.reads}
                                   horizontal
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
@@ -134,7 +134,7 @@ class Home extends Component {
                                 <Text style={styles.headerTitle1}>عرض المزيد</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={this.props.book.books.recent}
+                        <FlatList data={this.props.book?.books?.recent}
                                   horizontal
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
@@ -162,7 +162,7 @@ class Home extends Component {
                                 <Text style={styles.headerTitle1}>عرض المزيد</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={this.props.book.books.listens}
+                        <FlatList data={this.props.book?.books?.listens}
                                   horizontal
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <HomeBookItem navigation={this.props.navigation}

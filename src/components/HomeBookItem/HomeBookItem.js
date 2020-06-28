@@ -32,11 +32,11 @@ export default class HomeBookItem extends Component {
                     marginTop: this.props.now || this.props.search ? 15 : 0,
                     marginHorizontal:this.props.now || this.props.search ? '5%' : 0,
                 }}>
-                    <Text style={styles.text1}> {this.props.item.title}</Text>
+                    <Text style={styles.text1}> {this.props.item?.title}</Text>
                     {this.props.now || this.props.search ?
-                        <Text style={styles.text2}>تأليف: {this.props.item.author.name}</Text>
+                        <Text style={styles.text2}>تأليف: {this.props.item?.author.name}</Text>
                         :
-                        <Text style={styles.text2}>{this.props.item.author.name}</Text>
+                        <Text style={styles.text2}>{this.props.item?.author.name}</Text>
                     }
                     {
                         this.props.now &&
