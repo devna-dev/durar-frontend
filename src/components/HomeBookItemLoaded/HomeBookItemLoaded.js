@@ -14,7 +14,7 @@ export default class HomeBookItemLoaded extends Component {
 
     render() {
         return (
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Book', { lookupId: 1})} style={[styles.container, {
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Book', { lookupId: this.props.item.item.id})} style={[styles.container, {
                 flexDirection: this.props.now || this.props.search ? 'row' : 'column',
                 width: this.props.now || this.props.search ? '96%' : 100,
                 height: this.props.now || this.props.search ? 120 : 181,
@@ -34,9 +34,9 @@ export default class HomeBookItemLoaded extends Component {
                     marginTop: this.props.now || this.props.search ? 15 : 0,
                     marginHorizontal: this.props.now || this.props.search ? '5%' : 0,
                 }}>
-                    <Text style={styles.text1}> الفقه المالكى</Text>
+                    <Text style={styles.text1}>{this.props.item.item.title}</Text>
                     {this.props.now || this.props.search ?
-                        <Text style={styles.text2}>تأليف: أحمد خالد توفيق</Text>
+                        <Text style={styles.text2}>تأليف: {this.props.item.item.author.name}</Text>
                         :
                         <Text style={styles.text2}> يوسف بن عبد الله</Text>
                     }
@@ -55,7 +55,7 @@ export default class HomeBookItemLoaded extends Component {
                     {
                         this.props.search &&
                         <View style={[styles.player, {width: 220, justifyContent: 'space-between'}]}>
-                            <Text style={styles.text2}>360 صفحة</Text>
+                            <Text style={styles.text2}>{this.props.item.item.page_count} صفحة</Text>
                             {!this.props.type &&
                             <Text style={[styles.text3, {textDecorationLine: 'underline'}]}>تحميل نسخه PDF</Text>
                             }

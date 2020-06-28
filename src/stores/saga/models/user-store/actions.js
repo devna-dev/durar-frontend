@@ -13,6 +13,10 @@ const REGISTER_USER_REQUEST_PENDING = 'user/REGISTER_USER_REQUEST_PENDING';
 const REGISTER_USER_REQUEST_SUCCESS = 'user/REGISTER_USER_REQUEST_SUCCESS';
 const REGISTER_USER_REQUEST_FAILURE = 'user/REGISTER_USER_REQUEST_FAILURE';
 const logout = 'logout';
+const GET_user_books = 'GET_user_books';
+const GET_user_books_SUCCESS = 'GET_user_books_SUCCESS';
+const support = 'support';
+const support_success = 'support_success';
 
 export {
   GET_ALL_USER_INFO_REQUEST,
@@ -29,5 +33,9 @@ export {
   REGISTER_USER_REQUEST_PENDING,
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
-  logout
+  logout,
+  GET_user_books,
+  GET_user_books_SUCCESS,
+  support,
+  support_success
 };

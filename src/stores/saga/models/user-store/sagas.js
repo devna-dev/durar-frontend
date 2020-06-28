@@ -10,21 +10,31 @@ import {
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
   logout,
-  clear
+  clear,
+  GET_user_books,
+  GET_user_books_SUCCESS,
+  support,
+  support_success,
 } from './actions';
 import {
   user_forget,
   user_login,
   user_register,
-  user_info, user_logout,
+  user_info,
+  user_logout,
+  get_user_books,
+  support_api,
 } from '../../../../services/auth';
 import storage from '../../../../config/storage';
+import {GET_BOOK_DETAIL_SUCCESS} from '../book-store/actions';
 
 const handler = function* () {
   yield takeLatest(login, loginApi);
   yield takeLatest(forget, forgetApi);
   yield takeLatest(REGISTER_USER_REQUEST_PENDING, registerApi);
   yield takeLatest(logout, logoutApi);
+  yield takeLatest(GET_user_books, user_books);
+  yield takeLatest(support, support_saga_api);
 };
 
 function* loginApi(action) {
@@ -33,7 +43,7 @@ function* loginApi(action) {
     if (result.token) {
       yield storage.setItem('token', 'Bearer ' + result.token);
       let user = yield user_info(result.token);
-      console.log(user)
+      console.log(user);
       yield storage.setItem('user', user);
       yield put({type: success_login, form: result});
     } else {
@@ -99,4 +109,34 @@ function* logoutApi(action) {
   }
 }
 
+function* user_books() {
+  try {
+    const books = yield get_user_books();
+    console.tron.display({
+      name: 'LOG DATA OF books',
+      value: books,
+      preview: 'Click for books: ' + 'books',
+    });
+    console.log('book for user', books);
+    yield put({type: GET_user_books_SUCCESS, form: books});
+  } catch (err) {
+    console.log(err, 'err user books');
+  }
+}
+
+function* support_saga_api(action) {
+  try {
+    const support = yield support_api(action.form);
+    console.log('support for user', support);
+    yield put({type: support_success, form: support});
+  } catch (err) {
+    if (err.message === 'Timeout' || err.message === 'Network request failed') {
+      yield put({
+        type: REGISTER_USER_REQUEST_FAILURE,
+        form: {network_error: [err.message]},
+      });
+    }
+    console.log('err', JSON.stringify(err));
+  }
+}
 export {handler};
