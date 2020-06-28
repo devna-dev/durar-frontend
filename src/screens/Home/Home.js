@@ -2,7 +2,16 @@ import React, {Component} from 'react';
 import styles from './styles';
 import Container from '../../components/Containers/Container';
 import Content from '../../components/Containers/Content';
-import {FlatList, Dimensions, Image, ImageBackground, Text, View, TouchableOpacity} from 'react-native';
+import {
+    FlatList,
+    Dimensions,
+    Image,
+    ImageBackground,
+    Text,
+    View,
+    TouchableOpacity,
+    ActivityIndicator,
+} from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import {svg_photo} from '../../assets/svg/svg';
 import {colors} from '../../config/styles';
@@ -12,12 +21,10 @@ import CurrentReadings from '../CurrentReadings/CurrentReadings';
 import NotificationsList from '../NotificationsList/NotificationsList';
 import SystemPoints from '../SystemPoints/SystemPoints';
 import MyBooks from '../MyBooks/MyBooks';
-import {
-    clear,
-    get_books,
-    loading,
-} from '../../stores/saga/models/user-store/actions';
+import {clear, loading} from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
+import {get_current_read, get_popular_books} from '../../stores/saga/models/book-store/actions';
+import storage from '../../config/storage';
 
 
 class Home extends Component {
@@ -28,6 +35,8 @@ class Home extends Component {
             items: [{}, {}, {}, {}, {}, {}, {}, {}],
             sliderActiveSlide: 0,
             readable: false,
+            guest: true,
+            user: '',
         };
 
     }
@@ -50,6 +59,17 @@ class Home extends Component {
             </TouchableOpacity>
         );
     };
+
+    async componentDidMount() {
+        this.props.get_popular_books();
+        let user = await storage.getItem('token');
+        if (user) {
+            this.setState({user});
+            this.props.get_current_read();
+            this.setState({guest: false});
+        }
+    }
+
 
     render() {
         return (
@@ -74,77 +94,93 @@ class Home extends Component {
                                     uri={svg_photo.badge}/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
-                            <Image source={require('../../assets/images/avatar.png')}/>
+                            {this.state.user['photo'] != null ?
+                                <Image source={{uri: this.state.user['photo']}}/>
+                                :
+                                <Image source={require('../../assets/images/avatar.png')}/>
+
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Content style={styles.content}>
-                    <View style={{width: '100%'}}>
-                        <FlatList data={[{}, {}, {}, {}, {}]}
+                {this.props.book.load ?
+                    <ActivityIndicator color={colors.primary} size={'large'} animating={this.props.book.load}/>
+                    :
+                    <Content style={styles.content}>
+                        <View style={{width: '100%'}}>
+                            <FlatList data={[{}, {}, {}, {}, {}]}
+                                      horizontal
+                                      style={{marginLeft: '2%'}}
+                                      renderItem={(item) => this._renderItem(item)}
+                            />
+                        </View>
+                        <View style={styles.bar}>
+                            <Text style={styles.headerTitle}>الأكثر قراءه هذا الشهر</Text>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
+                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {this.props.book?.books?.reads &&
+                        <FlatList data={this.props.book?.books?.reads}
                                   horizontal
-                                  style={{marginLeft: '2%'}}
-                                  renderItem={(item) => this._renderItem(item)}
-                        />
-                    </View>
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>الأكثر قراءه هذا الشهر</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
-                            <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList data={[{}, {}, {}, {}, {}]}
-                              horizontal
-                              style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem navigation={this.props.navigation}
-                                              image={'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'}/>}/>
-
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>أخر الإضافات</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
-                            <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList data={[{}, {}, {}, {}, {}]}
-                              horizontal
-                              style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem navigation={this.props.navigation}
-                                                              image={'https://api.kashback.co.uk/storage/yatijMWTlBnUJO7M0TYVlw7TDbpIAjtXL0zOKY9w.jpeg'}/>}/>
-                    <FlatList data={[{
-                        image: svg_photo.library,
-                        title: 'قراءاتى الأن',
-                        route: 'MyBooks',
-                    }, {
-                        image: svg_photo.note,
-                        title: 'دفتر الملاحظات',
-                        route: 'NotesBook',
-                    }, {
-                        image: svg_photo.voice_book,
-                        title: 'كتب صوتية',
-                        route: 'MyBooks',
-                    }]}
-                              horizontal
-                              style={{marginLeft: '5%', marginTop: '3%'}}
-                              renderItem={(item) => this.notes_bar(item)}/>
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>الأكثر إستماعا</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
-                            <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList data={[{}, {}, {}, {}, {}]}
-                              horizontal
-                              style={{marginLeft: '5%'}}
-                              renderItem={() => <HomeBookItem navigation={this.props.navigation}
-                                                              image={'https://api.kashback.co.uk/storage/HUE2pyizlNzMEVlNLhCzheTJxhO4k5pXMbBP0DXe.jpeg'}/>}/>
+                                  style={{marginLeft: '5%'}}
+                                  renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
+                                                                      item={item.item}
+                                                                      image={'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'}/>}/>
+                        }
+                        <View style={styles.bar}>
+                            <Text style={styles.headerTitle}>أخر الإضافات</Text>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
+                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <FlatList data={this.props.book?.books?.recent}
+                                  horizontal
+                                  style={{marginLeft: '5%'}}
+                                  renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
+                                                                      item={item.item}
+                                                                      image={'https://api.kashback.co.uk/storage/yatijMWTlBnUJO7M0TYVlw7TDbpIAjtXL0zOKY9w.jpeg'}/>}/>
+                        <FlatList data={[{
+                            image: svg_photo.library,
+                            title: 'قراءاتى الأن',
+                            route: 'MyBooks',
+                        }, {
+                            image: svg_photo.note,
+                            title: 'دفتر الملاحظات',
+                            route: 'NotesBook',
+                        }, {
+                            image: svg_photo.voice_book,
+                            title: 'كتب صوتية',
+                            route: 'MyBooks',
+                        }]}
+                                  horizontal
+                                  style={{marginLeft: '5%', marginTop: '3%'}}
+                                  renderItem={(item) => this.notes_bar(item)}/>
+                        <View style={styles.bar}>
+                            <Text style={styles.headerTitle}>الأكثر إستماعا</Text>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('HistoryCategories')}>
+                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <FlatList data={this.props.book?.books?.listens}
+                                  horizontal
+                                  style={{marginLeft: '5%'}}
+                                  renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
+                                                                      item={item.item}
+                                                                      image={'https://api.kashback.co.uk/storage/HUE2pyizlNzMEVlNLhCzheTJxhO4k5pXMbBP0DXe.jpeg'}/>}/>
 
 
-                </Content>
-                <TouchableOpacity onPress={() => this.setState({readable: !this.state.readable})}
-                                  style={styles.bar1}>
+                    </Content>
+                }
+                {!this.state.guest && <TouchableOpacity onPress={() => this.setState({readable: !this.state.readable})}
+                                                        style={styles.bar1}>
                     <Text style={[styles.text3, {color: colors.grey3}]}>قراءاتي الحاليه</Text>
                     <SvgUri uri={svg_photo.up_arrow}/>
                 </TouchableOpacity>
+                }
+                {!this.state.guest &&
                 <CurrentReadings visible={this.state.readable}
+                                 current_reads={this.props.book.current_books}
                                  navigation={this.props.navigation}
                                  read={() => {
                                      this.setState({readable: false});
@@ -152,8 +188,9 @@ class Home extends Component {
                                  }}
                                  onRequestClose={() => {
                                      this.setState({readable: false});
-                                     this.props.navigation.navigate('Book', { lookupId: 1});
+                                     this.props.navigation.navigate('Book', {lookupId: 1});
                                  }}/>
+                }
             </Container>
         );
     }
@@ -180,7 +217,18 @@ const mapDispatchToProps = (dispatch) => ({
     clear: () => dispatch({
         type: clear,
     }),
-
+    get_current_read: () => dispatch({
+        type: get_current_read,
+    }),
+    get_popular_books: () =>
+        dispatch({
+            type: get_popular_books,
+        }),
+    loading: (form) =>
+        dispatch({
+            type: loading,
+            form,
+        }),
 });
 
 

@@ -337,7 +337,7 @@ class ReadingPage extends Component {
   goNextPage = async () => {
     await this.props.toNextPage();
     const {lookupId} = this.props.route.params;
-    // console.log(this.props.book.page, 'next');
+    console.log(this.props.book.page, 'next');
 
     await this.props.getPageContent({
       lookupId,
@@ -348,7 +348,7 @@ class ReadingPage extends Component {
   goPreviousPage = async () => {
     await this.props.toPreviousPage();
     const {lookupId} = this.props.route.params;
-    // console.log(this.props.book.page, 'prev');
+    console.log(this.props.book.page, 'prev');
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,

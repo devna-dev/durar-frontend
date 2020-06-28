@@ -1,6 +1,8 @@
 const GET_ALL_USER_INFO_REQUEST = 'user/GET_ALL_USER_INFO_REQUEST';
-const GET_ALL_USER_INFO_REQUEST_SUCCESS = 'user/GET_ALL_USER_INFO_REQUEST_SUCCESS';
-const GET_ALL_USER_INFO_REQUEST_FAILURE = 'user/GET_ALL_USER_INFO_REQUEST_FAILURE';
+const GET_ALL_USER_INFO_REQUEST_SUCCESS =
+  'user/GET_ALL_USER_INFO_REQUEST_SUCCESS';
+const GET_ALL_USER_INFO_REQUEST_FAILURE =
+  'user/GET_ALL_USER_INFO_REQUEST_FAILURE';
 const login = 'login';
 const success_login = 'success_login';
 const success = 'success';
@@ -16,6 +18,10 @@ const REGISTER_USER_REQUEST_FAILURE = 'user/REGISTER_USER_REQUEST_FAILURE';
 const logout = 'logout';
 const verify_email_pending = 'verify_email_pending';
 const verify_email_success = 'verify_email_success';
+const GET_user_books = 'GET_user_books';
+const GET_user_books_SUCCESS = 'GET_user_books_SUCCESS';
+const support = 'support';
+const support_success = 'support_success';
 
 export {
   GET_ALL_USER_INFO_REQUEST,
@@ -36,4 +42,8 @@ export {
   REGISTER_USER_REQUEST_SUCCESS,
   REGISTER_USER_REQUEST_FAILURE,
   logout,
+  GET_user_books,
+  GET_user_books_SUCCESS,
+  support,
+  support_success,
 };

@@ -84,3 +84,33 @@ export async function search_resultApi(payload) {
     },
   }).then((response) => response.json());
 }
+
+export async function popular_booksApi() {
+  return fetch(settings.API_URL + 'books/popular/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
+}
+
+export async function get_current_readApi() {
+  return fetch(settings.API_URL + 'user/reads/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
+}
+
+export async function suggest_to_api(form) {
+  return fetch(settings.API_URL + 'user/suggestions/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify(form),
+  }).then((response) => response.json());
+}

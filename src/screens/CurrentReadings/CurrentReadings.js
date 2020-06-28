@@ -41,9 +41,10 @@ export default class CurrentReadings extends Component {
                                 <Text style={[styles.text3, {color: colors.grey3}]}>قراءاتي الحاليه</Text>
                                 <SvgUri uri={svg_photo.up}/>
                             </TouchableOpacity>
-                            <FlatList data={[{}, {}, {}, {}, {}]}
+                            <FlatList data={this.props.current_reads}
                                       style={{marginLeft: '5%'}}
-                                      renderItem={() => <HomeBookItem navigation={this.props.navigation} now
+                                      renderItem={(item) => <HomeBookItem navigation={this.props.navigation} now
+                                                                      item={item.item}
                                       read={this.props.read}/>}/>
                         </View>
                     </Content>

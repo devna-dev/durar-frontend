@@ -66,10 +66,10 @@ export default StyleSheet.create({
         textAlign:'right'
     },
     error: {
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
         color: colors.error,
         fontSize: 13,
-        ...common.RegularFont,
+        ...common.BoldFont,
         bottom: 0,
         position:'absolute'
     },

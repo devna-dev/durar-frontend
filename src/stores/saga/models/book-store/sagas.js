@@ -16,8 +16,13 @@ import {
   GET_BOOK_FAILURE,
   GET_BOOK_CONTENT_PENDING,
   GET_BOOK_CONTENT_SUCCESS,
-  increase_page,
-  decrease_page,
+  get_popular_books,
+  get_popular_books_success,
+  get_current_read,
+  get_current_read_success,
+  suggest,
+  suggest_success,
+  REGISTER_USER_REQUEST_FAILURE,
 } from './actions';
 import {
   getBooks,
@@ -28,6 +33,9 @@ import {
   getAuthors,
   search_resultApi,
   getBookPageContent,
+  popular_booksApi,
+  get_current_readApi,
+  suggest_to_api,
 } from '../../../../services/books';
 
 const handler = function* () {
@@ -38,14 +46,16 @@ const handler = function* () {
   yield takeEvery(get_authors, get_authorsApi);
   yield takeEvery(search_result, get_search_result);
   yield takeEvery(GET_BOOK_CONTENT_PENDING, get_Book_Content);
+  yield takeEvery(get_popular_books, get_popular_books_api);
+  yield takeEvery(get_current_read, get_current_read_api);
+  yield takeEvery(suggest, suggest_api);
 };
 
 function* get_booksApi(action) {
   try {
     let result = yield getBooks();
     yield put({type: get_books_success, form: result});
-  } catch (err) {
-  }
+  } catch (err) {}
 }
 
 function* get_categoriesApi(action) {
@@ -53,8 +63,7 @@ function* get_categoriesApi(action) {
     let result = yield getCategories();
     // console.log('categories',result)
     yield put({type: get_categories_success, form: result});
-  } catch (err) {
-  }
+  } catch (err) {}
 }
 
 function* get_authorsApi(action) {
@@ -62,20 +71,19 @@ function* get_authorsApi(action) {
     let result = yield getAuthors();
     // console.log('categories',result)
     yield put({type: get_authors_success, form: result});
-  } catch (err) {
-  }
+  } catch (err) {}
 }
 
 function* get_search_result(form) {
   try {
-    const [books, repos] = yield all([call(search_resultApi, form.form)]);
+    const [books, repos] = yield all([call(search_resultApi)]);
     console.tron.display({
-      name: 'LOG DATA OF Books',
+      name: 'LOG DATA OF books',
       value: books,
       preview: 'Click for details: ' + 'books',
     });
     console.tron.display({
-      name: 'LOG DATA OF Repos',
+      name: 'LOG DATA OF repos',
       value: repos,
       preview: 'Click for details: ' + 'repos',
     });
@@ -115,15 +123,22 @@ function* get_Book_Content(form) {
     }
   } catch (err) {
     yield put({type: GET_BOOK_FAILURE, form: err});
+  }
+}
+
+function* get_popular_books_api(form) {
+  try {
+    const books = yield popular_booksApi();
+    console.log('book detail', books);
+    yield put({type: get_popular_books_success, form: books});
+  } catch (err) {
     console.log(err, 'err getBookDetail');
   }
 }
 
 function* getBook(form) {
   try {
-    const [book] = yield all([
-      call(getBookApi, form.form.lookupId),
-    ]);
+    const [book] = yield all([call(getBookApi, form.form.lookupId)]);
     if (book) {
       yield put({type: GET_BOOK_SUCCESS, form: {book}});
     }
@@ -132,4 +147,31 @@ function* getBook(form) {
     console.log(err, 'err getBookDetail');
   }
 }
+
+function* get_current_read_api(form) {
+  try {
+    const books = yield get_current_readApi();
+    console.log('book detail', books);
+    yield put({type: get_current_read_success, form: books});
+  } catch (err) {
+    console.log(err, 'err getBookDetail');
+  }
+}
+
+function* suggest_api(action) {
+  try {
+    const suggest = yield suggest_to_api(action.form);
+    console.log('support for user', suggest);
+    yield put({type: suggest_success, form: suggest});
+  } catch (err) {
+    if (err.message === 'Timeout' || err.message === 'Network request failed') {
+      yield put({
+        type: REGISTER_USER_REQUEST_FAILURE,
+        form: {network_error: [err.message]},
+      });
+    }
+    console.log('err', JSON.stringify(err));
+  }
+}
+
 export {handler};

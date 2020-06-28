@@ -11,6 +11,10 @@ import {
   success_reset,
   verify_email_pending,
   verify_email_success,
+  GET_user_books,
+  GET_user_books_SUCCESS,
+  support,
+  support_success,
 } from './actions';
 
 const initialState = {
@@ -28,8 +32,8 @@ const initialState = {
   register_errors: null,
   books: [],
   isEmailVerified: false,
+  message: '',
 };
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case reset:
@@ -68,6 +72,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...action.form,
         allow_navigate: true,
+        details: action.form.detail,
         detail: '',
         load: false,
         loading: 'success',
@@ -96,6 +101,22 @@ const reducer = (state = initialState, action) => {
         register_errors: action.form,
         load: false,
         allow_navigate: false,
+      };
+    case GET_user_books:
+      return {loading: 'user_books', load: true};
+    case GET_user_books_SUCCESS:
+      return {
+        ...state,
+        books: action.form,
+        load: false,
+      };
+    case support:
+      return {loading: 'support', load: true};
+    case support_success:
+      return {
+        ...state,
+        message: action.form,
+        load: false,
       };
     default:
       return state;
