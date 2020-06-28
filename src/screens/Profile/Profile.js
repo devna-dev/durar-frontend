@@ -60,7 +60,6 @@ export default class Profile extends Component {
     getListReviewedItems = count => {
         const items = [];
         let i = 0;
-
         while (i < this.state.items1.length) {
             console.log(this.state.items1[i]);
             items.push(
@@ -68,7 +67,6 @@ export default class Profile extends Component {
             );
             i++;
         }
-
         return items;
     };
 
