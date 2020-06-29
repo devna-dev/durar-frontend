@@ -181,13 +181,13 @@ class Home extends Component {
                 <CurrentReadings visible={this.state.readable}
                                  current_reads={this.props.book.current_books}
                                  navigation={this.props.navigation}
-                                 read={() => {
+                                 read={(id) => {
                                      this.setState({readable: false});
-                                     this.props.navigation.navigate('ReadingPage');
+                                     this.props.navigation.navigate('ReadingPage', {lookupId: id});
                                  }}
-                                 onRequestClose={() => {
+                                 onRequestClose={(id) => {
                                      this.setState({readable: false});
-                                     this.props.navigation.navigate('Book', {lookupId: 1});
+                                     this.props.navigation.navigate('Book', {lookupId: id});
                                  }}/>
                 }
             </Container>

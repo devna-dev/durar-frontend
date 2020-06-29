@@ -2,7 +2,16 @@ import React, {Component} from 'react';
 import styles from './styles';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {FlatList, Dimensions, Image, ImageBackground, Text, View, TouchableOpacity} from "react-native";
+import {
+    FlatList,
+    Dimensions,
+    Image,
+    ImageBackground,
+    Text,
+    View,
+    TouchableOpacity,
+    ActivityIndicator
+} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
 import {colors} from "../../config/styles";
@@ -13,16 +22,24 @@ import CurrentReadings from "../CurrentReadings/CurrentReadings";
 import NotificationsList from "../NotificationsList/NotificationsList";
 import ActivityItem from "../../components/ActivityItem/ActivityItem";
 import Thesis from "../Thesis/Thesis";
+import {get_activities} from "../../stores/saga/models/book-store/actions";
+import {clear, loading} from "../../stores/saga/models/user-store/actions";
+import {connect} from "react-redux";
 
-export default class Activities extends Component {
+class Activities extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             items: [{}, {}, {}, {}, {}, {}, {}, {},],
             sliderActiveSlide: 0,
-            readable: false
+            readable: false,
+            loading: false
         }
+    }
+
+    componentDidMount() {
+        this.props.get_activities()
     }
 
     _renderItem = ({item}) => {
@@ -54,45 +71,59 @@ export default class Activities extends Component {
                     <View style={styles.leftHeader}>
                     </View>
                 </View>
-                <Content style={styles.content}>
-                    <View style={{width: '100%',}}>
-                        <FlatList data={[{}, {}, {}, {}, {}]}
+                {this.props.book.load ?
+                    <ActivityIndicator animating={this.props.book.load}
+                                       color={colors.primary}
+                                       size={'large'}/>
+                    :
+                    <Content style={styles.content}>
+                        <View style={{width: '100%',}}>
+                            <FlatList data={[{}, {}, {}, {}, {}]}
+                                      horizontal
+                                      style={{marginLeft: '2%'}}
+                                      renderItem={(item) => this._renderItem(item)}
+                            />
+                        </View>
+                        {this.props.book.activities.discussions && this.props.book.activities.discussions.length != 0 &&
+                        <View style={styles.bar}>
+                            <Text style={styles.headerTitle}>مناقشات</Text>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Discussions')}>
+                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                            </TouchableOpacity>
+                        </View>}
+                        {this.props.book.activities.discussions && this.props.book.activities.discussions.length != 0 &&
+                        <FlatList data={this.props.book.activities.discussions}
                                   horizontal
-                                  style={{marginLeft: '2%'}}
-                                  renderItem={(item) => this._renderItem(item)}
-                        />
-                    </View>
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>مناقشات</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Discussions')}>
-                            <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList data={[{}, {}, {}, {}, {}]}
-                              horizontal
-                              style={{marginLeft: '5%'}}
-                              renderItem={() => <ActivityItem navigation={this.props.navigation}/>}/>
+                                  style={{marginLeft: '5%'}}
+                                  renderItem={(item) => <ActivityItem item={item}
+                                                                      navigation={this.props.navigation}/>}/>}
 
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>ندوات عن الكتب</Text>
-                        <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                    </View>
-                    <FlatList data={[{}, {}, {}, {}, {}]}
-                              horizontal
-                              style={{marginLeft: '5%'}}
-                              renderItem={() => <ActivityItem navigation={this.props.navigation}/>}/>
-
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>أطروحات</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Thesis')}>
+                        {this.props.book.activities.seminars != [] && <View style={styles.bar}>
+                            <Text style={styles.headerTitle}>ندوات عن الكتب</Text>
                             <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList data={[{}, {}, {}, {}, {}]}
-                              horizontal
-                              style={{marginLeft: '5%'}}
-                              renderItem={() => <ActivityItem navigation={this.props.navigation}/>}/>
-                </Content>
+                        </View>}
+                        {this.props.book.activities.seminars != [] &&
+                        <FlatList data={this.props.book.activities.seminars}
+                                  horizontal
+                                  style={{marginLeft: '5%'}}
+                                  renderItem={(item) => <ActivityItem item={item}
+                                                                      navigation={this.props.navigation}/>}/>}
+
+                        {/*{this.props.book.activities.thesis.length != 0 && <View style={styles.bar}>*/}
+                        {/*<Text style={styles.headerTitle}>أطروحات</Text>*/}
+                        {/*<TouchableOpacity onPress={() => this.props.navigation.navigate('Thesis')}>*/}
+                        {/*<Text style={styles.headerTitle1}>عرض المزيد</Text>*/}
+                        {/*</TouchableOpacity>*/}
+                        {/*</View>*/}
+                        {/*}*/}
+                        {/*{this.props.book.activities.thesis.length != 0 && <FlatList data={this.props.book.activities.thesis}*/}
+                        {/*horizontal*/}
+                        {/*style={{marginLeft: '5%'}}*/}
+                        {/*renderItem={() => <ActivityItem*/}
+                        {/*navigation={this.props.navigation}/>}/>}*/}
+
+                    </Content>
+                }
             </Container>
         )
     }
@@ -106,3 +137,27 @@ export default class Activities extends Component {
         )
     }
 }
+
+
+const mapStateToProps = (state) => {
+    // console.log(state);
+    return {
+        ...state,
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+    clear: () => dispatch({
+        type: clear,
+    }),
+    get_activities: () => dispatch({
+        type: get_activities,
+    }),
+    loading: (form) =>
+        dispatch({
+            type: loading,
+            form,
+        }),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Activities);

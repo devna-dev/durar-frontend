@@ -27,7 +27,8 @@ export default StyleSheet.create({
     text2: {
         ...common.SemiBoldFont,
         fontSize: 12,
-        color:colors.grey3
+        color:colors.grey3,
+        alignSelf:'flex-start'
     },
     text3: {
         ...common.BoldFont,

@@ -5,17 +5,12 @@ import Content from "../../components/Containers/Content";
 import {FlatList, TextInput, Image, ImageBackground, Text, View, TouchableOpacity} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
-import {colors} from "../../config/styles";
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import HomeBookItem from "../../components/HomeBookItem/HomeBookItem";
 import Button from "../../components/Button/Button";
-import CurrentReadings from "../CurrentReadings/CurrentReadings";
-import SearchFilters from "../SearchFilters/SearchFilters";
-import Sort from "../Sort/Sort";
-import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
-import AddNotes from "../AddNotes/AddNotes";
+import {clear, loading} from "../../stores/saga/models/user-store/actions";
+import {connect} from "react-redux";
+import {get_activity_details} from "../../stores/saga/models/activities-store/actions";
 
-export default class Activity extends Component {
+class Activity extends Component {
 
     constructor(props) {
         super(props)
@@ -24,7 +19,15 @@ export default class Activity extends Component {
             filter: false,
             sort: false,
             note: false,
+            id: props.route.params.id
         }
+    }
+
+    componentDidMount() {
+        console.log(this.props.route)
+        const {id} = this.props.route.params;
+        this.props.get_activity_details({id});
+        console.log(this.props.activity.activity_details)
     }
 
     render() {
@@ -48,23 +51,20 @@ export default class Activity extends Component {
                         </TouchableOpacity>
                     </View>
                     <Image style={styles.cover_img}
-                           source={{uri: 'https://www.hiamag.com/sites/default/files/styles/ph2_960_600/public/article/07/03/2019/7841791-1090336005.jpg'}}/>
-                    <Text style={styles.item_text}>معجزات قرآنية5 ،
-                        الإعجاز في خلق الإنسان</Text>
+                           source={{
+                               uri: this.props.activity.activity_details.image == null ? 'https://www.hiamag.com/sites/default/files/styles/ph2_960_600/public/article/07/03/2019/7841791-1090336005.jpg'
+                                   : this.props.activity.activity_details
+                           }}/>
+                    <Text style={styles.item_text}>{this.props.activity.activity_details.title}</Text>
                     <View style={styles.header1}>
                         <View style={[styles.item_view, {}]}>
-                            <Text style={styles.active_item_text}>الدكتور محمد راتب النابلسي</Text>
+                            <Text style={styles.active_item_text}>{this.props.activity.activity_details.lecturer}</Text>
                         </View>
                         <View style={[styles.item_view, {}]}>
-                            <Text style={styles.active_item_text}>المدة:3ساعات</Text>
+                            <Text style={styles.active_item_text}>المدة:{this.props.activity.activity_details.from_time}-{this.props.activity.activity_details.to_time}</Text>
                         </View>
                     </View>
-                    <Text style={[styles.active_item_text1,]}>سيدي الكريم القرآن الكريم ذكّر الإنسان في خلقه في كثير من
-                        آياته، وشرح له كيف خُلق، وكيف جهزه الله سبحانه وتعالى بملكات واستعدادات خاصة، ميزه فيها عن سائر
-                        المخلوقات الأخرى، يقول عز وجل في كتابه الكريم:
-                        ﴿ هَلْ أَتَى عَلَى الْإِنْسَانِ حِينٌ مِنَ الدَّهْرِ لَمْ يَكُنْ شَيْئاً مَذْكُوراً * إِنَّا
-                        خَلَقْنَا الْإِنْسَانَ مِنْ نُطْفَةٍ أَمْشَاجٍ نَبْتَلِيهِ فَجَعَلْنَاهُ سَمِيعاً بَصِيراً
-                        *إِنَّا هَدَيْنَاهُ السَّبِيلَ إِمَّا شَاكِراً وَإِمَّا كَفُوراً ﴾</Text>
+                    <Text style={[styles.active_item_text1,]}>{this.props.activity.activity_details.description}</Text>
 
                     <ImageBackground source={require('../../assets/images/time_date_back.png')}
                                      style={styles.header}>
@@ -86,3 +86,28 @@ export default class Activity extends Component {
     }
 
 }
+
+
+const mapStateToProps = (state) => {
+    // console.log(state);
+    return {
+        ...state,
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+    clear: () => dispatch({
+        type: clear,
+    }),
+    get_activity_details: (form) => dispatch({
+        type: get_activity_details,
+        form
+    }),
+    loading: (form) =>
+        dispatch({
+            type: loading,
+            form,
+        }),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Activity);

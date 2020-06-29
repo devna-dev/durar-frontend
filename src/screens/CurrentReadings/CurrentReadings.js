@@ -45,7 +45,7 @@ export default class CurrentReadings extends Component {
                                       style={{marginLeft: '5%'}}
                                       renderItem={(item) => <HomeBookItem navigation={this.props.navigation} now
                                                                       item={item.item}
-                                      read={this.props.read}/>}/>
+                                      read={(id)=>this.props.read(id)}/>}/>
                         </View>
                     </Content>
                 </Container>

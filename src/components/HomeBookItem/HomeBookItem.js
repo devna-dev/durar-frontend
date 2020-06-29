@@ -15,7 +15,7 @@ export default class HomeBookItem extends Component {
 
     render() {
         return (
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Book', { lookupId: 1})}  style={[styles.container, {
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Book', { lookupId: this.props.item?.id})}  style={[styles.container, {
                 flexDirection: this.props.now || this.props.search ? 'row' : 'column',
                 width: this.props.now || this.props.search ? '100%' : 100,
                 height: this.props.now || this.props.search? 100 : 181,
@@ -45,7 +45,7 @@ export default class HomeBookItem extends Component {
                                 <View style={[styles.progress,{backgroundColor:colors.secondary,width:'80%'}]}/>
                             </View>
                             <Text style={styles.text3}>   80%  </Text>
-                            <TouchableOpacity onPress={()=>this.props.read()}>
+                            <TouchableOpacity onPress={()=>this.props.read(this.props.item?.id)}>
                             <SvgUri uri={svg_photo.play}/>
                             </TouchableOpacity>
                         </View>

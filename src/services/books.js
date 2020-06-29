@@ -124,3 +124,33 @@ export async function suggest_to_api(form) {
     body: JSON.stringify(form),
   }).then((response) => response.json());
 }
+
+export async function get_activities_Api(form) {
+  return fetch(settings.API_URL + 'activities', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
+}
+
+export async function get_thesisApi(form) {
+  return fetch(settings.API_URL + 'activities/thesis/', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
+}
+
+export async function get_activity_seminars_details_api(form) {
+  return fetch(settings.API_URL + 'activities/seminars/'+form.form.id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
+}
