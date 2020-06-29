@@ -241,7 +241,7 @@ class Home extends Component {
             read={(id) => {
               this.setState({readable: false});
 
-              this.props.navigation.navigate('ReadingPage', {lookupId: id});
+           this.props.navigation.replace('ReadingPageStack', {screen: 'ReadingPage',params:{lookupId: id}});
             }}
             onRequestClose={(id) => {
               this.setState({readable: false});
