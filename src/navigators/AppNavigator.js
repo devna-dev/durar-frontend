@@ -48,7 +48,35 @@ import Splash from '../screens/Splash/Splash';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+const RootStack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
+function Root() {
+  return (
+    <RootStack.Navigator initialRouteName="TabNavigator" headerMode={'none'}>
+      <RootStack.Screen name="Home" component={Home} />
+      <RootStack.Screen name="TabNavigator" component={TabNavigator} />
+      <RootStack.Screen name="ReadingPage" component={ReadingPageNavigator} />
+      <RootStack.Screen name="Walkthrough" component={Walkthrough} />
+    </RootStack.Navigator>
+  );
+}
+function Auth() {
+  return (
+    <AuthStack.Navigator initialRouteName="Walkthrough" headerMode={'none'}>
+      <AuthStack.Screen name="Walkthrough" component={Walkthrough} />
+      <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen name="RecoverPassword" component={RecoverPassword} />
+      <AuthStack.Screen name="VerificationCode" component={VerificationCode} />
+      <AuthStack.Screen name="Register" component={Register} />
+      <AuthStack.Screen
+        name="RecoverVerificationCode"
+        component={RecoverVerificationCode}
+      />
+      <AuthStack.Screen name="TabNavigator" component={TabNavigator} />
+    </AuthStack.Navigator>
+  );
+}
 export default function AppNavigator() {
   const [isLoggedIn, setUserLoggedIn] = useState(false);
 
@@ -65,33 +93,14 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? (
-        <Stack.Navigator initialRouteName="Splash" headerMode={'none'}>
-          <Stack.Screen name="Splash" component={Splash} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
-          <Stack.Screen name="ReadingPage" component={ReadingPageNavigator} />
-          <Stack.Screen name="Walkthrough" component={Walkthrough} />
-        </Stack.Navigator>
-      ) : (
-        <Stack.Navigator
-          initialRouteName="Splash"
-          initialParams={{setUserLoggedIn, isLoggedIn}}
-          headerMode={'none'}>
-          <Stack.Screen name="Splash" component={Splash} />
-          <Stack.Screen name="Walkthrough" component={Walkthrough} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
-          <Stack.Screen name="VerificationCode" component={VerificationCode} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
-
-          <Stack.Screen
-            name="RecoverVerificationCode"
-            component={RecoverVerificationCode}
-          />
-        </Stack.Navigator>
-      )}
+      <Stack.Navigator initialRouteName="Home" headerMode={'none'}>
+        <Stack.Screen name="Splash" component={Splash} />
+        {isLoggedIn ? (
+          <Stack.Screen name="Root" component={Root} />
+        ) : (
+          <Stack.Screen name="Auth" component={Auth} />
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

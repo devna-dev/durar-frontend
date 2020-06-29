@@ -11,9 +11,9 @@ export default class Splash extends Component {
         setTimeout(async function () {
             let user = await storage.getItem('user');
             if(user){
-               props.navigation.replace('TabNavigator')
+               props.navigation.replace('Root')
             }else{
-                props.navigation.replace('Walkthrough')
+                props.navigation.replace('Auth')
             }
         },2000);
     }
