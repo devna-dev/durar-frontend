@@ -56,7 +56,7 @@ function Root() {
     <RootStack.Navigator initialRouteName="TabNavigator" headerMode={'none'}>
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="TabNavigator" component={TabNavigator} />
-      <RootStack.Screen name="ReadingPage" component={ReadingPageNavigator} />
+      <RootStack.Screen name="ReadingPageStack" component={ReadingPageNavigator} />
       <RootStack.Screen name="Walkthrough" component={Walkthrough} />
     </RootStack.Navigator>
   );
