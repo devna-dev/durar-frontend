@@ -7,12 +7,17 @@ export default StyleSheet.create({
         backgroundColor: 'white'
     },
     content: {
-      //  marginTop: '5%',
+        //  marginTop: '5%',
         backgroundColor: 'white'
     },
     back_img: {
         width: 30,
         height: 25
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 20
     },
     back_img1: {
         width: 8,
@@ -99,17 +104,17 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         shadowColor: "#000",
         shadowOffset: {
-            width:0,
+            width: 0,
             height: 2,
         },
         shadowOpacity: 0.8,
         shadowRadius: 2.22,
 
         elevation: 8,
-        height:50,
-        paddingVertical:5,
-        backgroundColor:'white',
-        paddingHorizontal:'5%'
+        height: 50,
+        paddingVertical: 5,
+        backgroundColor: 'white',
+        paddingHorizontal: '5%'
     },
     btn: {
         width: 150,

@@ -93,7 +93,7 @@ export default class Profile extends Component {
                     name={this.state.user['name']}
                     age={'50 سنة'}
                     backText=''
-                    title={this.state.user['photo'] !== null ? {uri: this.state.user['photo']} : require('../../assets/images/avatar.png')}
+                    title={{uri: this.state.user['photo_url']}}
                     renderLeft={() => (<TouchableOpacity onPress={() => this.props.navigation.openDrawer()}
                                                          style={[styles.back_img, {marginTop: 5}]}>
                         <SvgUri style={styles.back_img}
@@ -102,7 +102,8 @@ export default class Profile extends Component {
                     // renderRight={() => (<Image style={styles.back_img1} source={require('../../assets/images/avatar.png')}/>)}
                     backStyle={{marginLeft: -20, marginTop: 25}}
                     backTextStyle={{fontSize: 14, color: '#000'}}
-                    titleStyle={{left: Platform.OS == 'ios' ? 157 : 137, bottom: -40}}
+                    titleStyle={{left: Platform.OS == 'ios' ? 157 : 137, bottom: -40,
+                    width:40,height:40,borderRadius:20}}
                     headerMaxHeight={100}
                     toolbarColor='#FFF'
                     disabled={false}

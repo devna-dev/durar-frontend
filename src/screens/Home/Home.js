@@ -62,8 +62,9 @@ class Home extends Component {
 
     async componentDidMount() {
         this.props.get_popular_books();
-        let user = await storage.getItem('token');
+        let user = await storage.getItem('user');
         if (user) {
+            console.log('****************', user)
             this.setState({user});
             this.props.get_current_read();
             this.setState({guest: false});
@@ -94,12 +95,7 @@ class Home extends Component {
                                     uri={svg_photo.badge}/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
-                            {this.state.user['photo'] != null ?
-                                <Image source={{uri: this.state.user['photo']}}/>
-                                :
-                                <Image source={require('../../assets/images/avatar.png')}/>
-
-                            }
+                            <Image style={styles.avatar} source={{uri: this.state.user['photo_url']}}/>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -123,6 +119,7 @@ class Home extends Component {
                         {this.props.book?.books?.reads &&
                         <FlatList data={this.props.book?.books?.reads}
                                   horizontal
+                                  inverted={true}
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
                                                                       item={item.item}
@@ -136,6 +133,7 @@ class Home extends Component {
                         </View>
                         <FlatList data={this.props.book?.books?.recent}
                                   horizontal
+                                  inverted={true}
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
                                                                       item={item.item}
@@ -164,6 +162,7 @@ class Home extends Component {
                         </View>
                         <FlatList data={this.props.book?.books?.listens}
                                   horizontal
+                                  inverted={true}
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <HomeBookItem navigation={this.props.navigation}
                                                                       item={item.item}
