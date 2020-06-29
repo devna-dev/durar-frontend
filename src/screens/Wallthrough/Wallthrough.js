@@ -7,6 +7,7 @@ import styles from "./styles";
 import {colors} from "../../config/styles";
 import Button from "../../components/Button/Button";
 import Register from "../Register/Register";
+import storage from '../../config/storage';
 
 export default class Walkthrough extends Component {
 
@@ -15,7 +16,8 @@ export default class Walkthrough extends Component {
         super(props);
         this.state = {
             items: [{}, {}, {}, {}, {}, {}, {}, {},],
-            sliderActiveSlide: 0
+            sliderActiveSlide: 0,
+            isLoggedIn: false,
         }
     }
 
@@ -76,7 +78,8 @@ source={{uri:"https://lh3.googleusercontent.com/proxy/DIYJrmy_Nvt-hqjAOrAycpt6_b
                             onPress={() => this.props.navigation.navigate('Login')}
                             textColor={colors.white}
                     />
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('TabNavigator')}>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('TabNavigator')}>
                         <Text style={styles.text2}>التصفح كضيف</Text>
                     </TouchableOpacity>
                 </Content>

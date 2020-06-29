@@ -72,9 +72,13 @@ class ReadingPage extends Component {
         //style={{ fontSize: 20,color:'red' }}
         onHighlightPress={() => alert('g')}
         style={{
-          textAlign: 'left'
+          textAlign: 'left',
+          width: '90%',
+          alignSelf: 'center',
         }}
         onSelection={({eventType, content, selectionStart, selectionEnd}) => {
+          console.log('=======================================================================================================');
+          console.log(eventType, 'eventType');
           if (eventType == 'Copy') {
             Clipboard.setString(children);
           } else if (eventType == 'Add Note') {
@@ -224,11 +228,7 @@ class ReadingPage extends Component {
                     em: this.renderText.bind(this),
                   }}
                   textSelectable={true}
-
-                  customWrapper={(content) => {
-                    // console.log(content);
-                    return <Text style={{ textAlign: 'left', width: '90%', alignSelf: 'center'}}>{ content }</Text>
-                  }}
+                  customWrapper={(content, attr) => this.renderText(attr, content)}
                   onHTMLParsed={(dom, RNElements) => {
                     // Find the index of the first paragraph
                     const ad = {

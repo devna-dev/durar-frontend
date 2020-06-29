@@ -29,6 +29,7 @@ const initialState = {
   book: null,
   bookPageContent: '',
   bookComments: [],
+  bookReviews: [],
   book_error: null,
   page: 1,
   books: [],
@@ -93,6 +94,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         book: action.form?.book,
+        bookReviews: action.form?.reviews,
         load: false,
       };
     case GET_BOOK_DETAIL_PENDING:

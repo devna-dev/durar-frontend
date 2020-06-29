@@ -75,6 +75,16 @@ export async function getBookCommentsApi(payload) {
   }).then((response) => response.json());
 }
 
+export async function getBookReviewsApi(payload) {
+  console.tron.log(payload);
+  return fetch(settings.API_URL + `books/${payload}/reviews/`, {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
+}
 export async function search_resultApi(payload) {
   const query = queryString(payload);
   return fetch(settings.API_URL + `books/${query ? '?' + query : ''}`, {

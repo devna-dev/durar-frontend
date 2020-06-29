@@ -36,6 +36,7 @@ import {
   popular_booksApi,
   get_current_readApi,
   suggest_to_api,
+  getBookReviewsApi,
 } from '../../../../services/books';
 
 const handler = function* () {
@@ -88,7 +89,7 @@ function* get_search_result(form) {
       preview: 'Click for details: ' + 'repos',
     });
     // console.log('book detail', books);
-    yield put({type: GET_Search_Result_SUCCESS, form: books});
+    yield put({type: GET_Search_Result_SUCCESS, fxorm: books});
   } catch (err) {
     console.log(err, 'err getBookDetail');
   }
@@ -138,9 +139,12 @@ function* get_popular_books_api(form) {
 
 function* getBook(form) {
   try {
-    const [book] = yield all([call(getBookApi, form.form.lookupId)]);
+    const [book, reviews] = yield all([
+      call(getBookApi, form.form.lookupId),
+      call(getBookReviewsApi, form.form.lookupId),
+    ]);
     if (book) {
-      yield put({type: GET_BOOK_SUCCESS, form: {book}});
+      yield put({type: GET_BOOK_SUCCESS, form: {book, reviews}});
     }
   } catch (err) {
     yield put({type: GET_BOOK_FAILURE, form: err});
