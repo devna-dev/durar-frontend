@@ -60,6 +60,7 @@ class ReadingPage extends Component {
       back: colors.white,
     });
     await storage.setItem('moon', 0);
+    console.log(this.props.route)
     const {lookupId} = this.props.route.params;
     this.props.getBookDetail({
       lookupId,
