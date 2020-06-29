@@ -154,3 +154,14 @@ export async function get_activity_seminars_details_api(form) {
     },
   }).then((response) => response.json());
 }
+
+export async function post_review_api(payload) {
+  return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: payload.body,
+  }).then((response) => response.json());
+}

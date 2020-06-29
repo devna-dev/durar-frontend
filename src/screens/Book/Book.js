@@ -20,7 +20,10 @@ import {colors} from '../../config/styles';
 import BookReview from '../BookReview/BookReview';
 // import EditBookReview from '../BookReview/EditBookReview'
 
-import {GET_BOOK_PENDING} from '../../stores/saga/models/book-store/actions';
+import {
+  GET_BOOK_PENDING,
+  post_review,
+} from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
 
 class Book extends Component {
@@ -43,9 +46,13 @@ class Book extends Component {
   render() {
     const {
       book: {book, bookReviews},
-        user
+      user,
     } = this.props;
-    console.log(user, "user");
+    console.log(book?.cover_image);
+    const {
+      params: {lookupId},
+    } = this.props.route;
+    console.log(user, 'user');
     return (
       <Container style={styles.container}>
         <View style={styles.header}>
@@ -76,13 +83,14 @@ class Book extends Component {
           color={colors.green}
           style={styles.indicator}
         />
+
         {!this.props.book.load && (
           <Content>
             <View style={styles.upper}>
               <Image
                 style={styles.book}
                 source={{
-                  uri: book?.cover_image || '',
+                  uri: book?.cover_image,
                 }}
               />
               <View style={styles.book}>
@@ -180,6 +188,13 @@ class Book extends Component {
         <BookReview
           visible={this.state.book_review}
           onRequestClose={() => this.setState({book_review: false})}
+          addReview={(comment, rating) => {
+            this.props.postReview({
+              lookupId,
+              body: {comment, rating},
+            });
+            this.setState({book_review: false});
+          }}
         />
       </Container>
     );
@@ -207,6 +222,11 @@ const mapDispatchToProps = (dispatch) => ({
   getBook: (form) =>
     dispatch({
       type: GET_BOOK_PENDING,
+      form,
+    }),
+  postReview: (form) =>
+    dispatch({
+      type: post_review,
       form,
     }),
 });
