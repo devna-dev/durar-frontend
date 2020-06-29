@@ -19,6 +19,7 @@ import Swipeout from 'react-native-swipeout';
 import storage from '../../config/storage';
 import HTML from 'react-native-render-html';
 import {SelectableText} from '@astrocoders/react-native-selectable-text';
+import Clipboard from '@react-native-community/clipboard';
 import Tts from 'react-native-tts';
 import AudioBooks from '../AudioBooks/AudioBooks';
 import {
@@ -28,6 +29,7 @@ import {
   increase_page,
 } from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
+import AddNotes from '../AddNotes/AddNotes';
 
 const htmlContent = `
     <h1>This HTML snippet is now rendered with native components !</h1>
@@ -46,6 +48,8 @@ class ReadingPage extends Component {
       menu: false,
       search: false,
       isWithTashkeel: false,
+      isAddNoteModalVisible: false,
+      selectedText: '',
     };
   }
 
@@ -77,15 +81,23 @@ class ReadingPage extends Component {
           alignSelf: 'center',
         }}
         onSelection={({eventType, content, selectionStart, selectionEnd}) => {
-          console.log('=======================================================================================================');
-          console.log(eventType, 'eventType');
-          if (eventType == 'Copy') {
-            Clipboard.setString(children);
-          } else if (eventType == 'Add Note') {
-            this.props.navigation.navigate('Login');
-          } else if (eventType == 'Voice') {
+          console.log(
+            '=======================================================================================================',
+          );
+          // console.log(selectionStart, selectionEnd,'eventType');
+          if (eventType === 'Copy') {
+            Clipboard.setString(content);
+          } else if (eventType === 'Add Note') {
+            const str = content.split('').reverse().join('');
+            this.setState({selectedText: str});
+            console.log(str, 'content');
+            this.onOpenAddNoteModal();
+          } else if (eventType === 'Voice') {
             Tts.speak(content);
           }
+        }}
+        TextComponentProps={{
+          onTextLayout: (e) => alert('e',e)
         }}
         value={children}
       />
@@ -153,7 +165,7 @@ class ReadingPage extends Component {
           {this.state.menu ? (
             <View>
               <FlatList
-                data={this.props.book.bookComments}
+                data={this.props.book?.bookComments}
                 style={{}}
                 renderItem={({item}) => (
                   <Swipeout
@@ -186,6 +198,8 @@ class ReadingPage extends Component {
                         وجه الإختلاف بين
                       </Text>
                       <Text
+                        numberOfLines={3}
+                        ellipsizeMode="tail"
                         style={[
                           styles.address_text,
                           {
@@ -200,6 +214,11 @@ class ReadingPage extends Component {
                         {item?.comment}
                       </Text>
                       {/*<Text style={[styles.address_text,{color:colors.primary}]}>كتاب: تاريح الخلفاء</Text>*/}
+                      <TouchableOpacity
+                          onPress={() => {}}
+                          style={styles.edit1}>
+                          <Text style={{ underlineColorAndroid: '#000'}}>عرض الملاحظة</Text>
+                      </TouchableOpacity>
                     </View>
                   </Swipeout>
                 )}
@@ -228,7 +247,9 @@ class ReadingPage extends Component {
                     em: this.renderText.bind(this),
                   }}
                   textSelectable={true}
-                  customWrapper={(content, attr) => this.renderText(attr, content)}
+                  customWrapper={(content, attr) =>
+                    this.renderText(attr, content)
+                  }
                   onHTMLParsed={(dom, RNElements) => {
                     // Find the index of the first paragraph
                     const ad = {
@@ -322,6 +343,11 @@ class ReadingPage extends Component {
             <SvgUri uri={svg_photo.read_forward} />
           </TouchableOpacity>
         </View>
+        <AddNotes
+          visible={this.state.isAddNoteModalVisible}
+          onRequestClose={this.onCloseAddNoteModal}
+          addNote={this.addNote}
+        />
       </Container>
     );
   }
@@ -355,6 +381,13 @@ class ReadingPage extends Component {
       page: this.props.book.page,
     });
   };
+  onCloseAddNoteModal = () => {
+    this.setState({isAddNoteModalVisible: false});
+  };
+  onOpenAddNoteModal = () => {
+    this.setState({isAddNoteModalVisible: true});
+  };
+  addNote = (note) => console.log(note);
 }
 
 const mapStateToProps = (state) => {

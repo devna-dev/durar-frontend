@@ -184,7 +184,7 @@ class Home extends Component {
                                  navigation={this.props.navigation}
                                  read={() => {
                                      this.setState({readable: false});
-                                     this.props.navigation.navigate('ReadingPage');
+                                     this.props.navigation.navigate('ReadingPageStack');
                                  }}
                                  onRequestClose={() => {
                                      this.setState({readable: false});

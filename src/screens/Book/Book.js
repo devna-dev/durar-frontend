@@ -36,6 +36,7 @@ class Book extends Component {
       params: {lookupId},
     } = this.props.route;
     console.tron.log(lookupId, 'lookupId');
+    console.log(lookupId, 'lookupId');
     this.props.getBook({lookupId});
   }
 
@@ -81,15 +82,15 @@ class Book extends Component {
               <Image
                 style={styles.book}
                 source={{
-                  uri: book?.cover_image,
+                  uri: book?.cover_image || '',
                 }}
               />
               <View style={styles.book}>
                 <Text style={styles.light_font}>عدد الصفحات</Text>
-                <Text style={styles.dark_font}>{book && book.page_count}</Text>
+                <Text style={styles.dark_font}>{book && book?.page_count}</Text>
                 <Text style={styles.light_font}>القسم</Text>
                 <Text style={styles.dark_font1}>
-                  {book && book.category.name}
+                  {book && book.category?.name}
                 </Text>
                 <Text style={styles.light_font}>التقييم</Text>
                 <View style={{alignSelf: 'flex-start'}}>
@@ -110,7 +111,7 @@ class Book extends Component {
             <View style={styles.address_view}>
               <View>
                 <Text style={[styles.light_font, {height: 20}]}>
-                  {book && book.author.name}
+                  {book && book.author?.name}
                 </Text>
                 <Text style={styles.dark_font2}>{book && book.title}</Text>
               </View>
@@ -187,7 +188,7 @@ class Book extends Component {
     const {
       book: {book},
     } = this.props;
-    this.props.navigation.navigate('ReadingPage', {
+    this.props.navigation.navigate('ReadingPageStack', {
       screen: 'ReadingPage',
       params: {lookupId: book.id},
     });
