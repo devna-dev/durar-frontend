@@ -274,8 +274,8 @@ class ReadingPage extends Component {
           <View style={styles.item1}>
             <Text style={styles.item1_text}>{this.props.book.page}</Text>
             <Text style={styles.item2_text}>{`${this.props.book.page} / ${
-              this.props.book.book.page_count ||
-              this.props.book.bookDetail.page_count
+              this.props.book?.page_count ||
+              this.props.book?.bookDetail?.page_count
             } صفحة`}</Text>
           </View>
         )}

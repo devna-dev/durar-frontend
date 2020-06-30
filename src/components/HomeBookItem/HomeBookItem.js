@@ -71,7 +71,15 @@ export default class HomeBookItem extends Component {
               </View>
               <Text style={styles.text3}> 80% </Text>
               <TouchableOpacity
-                onPress={() => this.props.read(this.props.item?.id)}>
+                onPress={() => {
+                  this.props.read(this.props.item?.id);
+                  this.props.navigation.navigate('ReadingPageStack', {
+                    screen: 'ReadingPage',
+                    params: {
+                      lookupId: this.props.item?.id,
+                    },
+                  });
+                }}>
                 <SvgUri uri={svg_photo.play} />
               </TouchableOpacity>
             </View>
