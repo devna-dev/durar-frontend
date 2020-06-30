@@ -67,6 +67,7 @@ class ReadingPage extends Component {
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
+    // alert(JSON.stringify(this.props.book))
   }
 
   renderText = (htmlAttribs, children) => {
@@ -218,7 +219,9 @@ class ReadingPage extends Component {
                       <TouchableOpacity
                           onPress={() => {}}
                           style={styles.edit1}>
-                          <Text style={{ underlineColorAndroid: '#000'}}>عرض الملاحظة</Text>
+                        <Text style={{underlineColorAndroid: '#000'}}>
+                          عرض الملاحظة
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   </Swipeout>
@@ -274,7 +277,7 @@ class ReadingPage extends Component {
           <View style={styles.item1}>
             <Text style={styles.item1_text}>{this.props.book.page}</Text>
             <Text style={styles.item2_text}>{`${this.props.book.page} / ${
-              this.props.book?.page_count ||
+              this.props.book?.book?.page_count ||
               this.props.book?.bookDetail?.page_count
             } صفحة`}</Text>
           </View>
@@ -361,30 +364,35 @@ class ReadingPage extends Component {
       page: this.props.book.page,
     });
   };
+
   goNextPage = async () => {
     await this.props.toNextPage();
     const {lookupId} = this.props.route.params;
     console.log(this.props.book.page, 'next');
-
+ // alert(this.props.book.page)
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
   };
+
   goPreviousPage = async () => {
     await this.props.toPreviousPage();
     const {lookupId} = this.props.route.params;
     console.log(this.props.book.page, 'prev');
+    // alert(this.props.book.page)
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
   };
+
   onCloseAddNoteModal = () => {
     this.setState({isAddNoteModalVisible: false});
   };
+
   onOpenAddNoteModal = () => {
     this.setState({isAddNoteModalVisible: true});
   };

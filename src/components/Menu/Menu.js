@@ -123,11 +123,11 @@ class Menu extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({
-    name: 'LOG DATA OF state',
-    value: state,
-    preview: 'Click for details: ' + 'state',
-  });
+  // console.tron.display({
+  //   name: 'LOG DATA OF state',
+  //   value: state,
+  //   preview: 'Click for details: ' + 'state',
+  // });
   return {
     bookDetail: {...state.book.bookDetail},
   };

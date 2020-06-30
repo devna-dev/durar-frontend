@@ -11,15 +11,22 @@ export default class HomeBookItem extends Component {
   constructor(props) {
     super(props);
   }
-
+    componentDidCatch(error, errorInfo) {
+        // You can also log the error to an error reporting service
+        // alert(error, errorInfo);
+    }
   render() {
     return (
       <TouchableOpacity
-        onPress={() =>
-          this.props.navigation.navigate('Book', {
-            lookupId: this.props.item?.id,
-          })
-        }
+        onPress={() => {
+          try {
+            this.props.navigation.navigate('Book', {
+              lookupId: this.props.item?.id,
+            });
+          } catch (e) {
+            // alert(e);
+          }
+        }}
         style={[
           styles.container,
           {

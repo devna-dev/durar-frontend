@@ -35,14 +35,21 @@ class Book extends Component {
     };
   }
   componentDidMount() {
-    const {
-      params: {lookupId},
-    } = this.props.route;
-    console.tron.log(lookupId, 'lookupId');
-    console.log(lookupId, 'lookupId');
-    this.props.getBook({lookupId});
+    try {
+      const {
+        params: {lookupId},
+      } = this.props.route;
+      // console.tron.log(lookupId, 'lookupId');
+      console.log(lookupId, 'lookupId');
+      this.props.getBook({lookupId});
+    } catch (e) {
+      // alert(e);
+    }
   }
-
+  componentDidCatch(error, errorInfo) {
+    // You can also log the error to an error reporting service
+    // alert(error, errorInfo);
+  }
   render() {
     const {
       book: {book, bookReviews},

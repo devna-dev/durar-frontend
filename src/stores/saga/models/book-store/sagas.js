@@ -88,16 +88,16 @@ function* get_authorsApi(action) {
 function* get_search_result(form) {
   try {
     const [books, repos] = yield all([call(search_resultApi)]);
-    console.tron.display({
-      name: 'LOG DATA OF books',
-      value: books,
-      preview: 'Click for details: ' + 'books',
-    });
-    console.tron.display({
-      name: 'LOG DATA OF repos',
-      value: repos,
-      preview: 'Click for details: ' + 'repos',
-    });
+    // console.tron.display({
+    //   name: 'LOG DATA OF books',
+    //   value: books,
+    //   preview: 'Click for details: ' + 'books',
+    // });
+    // console.tron.display({
+    //   name: 'LOG DATA OF repos',
+    //   value: repos,
+    //   preview: 'Click for details: ' + 'repos',
+    // });
     // console.log('book detail', books);
     yield put({type: GET_Search_Result_SUCCESS, fxorm: books});
   } catch (err) {

@@ -53,6 +53,7 @@ function* loginApi(action) {
       yield put({type: error, form: result});
     }
   } catch (err) {
+    // alert(err)
     if (err.message === 'Timeout' || err.message === 'Network request failed') {
       yield put({
         type: error,
@@ -97,6 +98,7 @@ function* registerApi(action) {
       yield put({type: REGISTER_USER_REQUEST_FAILURE, form: result});
     }
   } catch (err) {
+    // alert(err)
     if (err.message === 'Timeout' || err.message === 'Network request failed') {
       yield put({
         type: REGISTER_USER_REQUEST_FAILURE,
@@ -126,11 +128,11 @@ function* logoutApi(action) {
 function* user_books() {
   try {
     const books = yield get_user_books();
-    console.tron.display({
-      name: 'LOG DATA OF books',
-      value: books,
-      preview: 'Click for books: ' + 'books',
-    });
+    // console.tron.display({
+    //   name: 'LOG DATA OF books',
+    //   value: books,
+    //   preview: 'Click for books: ' + 'books',
+    // });
     console.log('book for user', books);
     yield put({type: GET_user_books_SUCCESS, form: books});
   } catch (err) {
