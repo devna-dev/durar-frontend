@@ -9,6 +9,9 @@ import Button from "../../components/Button/Button";
 import {clear, loading} from "../../stores/saga/models/user-store/actions";
 import {connect} from "react-redux";
 import {get_activity_details} from "../../stores/saga/models/activities-store/actions";
+import {regiter_to_activity} from "../../services/books";
+import {colors} from "../../config/styles";
+import common from "../../styles/common.style";
 
 class Activity extends Component {
 
@@ -19,7 +22,9 @@ class Activity extends Component {
             filter: false,
             sort: false,
             note: false,
-            id: props.route.params.id
+            id: props.route.params.id,
+            success: false,
+            loading: false,
         }
     }
 
@@ -61,7 +66,8 @@ class Activity extends Component {
                             <Text style={styles.active_item_text}>{this.props.activity.activity_details.lecturer}</Text>
                         </View>
                         <View style={[styles.item_view, {}]}>
-                            <Text style={styles.active_item_text}>المدة:{this.props.activity.activity_details.from_time}-{this.props.activity.activity_details.to_time}</Text>
+                            <Text
+                                style={styles.active_item_text}>المدة:{this.props.activity.activity_details.duration}</Text>
                         </View>
                     </View>
                     <Text style={[styles.active_item_text1,]}>{this.props.activity.activity_details.description}</Text>
@@ -69,15 +75,39 @@ class Activity extends Component {
                     <ImageBackground source={require('../../assets/images/time_date_back.png')}
                                      style={styles.header}>
                         <View style={{width: '60%'}}>
-                            <Text style={[styles.active_item_text, {height: 20, marginTop: 5}]}>الثلاثاء</Text>
-                            <Text style={[styles.item_text, {marginVertical: 0}]}>12مايو</Text>
+                            <Text style={[styles.active_item_text, {
+                                height: 20,
+                                marginTop: 5
+                            }]}>{this.props.activity.activity_details.day}</Text>
+                            <Text style={[styles.item_text, {
+                                marginVertical: 0,
+                                textAlign: 'left'
+                            }]}>{this.props.activity.activity_details.date}</Text>
                         </View>
                         <View>
                             <Text style={[styles.active_item_text, {height: 20, marginTop: 5}]}>الساعة</Text>
-                            <Text style={[styles.item_text, {marginVertical: 0}]}>5 مساءاً</Text>
+                            <Text style={[styles.item_text, {
+                                marginVertical: 0,
+                                textAlign: 'left'
+                            }]}>{this.props.activity.activity_details.from_time}</Text>
                         </View>
                     </ImageBackground>
+                    {this.state.success && <Text style={{
+                        color: this.state.success ? colors.green1 : colors.error, ...common.RegularFont,
+                        fontSize: 16,
+                        alignSelf: 'center'
+                    }}>{this.state.success ? 'تم تسجيلك للمشاركة بالنشاط' : 'لم يتم تسجيلك'}</Text>}
                     <Button title={'تسجيل'}
+                            load={this.state.loading}
+                            onPress={async () => {
+                                this.setState({loading: true})
+                                let result = await regiter_to_activity(this.props.activity.activity_details.id)
+                                if (result['chat_room']) {
+                                    this.setState({success: true,loading:false})
+                                } else {
+                                    this.setState({success: false,loading: false})
+                                }
+                            }}
                             style={styles.btn1}/>
 
                 </Content>

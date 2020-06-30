@@ -3,7 +3,11 @@ import {
     get_thesis,
     get_thesis_success,
     get_activity_details,
-    get_activity_details_success
+    get_activity_details_success,
+    get_discussions,
+    get_discussions_success,
+    get_seminars,
+    get_seminars_success
 } from './actions';
 
 const initialState = {
@@ -44,6 +48,24 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: 'get_activity_details_success',
                 activity_details: action.form,
+                load: false,
+            };
+        case get_discussions:
+            return {...state, loading: 'get_discussions', load: true};
+        case get_discussions_success:
+            return {
+                ...state,
+                loading: 'get_discussions_success',
+                activities: action.form,
+                load: false,
+            };
+        case get_seminars:
+            return {...state, loading: 'get_seminars', load: true};
+        case get_seminars_success:
+            return {
+                ...state,
+                loading: 'get_seminars_success',
+                activities: action.form,
                 load: false,
             };
         case clear:

@@ -51,7 +51,7 @@ class Thesis extends Component {
                         <Text style={styles.item_text}> لا يوجد أي أطروحة</Text>
                     }
                     {this.props.activity.load &&
-                    <ActivityIndicator animating={this.props.activity.load} color={colors.primary}/>}
+                    <ActivityIndicator animating={this.props.activity.load} color={colors.primary} size={'large'}/>}
                     {this.props.activity.thesis.length != 0 && <FlatList data={this.props.activity.thesis}
                                                                          renderItem={(item) => <HomeBookItemLoaded
                                                                              search item={item}/>}/>}
