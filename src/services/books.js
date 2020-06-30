@@ -85,6 +85,7 @@ export async function getBookReviewsApi(payload) {
     },
   }).then((response) => response.json());
 }
+
 export async function search_resultApi(payload) {
   const query = queryString(payload);
   return fetch(settings.API_URL + `books/${query ? '?' + query : ''}`, {
@@ -136,7 +137,7 @@ export async function get_activities_Api(form) {
 }
 
 export async function get_thesisApi(form) {
-  return fetch(settings.API_URL + 'activities/thesis/', {
+  return fetch(settings.API_URL + 'activities/thesis', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -146,13 +147,63 @@ export async function get_thesisApi(form) {
 }
 
 export async function get_activity_seminars_details_api(form) {
-  return fetch(settings.API_URL + 'activities/seminars/'+form.form.id, {
+  return fetch(settings.API_URL + 'activities/seminars/' + form.form.id, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: await storage.getItem('token'),
     },
   }).then((response) => response.json());
+}
+
+export async function get_discussions_in(form) {
+  console.log(form);
+  return fetch(
+    settings.API_URL +
+      'activities/discussions?page=' +
+      form +
+      '&page_size=' +
+      10,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: await storage.getItem('token'),
+      },
+    },
+  ).then((response) => response.json());
+}
+
+export async function get_seminar_in(form) {
+  console.log('saga', form);
+  return fetch(
+    settings.API_URL + 'activities/seminars/?page=' + form + '&page_size=' + 10,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: await storage.getItem('token'),
+      },
+    },
+  ).then((response) => response.json());
+}
+
+export async function regiter_to_activity(form) {
+  let data = new FormData();
+  data.append('chat_room', form);
+  console.log(form);
+  return fetch(settings.API_URL + 'activities/seminars/registration/', {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: data,
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function post_review_api(payload) {
