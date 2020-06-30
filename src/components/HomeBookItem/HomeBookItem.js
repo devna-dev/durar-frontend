@@ -11,10 +11,10 @@ export default class HomeBookItem extends Component {
   constructor(props) {
     super(props);
   }
-    componentDidCatch(error, errorInfo) {
-        // You can also log the error to an error reporting service
-        // alert(error, errorInfo);
-    }
+  // componentDidCatch(error, errorInfo) {
+  //   // You can also log the error to an error reporting service
+  //   // alert(error, errorInfo);
+  // }
   render() {
     return (
       <TouchableOpacity
@@ -80,12 +80,12 @@ export default class HomeBookItem extends Component {
               <TouchableOpacity
                 onPress={() => {
                   this.props.read(this.props.item?.id);
-                  this.props.navigation.navigate('ReadingPageStack', {
-                    screen: 'ReadingPage',
+                  this.props.navigation.navigate('ReadingPage', {
+                      screen: 'ReadingPage',
                     params: {
-                      lookupId: this.props.item?.id,
-                    },
-                  });
+                        lookupId: this.props.item?.id,
+                    }
+                });
                 }}>
                 <SvgUri uri={svg_photo.play} />
               </TouchableOpacity>

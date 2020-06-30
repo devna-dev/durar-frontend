@@ -7,7 +7,6 @@ import styles from './styles';
 import {SvgUri} from 'react-native-svg';
 import storage from '../../config/storage';
 import {colors} from '../../config/styles';
-import {GET_BOOK_DETAIL_PENDING} from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
 
 let back = colors.white;

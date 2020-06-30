@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  RefreshControl,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -35,6 +36,15 @@ class Book extends Component {
     };
   }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      // do something
+      this.start();
+    });
+  }
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+  start = () => {
     try {
       const {
         params: {lookupId},
@@ -45,11 +55,11 @@ class Book extends Component {
     } catch (e) {
       // alert(e);
     }
-  }
-  componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
-    // alert(error, errorInfo);
-  }
+  };
+  // componentDidCatch(error, errorInfo) {
+  //   // You can also log the error to an error reporting service
+  //   // alert(error, errorInfo);
+  // }
   render() {
     const {
       book: {book, bookReviews},
@@ -92,7 +102,17 @@ class Book extends Component {
         />
 
         {!this.props.book.load && (
-          <Content>
+          <Content
+            refreshControl={
+              <RefreshControl
+                refreshing={this.props.book.load}
+                colors={[colors.primary]}
+                size={'large'}
+                onRefresh={async () => {
+                  this.start();
+                }}
+              />
+            }>
             <View style={styles.upper}>
               <Image
                 style={styles.book}
@@ -210,9 +230,11 @@ class Book extends Component {
     const {
       book: {book},
     } = this.props;
-    this.props.navigation.navigate('ReadingPageStack', {
+    this.props.navigation.navigate('ReadingPage', {
       screen: 'ReadingPage',
-      params: {lookupId: book.id},
+      params: {
+        lookupId: book.id,
+      },
     });
   };
 }

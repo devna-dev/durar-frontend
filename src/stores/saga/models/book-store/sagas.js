@@ -112,8 +112,16 @@ function* getBookDetail(form) {
       call(getBookPageContent, form.form),
       call(getBookCommentsApi, form.form.lookupId),
     ]);
-    // const bookDetail = yield getBookDetailApi(form.form);
-    if (bookDetail) {
+
+    if (bookDetail || bookPageContent || comments) {
+      console.tron.display({
+        name: 'fdfdgfdg',
+        value: {
+          bookDetail,
+          bookPageContent,
+          comments,
+        },
+      });
       yield put({
         type: GET_BOOK_DETAIL_SUCCESS,
         form: {bookDetail, bookPageContent, comments},

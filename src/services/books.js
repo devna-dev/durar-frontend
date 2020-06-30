@@ -66,7 +66,7 @@ export async function getBookApi(payload) {
 
 export async function getBookCommentsApi(payload) {
   // console.tron.log(payload);
-  return fetch(settings.API_URL + `books/${payload}/comments/`, {
+  return fetch(settings.API_URL + `books/${payload}/notes/`, {
     method: 'Get',
     headers: {
       accept: 'application/json',
