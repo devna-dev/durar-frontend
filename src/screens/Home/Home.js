@@ -241,8 +241,10 @@ class Home extends Component {
             read={(id) => {
               this.setState({readable: false});
             }}
-            onRequestClose={(id) => {
+            onClose={() => {
               this.setState({readable: false});
+            }}
+            onRequestClose={(id) => {
               this.props.navigation.navigate('Book', {lookupId: id});
             }}
           />

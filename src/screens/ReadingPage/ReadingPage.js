@@ -10,6 +10,7 @@ import {
   ScrollView,
   Dimensions,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import styles from './styles';
 import {SvgUri} from 'react-native-svg';
@@ -52,22 +53,31 @@ class ReadingPage extends Component {
       selectedText: '',
     };
   }
-
-  async componentDidMount() {
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      // do something
+      this.start();
+    });
+  }
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+  start = async () => {
     this.setState({
       moon: 0,
       moon_icon: svg_photo.read_moon,
       back: colors.white,
     });
     await storage.setItem('moon', 0);
-    console.log(this.props.route)
     const {lookupId} = this.props.route.params;
+
     this.props.getBookDetail({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
-  }
+    // alert(lookupId)
+  };
 
   renderText = (htmlAttribs, children) => {
     // console.log('htm', htmlAttribs);
@@ -82,10 +92,6 @@ class ReadingPage extends Component {
           alignSelf: 'center',
         }}
         onSelection={({eventType, content, selectionStart, selectionEnd}) => {
-          console.log(
-            '=======================================================================================================',
-          );
-          // console.log(selectionStart, selectionEnd,'eventType');
           if (eventType === 'Copy') {
             Clipboard.setString(content);
           } else if (eventType === 'Add Note') {
@@ -98,7 +104,7 @@ class ReadingPage extends Component {
           }
         }}
         TextComponentProps={{
-          onTextLayout: (e) => alert('e',e)
+          onTextLayout: (e) => alert('e', e),
         }}
         value={children}
       />
@@ -111,7 +117,7 @@ class ReadingPage extends Component {
       <Container style={{backgroundColor: this.state.back}}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.pop()}
+            onPress={() => this.props.navigation.goBack()}
             style={styles.headerItem}>
             <SvgUri uri={svg_photo.arrow_back} />
           </TouchableOpacity>
@@ -162,7 +168,17 @@ class ReadingPage extends Component {
             <SvgUri uri={svg_photo.menu} />
           </TouchableOpacity>
         </View>
-        <Content>
+        <Content
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.book.load}
+              colors={[colors.primary]}
+              size={'large'}
+              onRefresh={async () => {
+                this.start();
+              }}
+            />
+          }>
           {this.state.menu ? (
             <View>
               <FlatList
@@ -215,10 +231,10 @@ class ReadingPage extends Component {
                         {item?.comment}
                       </Text>
                       {/*<Text style={[styles.address_text,{color:colors.primary}]}>كتاب: تاريح الخلفاء</Text>*/}
-                      <TouchableOpacity
-                          onPress={() => {}}
-                          style={styles.edit1}>
-                          <Text style={{ underlineColorAndroid: '#000'}}>عرض الملاحظة</Text>
+                      <TouchableOpacity onPress={() => {}} style={styles.edit1}>
+                        <Text style={{underlineColorAndroid: '#000'}}>
+                          عرض الملاحظة
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   </Swipeout>
@@ -227,12 +243,12 @@ class ReadingPage extends Component {
             </View>
           ) : (
             <ScrollView style={{flex: 1}}>
-              <ActivityIndicator
-                animating={this.props.book.load}
-                size="large"
-                color={colors.green}
-                style={styles.indicator}
-              />
+              {/*<ActivityIndicator*/}
+              {/*  animating={this.props.book.load}*/}
+              {/*  size="large"*/}
+              {/*  color={colors.green}*/}
+              {/*  style={styles.indicator}*/}
+              {/*/>*/}
               {!this.props.book.load && (
                 <HTML
                   html={this.props.book?.bookPageContent}
@@ -274,7 +290,7 @@ class ReadingPage extends Component {
           <View style={styles.item1}>
             <Text style={styles.item1_text}>{this.props.book.page}</Text>
             <Text style={styles.item2_text}>{`${this.props.book.page} / ${
-              this.props.book?.page_count ||
+              this.props.book?.book?.page_count ||
               this.props.book?.bookDetail?.page_count
             } صفحة`}</Text>
           </View>
@@ -361,30 +377,35 @@ class ReadingPage extends Component {
       page: this.props.book.page,
     });
   };
+
   goNextPage = async () => {
     await this.props.toNextPage();
     const {lookupId} = this.props.route.params;
     console.log(this.props.book.page, 'next');
-
+    // alert(this.props.book.page)
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
   };
+
   goPreviousPage = async () => {
     await this.props.toPreviousPage();
     const {lookupId} = this.props.route.params;
     console.log(this.props.book.page, 'prev');
+    // alert(this.props.book.page)
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
   };
+
   onCloseAddNoteModal = () => {
     this.setState({isAddNoteModalVisible: false});
   };
+
   onOpenAddNoteModal = () => {
     this.setState({isAddNoteModalVisible: true});
   };

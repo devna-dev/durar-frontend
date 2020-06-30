@@ -36,7 +36,7 @@ export default class CurrentReadings extends Component {
                 <Container>
                     <Content style={{height: '100%', backgroundColor: 'rgba(0,0,0,0.7)'}}>
                         <View style={styles.modalContainer}>
-                            <TouchableOpacity onPress={this.props.onRequestClose}
+                            <TouchableOpacity onPress={this.props.onClose}
                                               style={styles.bar1}>
                                 <Text style={[styles.text3, {color: colors.grey3}]}>قراءاتي الحاليه</Text>
                                 <SvgUri uri={svg_photo.up}/>

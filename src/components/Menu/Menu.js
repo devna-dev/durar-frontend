@@ -7,7 +7,6 @@ import styles from './styles';
 import {SvgUri} from 'react-native-svg';
 import storage from '../../config/storage';
 import {colors} from '../../config/styles';
-import {GET_BOOK_DETAIL_PENDING} from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
 
 let back = colors.white;
@@ -123,11 +122,11 @@ class Menu extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({
-    name: 'LOG DATA OF state',
-    value: state,
-    preview: 'Click for details: ' + 'state',
-  });
+  // console.tron.display({
+  //   name: 'LOG DATA OF state',
+  //   value: state,
+  //   preview: 'Click for details: ' + 'state',
+  // });
   return {
     bookDetail: {...state.book.bookDetail},
   };

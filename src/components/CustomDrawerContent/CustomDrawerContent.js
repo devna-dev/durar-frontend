@@ -111,7 +111,7 @@ class CustomDrawerContent extends Component {
                     <TouchableOpacity onPress={async() => {
                         await storage.clear()
                         this.props.logout()
-                        this.props.navigation.replace('Auth', {screen: 'Walkthrough'})
+                        this.props.navigation.reset({routes: [{name: 'Splash'}]});
                     }} style={styles.btn}>
                         <Text style={styles.text}>تسجيل الخروج</Text>
                     </TouchableOpacity>
