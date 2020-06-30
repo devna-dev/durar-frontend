@@ -65,11 +65,13 @@ class Book extends Component {
       book: {book, bookReviews},
       user,
     } = this.props;
-    console.log(book?.cover_image);
+    // console.log(book?.cover_image);
     const {
       params: {lookupId},
     } = this.props.route;
-    console.log(user, 'user');
+    // console.log({
+    //   uri: book?.cover_image,
+    // }, 'user');
     return (
       <Container style={styles.container}>
         <View style={styles.header}>

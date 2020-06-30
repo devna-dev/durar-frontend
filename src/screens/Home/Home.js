@@ -144,9 +144,7 @@ class Home extends Component {
                   <HomeBookItem
                     navigation={this.props.navigation}
                     item={item.item}
-                    image={
-                      'https://api.kashback.co.uk/storage/3udEiDObfGUKgrz6UxsgLwu2bV9Ot9A3arPDBDI8.jpeg'
-                    }
+                    image={item.item?.cover_image}
                   />
                 )}
               />
