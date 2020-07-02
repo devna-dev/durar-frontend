@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "412079992522",
+    "firebase_url": "https://shamela-7d414.firebaseio.com",
+    "project_id": "shamela-7d414",
+    "storage_bucket": "shamela-7d414.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412079992522:android:494a964dc47e72748e8e33",
+        "android_client_info": {
+          "package_name": "com.shamela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412079992522-eh7mcbjehfjena5f50vdhskb2dkbhc8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAyGm7pqBH2m562pz8C5jvUs3X7oy03jE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412079992522-eh7mcbjehfjena5f50vdhskb2dkbhc8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
