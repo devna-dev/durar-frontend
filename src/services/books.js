@@ -87,6 +87,7 @@ export async function getBookReviewsApi(payload) {
 }
 
 export async function search_resultApi(payload) {
+    console.log(payload, "Dfdfdfdfdfdfdfdf");
     const query = queryString(payload);
     return fetch(settings.API_URL + `books/${query ? '?' + query : ''}`, {
         method: 'Get',

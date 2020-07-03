@@ -45,6 +45,7 @@ class Search1 extends Component {
 
     render() {
         const {state} = this;
+        console.log(state);
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
@@ -269,7 +270,7 @@ class Search1 extends Component {
                             )}
                         />
                     )}
-                    {this.state.index != '' &&
+                    {(this.state.payload.category_id != '' && this.state.payload.title != '') &&
                     <Button
                         title={'بحث'}
                         load={this.props.book.load}
