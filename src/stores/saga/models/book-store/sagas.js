@@ -66,7 +66,7 @@ function* get_booksApi(action) {
 function* get_categoriesApi(action) {
     try {
         let result = yield getCategories();
-        // console.log('categories',result)
+         console.log('categories',result)
         yield put({type: get_categories_success, form: result});
     } catch (err) {
     }
@@ -84,6 +84,7 @@ function* get_authorsApi(action) {
 function* get_search_result(form) {
     try {
         const [books, repos] = yield all([call(search_resultApi)]);
+        console.log('***************',books)
         console.tron.display({
             name: 'LOG DATA OF books',
             value: books,

@@ -60,7 +60,7 @@ class Search extends Component {
           <Text style={styles.find}>وجدنا لك 106 كتاب</Text>
           <Text style={styles.active_item_text2}>مرتبه حسب الأكثر مشاهدة</Text>
           <FlatList
-            data={[{}, {}, {}, {}, {}]}
+            data={this.props.book.books}
             style={{marginLeft: '5%'}}
             renderItem={() => (
               <HomeBookItem navigation={this.props.navigation} search />

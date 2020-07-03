@@ -39,6 +39,7 @@ export default class Profile extends Component {
     async componentDidMount() {
         let user = await storage.getItem('user');
         this.setState({user});
+        console.log('Profile',user)
     }
 
     getListItems = count => {
@@ -89,9 +90,9 @@ export default class Profile extends Component {
                 {/*</View>*/}
                 <AnimatedHeader
                     style={{flex: 1}}
-                    onScroll={(v) => alert(v)}
+                   // onScroll={(v) => alert(v)}
                     name={this.state.user['name']}
-                    age={'50 سنة'}
+                    age={this.state.user['age']+' سنة'}
                     backText=''
                     title={{uri: this.state.user['photo_url']}}
                     renderLeft={() => (<TouchableOpacity onPress={() => this.props.navigation.openDrawer()}
@@ -102,7 +103,7 @@ export default class Profile extends Component {
                     // renderRight={() => (<Image style={styles.back_img1} source={require('../../assets/images/avatar.png')}/>)}
                     backStyle={{marginLeft: -20, marginTop: 25}}
                     backTextStyle={{fontSize: 14, color: '#000'}}
-                    titleStyle={{left: Platform.OS == 'ios' ? 157 : 137, bottom: -40,
+                    titleStyle={{left: Platform.OS == 'ios' ? 157 : 122, bottom: -40,
                     width:40,height:40,borderRadius:20}}
                     headerMaxHeight={100}
                     toolbarColor='#FFF'
