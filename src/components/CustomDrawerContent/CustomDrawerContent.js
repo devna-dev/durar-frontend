@@ -111,7 +111,8 @@ class CustomDrawerContent extends Component {
                     <TouchableOpacity onPress={async() => {
                         await storage.clear()
                         this.props.logout()
-                        RNRestart.Restart();
+                        // RNRestart.Restart();
+                        this.props.navigation.replace('Walkthrough')
                     }} style={styles.btn}>
                         <Text style={styles.text}>تسجيل الخروج</Text>
                     </TouchableOpacity>

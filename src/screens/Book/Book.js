@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  RefreshControl,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -20,7 +21,10 @@ import {colors} from '../../config/styles';
 import BookReview from '../BookReview/BookReview';
 // import EditBookReview from '../BookReview/EditBookReview'
 
-import {GET_BOOK_PENDING} from '../../stores/saga/models/book-store/actions';
+import {
+  GET_BOOK_PENDING,
+  post_review,
+} from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
 
 class Book extends Component {
@@ -32,20 +36,42 @@ class Book extends Component {
     };
   }
   componentDidMount() {
-    const {
-      params: {lookupId},
-    } = this.props.route;
-    console.tron.log(lookupId, 'lookupId');
-    console.log(lookupId, 'lookupId');
-    this.props.getBook({lookupId});
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      // do something
+      this.start();
+    });
   }
-
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+  start = () => {
+    try {
+      const {
+        params: {lookupId},
+      } = this.props.route;
+      // console.tron.log(lookupId, 'lookupId');
+      console.log(lookupId, 'lookupId');
+      this.props.getBook({lookupId});
+    } catch (e) {
+      // alert(e);
+    }
+  };
+  // componentDidCatch(error, errorInfo) {
+  //   // You can also log the error to an error reporting service
+  //   // alert(error, errorInfo);
+  // }
   render() {
     const {
       book: {book, bookReviews},
-        user
+      user,
     } = this.props;
-    console.log(user, "user");
+    // console.log(book?.cover_image);
+    const {
+      params: {lookupId},
+    } = this.props.route;
+    // console.log({
+    //   uri: book?.cover_image,
+    // }, 'user');
     return (
       <Container style={styles.container}>
         <View style={styles.header}>
@@ -76,13 +102,24 @@ class Book extends Component {
           color={colors.green}
           style={styles.indicator}
         />
+
         {!this.props.book.load && (
-          <Content>
+          <Content
+            refreshControl={
+              <RefreshControl
+                refreshing={this.props.book.load}
+                colors={[colors.primary]}
+                size={'large'}
+                onRefresh={async () => {
+                  this.start();
+                }}
+              />
+            }>
             <View style={styles.upper}>
               <Image
                 style={styles.book}
                 source={{
-                  uri: book?.cover_image || '',
+                  uri: book?.cover_image,
                 }}
               />
               <View style={styles.book}>
@@ -180,6 +217,13 @@ class Book extends Component {
         <BookReview
           visible={this.state.book_review}
           onRequestClose={() => this.setState({book_review: false})}
+          addReview={(comment, rating) => {
+            this.props.postReview({
+              lookupId,
+              body: {comment, rating},
+            });
+            this.setState({book_review: false});
+          }}
         />
       </Container>
     );
@@ -188,9 +232,11 @@ class Book extends Component {
     const {
       book: {book},
     } = this.props;
-    this.props.navigation.navigate('ReadingPageStack', {
+    this.props.navigation.navigate('ReadingPage', {
       screen: 'ReadingPage',
-      params: {lookupId: book.id},
+      params: {
+        lookupId: book.id,
+      },
     });
   };
 }
@@ -207,6 +253,11 @@ const mapDispatchToProps = (dispatch) => ({
   getBook: (form) =>
     dispatch({
       type: GET_BOOK_PENDING,
+      form,
+    }),
+  postReview: (form) =>
+    dispatch({
+      type: post_review,
       form,
     }),
 });

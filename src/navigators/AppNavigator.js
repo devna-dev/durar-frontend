@@ -58,7 +58,6 @@ function Root() {
     <RootStack.Navigator initialRouteName="TabNavigator" headerMode={'none'}>
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="TabNavigator" component={TabNavigator} />
-      <RootStack.Screen name="ReadingPageStack" component={ReadingPageNavigator} />
       <RootStack.Screen name="Walkthrough" component={Walkthrough} />
     </RootStack.Navigator>
   );
@@ -217,7 +216,8 @@ export function DrawerNavigator() {
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
       <Drawer.Screen name="Book" component={Book} />
-      <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
+        <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
+        <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="MyBooks" component={MyBooks} />
       <Drawer.Screen name="AudioBooks" component={AudioBooks} />
       <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
@@ -274,7 +274,8 @@ export function DrawerNavigator3() {
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
       <Drawer.Screen name="Book" component={Book} />
-      <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
+        <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
+        <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="MyBooks" component={MyBooks} />
         <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
         <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
@@ -290,7 +291,8 @@ export function DrawerNavigator4() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="MyBooks" component={MyBooks} />
       <Drawer.Screen name="Book" component={Book} />
-      <Drawer.Screen name="NotificationsList" component={NotificationsList} />
+        <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
+        <Drawer.Screen name="NotificationsList" component={NotificationsList} />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Settings" component={Settings} />
       <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook} />

@@ -54,7 +54,7 @@ export default StyleSheet.create({
     },
     book: {
         width: 160,
-        height: '100%',
+        height: 226,
         marginLeft:10,
         borderRadius:5
     },
