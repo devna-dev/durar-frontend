@@ -116,7 +116,7 @@ class Book extends Component {
                 <ActivityIndicator
                     animating={this.props.book.load}
                     size="large"
-                    color={colors.green}
+                    color={colors.primary}
                     style={styles.indicator}
                 />
 
@@ -194,10 +194,10 @@ class Book extends Component {
                             {/*</View>*/}
                         </View>
                         <Text style={styles.description}>{book?.description}</Text>
-                        <View style={styles.bar}>
+                        {bookReviews.length != 0 && <View style={styles.bar}>
                             <Text style={styles.headerTitle}>التقييمات</Text>
                             <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                        </View>
+                        </View>}
                         <FlatList
                             data={bookReviews}
                             renderItem={({item, index}) => (

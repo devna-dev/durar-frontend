@@ -186,7 +186,7 @@ export function TabNavigator() {
       <Tab.Screen name="Home" component={DrawerNavigator} />
       <Tab.Screen name="Register" component={DrawerNavigator1} />
       <Tab.Screen name="Activity" component={DrawerNavigator2} />
-      <Tab.Screen name="SavingBooks" component={DrawerNavigator3} />
+      {/*<Tab.Screen name="SavingBooks" component={DrawerNavigator3} />*/}
       <Tab.Screen name="Profile" component={DrawerNavigator4} />
     </Tab.Navigator>
   );
