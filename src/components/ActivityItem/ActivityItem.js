@@ -16,7 +16,9 @@ export default class ActivityItem extends Component {
 
     render() {
         return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Activity', {id: this.props.item.item.id})}
+            <TouchableOpacity onPress={() => {
+                this.props.navigation.navigate('Activity', {id: this.props.item.item.id,dis:this.props.dis})
+            }}
                               style={[styles.container]}>
                 <ImageBackground style={[styles.img,]}
                                  imageStyle={{borderRadius: 5, resizeMode: 'cover',}}

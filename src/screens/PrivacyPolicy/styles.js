@@ -64,4 +64,8 @@ export default StyleSheet.create({
         borderRadius:10,
         marginTop:'5%'
     },
+    subTitle:{
+        margin:10,
+        paddingHorizontal: 10,
+    },
 })

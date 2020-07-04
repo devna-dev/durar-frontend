@@ -34,6 +34,11 @@ const data = [
         route: 'Thesis',
     },
     {
+        image: svg_photo.thesis,
+        title: 'النشاطات',
+        route: 'Activities',
+    },
+    {
         image: svg_photo.donation,
         title: 'التبرع بكتاب',
         route: 'DonatedBook',
