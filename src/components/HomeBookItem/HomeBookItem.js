@@ -48,7 +48,7 @@ export default class HomeBookItem extends Component {
           source={{
             uri: this.props.image
               ? this.props.image
-              : 'https://api.kashback.co.uk/storage/yatijMWTlBnUJO7M0TYVlw7TDbpIAjtXL0zOKY9w.jpeg',
+              :this.props.item?.cover_image
           }}
         />
         <View
