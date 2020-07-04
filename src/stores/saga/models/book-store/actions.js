@@ -16,6 +16,7 @@ const get_popular_books_success = 'get_popular_books_success';
 const GET_Search_Result_SUCCESS = 'GET_Search_Result_SUCCESS';
 const GET_BOOK_CONTENT_PENDING = 'GET_BOOK_CONTENT_PENDING';
 const GET_BOOK_CONTENT_SUCCESS = 'GET_BOOK_CONTENT_SUCCESS';
+const GET_BOOK_COMMENTS_SUCCESS = 'GET_BOOK_COMMENTS_SUCCESS';
 const increase_page = 'increase_page';
 const decrease_page = 'decrease_page';
 const get_current_read = 'get_current_read';
@@ -46,6 +47,7 @@ export {
   GET_Search_Result_SUCCESS,
   GET_BOOK_CONTENT_PENDING,
   GET_BOOK_CONTENT_SUCCESS,
+  GET_BOOK_COMMENTS_SUCCESS,
   increase_page,
   decrease_page,
   get_popular_books,

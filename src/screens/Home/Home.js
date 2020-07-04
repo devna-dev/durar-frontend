@@ -102,7 +102,7 @@ class Home extends Component {
               onPress={() => this.props.navigation.navigate('Profile')}>
               <Image
                 style={styles.avatar}
-                source={{uri: this.state.user.photo_url?this.state.user.photo_url:null}}
+                source={{uri: this.state.user.photo_url?this.state.user.photo_url:''}}
               />
             </TouchableOpacity>
           </View>

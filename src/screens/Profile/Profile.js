@@ -94,7 +94,7 @@ export default class Profile extends Component {
                     name={this.state.user['name']}
                     age={this.state.user['age']+' سنة'}
                     backText=''
-                    title={{uri: this.state.user['photo_url']}}
+                    title={{uri: this.state.user['photo_url'] || ''}}
                     renderLeft={() => (<TouchableOpacity onPress={() => this.props.navigation.openDrawer()}
                                                          style={[styles.back_img, {marginTop: 5}]}>
                         <SvgUri style={styles.back_img}

@@ -31,7 +31,7 @@ export default class HistoryCategories extends Component {
                     <TouchableOpacity onPress={()=>this.props.navigation.goBack()} style={styles.header0}>
                         <View style={styles.headerRightStyle}>
                             <SvgUri style={styles.back_img}
-                                    uri={svg_photo.islam}/>
+                                    uri={svg_photo.islam || ''}/>
                             <Text style={styles.headerTitle}>  فقه المعاملات</Text>
                         </View>
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('Library')}>
