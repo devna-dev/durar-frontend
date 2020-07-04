@@ -44,6 +44,8 @@ import Menu from '../components/Menu/Menu';
 import storage from '../config/storage';
 import AudioBooks from '../screens/AudioBooks/AudioBooks';
 import Splash from '../screens/Splash/Splash';
+import TermsAndConditions from "../screens/TermsAndConditions/TermsAndConditions";
+import PrivacyPolicy from "../screens/PrivacyPolicy/PrivacyPolicy";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -218,6 +220,8 @@ export function DrawerNavigator() {
         <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="MyBooks" component={MyBooks} />
       <Drawer.Screen name="AudioBooks" component={AudioBooks} />
+      <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
+        <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
     </Drawer.Navigator>
   );
 }
@@ -273,6 +277,8 @@ export function DrawerNavigator3() {
         <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
         <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="MyBooks" component={MyBooks} />
+        <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
+        <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
     </Drawer.Navigator>
   );
 }
@@ -304,6 +310,8 @@ export function DrawerNavigator4() {
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
       <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
+        <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
+        <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
     </Drawer.Navigator>
   );
 }

@@ -28,7 +28,7 @@ import {
   GET_BOOK_REVIEWS_SUCCESS,
   post_review,
   post_review_success,
-  post_review_fail,
+  post_review_fail, GET_BOOK_COMMENTS_SUCCESS,
 } from './actions';
 import {
   getBooks,
@@ -70,11 +70,12 @@ function* get_booksApi(action) {
 }
 
 function* get_categoriesApi(action) {
-  try {
-    let result = yield getCategories();
-    // console.log('categories',result)
-    yield put({type: get_categories_success, form: result});
-  } catch (err) {}
+    try {
+        let result = yield getCategories();
+         console.log('categories',result)
+        yield put({type: get_categories_success, form: result});
+    } catch (err) {
+    }
 }
 
 function* get_authorsApi(action) {
@@ -86,23 +87,15 @@ function* get_authorsApi(action) {
 }
 
 function* get_search_result(form) {
-  try {
-    const [books, repos] = yield all([call(search_resultApi)]);
-    // console.tron.display({
-    //   name: 'LOG DATA OF books',
-    //   value: books,
-    //   preview: 'Click for details: ' + 'books',
-    // });
-    // console.tron.display({
-    //   name: 'LOG DATA OF repos',
-    //   value: repos,
-    //   preview: 'Click for details: ' + 'repos',
-    // });
-    // console.log('book detail', books);
-    yield put({type: GET_Search_Result_SUCCESS, fxorm: books});
-  } catch (err) {
-    console.log(err, 'err getBookDetail');
-  }
+    try {
+        const books = yield call(search_resultApi, form.form);
+        // console.log('***************',books)
+        // console.log('book detail', books);
+        if (books) yield put({type: GET_Search_Result_SUCCESS, form: books});
+    } catch (err) {
+        console.log(err, 'err getBookDetail');
+    }
+
 }
 
 function* getBookDetail(form) {
@@ -112,24 +105,30 @@ function* getBookDetail(form) {
       call(getBookPageContent, form.form),
       call(getBookCommentsApi, form.form.lookupId),
     ]);
-
+    console.log('=======================================================================================================');
+    console.log(bookDetail, 'bookDetail');
+    console.log('=======================================================================================================');
+    console.log(bookPageContent, 'bookPageContent');
+    console.log('=======================================================================================================');
+    console.log(comments, 'comments');
+    console.log('=======================================================================================================');
     if (bookDetail || bookPageContent || comments) {
-      console.tron.display({
-        name: 'fdfdgfdg',
-        value: {
-          bookDetail,
-          bookPageContent,
-          comments,
-        },
-      });
       yield put({
         type: GET_BOOK_DETAIL_SUCCESS,
-        form: {bookDetail, bookPageContent, comments},
+        form: bookDetail,
+      });
+      yield put({
+        type: GET_BOOK_COMMENTS_SUCCESS,
+        form: comments,
+      });
+      yield put({
+        type: GET_BOOK_CONTENT_SUCCESS,
+        form: bookPageContent,
       });
     }
   } catch (err) {
     yield put({type: GET_BOOK_FAILURE, form: err});
-    console.log(err, 'err getBookDetail');
+    console.log(JSON.stringify(err), 'err getBookDetail');
   }
 }
 

@@ -18,6 +18,14 @@ export default class Splash extends Component {
         },2000);
     }
 
+   async componentDidMount(){
+        let access2 = await storage.getItem('access2');
+        if (access2 === null) {
+            await storage.setItem('access2', true);
+            RNRestart.Restart();
+        }
+    }
+
     render() {
         return (
             <Container style={{backgroundColor: 'white', justifyContent: 'center', alignItems: 'center'}}>

@@ -30,7 +30,9 @@ export async function getAuthors() {
 }
 
 export async function getBookDetailApi(payload) {
-  return fetch(
+  console.log(settings.API_URL +
+      `books/${payload.lookupId}/details/?tashkeel=${payload.isWithTashkeel}`);
+  return await fetch(
     settings.API_URL +
       `books/${payload.lookupId}/details/?tashkeel=${payload.isWithTashkeel}`,
     {
@@ -43,7 +45,9 @@ export async function getBookDetailApi(payload) {
 }
 
 export async function getBookPageContent(payload) {
-  return fetch(
+  console.log(settings.API_URL +`books/${payload.lookupId}/view/?tashkeel=${payload.isWithTashkeel}&page=${payload.page}`);
+
+  return await fetch(
     settings.API_URL +
       `books/${payload.lookupId}/view/?tashkeel=${payload.isWithTashkeel}&page=${payload.page}`,
     {
@@ -66,7 +70,8 @@ export async function getBookApi(payload) {
 
 export async function getBookCommentsApi(payload) {
   // console.tron.log(payload);
-  return fetch(settings.API_URL + `books/${payload}/notes/`, {
+  console.log(settings.API_URL + `books/${payload}/notes/`);
+  return await fetch(settings.API_URL + `books/${payload}/notes/`, {
     method: 'Get',
     headers: {
       accept: 'application/json',
@@ -88,6 +93,7 @@ export async function getBookReviewsApi(payload) {
 
 export async function search_resultApi(payload) {
   const query = queryString(payload);
+  console.log(`books/${query ? '?' + query : ''}`);
   return fetch(settings.API_URL + `books/${query ? '?' + query : ''}`, {
     method: 'Get',
     headers: {
@@ -206,6 +212,25 @@ export async function regiter_to_activity(form) {
     });
 }
 
+export async function policy() {
+    return fetch(settings.API_URL + 'site/policy/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json());
+}
+
+export async function terms() {
+  return fetch(settings.API_URL + 'site/terms/', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
+}
 export async function post_review_api(payload) {
   return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
     method: 'POST',

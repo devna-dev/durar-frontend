@@ -29,6 +29,7 @@ import {
   post_review,
   post_review_success,
   post_review_fail,
+  GET_BOOK_COMMENTS_SUCCESS,
 } from './actions';
 
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
   book_error: null,
   page: 1,
   books: [],
+  searched_books: [],
   current_books: [],
   categories: [],
   authors: [],
@@ -85,7 +87,7 @@ const reducer = (state = initialState, action) => {
     case GET_Search_Result_SUCCESS:
       return {
         ...state,
-        books: action.form,
+        searched_books: action.form,
         load: false,
       };
     case get_authors_success:
@@ -109,9 +111,13 @@ const reducer = (state = initialState, action) => {
     case GET_BOOK_DETAIL_SUCCESS:
       return {
         ...state,
-        bookDetail: action.form?.bookDetail,
-        bookPageContent: action.form?.bookPageContent,
-        bookComments: action.form?.comments,
+        bookDetail: action.form,
+        load: false,
+      };
+    case GET_BOOK_COMMENTS_SUCCESS:
+      return {
+        ...state,
+        bookComments: action.form,
         load: false,
       };
     case GET_BOOK_FAILURE:

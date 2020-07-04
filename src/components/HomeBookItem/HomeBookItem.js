@@ -87,7 +87,7 @@ export default class HomeBookItem extends Component {
                     }
                 });
                 }}>
-                <SvgUri uri={svg_photo.play} />
+                <SvgUri uri={svg_photo.play || ''} />
               </TouchableOpacity>
             </View>
           )}

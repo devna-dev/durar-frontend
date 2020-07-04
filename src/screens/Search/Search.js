@@ -20,7 +20,13 @@ import {
   loading,
 } from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
-
+import { search_result } from '../../stores/saga/models/book-store/actions';
+// multiSliderValue: [0, 1],
+// select: false,
+// fromYear: 1446,
+// yearTo: 2000,
+// authorId: '',
+// sortId: 0,
 class Search extends Component {
   constructor(props) {
     super(props);
@@ -28,10 +34,64 @@ class Search extends Component {
       selected: 0,
       filter: false,
       sort: false,
+      payload: {
+        ...this.props.route.params,
+      },
     };
     props.clear();
+    this.start();
   }
+  clearFilter = () => {
+    if (this.state.payload.sort == 'undefined') {
+      this.setState({
+        ...this.state,
+        payload: {
+          ...this.props.route.params,
+        },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        payload: {
+          ...this.props.route.params,
+          sort: this.state.payload.sort,
+        },
+      });
+    }
 
+  }
+  start = () => {
+    const form = {
+      ...this.props.route.params,
+    };
+    this.props.search_result(form);
+  };
+  onSearch = (data, isFilter) => {
+    this.props.search_result(data);
+    isFilter ? this.onRequestCloseFilter() : this.onRequestClose();
+  };
+  onChangeValue = (key, value, obj) => {
+    if (key !== '') {
+      this.setState({
+        ...this.state,
+        payload: {
+          ...this.state.payload,
+          [key]: value,
+        },
+      });
+    }
+    if (typeof obj === 'object') {
+      this.setState({
+        ...this.state,
+        payload: {
+          ...this.state.payload,
+          ...obj,
+        },
+      });
+    }
+  };
+  onRequestClose = () => this.setState({sort: false});
+  onRequestCloseFilter = () => this.setState({filter: false});
   render() {
     return (
       <Container style={styles.container}>
@@ -60,20 +120,27 @@ class Search extends Component {
           <Text style={styles.find}>وجدنا لك 106 كتاب</Text>
           <Text style={styles.active_item_text2}>مرتبه حسب الأكثر مشاهدة</Text>
           <FlatList
-            data={[{}, {}, {}, {}, {}]}
+            data={this.props.searchedBooks}
             style={{marginLeft: '5%'}}
-            renderItem={() => (
-              <HomeBookItem navigation={this.props.navigation} search />
+            renderItem={({item}) => (
+              <HomeBookItem navigation={this.props.navigation} item={item} search />
             )}
           />
         </Content>
         <SearchFilters
           visible={this.state.filter}
-          onRequestClose={() => this.setState({filter: false})}
+          onSearch={this.onSearch}
+          onChangeValue={this.onChangeValue}
+          onRequestClose={this.onRequestCloseFilter}
+          data={this.state.payload}
+          clearFilter={this.clearFilter}
         />
         <Sort
           visible={this.state.sort}
-          onRequestClose={() => this.setState({sort: false})}
+          onSearch={this.onSearch}
+          onChangeValue={this.onChangeValue}
+          onRequestClose={this.onRequestClose}
+          data={this.state.payload}
         />
       </Container>
     );
@@ -83,7 +150,7 @@ class Search extends Component {
 const mapStateToProps = (state) => {
   // console.log(state);
   return {
-    ...state,
+    searchedBooks: state.book.searched_books,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
@@ -97,6 +164,11 @@ const mapDispatchToProps = (dispatch) => ({
       type: loading,
       form,
     }),
+  search_result: (form) =>
+      dispatch({
+        type: search_result,
+        form,
+      }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

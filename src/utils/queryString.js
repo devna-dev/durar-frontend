@@ -1,5 +1,6 @@
 export const queryString = (params) => {
     const queryObject = Object.keys(params);
+    // console.log(queryObject);
     return queryObject.reduce(
         (acc, key, index, arr) =>
             acc +

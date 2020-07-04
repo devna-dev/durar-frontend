@@ -22,26 +22,39 @@ class Search1 extends Component {
     this.state = {
       selected: 0,
       index: 0,
+      index1: 0,
+      sub_index: 0,
+      show_sub_categories: false,
+      sub_categories: [],
       show_categories: false,
       loading: false,
       payload: {
         category_id: '',
         title: '',
+        sub_category_id: '',
       },
     };
-  }
-
-  componentDidMount() {
-    this.start();
   }
 
   start() {
     this.props.clear();
     this.props.get_categories();
   }
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      // do something
+      this.start();
+    });
+  }
 
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   render() {
-    const {state} = this;
+    const {
+      state,
+      state: {payload},
+    } = this;
     return (
       <Container style={styles.container}>
         <View style={styles.header}>
@@ -134,7 +147,7 @@ class Search1 extends Component {
               بحث عن كاتب
             </Text>
           </TouchableOpacity>
-          <Text style={styles.item_text1}>التصنيف</Text>
+          <Text style={styles.item_text1}>التصنيف الرئيسي</Text>
           <TouchableOpacity
             onPress={() =>
               this.setState({show_categories: !this.state.show_categories})
@@ -157,28 +170,32 @@ class Search1 extends Component {
               data={this.props.book.categories}
               style={{marginHorizontal: '3.5%'}}
               numColumns={2}
-              renderItem={(item) => (
+              renderItem={({item, index}) => (
                 <TouchableOpacity
                   onPress={() => {
                     // this.props.navigation.navigate('Search')
+                    console.log();
                     this.setState({
                       ...state,
-                      index: item.index,
+                      index: index,
+                      sub_categories: item.sub_categories,
                       payload: {
                         ...this.state.payload,
-                        category_id: item.item.id,
+                        category_id: item.id,
                       },
                     });
                   }}
                   style={[
                     styles.item_view,
+
                     {
+                      marginBottom: 5,
                       backgroundColor:
-                        this.state.index == item.index
+                        this.state.index == index
                           ? colors.secondary
                           : colors.white,
                       borderColor:
-                        this.state.index == item.index
+                        this.state.index == index
                           ? colors.secondary
                           : colors.grey1,
                       borderWidth: 1,
@@ -190,30 +207,100 @@ class Search1 extends Component {
                       styles.text3,
                       {color: colors.primary, fontWeight: '900'},
                     ]}>
-                    {item.item.name}
+                    {item.name}
                   </Text>
                   {/*<SvgUri style={styles.back_img1} uri={svg_photo.active_close}/>*/}
                 </TouchableOpacity>
               )}
             />
           )}
-          <Button
-            title={'بحث'}
-            load={this.props.book.load}
-            style={styles.btn1}
-            onPress={() => {
-              let form = {
-                category_id: this.state.payload.category_id,
-                title: this.state.payload.title,
-                content: this.state.selected,
-              };
-              this.props.search_result(form);
-              this.props.navigation.navigate('Search', {
-                category_id: this.state.payload.category_id,
-              });
-            }}
-            textColor={colors.white}
-          />
+          <Text style={styles.item_text1}>التصنيف الفرعي</Text>
+          <TouchableOpacity
+            onPress={() =>
+              this.setState({
+                show_sub_categories: !this.state.show_sub_categories,
+              })
+            }
+            style={[styles.bar4, {borderColor: colors.grey1}]}>
+            <Text style={[styles.text3, {color: colors.grey3}]}>
+              إختر تصنيفات معينه
+            </Text>
+            <SvgUri
+              style={styles.back_img}
+              uri={
+                this.state.show_sub_categories
+                  ? svg_photo.down_arrow
+                  : svg_photo.up_arrow
+              }
+            />
+          </TouchableOpacity>
+
+          {this.state.show_sub_categories && (
+            <FlatList
+              data={this.state.sub_categories}
+              style={{marginHorizontal: '3.5%'}}
+              numColumns={2}
+              renderItem={({item, index}) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    // this.props.navigation.navigate('Search')
+                    this.setState({
+                      ...state,
+                      sub_index: index,
+                      payload: {
+                        ...this.state.payload,
+                        sub_category_id: item.id,
+                      },
+                    });
+                  }}
+                  style={[
+                    styles.item_view,
+                    {
+                      marginBottom: 5,
+                      backgroundColor:
+                        this.state.sub_index == index
+                          ? colors.secondary
+                          : colors.white,
+                      borderColor:
+                        this.state.sub_index == index
+                          ? colors.secondary
+                          : colors.grey1,
+                      borderWidth: 1,
+                      marginHorizontal: '2%',
+                    },
+                  ]}>
+                  <Text
+                    style={[
+                      styles.text3,
+                      {color: colors.primary, fontWeight: '900'},
+                    ]}>
+                    {item.name}
+                  </Text>
+                  {/*<SvgUri style={styles.back_img1} uri={svg_photo.active_close}/>*/}
+                </TouchableOpacity>
+              )}
+            />
+          )}
+          {(payload.category_id != '' ||
+            payload.title != '' ||
+            payload.sub_category_id != '') && (
+            <Button
+              title={'بحث'}
+              load={this.props.book.load}
+              style={styles.btn1}
+              onPress={() => {
+                let form = {
+                  category_id: this.state.payload.category_id,
+                  sub_category: this.state.payload.sub_category_id,
+                  title: this.state.payload.title,
+                  content: this.state.selected,
+                };
+                this.props.search_result(form);
+                this.props.navigation.navigate('Search', form);
+              }}
+              textColor={colors.white}
+            />
+          )}
         </Content>
       </Container>
     );

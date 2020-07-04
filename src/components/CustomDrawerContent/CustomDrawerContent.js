@@ -10,7 +10,7 @@ import UploadVoiceBook from '../../screens/UploadVoiceBook/UploadVoiceBook';
 import NotesBook from '../../screens/NotesBook/NotesBook';
 import {clear, loading, logout} from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
-import awaitAsyncGenerator from '@babel/runtime/helpers/esm/awaitAsyncGenerator';
+import RNRestart from 'react-native-restart';
 
 const data = [
     {
@@ -111,7 +111,8 @@ class CustomDrawerContent extends Component {
                     <TouchableOpacity onPress={async() => {
                         await storage.clear()
                         this.props.logout()
-                        this.props.navigation.reset({routes: [{name: 'Splash'}]});
+                        // RNRestart.Restart();
+                        this.props.navigation.replace('Walkthrough')
                     }} style={styles.btn}>
                         <Text style={styles.text}>تسجيل الخروج</Text>
                     </TouchableOpacity>

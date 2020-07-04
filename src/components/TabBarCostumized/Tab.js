@@ -14,7 +14,7 @@ export const Tab = (props) => {
                    {/*       source={props.item['image']}/>*/}
                    {  props.item['type']== 'Approvals'?
                        <SvgUri width={24} height={22.19}
-                           uri={props.item['image']}
+                           uri={props.item['image'] || ''}
                    />:
                        <SvgUri width={18} height={22.19}
                                uri={props.item['image']}
