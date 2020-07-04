@@ -43,7 +43,8 @@ class SearchFilters extends Component {
   }
 
   render() {
-    const {has_audio, from_year, to_year} = this.props.data;
+    const {data} = this.props;
+      // has_audio, from_year, to_year
     return (
       <Modal
         propagateSwipe={true}
@@ -68,13 +69,13 @@ class SearchFilters extends Component {
                 <Text style={styles.text3}> إلغاء</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.props.onChangeValue('has_audio', !has_audio)}
+                onPress={() => this.props.onChangeValue('has_audio', !data?.has_audio)}
                 style={[styles.bar2]}>
                 <Text style={styles.text3}> المتاح صوتيا فقط</Text>
                 <SvgUri
                   style={styles.back_img}
                   uri={
-                    has_audio
+                    data?.has_audio
                       ? svg_photo.checked_square
                       : svg_photo.unchecked_square
                   }
@@ -84,7 +85,10 @@ class SearchFilters extends Component {
                 <Text style={styles.active_item_text1}> الحقبة الزمنيه</Text>
               </View>
               <MultiRangeSlider
-                value={[from_year ? from_year : 1446, to_year ? to_year : 2000]}
+                value={[
+                  data?.from_year ? data?.from_year : 1446,
+                  data?.to_year ? data?.to_year : 2000,
+                ]}
                 onRangeChanged={(values) => {
                   console.log(values);
                   this.props.onChangeValue('', '', {
@@ -95,10 +99,10 @@ class SearchFilters extends Component {
               />
               <View style={[styles.bar3]}>
                 <Text style={styles.active_item_text}>{`${
-                  to_year ? to_year : 2000
+                  data?.to_year ? data?.to_year : 2000
                 }م`}</Text>
                 <Text style={styles.active_item_text}>{`${
-                  from_year ? from_year : 1446
+                  data?.from_year ? data?.from_year : 1446
                 }م`}</Text>
               </View>
               <View style={[styles.bar2, {borderBottomWidth: 0}]}>
