@@ -4,7 +4,12 @@ export default  {
   setItem: async (key, value) => {
 
     try {
-      await AsyncStorage.setItem(key, JSON.stringify(value));
+      value = JSON.stringify(value);
+      if (value) {
+        await AsyncStorage.setItem(key, value);
+      } else {
+        console.log('not set, stringify failed:', key, value);
+      }
     } catch (error) {
       console.error('AsyncStorage error: ' + error.message);
     }
