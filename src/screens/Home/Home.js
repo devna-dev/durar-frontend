@@ -44,8 +44,7 @@ class Home extends Component {
 
     _renderItem = ({item}) => {
         return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Activity', {id: item.id})}
-                              style={styles.item_view}>
+            <View style={styles.item_view}>
                 <View style={styles.right_side}/>
                 <ImageBackground style={styles.item_img}
                                  imageStyle={{borderRadius: 5}}
@@ -66,7 +65,7 @@ class Home extends Component {
                     </ImageBackground>
                 </ImageBackground>
                 <View style={styles.left_side}/>
-            </TouchableOpacity>
+            </View>
         )
     };
 
