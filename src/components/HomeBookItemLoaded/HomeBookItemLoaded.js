@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styles from './styles'
-import {Image, Text, TouchableOpacity, View} from "react-native";
+import {Image, Text, TouchableOpacity, View, Linking} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from "../../assets/svg/svg";
 import {colors} from "../../config/styles";
@@ -59,7 +59,7 @@ export default class HomeBookItemLoaded extends Component {
                             <Text style={styles.text2}>{this.props.item.item.page_count} صفحة</Text>
                             {this.props.audio?null:
                                 !this.props.type &&
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={()=>Linking.openURL(this.props.item.item.pdf)}>
                             <Text style={[styles.text3, {textDecorationLine: 'underline'}]}>تحميل نسخه PDF</Text>
                                 </TouchableOpacity>
                             }

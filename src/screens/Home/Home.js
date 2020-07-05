@@ -102,21 +102,22 @@ class Home extends Component {
                     </TouchableOpacity>
                     <View style={styles.leftHeader}>
                         <TouchableOpacity
-                            onPress={() => this.props.navigation.navigate('SystemPoints')}
-                            style={[styles.headerItemView, {flexDirection: 'row'}]}>
-                            <SvgUri style={styles.back_img} uri={svg_photo.gift}/>
-                            <Text style={styles.text2}>160 </Text>
+                           // onPress={() => this.props.navigation.navigate('SystemPoints')}
+                            style={[styles.headerItemView, {flexDirection: 'row',backgroundColor:'white'}]}>
+                            {/*<SvgUri style={styles.back_img} uri={svg_photo.gift}/>*/}
+                            {/*<Text style={styles.text2}>160 </Text>*/}
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() =>
-                                this.props.navigation.navigate('NotificationsList')
-                            }
+                            onPress={() =>{
+                               // this.props.navigation.navigate('NotificationsList')
+                            }}
                             style={[styles.headerItemView, {width: 40}]}>
                             <SvgUri style={styles.back_img} uri={svg_photo.bell}/>
                             <SvgUri style={styles.back_img1} uri={svg_photo.badge}/>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => this.props.navigation.navigate('Profile')}>
+                            //onPress={() => this.props.navigation.navigate('Profile')}
+                            >
                             <Image
                                 style={styles.avatar}
                                 source={{uri: this.state.user.photo_url ? this.state.user.photo_url : ''}}
@@ -155,7 +156,7 @@ class Home extends Component {
                                 onPress={() =>
                                     this.props.navigation.navigate('Library')
                                 }>
-                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                                {/*<Text style={styles.headerTitle1}>عرض المزيد</Text>*/}
                             </TouchableOpacity>
                         </View>}
                         {this.props.book?.home_books?.reads && (
@@ -179,7 +180,7 @@ class Home extends Component {
                                 onPress={() =>
                                     this.props.navigation.navigate('Library')
                                 }>
-                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                                {/*<Text style={styles.headerTitle1}>عرض المزيد</Text>*/}
                             </TouchableOpacity>
                         </View>
                         <FlatList
@@ -223,7 +224,7 @@ class Home extends Component {
                                 onPress={() =>
                                     this.props.navigation.navigate('Library')
                                 }>
-                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                                {/*<Text style={styles.headerTitle1}>عرض المزيد</Text>*/}
                             </TouchableOpacity>
                         </View>
                         }

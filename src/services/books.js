@@ -54,9 +54,11 @@ export async function getBookPageContent(payload) {
             method: 'Get',
             headers: {
                 accept: 'application/json',
+                Authorization: await storage.getItem('token'),
+
             },
         },
-    ).then((response) => response.json());
+    ).then((response) => response.json())
 }
 
 export async function getBookApi(payload) {
@@ -330,14 +332,16 @@ export async function get_audio_books() {
 }
 
 export async function post_review_api(payload) {
+    //alert(payload.body.comment)
     return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             Authorization: await storage.getItem('token'),
         },
-        body: payload.body,
-    }).then((response) => response.json());
+        body: JSON.stringify(payload.body),
+    }).then((response) => response.json())
+
 }
 
 export async function add_to_fav(id) {
@@ -354,5 +358,30 @@ export async function add_to_fav(id) {
         .then(res => {
             console.log(res)
             return res
+        });
+}
+
+export async function update_profile_api(data) {
+    let body = new FormData();
+    // Object.keys(data).forEach(key => {
+    //     body.append(key, data[key]);
+    // });
+    body.append("photo",data['photo'])
+    console.log(data)
+    return fetch(settings.API_URL + `user/`, {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json',
+           // 'Content-Type': 'multipart/form-data',
+            Authorization: await storage.getItem('token'),
+        },
+        body: body,
+    }).then((response) => response.json())
+        .then(res => {
+            console.log('profilllllle', res)
+            return res
+        })
+        .catch(err=>{
+            console.log(err.response)
         });
 }

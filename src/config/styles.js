@@ -10,7 +10,7 @@ export const colors = {
     lightOliveGreen: '#9eb659',
     orange: '#F26F21',
     orange10 : '#f26f2110',
-    orange1: '#f5e9dc',
+    orange1: '#f6f6f6',
     gray: '#565656',
     grey0: '#F4F4F4',
     grey1: '#F2F2F2',

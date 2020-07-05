@@ -180,7 +180,7 @@ class Book extends Component {
                                 </Text>
                                 <Text style={[styles.dark_font2, {
                                     textAlign: 'left',
-                                    width: '100%'
+                                    width: 320,
                                 }]}>{book && book.title}</Text>
                             </View>
                             {/*<View style={styles.leftHeader}>*/}
@@ -249,11 +249,13 @@ class Book extends Component {
                     visible={this.state.book_review}
                     onRequestClose={() => this.setState({book_review: false})}
                     addReview={(comment, rating) => {
+                        //alert(comment+' '+rating)
                         this.props.postReview({
                             lookupId,
                             body: {comment, rating},
                         });
                         this.setState({book_review: false});
+                        this.start()
                     }}
                 />
             </Container>

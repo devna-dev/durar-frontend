@@ -48,6 +48,7 @@ import {
     get_activities_Api,
     post_review_api, donate_to_api,
 } from '../../../../services/books';
+import storage from "../../../../config/storage";
 
 const handler = function* () {
     yield takeLatest(get_books, get_booksApi);
@@ -141,6 +142,8 @@ function* get_Book_Content(form) {
     try {
         console.log(form);
         const bookPageContent = yield getBookPageContent(form.form);
+        console.log('ffffff', yield storage.getItem('token'))
+        console.log('ffffff',bookPageContent)
         if (bookPageContent) {
             yield put({type: GET_BOOK_CONTENT_SUCCESS, form: bookPageContent});
         }
@@ -236,7 +239,7 @@ function* postReviewApi(form) {
         console.log('book post_review_success', reviews);
         if (postedReviews) {
             yield put({type: post_review_success});
-            yield put({type: GET_BOOK_REVIEWS_SUCCESS, form: {reviews}});
+          //  yield put({type: GET_BOOK_REVIEWS_SUCCESS, form: {reviews}});
         } else {
             yield put({type: post_review_fail, form: form});
         }

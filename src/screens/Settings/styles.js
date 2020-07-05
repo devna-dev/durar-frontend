@@ -91,4 +91,14 @@ export default StyleSheet.create({
         width: '100%',
         alignSelf: 'center'
     },
+    error:{
+        ...common.BoldFont,
+        fontSize: 12,
+        width: '85%',
+        alignSelf: 'center',
+        color:colors.error
+    },
+    toast:{
+        alignItems:'center'
+    }
 })

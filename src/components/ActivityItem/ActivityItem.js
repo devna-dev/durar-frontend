@@ -20,7 +20,7 @@ export default class ActivityItem extends Component {
                 if (this.props.dis) {
                     this.props.navigation.navigate('Activity', {id: this.props.item.item.id, dis: this.props.dis})
                 }else{
-                    this.props.navigation.navigate('Activity', {id: this.props.item.item.id})
+                    this.props.navigation.navigate('SeminarActivity', {id: this.props.item.item.id})
                 }
             }}
                               style={[styles.container]}>

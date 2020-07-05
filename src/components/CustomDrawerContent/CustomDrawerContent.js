@@ -13,11 +13,11 @@ import {connect} from 'react-redux';
 import RNRestart from 'react-native-restart';
 
 const data = [
-    {
-        image: svg_photo.person,
-        title: 'حسابي',
-        route: 'Profile',
-    },
+    // {
+    //     image: svg_photo.person,
+    //     title: 'حسابي',
+    //     route: 'Profile',
+    // },
     {
         image: svg_photo.setting,
         title: 'إعدادات الحساب',
@@ -83,6 +83,7 @@ class CustomDrawerContent extends Component {
             user: '',
             user1: '',
             visible: false,
+            access: true
         };
     }
 
@@ -92,6 +93,11 @@ class CustomDrawerContent extends Component {
         this.setState({user1: user.data});
         if ((await storage.getItem('without')) == true) {
             this.setState({visible: true});
+        }
+        if (await storage.getItem('token')) {
+            this.setState({access: true})
+        } else {
+            this.setState({access: false})
         }
     }
 
@@ -113,14 +119,14 @@ class CustomDrawerContent extends Component {
                             </TouchableOpacity>
                         )}
                     />
-                    <TouchableOpacity onPress={async() => {
+                    {this.state.access  && <TouchableOpacity onPress={async () => {
                         await storage.clear()
                         this.props.logout()
                         // RNRestart.Restart();
                         this.props.navigation.replace('Walkthrough')
                     }} style={styles.btn}>
                         <Text style={styles.text}>تسجيل الخروج</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </Content>
             </Container>
         );

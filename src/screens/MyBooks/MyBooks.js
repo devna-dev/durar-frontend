@@ -63,7 +63,7 @@ class MyBooks extends Component {
                     <TouchableOpacity
                         onPress={() => this.props.navigation.goBack()}
                         style={styles.header0}>
-                        <Text style={styles.book_text}> كتبى</Text>
+                        <Text style={styles.book_text}> كتبي</Text>
                     </TouchableOpacity>
 
                     <View style={styles.header1}>

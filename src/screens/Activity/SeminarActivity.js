@@ -30,7 +30,7 @@ import common from "../../styles/common.style";
 import Moment from 'moment/moment';
 import storage from "../../config/storage";
 
-class Activity extends Component {
+class SeminarActivity extends Component {
 
     constructor(props) {
         super(props)
@@ -67,16 +67,12 @@ class Activity extends Component {
         console.log(this.props.route)
         const {id, dis} = this.props.route.params;
         this.setState({loading: true})
-        if (dis) {
-            let discussion = await get_discussion_details(id)
-            this.setState({discussion})
-            console.log('dddddd', discussion)
-        } else {
+
             let discussion = await get_sem_details(id)
             this.setState({discussion})
             console.log('dddddd', discussion)
             //this.props.get_activity_details({id});
-        }
+
         this.setState({loading: false})
     }
 
@@ -220,4 +216,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Activity);
+export default connect(mapStateToProps, mapDispatchToProps)(SeminarActivity);
