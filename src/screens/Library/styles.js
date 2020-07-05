@@ -30,6 +30,13 @@ export default StyleSheet.create({
         fontSize:18,
         color:colors.primary
     },
+    headerTitle1:{
+        ...common.BlackFont,
+        fontSize:14,
+        color:colors.primary,
+        width:'90%',
+        textAlign:'center'
+    },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',

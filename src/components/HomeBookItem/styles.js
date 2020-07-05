@@ -11,17 +11,21 @@ export default StyleSheet.create({
     img: {
         height: 130,
         width: 100,
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         borderRadius:5
     },
     text1: {
         ...common.BlackFont,
-        fontSize: 12
+        fontSize: 12,
+        height:20,
+        width:'95%'
     },
     text2: {
         ...common.SemiBoldFont,
         fontSize: 13,
-        color:colors.grey3
+        color:colors.grey3,
+        height:20,
+        width:'95%'
     },
     text3: {
         ...common.BoldFont,

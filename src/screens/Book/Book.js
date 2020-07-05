@@ -26,6 +26,7 @@ import {
 } from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
 import {add_to_fav} from "../../services/books";
+import Toast from "../../components/Toast/Toast";
 
 class Book extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class Book extends Component {
         this.state = {
             book_review: false,
             EditBookReview: false,
+            fav: false,
         };
     }
 
@@ -76,8 +78,13 @@ class Book extends Component {
         // console.log({
         //   uri: book?.cover_image,
         // }, 'user');
+        console.log('ddddddddd',bookReviews)
         return (
             <Container style={styles.container}>
+                <View style={styles.toast}>
+                    <Toast ref="Failed" backgroundColor="#ff190c" position="top"/>
+                    <Toast ref="Successfully" backgroundColor="#146632" position="top"/>
+                </View>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <SvgUri style={styles.back_img} uri={svg_photo.back}/>
@@ -87,9 +94,13 @@ class Book extends Component {
                         <TouchableOpacity
                             onPress={async () => {
                                 let add_fav = await add_to_fav(book.id)
+                                if(add_fav['id']){
+                                    this.setState({fav:true})
+                                    this.refs.Successfully.showToast('تم إضافة الكتاب إلى المفضلة', 8000);
+                                }
                             }}
                             style={[styles.headerItemView, {width: 40}]}>
-                            <SvgUri style={styles.back_img} uri={svg_photo.favourite_book}/>
+                            <SvgUri style={styles.back_img} uri={this.state.fav?svg_photo.favourite:svg_photo.favourite_book}/>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
@@ -210,11 +221,12 @@ class Book extends Component {
                             textColor={colors.white}
                             style={[styles.btn, {backgroundColor: colors.primary}]}
                         />
-                        {this.props.book?.books?.reads.length != 0 && <View style={styles.bar}>
+                        {this.props.book.home_books.reads && this.props.book.home_books.reads.length != 0 &&
+                        <View style={styles.bar}>
                             <Text style={styles.headerTitle}>المستخدمون يقرأون أيضا</Text>
                             <Text style={styles.headerTitle1}>عرض المزيد</Text>
                         </View>}
-                        {this.props.book?.books?.reads.length != 0 && <FlatList
+                        {this.props.book?.books?.reads && this.props.book?.books?.reads.length != 0 && <FlatList
                             data={this.props.book?.books?.reads}
                             horizontal
                             renderItem={(item) => (

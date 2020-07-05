@@ -10,7 +10,7 @@ import {
     Text,
     View,
     TouchableOpacity,
-    ActivityIndicator,
+    ActivityIndicator, RefreshControl,
 } from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import {svg_photo} from '../../assets/svg/svg';
@@ -29,6 +29,7 @@ import {
     get_popular_books,
 } from '../../stores/saga/models/book-store/actions';
 import storage from '../../config/storage';
+import AudioBooks from "../AudioBooks/AudioBooks";
 
 class Home extends Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class Home extends Component {
 
     _renderItem = ({item}) => {
         return (
-            <View style={styles.item_view}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Activities')} style={styles.item_view}>
                 <View style={styles.right_side}/>
                 <ImageBackground style={styles.item_img}
                                  imageStyle={{borderRadius: 5}}
@@ -57,19 +58,27 @@ class Home extends Component {
                         {/*onPress={()=>this.props.navigation.navigate('Activity',{id:item.id})}*/}
                         {/*style={styles.btn}/>*/}
 
-                        <Text style={[styles.text, {
-                            marginTop: '15%', alignSelf: 'center',
-                            width: '90%', textAlign: 'center'
-                        }]}>{item.title}</Text>
+                        <Text style={[styles.text,{marginTop:'10%',textAlign:'center',}]}>{item.title}</Text>
                         <Text style={styles.text1}>مع {item.lecturer}</Text>
                     </ImageBackground>
                 </ImageBackground>
                 <View style={styles.left_side}/>
-            </View>
+            </TouchableOpacity>
         )
     };
 
     async componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            // do something
+            this.start();
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe();
+    }
+
+    async start() {
         this.props.get_popular_books();
         this.props.get_activities()
         let user = await storage.getItem('user');
@@ -81,7 +90,10 @@ class Home extends Component {
         }
     }
 
+
+
     render() {
+
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
@@ -119,7 +131,16 @@ class Home extends Component {
                         animating={this.props.book.load}
                     />
                 ) : (
-                    <Content style={styles.content}>
+                    <Content style={styles.content} refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.book.load}
+                            colors={[colors.primary]}
+                            size={'large'}
+                            onRefresh={async () => {
+                                this.start();
+                            }}
+                        />
+                    }>
                         <View style={{width: '100%'}}>
                             <FlatList data={this.props.book.activities.last_activities}
                                       horizontal
@@ -127,19 +148,19 @@ class Home extends Component {
                                       renderItem={(item) => this._renderItem(item)}
                             />
                         </View>
-                        {this.props.book?.books?.reads && this.props.book?.books?.reads.length != 0 &&
+                        {this.props.book?.home_books?.reads && this.props.book?.home_books?.reads.length != 0 &&
                         <View style={styles.bar}>
                             <Text style={styles.headerTitle}>الأكثر قراءه هذا الشهر</Text>
                             <TouchableOpacity
                                 onPress={() =>
-                                    this.props.navigation.navigate('HistoryCategories')
+                                    this.props.navigation.navigate('Library')
                                 }>
                                 <Text style={styles.headerTitle1}>عرض المزيد</Text>
                             </TouchableOpacity>
                         </View>}
-                        {this.props.book?.books?.reads && (
+                        {this.props.book?.home_books?.reads && (
                             <FlatList
-                                data={this.props.book?.books?.reads}
+                                data={this.props.book?.home_books?.reads}
                                 horizontal
                                 inverted={true}
                                 style={{marginLeft: '5%'}}
@@ -156,13 +177,13 @@ class Home extends Component {
                             <Text style={styles.headerTitle}>أخر الإضافات</Text>
                             <TouchableOpacity
                                 onPress={() =>
-                                    this.props.navigation.navigate('HistoryCategories')
+                                    this.props.navigation.navigate('Library')
                                 }>
                                 <Text style={styles.headerTitle1}>عرض المزيد</Text>
                             </TouchableOpacity>
                         </View>
                         <FlatList
-                            data={this.props.book?.books?.recent}
+                            data={this.props.book?.home_books?.recent}
                             horizontal
                             inverted={true}
                             style={{marginLeft: '5%'}}
@@ -188,26 +209,26 @@ class Home extends Component {
                                 {
                                     image: svg_photo.voice_book,
                                     title: 'كتب صوتية',
-                                    route: 'MyBooks',
+                                    route: 'AudioBooks',
                                 },
                             ]}
                             horizontal
                             style={{marginLeft: '5%', marginTop: '3%'}}
                             renderItem={(item) => this.notes_bar(item)}
                         />
-                        {this.props.book?.books?.listens && this.props.book?.books?.listens.length != 0 &&
+                        {this.props.book?.home_books?.listens && this.props.book?.home_books?.listens.length != 0 &&
                         <View style={styles.bar}>
                             <Text style={styles.headerTitle}>الأكثر إستماعا</Text>
                             <TouchableOpacity
                                 onPress={() =>
-                                    this.props.navigation.navigate('HistoryCategories')
+                                    this.props.navigation.navigate('Library')
                                 }>
                                 <Text style={styles.headerTitle1}>عرض المزيد</Text>
                             </TouchableOpacity>
                         </View>
                         }
                         <FlatList
-                            data={this.props.book?.books?.listens}
+                            data={this.props.book?.home_books?.listens}
                             horizontal
                             inverted={true}
                             style={{marginLeft: '5%'}}

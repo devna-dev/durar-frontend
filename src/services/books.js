@@ -132,6 +132,25 @@ export async function suggest_to_api(form) {
     }).then((response) => response.json());
 }
 
+export async function donate_to_api(form) {
+    return fetch(settings.API_URL + 'user/suggestions/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+        body: JSON.stringify(form),
+    }).then((response) => response.json())
+        .then(res => {
+            console.log(res)
+            return res
+        })
+        .catch(error => {
+            console.log('error', error)
+            return error.response
+        })
+}
+
 export async function get_activities_Api(form) {
     return fetch(settings.API_URL + 'activities', {
         method: 'GET',
@@ -164,6 +183,19 @@ export async function get_activity_seminars_details_api(form) {
 
 export async function get_discussion_details(form) {
     return fetch(settings.API_URL + 'activities/discussions/' + form, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json())
+        .then(res => {
+            return res
+        });
+}
+
+export async function get_sem_details(form) {
+    return fetch(settings.API_URL + 'activities/seminars/' + form, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -208,10 +240,30 @@ export async function get_seminar_in(form) {
 }
 
 export async function regiter_to_activity(form) {
+
     let data = new FormData();
     data.append('chat_room', form);
     console.log(form);
     return fetch(settings.API_URL + 'activities/seminars/registration/', {
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+        body: data,
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            return res;
+        });
+}
+
+export async function regiter_to_discussions(form) {
+
+    let data = new FormData();
+    data.append('chat_room', form);
+    console.log(form);
+    return fetch(settings.API_URL + 'activities/discussions/registration/', {
         method: 'POST',
         headers: {
             accept: 'application/json',
@@ -240,6 +292,32 @@ export async function policy() {
 
 export async function get_terms() {
     return fetch(settings.API_URL + 'site/terms/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json())
+        .then(res => {
+            return res
+        });
+}
+
+export async function get_books_using_sub_categories(id) {
+    return fetch(settings.API_URL + 'books/?category=' + id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json())
+        .then(res => {
+            return res
+        });
+}
+
+export async function get_audio_books() {
+    return fetch(settings.API_URL + 'books/?has_audio=true', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

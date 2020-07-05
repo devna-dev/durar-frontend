@@ -22,12 +22,13 @@ export default class Walkthrough extends Component {
     }
 
     _renderItem = ({item}) => {
+        console.log('item',item)
         return (
             <View style={styles.item_view}>
                 <Image style={styles.item_img}
 source={{uri:"https://lh3.googleusercontent.com/proxy/DIYJrmy_Nvt-hqjAOrAycpt6_bQLWvz3RJR9xEKicD1-mKwQUfekX_5vlH0wr_lFw318HFsY46ytkbn3q3YYcaE01z0gEBpWEaPkZaBnEP6pzufaTyUZ"}}                />
                 <Text style={styles.text} selectable={true}>أكثر من 5000 كتاب مجانى</Text>
-                <Text style={styles.text1}>هو ببساطة نص شكلي ويُستخدم في صناعات المطابع ودور النشر</Text>
+                <Text style={styles.text1}>المكتبة الشاملة هي أكبر وأشمل مكتبة كتب دينية إسلامية</Text>
             </View>
         )
     };

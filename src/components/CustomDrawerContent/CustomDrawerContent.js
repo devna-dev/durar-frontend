@@ -35,7 +35,7 @@ const data = [
     },
     {
         image: svg_photo.thesis,
-        title: 'النشاطات',
+        title: 'الأنشطة',
         route: 'Activities',
     },
     {

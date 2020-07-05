@@ -2,16 +2,32 @@ import React, {Component} from 'react';
 import styles from './styles';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {FlatList, TextInput, Image, ImageBackground, Text, View, TouchableOpacity} from "react-native";
+import {
+    FlatList,
+    TextInput,
+    Image,
+    ImageBackground,
+    Text,
+    View,
+    TouchableOpacity,
+    Linking,
+    RefreshControl
+} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
 import Button from "../../components/Button/Button";
 import {clear, loading} from "../../stores/saga/models/user-store/actions";
 import {connect} from "react-redux";
 import {get_activity_details} from "../../stores/saga/models/activities-store/actions";
-import {get_discussion_details, regiter_to_activity} from "../../services/books";
+import {
+    get_discussion_details,
+    get_sem_details,
+    regiter_to_activity,
+    regiter_to_discussions
+} from "../../services/books";
 import {colors} from "../../config/styles";
 import common from "../../styles/common.style";
+import storage from "../../config/storage";
 
 class Activity extends Component {
 
@@ -30,179 +46,149 @@ class Activity extends Component {
     }
 
     async componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            // do something
+            this.start()
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe();
+    }
+
+    async start() {
         console.log(this.props.route)
         const {id, dis} = this.props.route.params;
+        this.setState({loading: true})
         if (dis) {
             let discussion = await get_discussion_details(id)
             this.setState({discussion})
+            console.log('dddddd', discussion)
         } else {
-            this.props.get_activity_details({id});
+
+            let discussion = await get_sem_details(id)
+            this.setState({discussion})
+            console.log('dddddd', discussion)
+            //this.props.get_activity_details({id});
         }
-        console.log(this.props.activity.activity_details)
+        this.setState({loading: false})
     }
 
     render() {
-        if (this.props.route.params.dis) {
-            return (
-                <Container style={styles.container}>
-                    <Content style={styles.content}>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginRight: '5%'
-                        }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.header0}>
-                                <SvgUri style={styles.back_img}
-                                        uri={svg_photo.back}/>
-                            </TouchableOpacity>
-                            {/*<TouchableOpacity onPress={() => this.setState({note: true})}>*/}
-                                {/*<Button title={'الدروس العلمية'}*/}
-                                        {/*style={styles.btn}*/}
-                                        {/*textStyle={styles.text}/>*/}
-                            {/*</TouchableOpacity>*/}
-                        </View>
-                        <Image style={styles.cover_img}
-                               source={{
-                                   uri: this.state.discussion.image == null ? 'https://www.hiamag.com/sites/default/files/styles/ph2_960_600/public/article/07/03/2019/7841791-1090336005.jpg'
-                                       : this.state.discussion.image
-                               }}/>
-                        <Text style={styles.item_text}>{this.state.discussion.title}</Text>
-                        <View style={styles.header1}>
-                            <View style={[styles.item_view, {}]}>
-                                <Text
-                                    style={styles.active_item_text}>{this.state.discussion.lecturer}</Text>
-                            </View>
-                            <View style={[styles.item_view, {}]}>
-                                <Text
-                                    style={styles.active_item_text}>المدة:{this.state.discussion.duration}</Text>
-                            </View>
-                        </View>
-                        <Text
-                            style={[styles.active_item_text1,]}>{this.state.discussion.description}</Text>
 
-                        <ImageBackground source={require('../../assets/images/time_date_back.png')}
-                                         style={styles.header}>
-                            <View style={{width: '60%'}}>
-                                <Text style={[styles.active_item_text, {
-                                    height: 20,
-                                    marginTop: 5,textAlign:'left'
-                                }]}>{this.state.discussion.day}</Text>
-                                <Text style={[styles.item_text, {
-                                    marginVertical: 0,
-                                    textAlign: 'left'
-                                }]}>{this.state.discussion.date}</Text>
-                            </View>
-                            <View>
-                                <Text style={[styles.active_item_text, {height: 20, marginTop: 5}]}>الساعة</Text>
-                                <Text style={[styles.item_text, {
-                                    marginVertical: 0,
-                                    textAlign: 'left'
-                                }]}>{this.state.discussion.from_time}</Text>
-                            </View>
-                        </ImageBackground>
-                        {this.state.success && <Text style={{
-                            color: this.state.success ? colors.green1 : colors.error, ...common.RegularFont,
-                            fontSize: 16,
-                            alignSelf: 'center'
-                        }}>{this.state.success ? 'تم تسجيلك للمشاركة بالنشاط' : 'لم يتم تسجيلك'}</Text>}
-                        <Button title={'تسجيل'}
+        return (
+            <Container style={styles.container}>
+                <Content style={styles.content}
+                         refreshControl={
+                             <RefreshControl
+                                 refreshing={this.state.loading}
+                                 colors={[colors.primary]}
+                                 size={'large'}
+                                 onRefresh={async () => {
+                                     this.start();
+                                 }}
+                             />
+                         }>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginRight: '5%'
+                    }}>
+                        <TouchableOpacity onPress={() => this.props.navigation.pop()} style={styles.header0}>
+                            <SvgUri style={styles.back_img}
+                                    uri={svg_photo.back}/>
+                        </TouchableOpacity>
+                        {/*<TouchableOpacity onPress={() => this.setState({note: true})}>*/}
+                        {/*<Button title={'الدروس العلمية'}*/}
+                        {/*style={styles.btn}*/}
+                        {/*textStyle={styles.text}/>*/}
+                        {/*</TouchableOpacity>*/}
+                    </View>
+                    <Image style={styles.cover_img}
+                           source={{
+                               uri: this.state.discussion.image ? this.state.discussion.image : 'https://alkbraquran.com/wp-content/uploads/2017/03/%D9%A2%D9%A0%D9%A1%D9%A6%D9%A0%D9%A9%D9%A0%D9%A6_%D9%A1%D9%A7%D9%A0%D9%A3%D9%A4%D9%A2.jpg'
+                           }}/>
+                    <Text style={styles.item_text}>{this.state.discussion.title}</Text>
+                    <View style={styles.header1}>
+                        <View style={[styles.item_view, {}]}>
+                            <Text
+                                style={styles.active_item_text}>{this.state.discussion.lecturer}</Text>
+                        </View>
+                        <View style={[styles.item_view, {}]}>
+                            <Text
+                                style={styles.active_item_text}>المدة:{this.state.discussion.duration}</Text>
+                        </View>
+                    </View>
+                    <Text
+                        style={[styles.active_item_text1,]}>{this.state.discussion.description}</Text>
+
+                    <ImageBackground source={require('../../assets/images/time_date_back.png')}
+                                     style={styles.header}>
+                        <View style={{width: '60%'}}>
+                            <Text style={[styles.active_item_text, {
+                                height: 20,
+                                marginTop: 5, textAlign: 'left'
+                            }]}>{this.state.discussion.day}</Text>
+                            <Text style={[styles.item_text, {
+                                marginVertical: 0,
+                                textAlign: 'left'
+                            }]}>{this.state.discussion.date}</Text>
+                        </View>
+                        <View>
+                            <Text style={[styles.active_item_text, {height: 20, marginTop: 5}]}>الساعة</Text>
+                            <Text style={[styles.item_text, {
+                                marginVertical: 0,
+                                textAlign: 'left'
+                            }]}>{this.state.discussion.from_time}</Text>
+                        </View>
+                    </ImageBackground>
+                    {this.state.success && <Text style={{
+                        color: this.state.success ? colors.green1 : colors.error, ...common.RegularFont,
+                        fontSize: 16,
+                        alignSelf: 'center'
+                    }}>{this.state.success ? 'تم تسجيلك للمشاركة بالنشاط' : 'أنت مسجل فعلياً في النشاط'}</Text>}
+                    {this.state.discussion.date == new Date() ?
+                        <Button title={'مشاركة'}
                                 load={this.state.loading}
                                 onPress={async () => {
-                                    this.setState({loading: true})
-                                    let result = await regiter_to_activity(this.props.activity.activity_details.id)
-                                    if (result['chat_room']) {
-                                        this.setState({success: true, loading: false})
-                                    } else {
-                                        this.setState({success: false, loading: false})
-                                    }
+                                    Linking.openURL(this.state.discussion.url)
                                 }}
                                 style={styles.btn1}/>
+                        :
+                        !this.state.discussion.registered && <Button title={'تسجيل'}
+                                                                     load={this.state.loading}
+                                                                     onPress={async () => {
+                                                                         if (this.props.route.params.dis) {
+                                                                             this.setState({loading: true})
+                                                                             let result = await regiter_to_discussions(this.props.route.params.id)
+                                                                             console.log('registered', result)
+                                                                             this.start()
+                                                                             this.setState({
+                                                                                 success: true,
+                                                                                 loading: false
+                                                                             })
 
-                    </Content>
-                </Container>
-            )
-        } else {
-            return (
-                <Container style={styles.container}>
-                    <Content style={styles.content}>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginRight: '5%'
-                        }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.header0}>
-                                <SvgUri style={styles.back_img}
-                                        uri={svg_photo.back}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.setState({note: true})}>
-                                <Button title={'الدروس العلمية'}
-                                        style={styles.btn}
-                                        textStyle={styles.text}/>
-                            </TouchableOpacity>
-                        </View>
-                        <Image style={styles.cover_img}
-                               source={{
-                                   uri: this.props.activity.activity_details.image == null ? 'https://www.hiamag.com/sites/default/files/styles/ph2_960_600/public/article/07/03/2019/7841791-1090336005.jpg'
-                                       : this.props.activity.activity_details
-                               }}/>
-                        <Text style={styles.item_text}>{this.props.activity.activity_details.title}</Text>
-                        <View style={styles.header1}>
-                            <View style={[styles.item_view, {}]}>
-                                <Text
-                                    style={styles.active_item_text}>{this.props.activity.activity_details.lecturer}</Text>
-                            </View>
-                            <View style={[styles.item_view, {}]}>
-                                <Text
-                                    style={styles.active_item_text}>المدة:{this.props.activity.activity_details.duration}</Text>
-                            </View>
-                        </View>
-                        <Text
-                            style={[styles.active_item_text1,]}>{this.props.activity.activity_details.description}</Text>
 
-                        <ImageBackground source={require('../../assets/images/time_date_back.png')}
-                                         style={styles.header}>
-                            <View style={{width: '60%'}}>
-                                <Text style={[styles.active_item_text, {
-                                    height: 20,
-                                    marginTop: 5
-                                }]}>{this.props.activity.activity_details.day}</Text>
-                                <Text style={[styles.item_text, {
-                                    marginVertical: 0,
-                                    textAlign: 'left'
-                                }]}>{this.props.activity.activity_details.date}</Text>
-                            </View>
-                            <View>
-                                <Text style={[styles.active_item_text, {height: 20, marginTop: 5}]}>الساعة</Text>
-                                <Text style={[styles.item_text, {
-                                    marginVertical: 0,
-                                    textAlign: 'left'
-                                }]}>{this.props.activity.activity_details.from_time}</Text>
-                            </View>
-                        </ImageBackground>
-                        {this.state.success && <Text style={{
-                            color: this.state.success ? colors.green1 : colors.error, ...common.RegularFont,
-                            fontSize: 16,
-                            alignSelf: 'center'
-                        }}>{this.state.success ? 'تم تسجيلك للمشاركة بالنشاط' : 'لم يتم تسجيلك'}</Text>}
-                        <Button title={'تسجيل'}
-                                load={this.state.loading}
-                                onPress={async () => {
-                                    this.setState({loading: true})
-                                    let result = await regiter_to_activity(this.props.activity.activity_details.id)
-                                    if (result['chat_room']) {
-                                        this.setState({success: true, loading: false})
-                                    } else {
-                                        this.setState({success: false, loading: false})
-                                    }
-                                }}
-                                style={styles.btn1}/>
+                                                                         } else {
+                                                                             this.setState({loading: true})
+                                                                             let result = await regiter_to_activity(this.props.route.params.id)
+                                                                             console.log('registered', result)
+                                                                             this.start()
+                                                                             this.setState({
+                                                                                 success: true,
+                                                                                 loading: false
+                                                                             })
+                                                                         }
 
-                    </Content>
-                </Container>
-            )
-        }
+                                                                     }}
+                                                                     style={styles.btn1}/>
+                    }
+
+                </Content>
+            </Container>
+        )
+
     }
 }
 

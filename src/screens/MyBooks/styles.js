@@ -128,7 +128,8 @@ export default StyleSheet.create({
     find: {
         ...common.BlackFont,
         fontSize: 16,
-        marginHorizontal: '10%'
+        marginHorizontal: '10%',
+        alignSelf:'center'
     },
     bar4: {
         flexDirection: 'row',

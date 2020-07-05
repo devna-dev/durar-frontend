@@ -46,6 +46,7 @@ import AudioBooks from '../screens/AudioBooks/AudioBooks';
 import Splash from '../screens/Splash/Splash';
 import TermsAndConditions from "../screens/TermsAndConditions/TermsAndConditions";
 import PrivacyPolicy from "../screens/PrivacyPolicy/PrivacyPolicy";
+import SubCategory from "../screens/Library/SubCategory";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -242,10 +243,11 @@ export function DrawerNavigator2() {
   return (
     <Drawer.Navigator
       drawerPosition={'right'}
-      initialRouteName="HistoryCategories"
+      initialRouteName="Library"
       drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="Library" component={Library} />
+      <Drawer.Screen name="SubCategory" component={SubCategory} />
     </Drawer.Navigator>
   );
 }

@@ -18,6 +18,7 @@ export default class BookItem extends Component {
   }
 
   render() {
+    console.log('test comments ', this.props.item)
     return (
       <Swipeout
         style={styles.swipe}
