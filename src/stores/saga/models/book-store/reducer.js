@@ -40,6 +40,8 @@ import {
   SEARCH_IN_BOOK_SUCCESS,
   SEARCH_IN_BOOK_FAIL,
   CLEAR_SEARCH_IN_BOOK,
+  donate,
+  donate_success,
 } from './actions';
 
 const initialState = {
@@ -53,6 +55,7 @@ const initialState = {
   book_notes_error: null,
   book_content_error: null,
   search_content_error: null,
+  home_books: [],
   page: 1,
   books: [],
   searched_books: [],
@@ -83,6 +86,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: 'suggest_success',
+        message: action.form,
+        load: false,
+      };
+    case donate:
+      return {...state, loading: 'donate', load: true};
+    case donate_success:
+      return {
+        ...state,
+        loading: 'donate_success',
         message: action.form,
         load: false,
       };
@@ -215,7 +227,8 @@ const reducer = (state = initialState, action) => {
     case SEARCH_IN_BOOK_SUCCESS:
       return {...state, searchedContent: action.form, load: false};
     case CLEAR_SEARCH_IN_BOOK:
-      return {...state, search_content_error: action.form, load: false};    case SEARCH_IN_BOOK_FAIL:
+      return {...state, search_content_error: action.form, load: false};
+    case SEARCH_IN_BOOK_FAIL:
       return {
         ...state,
         searchedContent: initialState.searchedContent,

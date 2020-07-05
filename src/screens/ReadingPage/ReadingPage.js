@@ -41,7 +41,7 @@ const htmlContent = `
     <img src="https://i.imgur.com/dHLmxfO.jpg?2" />
     <em style="textAlign: center;">Look at how happy this native cat is</em>
 `;
-
+Tts.setDefaultLanguage('ar-SA');
 class ReadingPage extends Component {
   constructor(props) {
     super(props);
@@ -111,7 +111,10 @@ class ReadingPage extends Component {
           width: '90%',
           alignSelf: 'center',
           color: moon == 2 ? colors.white : colors.black,
+          fontSize: 50
         }}
+        TextComponent={(value) => <Text style={{fontSize: 100, color: 'red'}}>{value}</Text>}
+        textValueProp={{style: {fontSize: 100, color: 'red'}}}
         onSelection={({eventType, content, selectionStart, selectionEnd}) => {
           if (eventType === 'Copy') {
             Clipboard.setString(content);
@@ -299,7 +302,8 @@ class ReadingPage extends Component {
                   customWrapper={(content, attr) =>
                     this.renderText(attr, content, this.state.moon)
                   }
-                  onHTMLParsed={(dom, RNElements) => {
+                  tagsStyles={ {i: {textAlign: 'center', fontStyle: 'italic', color: 'grey'}} }
+                onHTMLParsed={(dom, RNElements) => {
                     // Find the index of the first paragraph
                     const ad = {
                       wrapper: 'Text',

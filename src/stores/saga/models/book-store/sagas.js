@@ -1,6 +1,16 @@
 import {takeLatest, put, takeEvery, all, call} from 'redux-saga/effects';
 
 import {
+  GET_BOOK_Notes_SUCCESS,
+  post_note,
+  post_note_success,
+  post_note_fail,
+  GET_BOOK_NOTES_FAILURE,
+  GET_BOOK_DETAIL_FAILURE,
+  GET_BOOK_CONTENT_FAILURE,
+  SEARCH_IN_BOOK_PENDING,
+  SEARCH_IN_BOOK_SUCCESS,
+  SEARCH_IN_BOOK_FAIL,
   get_books,
   get_books_success,
   get_categories,
@@ -22,30 +32,20 @@ import {
   get_current_read_success,
   suggest,
   suggest_success,
-  REGISTER_USER_REQUEST_FAILURE,
+  donate,
+  donate_success,
   get_activities,
   get_activities_success,
   GET_BOOK_REVIEWS_SUCCESS,
   post_review,
   post_review_success,
   post_review_fail,
-  GET_BOOK_Notes_SUCCESS,
-  post_note,
-  post_note_success,
-  post_note_fail,
-  GET_BOOK_NOTES_FAILURE,
-  GET_BOOK_DETAIL_FAILURE,
-  GET_BOOK_CONTENT_FAILURE,
-  SEARCH_IN_BOOK_PENDING,
-  SEARCH_IN_BOOK_SUCCESS,
-  SEARCH_IN_BOOK_FAIL,
 } from './actions';
 import {
   getBooks,
   getBookApi,
   getCategories,
   getBookDetailApi,
-  getBookNotesApi,
   getAuthors,
   search_resultApi,
   getBookPageContent,
@@ -55,11 +55,21 @@ import {
   getBookReviewsApi,
   get_activities_Api,
   post_review_api,
-  post_notes_api,
+  donate_to_api,
   search_content_api,
+  post_notes_api,
+  getBookNotesApi,
 } from '../../../../services/books';
+import storage from '../../../../config/storage';
 
 const handler = function* () {
+  yield takeEvery(get_popular_books, get_popular_books_api);
+  yield takeEvery(get_current_read, get_current_read_api);
+  yield takeEvery(suggest, suggest_api);
+  yield takeEvery(get_activities, get_activities_api);
+  yield takeEvery(post_review, postReviewApi);
+  yield takeEvery(post_note, postNoteApi);
+  yield takeEvery(SEARCH_IN_BOOK_PENDING, searchContentApi);
   yield takeLatest(get_books, get_booksApi);
   yield takeLatest(get_categories, get_categoriesApi);
   yield takeEvery(GET_BOOK_PENDING, getBook);
@@ -70,10 +80,8 @@ const handler = function* () {
   yield takeEvery(get_popular_books, get_popular_books_api);
   yield takeEvery(get_current_read, get_current_read_api);
   yield takeEvery(suggest, suggest_api);
+  yield takeEvery(donate, donate_api);
   yield takeEvery(get_activities, get_activities_api);
-  yield takeEvery(post_review, postReviewApi);
-  yield takeEvery(post_note, postNoteApi);
-  yield takeEvery(SEARCH_IN_BOOK_PENDING, searchContentApi);
 };
 
 const isNullOrUndeclared = (value) =>
@@ -203,9 +211,24 @@ function* get_activities_api(form) {
 
 function* suggest_api(action) {
   try {
-    const suggest = yield suggest_to_api(action.form);
+    const denotation = yield suggest_to_api(action.form);
 
-    yield put({type: suggest_success, form: suggest});
+    yield put({type: suggest_success, form: suggestBooks});
+  } catch (err) {
+    if (err.message === 'Timeout' || err.message === 'Network request failed') {
+      yield put({
+        type: REGISTER_USER_REQUEST_FAILURE,
+        form: {network_error: [err.message]},
+      });
+    }
+  }
+}
+
+function* donate_api(action) {
+  try {
+    const donation = yield donate_to_api(action.form);
+    console.log('donate_to_api for user', donation);
+    yield put({type: donate_success, form: donation});
   } catch (err) {
     if (err.message === 'Timeout' || err.message === 'Network request failed') {
       yield put({
@@ -218,21 +241,16 @@ function* suggest_api(action) {
 }
 
 function* postReviewApi(form) {
-  try {
-    const [postedReviews, reviews] = yield all([
-      call(post_review_api, form.form),
-      call(getBookReviewsApi, form.form.lookupId),
-    ]);
+  const [postedReviews, reviews] = yield all([
+    call(post_review_api, form.form),
+    call(getBookReviewsApi, form.form.lookupId),
+  ]);
 
-    if (postedReviews) {
-      yield put({type: post_review_success});
-      yield put({type: GET_BOOK_REVIEWS_SUCCESS, form: {reviews}});
-    } else {
-      yield put({type: post_review_fail, form: form});
-    }
-  } catch (err) {
-    yield put({type: post_review_fail, form: err});
-    console.log(err, 'err get_review_error');
+  if (postedReviews) {
+    yield put({type: post_review_success});
+    yield put({type: GET_BOOK_REVIEWS_SUCCESS, form: {reviews}});
+  } else {
+    yield put({type: post_review_fail, form: form});
   }
 }
 

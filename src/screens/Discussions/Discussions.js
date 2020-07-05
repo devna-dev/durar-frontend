@@ -34,8 +34,16 @@ class Discussions extends Component {
     }
 
     async componentDidMount() {
-        await this.load_more()
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            // do something
+            this.load_more();
+        });
     }
+
+    componentWillUnmount() {
+        this._unsubscribe();
+    }
+
 
     async load_more() {
         if (this.state.count < this.page) {
@@ -105,12 +113,19 @@ class Discussions extends Component {
                                     uri={svg_photo.back}/>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.item_text}>مناقشات</Text>
+                    <Text style={styles.item_text}>{this.props.route.params.type == 0 ? 'مناقشات' : 'ندوات'}</Text>
                     {!this.state.loading && this.state.activities.length == 0 &&
-                    <Text style={styles.item_text}>لا توجد أي مناقشات</Text>}
+                    <Text style={styles.item_text}>{this.props.route.params.type == 0 ? 'لا توجد أي مناقشات' : 'لا توجد أي ندوات'}</Text>}
                     <FlatList data={this.state.activities}
                               onEndReached={() => this.load_more()}
-                              renderItem={(item) => <View
+                              renderItem={(item) => <TouchableOpacity onPress={()=>{
+                                  if(this.props.route.params.type == 0){
+                                          this.props.navigation.navigate('Activity', {id: item.item.id, dis: this.props.dis})
+                                      }else{
+                                          this.props.navigation.navigate('Activity', {id: item.item.id})
+                                      }
+
+                              }}
                                   style={{alignItems: 'center', justifyContent: 'center', marginBottom: '5%'}}>
                                   <Image style={styles.cover_img}
                                          source={{uri: item.item.image != null ? item.item.image : 'https://www.hiamag.com/sites/default/files/styles/ph2_960_600/public/article/07/03/2019/7841791-1090336005.jpg'}}/>
@@ -124,7 +139,7 @@ class Discussions extends Component {
                                           <Text style={styles.active_item_text}>الساعة: {item.item.from_time}</Text>
                                       </View>
                                   </View>
-                              </View>}/>
+                              </TouchableOpacity>}/>
                     <ActivityIndicator color={colors.primary} size={'large'} animating={this.state.loading}/>
                 </Content>
             </Container>
@@ -160,4 +175,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Discussions);
+export default Discussions;

@@ -142,6 +142,26 @@ export async function suggest_to_api(form) {
   }).then((response) => response.json());
 }
 
+export async function donate_to_api(form) {
+  return fetch(settings.API_URL + 'user/suggestions/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify(form),
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log('error', error);
+      return error.response;
+    });
+}
+
 export async function get_activities_Api(form) {
   return fetch(settings.API_URL + 'activities', {
     method: 'GET',
@@ -174,6 +194,20 @@ export async function get_activity_seminars_details_api(form) {
 
 export async function get_discussion_details(form) {
   return fetch(settings.API_URL + 'activities/discussions/' + form, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
+}
+
+export async function get_sem_details(form) {
+  return fetch(settings.API_URL + 'activities/seminars/' + form, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -236,6 +270,24 @@ export async function regiter_to_activity(form) {
     });
 }
 
+export async function regiter_to_discussions(form) {
+  let data = new FormData();
+  data.append('chat_room', form);
+  console.log(form);
+  return fetch(settings.API_URL + 'activities/discussions/registration/', {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: data,
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
+}
+
 export async function policy() {
   return fetch(settings.API_URL + 'site/policy/', {
     method: 'GET',
@@ -264,14 +316,43 @@ export async function get_terms() {
     });
 }
 
+export async function get_books_using_sub_categories(id) {
+  return fetch(settings.API_URL + 'books/?category=' + id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
+}
+
+export async function get_audio_books() {
+  return fetch(settings.API_URL + 'books/?has_audio=true', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
+}
+
 export async function post_review_api(payload) {
+  //alert(payload.body.comment)
   return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: await storage.getItem('token'),
     },
-    body: payload.body,
+    body: JSON.stringify(payload.body),
   }).then((response) => response.json());
 }
 
@@ -307,8 +388,10 @@ export async function post_notes_api(payload) {
 }
 
 export async function search_content_api(payload) {
-  console.log(settings.API_URL +
-      `books/${payload.lookupId}/search/?tashkeel=${payload.tashkeel}&word=${payload.word}`);
+  console.log(
+    settings.API_URL +
+      `books/${payload.lookupId}/search/?tashkeel=${payload.tashkeel}&word=${payload.word}`,
+  );
   return fetch(
     settings.API_URL +
       `books/${payload.lookupId}/search/?tashkeel=${payload.tashkeel}&word=${payload.word}`,
@@ -320,4 +403,30 @@ export async function search_content_api(payload) {
       },
     },
   ).then((response) => response.json());
+}
+
+export async function update_profile_api(data) {
+  let body = new FormData();
+  // Object.keys(data).forEach(key => {
+  //     body.append(key, data[key]);
+  // });
+  body.append('photo', data.photo);
+  console.log(data);
+  return fetch(settings.API_URL + 'user/', {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      // 'Content-Type': 'multipart/form-data',
+      Authorization: await storage.getItem('token'),
+    },
+    body: body,
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log('profilllllle', res);
+      return res;
+    })
+    .catch((err) => {
+      console.log(err.response);
+    });
 }

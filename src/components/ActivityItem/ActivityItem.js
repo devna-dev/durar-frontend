@@ -17,7 +17,11 @@ export default class ActivityItem extends Component {
     render() {
         return (
             <TouchableOpacity onPress={() => {
-                this.props.navigation.navigate('Activity', {id: this.props.item.item.id,dis:this.props.dis})
+                if (this.props.dis) {
+                    this.props.navigation.navigate('Activity', {id: this.props.item.item.id, dis: this.props.dis})
+                }else{
+                    this.props.navigation.navigate('SeminarActivity', {id: this.props.item.item.id})
+                }
             }}
                               style={[styles.container]}>
                 <ImageBackground style={[styles.img,]}

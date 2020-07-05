@@ -127,7 +127,7 @@ export default StyleSheet.create({
     },
     text: {
         ...common.RegularFont,
-        fontSize: 32,
+        fontSize: 28,
         color: colors.white,
         alignSelf: 'center'
     },

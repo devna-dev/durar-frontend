@@ -137,5 +137,8 @@ export default StyleSheet.create({
         height:130,
         marginHorizontal:5,
         borderRadius:5
+    },
+    toast:{
+        alignItems:'center'
     }
 })

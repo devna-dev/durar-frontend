@@ -46,6 +46,8 @@ import AudioBooks from '../screens/AudioBooks/AudioBooks';
 import Splash from '../screens/Splash/Splash';
 import TermsAndConditions from "../screens/TermsAndConditions/TermsAndConditions";
 import PrivacyPolicy from "../screens/PrivacyPolicy/PrivacyPolicy";
+import SubCategory from "../screens/Library/SubCategory";
+import SeminarActivity from "../screens/Activity/SeminarActivity";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -186,7 +188,7 @@ export function TabNavigator() {
       <Tab.Screen name="Home" component={DrawerNavigator} />
       <Tab.Screen name="Register" component={DrawerNavigator1} />
       <Tab.Screen name="Activity" component={DrawerNavigator2} />
-      <Tab.Screen name="SavingBooks" component={DrawerNavigator3} />
+      {/*<Tab.Screen name="SavingBooks" component={DrawerNavigator3} />*/}
       <Tab.Screen name="Profile" component={DrawerNavigator4} />
     </Tab.Navigator>
   );
@@ -212,6 +214,7 @@ export function DrawerNavigator() {
       <Drawer.Screen name="NotesBook" component={NotesBook} />
       <Drawer.Screen name="Activities" component={Activities} />
       <Drawer.Screen name="Activity" component={Activity} />
+      <Drawer.Screen name="SeminarActivity" component={SeminarActivity} />
       <Drawer.Screen name="Discussions" component={Discussions} />
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
@@ -242,10 +245,11 @@ export function DrawerNavigator2() {
   return (
     <Drawer.Navigator
       drawerPosition={'right'}
-      initialRouteName="HistoryCategories"
+      initialRouteName="Library"
       drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="Library" component={Library} />
+      <Drawer.Screen name="SubCategory" component={SubCategory} />
     </Drawer.Navigator>
   );
 }
@@ -270,6 +274,7 @@ export function DrawerNavigator3() {
       <Drawer.Screen name="NotesBook" component={NotesBook} />
       <Drawer.Screen name="Activities" component={Activities} />
       <Drawer.Screen name="Activity" component={Activity} />
+      <Drawer.Screen name="SeminarActivity" component={SeminarActivity} />
       <Drawer.Screen name="Discussions" component={Discussions} />
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
@@ -305,6 +310,7 @@ export function DrawerNavigator4() {
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="NotesBook" component={NotesBook} />
       <Drawer.Screen name="Activities" component={Activities} />
+      <Drawer.Screen name="SeminarActivity" component={SeminarActivity} />
       <Drawer.Screen name="Activity" component={Activity} />
       <Drawer.Screen name="Discussions" component={Discussions} />
       <Drawer.Screen name="Thesis" component={Thesis} />

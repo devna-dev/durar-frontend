@@ -3,6 +3,8 @@ import Container from '../../components/Containers/Container';
 import Content from '../../components/Containers/Content';
 import {Image} from 'react-native';
 import storage from '../../config/storage';
+import RNRestart from 'react-native-restart';
+import {colors} from "../../config/styles";
 
 export default class Splash extends Component {
 
@@ -10,29 +12,32 @@ export default class Splash extends Component {
         super(props);
         setTimeout(async function () {
             let user = await storage.getItem('user');
-            if(user){
-               props.navigation.navigate('Root');
-            }else{
-                props.navigation.navigate('Auth');
+            if (user) {
+                props.navigation.replace('Root');
+            } else {
+                props.navigation.replace('Auth');
             }
-        },2000);
+        }, 2000);
     }
 
-   async componentDidMount(){
+    async componentDidMount() {
         let access2 = await storage.getItem('access2');
-        if (access2 === null) {
-            await storage.setItem('access2', true);
+        if (access2) {
+        } else{
+            await storage.setItem('access2', 'lll');
             RNRestart.Restart();
         }
     }
 
-    render() {
-        return (
-            <Container style={{backgroundColor: 'white', justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require('../../assets/images/ic_launcher_round.png')}/>
-            </Container>
-        );
-    }
+
+render()
+{
+    return (
+        <Container style={{backgroundColor: colors.orange1, justifyContent: 'center', alignItems: 'center'}}>
+            <Image style={{width:200,height:200}} source={require('../../assets/images/test_logo.jpeg')}/>
+        </Container>
+    );
+}
 
 
 }

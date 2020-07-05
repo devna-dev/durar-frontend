@@ -3,109 +3,61 @@ import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
 import styles from "./styles";
 import {svg_photo} from "../../assets/svg/svg";
-import {FlatList, Image, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import BookItem from "../../components/BookItem/BookItem";
 import Button from "../../components/Button/Button";
 import {colors} from "../../config/styles";
+import {clear, loading} from "../../stores/saga/models/user-store/actions";
+import {connect} from "react-redux";
+import {get_thesis} from "../../stores/saga/models/activities-store/actions";
+import {get_audio_books} from "../../services/books";
+import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
 
 
-export default class AudioBooks extends Component {
+class AudioBooks extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            audio_books: [],
+            loading: false
+        }
+    }
+
+    async componentDidMount() {
+        this.setState({loading: true})
+        let audio_books = await get_audio_books();
+        console.log(audio_books)
+        this.setState({audio_books})
+        this.setState({loading: false})
     }
 
     render() {
         return (
             <Container style={styles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                        <SvgUri style={styles.back_img}
-                                uri={svg_photo.back}/>
-                    </TouchableOpacity>
-                    <View style={styles.leftHeader}>
-                        <View style={[styles.headerItemView, {flexDirection: 'row'}]}>
-                        </View>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('NotificationsList')}
-                                          style={[styles.headerItemView, {width: 40}]}>
+                <Content style={styles.content}>
+                    <View style={styles.back_view}>
+                        <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.header0}>
                             <SvgUri style={styles.back_img}
-                                    uri={svg_photo.favourite_book}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('NotificationsList')}
-                                          style={[styles.headerItemView, {width: 40}]}>
-                            <SvgUri style={styles.back_img}
-                                    uri={svg_photo.book_menu}/>
+                                    uri={svg_photo.back}/>
+                            <Text style={styles.item_text1}>كتب صوتية</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
-                <Content>
-                    <View style={styles.upper}>
-                        <Image style={styles.book}
-                               source={{uri: 'https://www.kutubpdfbook.com/kutubpdfcafe/cover/safwat-altfasser.jpg'}}/>
-                        <View style={styles.book}>
-                            <Text style={styles.light_font}>عدد الصفحات</Text>
-                            <Text style={styles.dark_font}>300</Text>
-                            <Text style={styles.light_font}>القسم</Text>
-                            <Text style={styles.dark_font1}>التاريخ الإسلامى</Text>
-                            <Text style={styles.light_font}>التقييم</Text>
-                            <View style={{alignSelf: 'flex-start'}}>
-                                <AirbnbRating
-                                    isDisabled
-                                    count={5}
-                                    showRating={false}
-                                    defaultRating={3}
-                                    size={14}
-                                />
-                            </View>
-                            <Text style={styles.light_font}>من 700 تقييم</Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.address_view}>
-                        <View>
-                            <Text style={[styles.light_font, {height: 20}]}>جلال الدين السيوطى</Text>
-                            <Text style={styles.dark_font2}>تاريخ الخلفاء</Text>
-                        </View>
-                        <View style={styles.leftHeader}>
-                            <View style={[styles.headerItemView, {flexDirection: 'row'}]}>
-                            </View>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('NotificationsList')}
-                                              style={[styles.headerItemView, {width: 40}]}>
-                                <SvgUri style={styles.back_img}
-                                        uri={svg_photo.favourite_book}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('NotificationsList')}
-                                              style={[styles.headerItemView, {width: 40}]}>
-                                <SvgUri style={styles.back_img}
-                                        uri={svg_photo.book_menu}/>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <Text style={styles.description}>هو كتاب يختص في طبقة معينة وهم الخلفاء من بداية عهد الخلفاء
-                        الراشدين إلى نهاية عهد الخلافة العباسية، حيث يترجم للخلفاء ترجمة موسعة ويذكر بداية خلافة كل منهم
-                        وأعماله وآثاره في أيام خلافته و أهم الأعلام الذين توفوا في زمانه والولايات الإسلامية ثم يذكر
-                        تاريخ وفاته ومدفنه وقد توسع في الخلفاء الراشدين</Text>
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>التقييمات</Text>
-                        <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                    </View>
-                    <FlatList data={[{}, {}]}
-                              renderItem={(item) => <BookItem item={item}/>}/>
-                    <Button title={'تقييم الكتاب'}
-                            textColor={colors.white}
-                            style={[styles.btn,{backgroundColor:colors.primary}]}/>
-                    <View style={styles.bar}>
-                        <Text style={styles.headerTitle}>المستخدمون يقرأون أيضا</Text>
-                        <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                    </View>
-                    <FlatList data={[{}, {},{}, {},{}, {},]}
-                              horizontal
-                              renderItem={(item) =><Image style={styles.img} source={{uri: 'https://www.kutubpdfbook.com/kutubpdfcafe/cover/safwat-altfasser.jpg'}}/>}
-                    />
-                    <Button title={'قراءة الكتاب'}
-                            style={styles.btn}/>
+                    {this.state.audio_books.length != 0  ?
+                        <Text style={styles.item_text}> {this.state.audio_books.length} كتاب</Text>
+                        :
+                        !this.state.loading &&<Text style={styles.item_text}> لا يوجد أي كتاب صوتي</Text>
+                    }
+                    {this.state.loading &&
+                    <ActivityIndicator animating={this.state.loading} color={colors.primary} size={'large'}/>}
+                    {this.state.audio_books.length != 0 && <FlatList data={this.state.audio_books}
+                                                                     renderItem={(item) => <HomeBookItemLoaded
+                                                                         search
+                                                                         audio
+                                                                         navigation={this.props.navigation}
+                                                                         item={item}/>}/>}
 
                 </Content>
             </Container>
@@ -113,3 +65,6 @@ export default class AudioBooks extends Component {
     }
 
 }
+
+
+export default AudioBooks

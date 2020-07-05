@@ -23,6 +23,8 @@ const get_current_read = 'get_current_read';
 const get_current_read_success = 'get_current_read_success';
 const suggest = 'suggest';
 const suggest_success = 'suggest_success';
+const donate = 'donate';
+const donate_success = 'donate_success';
 const get_activities = 'get_activities';
 const get_activities_success = 'get_activities_access';
 const post_review = 'post_review';
@@ -82,4 +84,6 @@ export {
   SEARCH_IN_BOOK_SUCCESS,
   SEARCH_IN_BOOK_FAIL,
   CLEAR_SEARCH_IN_BOOK,
+  donate,
+  donate_success,
 };

@@ -9,25 +9,34 @@ import Button from "../../components/Button/Button";
 import Register from "../Register/Register";
 import storage from '../../config/storage';
 
+
 export default class Walkthrough extends Component {
 
 
     constructor(props) {
         super(props);
         this.state = {
-            items: [{}, {}, {}, {}, {}, {}, {}, {},],
+            items: [ {
+                image:'https://elearningindustry.com/wp-content/uploads/2016/05/top-10-books-every-college-student-read-e1464023124869.jpeg'
+            },
+                {
+                image:'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+            }, {
+                image:'https://img.jakpost.net/c/2019/03/02/2019_03_02_66706_1551461528._large.jpg'
+            },],
             sliderActiveSlide: 0,
             isLoggedIn: false,
         }
     }
 
     _renderItem = ({item}) => {
+        console.log('item', item)
         return (
             <View style={styles.item_view}>
                 <Image style={styles.item_img}
-source={{uri:"https://lh3.googleusercontent.com/proxy/DIYJrmy_Nvt-hqjAOrAycpt6_bQLWvz3RJR9xEKicD1-mKwQUfekX_5vlH0wr_lFw318HFsY46ytkbn3q3YYcaE01z0gEBpWEaPkZaBnEP6pzufaTyUZ"}}                />
+                       source={{uri:item.image}}/>
                 <Text style={styles.text} selectable={true}>أكثر من 5000 كتاب مجانى</Text>
-                <Text style={styles.text1}>هو ببساطة نص شكلي ويُستخدم في صناعات المطابع ودور النشر</Text>
+                <Text style={styles.text1}>المكتبة الشاملة هي أكبر وأشمل مكتبة كتب دينية إسلامية</Text>
             </View>
         )
     };
@@ -71,11 +80,11 @@ source={{uri:"https://lh3.googleusercontent.com/proxy/DIYJrmy_Nvt-hqjAOrAycpt6_b
                     </View>
 
                     <Button title={'إنشاء حساب جديد'}
-                            onPress={() => this.props.navigation.navigate('Register')}
+                            onPress={() => this.props.navigation.navigate('Auth',{screen:'Register'})}
                             style={styles.btn}/>
                     <Button title={'تسجيل دخول'}
                             style={styles.btn1}
-                            onPress={() => this.props.navigation.navigate('Login')}
+                            onPress={() => this.props.navigation.navigate('Auth',{screen:'Login'})}
                             textColor={colors.white}
                     />
                     <TouchableOpacity
@@ -86,5 +95,6 @@ source={{uri:"https://lh3.googleusercontent.com/proxy/DIYJrmy_Nvt-hqjAOrAycpt6_b
             </Container>
         )
     }
+
 
 }
