@@ -29,15 +29,30 @@ import {
   post_review,
   post_review_success,
   post_review_fail,
-  GET_BOOK_COMMENTS_SUCCESS,
+  GET_BOOK_Notes_SUCCESS,
+  post_note,
+  post_note_success,
+  post_note_fail,
+  GET_BOOK_NOTES_FAILURE,
+  GET_BOOK_DETAIL_FAILURE,
+  GET_BOOK_CONTENT_FAILURE,
+  SEARCH_IN_BOOK_PENDING,
+  SEARCH_IN_BOOK_SUCCESS,
+  SEARCH_IN_BOOK_FAIL,
+  CLEAR_SEARCH_IN_BOOK,
 } from './actions';
 
 const initialState = {
   book: null,
   bookPageContent: '',
+  searchedContent: [],
   bookComments: [],
   bookReviews: [],
   book_error: null,
+  note_errors: null,
+  book_notes_error: null,
+  book_content_error: null,
+  search_content_error: null,
   page: 1,
   books: [],
   searched_books: [],
@@ -114,10 +129,28 @@ const reducer = (state = initialState, action) => {
         bookDetail: action.form,
         load: false,
       };
-    case GET_BOOK_COMMENTS_SUCCESS:
+    case GET_BOOK_DETAIL_FAILURE:
+      return {
+        ...state,
+        book_detail_error: action.form,
+        load: false,
+      };
+    case GET_BOOK_Notes_SUCCESS:
       return {
         ...state,
         bookComments: action.form,
+        load: false,
+      };
+    case GET_BOOK_NOTES_FAILURE:
+      return {
+        ...state,
+        book_notes_error: action.form,
+        load: false,
+      };
+    case GET_BOOK_CONTENT_FAILURE:
+      return {
+        ...state,
+        book_content_error: action.form,
         load: false,
       };
     case GET_BOOK_FAILURE:
@@ -171,6 +204,23 @@ const reducer = (state = initialState, action) => {
       return {...state, load: false};
     case post_review_fail:
       return {...state, post_review_err: action.form, load: false};
+    case post_note:
+      return {...state, loading: 'post_note', load: true};
+    case post_note_success:
+      return {...state, load: false};
+    case post_note_fail:
+      return {...state, note_errors: action.form, load: false};
+    case SEARCH_IN_BOOK_PENDING:
+      return {...state, loading: 'post_note', load: true};
+    case SEARCH_IN_BOOK_SUCCESS:
+      return {...state, searchedContent: action.form, load: false};
+    case CLEAR_SEARCH_IN_BOOK:
+      return {...state, search_content_error: action.form, load: false};    case SEARCH_IN_BOOK_FAIL:
+      return {
+        ...state,
+        searchedContent: initialState.searchedContent,
+        load: false,
+      };
     case clear:
       return {...initialState, loading: 'clear'};
     default:

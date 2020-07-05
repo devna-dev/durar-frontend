@@ -53,7 +53,7 @@ class Book extends Component {
                 params: {lookupId},
             } = this.props.route;
             // console.tron.log(lookupId, 'lookupId');
-            console.log(lookupId, 'lookupId');
+            // console.log(lookupId, 'lookupId');
             this.props.getBook({lookupId});
             this.props.get_current_read();
         } catch (e) {
@@ -69,13 +69,10 @@ class Book extends Component {
             book: {book, bookReviews},
             user,
         } = this.props;
-        // console.log(book?.cover_image);
         const {
             params: {lookupId},
         } = this.props.route;
-        // console.log({
-        //   uri: book?.cover_image,
-        // }, 'user');
+        // console.log(bookReviews, "bookReviews component");
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
@@ -198,12 +195,15 @@ class Book extends Component {
                             <Text style={styles.headerTitle}>التقييمات</Text>
                             <Text style={styles.headerTitle1}>عرض المزيد</Text>
                         </View>
-                        <FlatList
-                            data={bookReviews}
-                            renderItem={({item, index}) => (
-                                <BookItem item={item} index={index}/>
-                            )}
-                        />
+                        {bookReviews ? <FlatList
+                            data={ bookReviews }
+                            renderItem={ ({item, index}) => (
+                                <BookItem item={ item } index={ index }/>
+                            ) }
+                        /> : (
+                            <Text style={styles.headerTitle}>لا يوجد تقييمات لهذا الكتاب</Text>
+                        )
+                        }
                         <Button
                             title={'تقييم الكتاب'}
                             onPress={() => this.setState({book_review: true})}

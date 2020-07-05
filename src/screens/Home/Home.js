@@ -74,7 +74,7 @@ class Home extends Component {
         this.props.get_activities()
         let user = await storage.getItem('user');
         if (user) {
-            console.log('****************', user);
+            // console.log('****************', user);
             this.setState({user});
             this.props.get_current_read();
             this.setState({guest: false});

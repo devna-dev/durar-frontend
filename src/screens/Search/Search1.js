@@ -173,8 +173,6 @@ class Search1 extends Component {
               renderItem={({item, index}) => (
                 <TouchableOpacity
                   onPress={() => {
-                    // this.props.navigation.navigate('Search')
-                    console.log();
                     this.setState({
                       ...state,
                       index: index,
@@ -308,7 +306,7 @@ class Search1 extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state);
+
   return {
     ...state,
   };
