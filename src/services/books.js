@@ -314,6 +314,7 @@ export async function get_books_using_sub_categories(id) {
         },
     }).then((response) => response.json())
         .then(res => {
+            console.log('res',res)
             return res
         });
 }

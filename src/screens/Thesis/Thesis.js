@@ -53,7 +53,7 @@ class Thesis extends Component {
                     {this.props.activity.load &&
                     <ActivityIndicator animating={this.props.activity.load} color={colors.primary} size={'large'}/>}
                     {this.props.activity.thesis.length != 0 && <FlatList data={this.props.activity.thesis}
-                                                                         renderItem={(item) => <HomeBookItemLoaded
+                                                                         renderItem={(item) => <HomeBookItemLoaded navigation={this.props.navigation}
                                                                              search item={item}/>}/>}
                 </Content>
             </Container>

@@ -12,7 +12,7 @@ import {
     Text,
     TouchableOpacity,
     View,
-    Share
+    Share,
 } from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import {Rating, AirbnbRating} from 'react-native-ratings';
@@ -25,8 +25,9 @@ import {
     post_review,
 } from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
-import {add_to_fav} from "../../services/books";
-import Toast from "../../components/Toast/Toast";
+import {add_to_fav} from '../../services/books';
+import Toast from '../../components/Toast/Toast';
+import storage from '../../config/storage';
 
 class Book extends Component {
     constructor(props) {
@@ -35,6 +36,7 @@ class Book extends Component {
             book_review: false,
             EditBookReview: false,
             fav: false,
+            access: false,
         };
     }
 
@@ -49,7 +51,12 @@ class Book extends Component {
         this._unsubscribe();
     }
 
-    start = () => {
+    start = async () => {
+        if (await storage.getItem('token')) {
+            this.setState({access: true});
+        } else {
+            this.setState({access: false});
+        }
         try {
             const {
                 params: {lookupId},
@@ -78,7 +85,7 @@ class Book extends Component {
         // console.log({
         //   uri: book?.cover_image,
         // }, 'user');
-        console.log('ddddddddd',bookReviews)
+        console.log('ddddddddd', bookReviews);
         return (
             <Container style={styles.container}>
                 <View style={styles.toast}>
@@ -93,14 +100,15 @@ class Book extends Component {
                         <View style={[styles.headerItemView, {flexDirection: 'row'}]}/>
                         <TouchableOpacity
                             onPress={async () => {
-                                let add_fav = await add_to_fav(book.id)
-                                if(add_fav['id']){
-                                    this.setState({fav:true})
+                                let add_fav = await add_to_fav(book.id);
+                                if (add_fav['id']) {
+                                    this.setState({fav: true});
                                     this.refs.Successfully.showToast('تم إضافة الكتاب إلى المفضلة', 8000);
                                 }
                             }}
                             style={[styles.headerItemView, {width: 40}]}>
-                            <SvgUri style={styles.back_img} uri={this.state.fav?svg_photo.favourite:svg_photo.favourite_book}/>
+                            <SvgUri style={styles.back_img}
+                                    uri={this.state.fav ? svg_photo.favourite : svg_photo.favourite_book}/>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
@@ -168,14 +176,14 @@ class Book extends Component {
                                     />
                                 </View>
                                 <Text style={styles.light_font}>{`من ${
-                                book?.rating || 0
-                                    } تقييم`}</Text>
+                                    book?.rating || 0
+                                } تقييم`}</Text>
                             </View>
                         </View>
 
                         <View style={styles.address_view}>
                             <View>
-                                <Text style={[styles.light_font,]}>
+                                <Text style={[styles.light_font]}>
                                     {book && book.author?.name}
                                 </Text>
                                 <Text style={[styles.dark_font2, {
@@ -215,12 +223,12 @@ class Book extends Component {
                                 <BookItem item={item} index={index}/>
                             )}
                         />
-                        <Button
+                        {this.state.access && <Button
                             title={'تقييم الكتاب'}
                             onPress={() => this.setState({book_review: true})}
                             textColor={colors.white}
                             style={[styles.btn, {backgroundColor: colors.primary}]}
-                        />
+                        />}
                         {this.props.book.home_books.reads && this.props.book.home_books.reads.length != 0 &&
                         <View style={styles.bar}>
                             <Text style={styles.headerTitle}>المستخدمون يقرأون أيضا</Text>
@@ -233,7 +241,7 @@ class Book extends Component {
                                 <Image
                                     style={styles.img}
                                     source={{
-                                        uri: item.item.cover_image
+                                        uri: item.item.cover_image,
                                     }}
                                 />
                             )}
@@ -255,7 +263,7 @@ class Book extends Component {
                             body: {comment, rating},
                         });
                         this.setState({book_review: false});
-                        this.start()
+                        this.start();
                     }}
                 />
             </Container>

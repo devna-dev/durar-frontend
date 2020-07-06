@@ -80,11 +80,11 @@ export default class Walkthrough extends Component {
                     </View>
 
                     <Button title={'إنشاء حساب جديد'}
-                            onPress={() => this.props.navigation.navigate('Auth',{screen:'Register'})}
+                            onPress={() => this.props.navigation.replace('Register')}
                             style={styles.btn}/>
                     <Button title={'تسجيل دخول'}
                             style={styles.btn1}
-                            onPress={() => this.props.navigation.navigate('Auth',{screen:'Login'})}
+                            onPress={() => this.props.navigation.replace('Login')}
                             textColor={colors.white}
                     />
                     <TouchableOpacity

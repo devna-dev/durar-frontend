@@ -76,6 +76,72 @@ const data = [
     },
 ];
 
+
+const data1 = [
+    // {
+    //     image: svg_photo.person,
+    //     title: 'حسابي',
+    //     route: 'Profile',
+    // },
+    // {
+    //     image: svg_photo.setting,
+    //     title: 'إعدادات الحساب',
+    //     route: 'Settings',
+    //},
+    // {
+    //     image: svg_photo.upload,
+    //     title: 'رفع كتاب صوتى',
+    //     route: 'UploadVoiceBook',
+    // },
+    {
+        image: svg_photo.thesis,
+        title: 'أطروحات',
+        route: 'Thesis',
+    },
+    {
+        image: svg_photo.thesis,
+        title: 'الأنشطة',
+        route: 'Activities',
+    },
+    // {
+    //     image: svg_photo.donation,
+    //     title: 'التبرع بكتاب',
+    //     route: 'DonatedBook',
+    // },
+    {
+        image: svg_photo.chat,
+        title: 'الأكثر تحميلاً',
+        route: 'DownloadedBooks',
+    },
+
+    // {
+    //     image: svg_photo.suggested_book,
+    //     title: 'إقتراح كتاب',
+    //     route: 'SuggestionBooks',
+    // },
+    // {
+    //     image: svg_photo.notes,
+    //     title: 'دفتر الملاحظات',
+    //     route: 'NotesBook',
+    // },
+    // {
+    //     image: svg_photo.setting,
+    //     title: 'إعدادات الإشعارات',
+    //     route: 'Notifications',
+    // },
+    {
+        image: svg_photo.information,
+        title: 'عن التطبيق',
+        route: 'AboutApp',
+    },
+    {
+        image: svg_photo.support,
+        title: 'الدعم الفني',
+        route: 'Support',
+    },
+];
+
+
 class CustomDrawerContent extends Component {
     constructor(props) {
         super(props);
@@ -85,6 +151,7 @@ class CustomDrawerContent extends Component {
             visible: false,
             access: true
         };
+
     }
 
     async componentDidMount() {
@@ -102,6 +169,8 @@ class CustomDrawerContent extends Component {
     }
 
     render() {
+
+      //  alert(this.props.token_fixed)
         return (
             <Container>
                 <TouchableOpacity onPress={() => this.props.navigation.closeDrawer()}>
@@ -109,7 +178,7 @@ class CustomDrawerContent extends Component {
                 </TouchableOpacity>
                 <Content>
                     <FlatList
-                        data={data}
+                        data={this.props.token_fixed?data:data1}
                         renderItem={(item) => (
                             <TouchableOpacity
                                 onPress={() => this.props.navigation.navigate(item.item.route)}
@@ -119,10 +188,10 @@ class CustomDrawerContent extends Component {
                             </TouchableOpacity>
                         )}
                     />
-                    {this.state.access  && <TouchableOpacity onPress={async () => {
+                    {this.props.token_fixed  && <TouchableOpacity onPress={async () => {
                         await storage.clear()
-                        this.props.logout()
-                        // RNRestart.Restart();
+                        //this.props.logout()
+                        RNRestart.Restart();
                         this.props.navigation.replace('Walkthrough')
                     }} style={styles.btn}>
                         <Text style={styles.text}>تسجيل الخروج</Text>

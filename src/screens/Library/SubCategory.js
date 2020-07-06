@@ -40,6 +40,7 @@ export default class SubCategory extends Component {
                                   style={{alignSelf: 'center'}}
                                   renderItem={(item) => <LibraryItem
                                       sub
+                                      id={this.props.route.params.id}
                                       navigation={this.props.navigation}
                                       item={item.item}/>}/>
                         :
