@@ -6138,6 +6138,11 @@ react-native-pagination@^1.5.5:
   dependencies:
     react-native-vector-icons "^4.3.0"
 
+react-native-play-audio@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-play-audio/-/react-native-play-audio-0.1.2.tgz#18fb5830d9233b193f676d3c2f7ca2162e7bbea6"
+  integrity sha512-jQL59KtJkiXg+lFgd6Hn6/kutfYA+k1bASnlrXFx/PTXgLUAu0NlTbkTlpQQrkz2DeG+hyS5nNcrPBGpu673AQ==
+
 react-native-ratings@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-7.2.0.tgz#8523e98868470855ec1d2feb112e466e17a1fd9f"
@@ -6192,6 +6197,11 @@ react-native-snap-carousel@^3.9.0:
   dependencies:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
+
+react-native-sound@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.11.0.tgz#ad60b55ba8c6dc89917f381ad3713f2738de530f"
+  integrity sha512-4bGAZfni6E2L695NQjOZwNLBQGXgBGYC4Sy+h99K5h0HqNZjCqR0+aLel+ezASxEJDpaH83gylNObXpiqJgdwg==
 
 react-native-svg@^12.1.0:
   version "12.1.0"

@@ -115,14 +115,14 @@ class Home extends Component {
                             <SvgUri style={styles.back_img} uri={svg_photo.bell}/>
                             <SvgUri style={styles.back_img1} uri={svg_photo.badge}/>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {this.state.user!=''&&<TouchableOpacity
                             //onPress={() => this.props.navigation.navigate('Profile')}
                             >
                             <Image
                                 style={styles.avatar}
                                 source={{uri: this.state.user.photo_url ? this.state.user.photo_url : ''}}
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity>}
                     </View>
                 </View>
                 {this.props.book.load ? (

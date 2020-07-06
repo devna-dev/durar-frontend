@@ -35,7 +35,11 @@ class Discussions extends Component {
 
     async componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            // do something
+           this.setState({
+               activities: [],
+               loading: true,
+               count: 2
+           })
             this.load_more();
         });
     }
@@ -64,6 +68,7 @@ class Discussions extends Component {
 
                 }
             } else {
+                console.log('sem')
                 let result = await get_seminar_in(this.page)
                 if (result['count'] && result['count'] !== this.page) {
                     ++this.page;
@@ -122,7 +127,7 @@ class Discussions extends Component {
                                   if(this.props.route.params.type == 0){
                                           this.props.navigation.navigate('Activity', {id: item.item.id, dis: this.props.dis})
                                       }else{
-                                          this.props.navigation.navigate('Activity', {id: item.item.id})
+                                          this.props.navigation.navigate('SeminarActivity', {id: item.item.id})
                                       }
 
                               }}

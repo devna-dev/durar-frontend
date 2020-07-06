@@ -23,6 +23,7 @@ import {
   get_current_read_success,
   suggest,
   suggest_success,
+  SUGGEST_FAILURE,
   get_activities,
   get_activities_success,
   GET_BOOK_REVIEWS_SUCCESS,
@@ -42,6 +43,7 @@ import {
   CLEAR_SEARCH_IN_BOOK,
   donate,
   donate_success,
+  DONATION_FAILURE,
 } from './actions';
 
 const initialState = {
@@ -55,6 +57,8 @@ const initialState = {
   book_notes_error: null,
   book_content_error: null,
   search_content_error: null,
+  donation_error: null,
+  suggest_error: null,
   home_books: [],
   page: 1,
   books: [],
@@ -89,6 +93,12 @@ const reducer = (state = initialState, action) => {
         message: action.form,
         load: false,
       };
+    case SUGGEST_FAILURE:
+      return {
+        ...state,
+        suggest_error: action.form,
+        load: false,
+      };
     case donate:
       return {...state, loading: 'donate', load: true};
     case donate_success:
@@ -96,6 +106,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: 'donate_success',
         message: action.form,
+        load: false,
+      };
+    case DONATION_FAILURE:
+      return {
+        ...state,
+        donation_error: action.form,
         load: false,
       };
     case get_categories:

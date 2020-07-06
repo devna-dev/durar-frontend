@@ -23,6 +23,7 @@ const get_current_read = 'get_current_read';
 const get_current_read_success = 'get_current_read_success';
 const suggest = 'suggest';
 const suggest_success = 'suggest_success';
+const SUGGEST_FAILURE = 'SUGGEST_FAILURE';
 const donate = 'donate';
 const donate_success = 'donate_success';
 const get_activities = 'get_activities';
@@ -41,6 +42,7 @@ const SEARCH_IN_BOOK_PENDING = 'Book/SEARCH_IN_BOOK_PENDING';
 const SEARCH_IN_BOOK_SUCCESS = 'Book/SEARCH_IN_BOOK_SUCCESS';
 const SEARCH_IN_BOOK_FAIL = 'Book/SEARCH_IN_BOOK_FAIL';
 const CLEAR_SEARCH_IN_BOOK = 'Book/CLEAR_SEARCH_IN_BOOK';
+const DONATION_FAILURE = 'DONATION_FAILURE';
 
 export {
   clear,
@@ -68,6 +70,7 @@ export {
   get_current_read_success,
   suggest,
   suggest_success,
+  SUGGEST_FAILURE,
   get_activities,
   get_activities_success,
   GET_BOOK_REVIEWS_SUCCESS,
@@ -86,4 +89,5 @@ export {
   CLEAR_SEARCH_IN_BOOK,
   donate,
   donate_success,
+  DONATION_FAILURE,
 };

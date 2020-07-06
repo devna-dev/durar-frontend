@@ -61,6 +61,8 @@ function Root() {
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="TabNavigator" component={TabNavigator} />
       <RootStack.Screen name="Walkthrough" component={Walkthrough} />
+      <RootStack.Screen name="Login" component={Login} />
+      <RootStack.Screen name="Register" component={Register} />
     </RootStack.Navigator>
   );
 }
@@ -109,7 +111,9 @@ export default function AppNavigator() {
 }
 
 export function ReadingPageNavigator() {
-  return (
+
+
+    return (
     <Drawer.Navigator
       drawerPosition={'left'}
       initialRouteName="ReadingPage"
@@ -195,11 +199,23 @@ export function TabNavigator() {
 }
 
 export function DrawerNavigator() {
+    const [isLoggedIn, setUserLoggedIn] = useState(false);
+    let x = false;
+    useEffect(() => {
+        async function fetchData() {
+            let user = await storage.getItem('token');
+            console.log(user, 'userdfsdf');
+            if (user) {
+                setUserLoggedIn(true)
+            }
+        }
+        fetchData();
+    });
   return (
     <Drawer.Navigator
       drawerPosition={'right'}
       initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn}/>}>
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Settings" component={Settings} />
       <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
@@ -230,11 +246,23 @@ export function DrawerNavigator() {
 }
 
 export function DrawerNavigator1() {
-  return (
+    const [isLoggedIn, setUserLoggedIn] = useState(false);
+    let x = false;
+    useEffect(() => {
+        async function fetchData() {
+            let user = await storage.getItem('token');
+            console.log(user, 'userdfsdf');
+            if (user) {
+                setUserLoggedIn(true)
+            }
+        }
+        fetchData();
+    });
+    return (
     <Drawer.Navigator
       drawerPosition={'right'}
       initialRouteName="Search1"
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn} />}>
       <Drawer.Screen name="Search1" component={Search1} />
       <Drawer.Screen name="Search" component={Search} />
     </Drawer.Navigator>
@@ -242,11 +270,23 @@ export function DrawerNavigator1() {
 }
 
 export function DrawerNavigator2() {
+    const [isLoggedIn, setUserLoggedIn] = useState(false);
+    let x = false;
+    useEffect(() => {
+        async function fetchData() {
+            let user = await storage.getItem('token');
+            console.log(user, 'userdfsdf');
+            if (user) {
+                setUserLoggedIn(true)
+            }
+        }
+        fetchData();
+    });
   return (
     <Drawer.Navigator
       drawerPosition={'right'}
       initialRouteName="Library"
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn} />}>
       <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="Library" component={Library} />
       <Drawer.Screen name="SubCategory" component={SubCategory} />
@@ -255,11 +295,23 @@ export function DrawerNavigator2() {
 }
 
 export function DrawerNavigator3() {
+    const [isLoggedIn, setUserLoggedIn] = useState(false);
+    let x = false;
+    useEffect(() => {
+        async function fetchData() {
+            let user = await storage.getItem('token');
+            console.log(user, 'userdfsdf');
+            if (user) {
+                setUserLoggedIn(true)
+            }
+        }
+        fetchData();
+    });
   return (
     <Drawer.Navigator
       drawerPosition={'right'}
       initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn}/>}>
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Settings" component={Settings} />
       <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
@@ -289,11 +341,23 @@ export function DrawerNavigator3() {
 }
 
 export function DrawerNavigator4() {
+    const [isLoggedIn, setUserLoggedIn] = useState(false);
+    let x = false;
+    useEffect(() => {
+        async function fetchData() {
+            let user = await storage.getItem('token');
+            console.log(user, 'userdfsdf');
+            if (user) {
+                setUserLoggedIn(true)
+            }
+        }
+        fetchData();
+    });
   return (
     <Drawer.Navigator
       drawerPosition={'right'}
       initialRouteName="MyBooks"
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn}/>}>
       <Drawer.Screen name="MyBooks" component={MyBooks} />
       <Drawer.Screen name="Book" component={Book} />
         <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />

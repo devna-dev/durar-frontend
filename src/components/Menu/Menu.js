@@ -14,6 +14,7 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
     // setTimeout(async function () {
     //     let moon = await storage.getItem('moon')
     //     switch (moon) {

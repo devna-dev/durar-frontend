@@ -111,7 +111,7 @@ class Login extends Component {
       if (prevProps.user.allow_navigate !== this.props.user.allow_navigate) {
           this.setState(this.initialState);
           this.props.clear();
-          this.props.navigation.navigate('TabNavigator');
+          this.props.navigation.replace('TabNavigator');
       }
     if (!!this.getLogErrorProp('network_error')) {
       this.toast.current.showToast(this.getLogErrorProp('network_error'));

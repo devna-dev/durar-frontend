@@ -28,6 +28,7 @@ import {
 import {connect} from 'react-redux';
 import {add_to_fav} from '../../services/books';
 import Toast from '../../components/Toast/Toast';
+import storage from '../../config/storage';
 
 class Book extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Book extends Component {
       book_review: false,
       EditBookReview: false,
       fav: false,
+      access: false,
     };
   }
 
@@ -50,13 +52,18 @@ class Book extends Component {
     this._unsubscribe();
   }
 
-  start = () => {
+  start = async () => {
+    if (await storage.getItem('token')) {
+      this.setState({access: true});
+    } else {
+      this.setState({access: false});
+    }
     try {
       const {
         params: {lookupId},
       } = this.props.route;
       // console.tron.log(lookupId, 'lookupId');
-      // console.log(lookupId, 'lookupId');
+      console.log(lookupId, 'lookupId');
       this.props.getBook({lookupId});
       this.props.get_current_read();
     } catch (e) {
@@ -72,9 +79,14 @@ class Book extends Component {
       book: {book, bookReviews},
       user,
     } = this.props;
+    // console.log(book?.cover_image);
     const {
       params: {lookupId},
     } = this.props.route;
+    // console.log({
+    //   uri: book?.cover_image,
+    // }, 'user');
+    console.log('ddddddddd', bookReviews);
     return (
       <Container style={styles.container}>
         <View style={styles.toast}>
@@ -220,24 +232,20 @@ class Book extends Component {
                 <Text style={styles.headerTitle1}>عرض المزيد</Text>
               </View>
             )}
-            {bookReviews ? (
-              <FlatList
-                data={bookReviews}
-                renderItem={({item, index}) => (
-                  <BookItem item={item} index={index} />
-                )}
-              />
-            ) : (
-              <Text style={styles.headerTitle}>
-                لا يوجد تقييمات لهذا الكتاب
-              </Text>
-            )}
-            <Button
-              title={'تقييم الكتاب'}
-              onPress={() => this.setState({book_review: true})}
-              textColor={colors.white}
-              style={[styles.btn, {backgroundColor: colors.primary}]}
+            <FlatList
+              data={bookReviews}
+              renderItem={({item, index}) => (
+                <BookItem item={item} index={index} />
+              )}
             />
+            {this.state.access && (
+              <Button
+                title={'تقييم الكتاب'}
+                onPress={() => this.setState({book_review: true})}
+                textColor={colors.white}
+                style={[styles.btn, {backgroundColor: colors.primary}]}
+              />
+            )}
             {this.props.book.home_books.reads &&
               this.props.book.home_books.reads.length != 0 && (
                 <View style={styles.bar}>

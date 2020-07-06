@@ -37,8 +37,9 @@ export default class HistoryCategories extends Component {
     }
 
     async componentDidMount() {
+        //alert('ddd',this.props.route.params.id)
         this.setState({loading: true})
-        let get_books = await get_books_using_sub_categories(this.props.route.params.sub)
+        let get_books = await get_books_using_sub_categories(this.props.route.params.id)
         console.log('fffffffffffffff', get_books)
         this.setState({loading: false, get_books})
     }

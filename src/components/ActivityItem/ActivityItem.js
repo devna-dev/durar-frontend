@@ -26,7 +26,7 @@ export default class ActivityItem extends Component {
                               style={[styles.container]}>
                 <ImageBackground style={[styles.img,]}
                                  imageStyle={{borderRadius: 5, resizeMode: 'cover',}}
-                                 source={{uri: 'https://alkbraquran.com/wp-content/uploads/2017/03/%D9%A2%D9%A0%D9%A1%D9%A6%D9%A0%D9%A9%D9%A0%D9%A6_%D9%A1%D9%A7%D9%A0%D9%A3%D9%A4%D9%A2.jpg'}}>
+                                 source={{uri: this.props.item.item.image}}>
                     <ImageBackground style={[styles.img1, {justifyContent: 'flex-end', alignItems: 'center'}]}
                                      imageStyle={{borderRadius: 5, resizeMode: 'cover',}}
                                      source={require('../../assets/images/shadow1.png')}>

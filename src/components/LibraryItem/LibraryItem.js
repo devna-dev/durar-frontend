@@ -17,9 +17,9 @@ export default class LibraryItem extends Component {
         return (
             <TouchableOpacity onPress={() => {
                 if(this.props.sub){
-                    this.props.navigation.navigate('HistoryCategories',{sub:this.props.item.id,name:this.props.item.name})
+                    this.props.navigation.navigate('HistoryCategories',{sub:this.props.item.id,name:this.props.item.name,id:this.props.id})
                 }else{
-                    this.props.navigation.navigate('SubCategory',{sub:this.props.item.sub_categories})
+                    this.props.navigation.navigate('SubCategory',{sub:this.props.item.sub_categories,id:this.props.id})
                 }
 
             }} style={styles.container}>

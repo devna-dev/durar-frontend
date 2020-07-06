@@ -34,12 +34,14 @@ import {
   suggest_success,
   donate,
   donate_success,
+  DONATION_FAILURE,
   get_activities,
   get_activities_success,
   GET_BOOK_REVIEWS_SUCCESS,
   post_review,
   post_review_success,
   post_review_fail,
+  SUGGEST_FAILURE,
 } from './actions';
 import {
   getBooks,
@@ -213,11 +215,11 @@ function* suggest_api(action) {
   try {
     const denotation = yield suggest_to_api(action.form);
 
-    yield put({type: suggest_success, form: suggestBooks});
+    yield put({type: suggest_success, form: denotation});
   } catch (err) {
     if (err.message === 'Timeout' || err.message === 'Network request failed') {
       yield put({
-        type: REGISTER_USER_REQUEST_FAILURE,
+        type: SUGGEST_FAILURE,
         form: {network_error: [err.message]},
       });
     }
@@ -232,7 +234,7 @@ function* donate_api(action) {
   } catch (err) {
     if (err.message === 'Timeout' || err.message === 'Network request failed') {
       yield put({
-        type: REGISTER_USER_REQUEST_FAILURE,
+        type: DONATION_FAILURE,
         form: {network_error: [err.message]},
       });
     }
