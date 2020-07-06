@@ -3,386 +3,431 @@ import storage from '../config/storage';
 import {queryString} from '../utils/queryString';
 
 export async function getBooks() {
-    return fetch(settings.API_URL + 'books/', {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'books/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
 }
 
 export async function getCategories() {
-    return fetch(settings.API_URL + 'categories/', {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'categories/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
 }
 
 export async function getAuthors() {
-    return fetch(settings.API_URL + 'authors/', {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'authors/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
 }
 
 export async function getBookDetailApi(payload) {
-    console.log(settings.API_URL +
-        `books/${payload.lookupId}/details/?tashkeel=${payload.isWithTashkeel}`);
-    return await fetch(
-        settings.API_URL +
-        `books/${payload.lookupId}/details/?tashkeel=${payload.isWithTashkeel}`,
-        {
-            method: 'Get',
-            headers: {
-                accept: 'application/json',
-            },
-        },
-    ).then((response) => response.json());
+  console.log(
+    settings.API_URL +
+      `books/${payload.lookupId}/details/?tashkeel=${payload.isWithTashkeel}`,
+  );
+  return await fetch(
+    settings.API_URL +
+      `books/${payload.lookupId}/details/?tashkeel=${payload.isWithTashkeel}`,
+    {
+      method: 'Get',
+      headers: {
+        accept: 'application/json',
+      },
+    },
+  )
+    .then((response) => response.json())
+    .then((response) => ({response}))
+    .catch((error) => ({error}));
 }
 
 export async function getBookPageContent(payload) {
-    console.log(settings.API_URL + `books/${payload.lookupId}/view/?tashkeel=${payload.isWithTashkeel}&page=${payload.page}`);
-
-    return await fetch(
-        settings.API_URL +
-        `books/${payload.lookupId}/view/?tashkeel=${payload.isWithTashkeel}&page=${payload.page}`,
-        {
-            method: 'Get',
-            headers: {
-                accept: 'application/json',
-                Authorization: await storage.getItem('token'),
-
-            },
-        },
-    ).then((response) => response.json())
+  return await fetch(
+    settings.API_URL +
+      `books/${payload.lookupId}/view/?tashkeel=${payload.isWithTashkeel}&page=${payload.page}`,
+    {
+      method: 'Get',
+      headers: {
+        accept: 'application/json',
+        Authorization: await storage.getItem('token'),
+      },
+    },
+  )
+    .then((response) => response.json())
+    .then((response) => ({response}))
+    .catch((error) => ({error}));
 }
 
 export async function getBookApi(payload) {
-    return fetch(settings.API_URL + `books/${payload}/`, {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + `books/${payload}/`, {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
 }
 
-export async function getBookCommentsApi(payload) {
-    // console.tron.log(payload);
-    console.log(settings.API_URL + `books/${payload}/notes/`);
-    return await fetch(settings.API_URL + `books/${payload}/notes/`, {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json());
+export async function getBookNotesApi(payload) {
+  console.log(settings.API_URL + `books/${payload}/notes/`);
+  return fetch(settings.API_URL + `books/${payload}/notes/`, {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => ({response}))
+    .catch((error) => ({error}));
 }
 
 export async function getBookReviewsApi(payload) {
-    // console.tron.log(payload);
-    return fetch(settings.API_URL + `books/${payload}/reviews/`, {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json());
+  // console.tron.log(payload);
+  return fetch(settings.API_URL + `books/${payload}/reviews/`, {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
 }
 
 export async function search_resultApi(payload) {
-    const query = queryString(payload);
-    console.log(`books/${query ? '?' + query : ''}`);
-    return fetch(settings.API_URL + `books/${query ? '?' + query : ''}`, {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-        },
-    }).then((response) => response.json());
+  const query = queryString(payload);
+  console.log(`books/${query ? '?' + query : ''}`);
+  return fetch(settings.API_URL + `books/${query ? '?' + query : ''}`, {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
 }
 
 export async function popular_booksApi() {
-    return fetch(settings.API_URL + 'books/popular/', {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'books/popular/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+    },
+  }).then((response) => response.json());
 }
 
 export async function get_current_readApi() {
-    return fetch(settings.API_URL + 'user/reads/', {
-        method: 'Get',
-        headers: {
-            accept: 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'user/reads/', {
+    method: 'Get',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
 }
 
 export async function suggest_to_api(form) {
-    return fetch(settings.API_URL + 'user/suggestions/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-        body: JSON.stringify(form),
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'user/suggestions/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify(form),
+  }).then((response) => response.json());
 }
 
 export async function donate_to_api(form) {
-    return fetch(settings.API_URL + 'user/suggestions/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-        body: JSON.stringify(form),
-    }).then((response) => response.json())
-        .then(res => {
-            console.log(res)
-            return res
-        })
-        .catch(error => {
-            console.log('error', error)
-            return error.response
-        })
+  return fetch(settings.API_URL + 'user/suggestions/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify(form),
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log('error', error);
+      return error.response;
+    });
 }
 
 export async function get_activities_Api(form) {
-    return fetch(settings.API_URL + 'activities', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'activities', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
 }
 
 export async function get_thesisApi(form) {
-    return fetch(settings.API_URL + 'activities/thesis', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'activities/thesis', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
 }
 
 export async function get_activity_seminars_details_api(form) {
-    return fetch(settings.API_URL + 'activities/seminars/' + form.form.id, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json());
+  return fetch(settings.API_URL + 'activities/seminars/' + form.form.id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
 }
 
 export async function get_discussion_details(form) {
-    return fetch(settings.API_URL + 'activities/discussions/' + form, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json())
-        .then(res => {
-            return res
-        });
+  return fetch(settings.API_URL + 'activities/discussions/' + form, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function get_sem_details(form) {
-    return fetch(settings.API_URL + 'activities/seminars/' + form, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json())
-        .then(res => {
-            return res
-        });
+  return fetch(settings.API_URL + 'activities/seminars/' + form, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function get_discussions_in(form) {
-    console.log(form);
-    return fetch(
-        settings.API_URL +
-        'activities/discussions?page=' +
-        form +
-        '&page_size=' +
-        10,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: await storage.getItem('token'),
-            },
-        },
-    ).then((response) => response.json());
+  console.log(form);
+  return fetch(
+    settings.API_URL +
+      'activities/discussions?page=' +
+      form +
+      '&page_size=' +
+      10,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: await storage.getItem('token'),
+      },
+    },
+  ).then((response) => response.json());
 }
 
 export async function get_seminar_in(form) {
-    console.log('saga', form);
-    return fetch(
-        settings.API_URL + 'activities/seminars/?page=' + form + '&page_size=' + 10,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: await storage.getItem('token'),
-            },
-        },
-    ).then((response) => response.json());
+  console.log('saga', form);
+  return fetch(
+    settings.API_URL + 'activities/seminars/?page=' + form + '&page_size=' + 10,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: await storage.getItem('token'),
+      },
+    },
+  ).then((response) => response.json());
 }
 
 export async function regiter_to_activity(form) {
-
-    let data = new FormData();
-    data.append('chat_room', form);
-    console.log(form);
-    return fetch(settings.API_URL + 'activities/seminars/registration/', {
-        method: 'POST',
-        headers: {
-            accept: 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-        body: data,
-    })
-        .then((response) => response.json())
-        .then((res) => {
-            return res;
-        });
+  let data = new FormData();
+  data.append('chat_room', form);
+  console.log(form);
+  return fetch(settings.API_URL + 'activities/seminars/registration/', {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: data,
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function regiter_to_discussions(form) {
-
-    let data = new FormData();
-    data.append('chat_room', form);
-    console.log(form);
-    return fetch(settings.API_URL + 'activities/discussions/registration/', {
-        method: 'POST',
-        headers: {
-            accept: 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-        body: data,
-    })
-        .then((response) => response.json())
-        .then((res) => {
-            return res;
-        });
+  let data = new FormData();
+  data.append('chat_room', form);
+  console.log(form);
+  return fetch(settings.API_URL + 'activities/discussions/registration/', {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: data,
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function policy() {
-    return fetch(settings.API_URL + 'site/policy/', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json())
-        .then(res => {
-            return res
-        });
+  return fetch(settings.API_URL + 'site/policy/', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function get_terms() {
-    return fetch(settings.API_URL + 'site/terms/', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json())
-        .then(res => {
-            return res
-        });
+  return fetch(settings.API_URL + 'site/terms/', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function get_books_using_sub_categories(id) {
-    return fetch(settings.API_URL + 'books/?category=' + id, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json())
-        .then(res => {
-            console.log('res',res)
-            return res
-        });
+  return fetch(settings.API_URL + 'books/?category=' + id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function get_audio_books() {
-    return fetch(settings.API_URL + 'books/?has_audio=true', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-    }).then((response) => response.json())
-        .then(res => {
-            return res
-        });
+  return fetch(settings.API_URL + 'books/?has_audio=true', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    });
 }
 
 export async function post_review_api(payload) {
-    //alert(payload.body.comment)
-    return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-        body: JSON.stringify(payload.body),
-    }).then((response) => response.json())
-
+  //alert(payload.body.comment)
+  return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify(payload.body),
+  }).then((response) => response.json());
 }
 
 export async function add_to_fav(id) {
-    return fetch(settings.API_URL + `user/favorites/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: await storage.getItem('token'),
-        },
-        body: JSON.stringify({
-            book: id
-        }),
-    }).then((response) => response.json())
-        .then(res => {
-            console.log(res)
-            return res
-        });
+  return fetch(settings.API_URL + 'user/favorites/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify({
+      book: id,
+    }),
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res);
+      return res;
+    });
+}
+
+export async function post_notes_api(payload) {
+  console.log(payload);
+  console.log(settings.API_URL + `books/${payload.lookupId}/notes/`);
+  return fetch(settings.API_URL + `books/${payload.lookupId}/notes/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: payload.body,
+  }).then((response) => response.json());
+}
+
+export async function search_content_api(payload) {
+  console.log(
+    settings.API_URL +
+      `books/${payload.lookupId}/search/?tashkeel=${payload.tashkeel}&word=${payload.word}`,
+  );
+  return fetch(
+    settings.API_URL +
+      `books/${payload.lookupId}/search/?tashkeel=${payload.tashkeel}&word=${payload.word}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: await storage.getItem('token'),
+      },
+    },
+  ).then((response) => response.json());
 }
 
 export async function update_profile_api(data) {
-    let body = new FormData();
-    // Object.keys(data).forEach(key => {
-    //     body.append(key, data[key]);
-    // });
-    body.append("photo",data['photo'])
-    console.log(data)
-    return fetch(settings.API_URL + `user/`, {
-        method: 'PUT',
-        headers: {
-            Accept: 'application/json',
-           // 'Content-Type': 'multipart/form-data',
-            Authorization: await storage.getItem('token'),
-        },
-        body: body,
-    }).then((response) => response.json())
-        .then(res => {
-            console.log('profilllllle', res)
-            return res
-        })
-        .catch(err=>{
-            console.log(err.response)
-        });
+  let body = new FormData();
+  // Object.keys(data).forEach(key => {
+  //     body.append(key, data[key]);
+  // });
+  body.append('photo', data.photo);
+  console.log(data);
+  return fetch(settings.API_URL + 'user/', {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      // 'Content-Type': 'multipart/form-data',
+      Authorization: await storage.getItem('token'),
+    },
+    body: body,
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log('profilllllle', res);
+      return res;
+    })
+    .catch((err) => {
+      console.log(err.response);
+    });
 }

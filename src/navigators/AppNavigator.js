@@ -88,7 +88,7 @@ export default function AppNavigator() {
   useEffect(() => {
     async function fetchData() {
       let user = await storage.getItem('token');
-      console.log(user, 'userdfsdf');
+      // console.log(user, 'userdfsdf');
       if (user) {
         setUserLoggedIn(true);
       }

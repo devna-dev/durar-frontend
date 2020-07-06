@@ -32,7 +32,7 @@ export default class Sort extends Component {
         this.setState({sortId});
     };
   render() {
-      console.log(this.state);
+
     return (
       <Modal
         propagateSwipe={true}

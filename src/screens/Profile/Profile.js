@@ -39,7 +39,6 @@ export default class Profile extends Component {
     async componentDidMount() {
         let user = await storage.getItem('user');
         this.setState({user});
-        console.log('Profile',user)
     }
 
     getListItems = count => {
@@ -62,7 +61,6 @@ export default class Profile extends Component {
         const items = [];
         let i = 0;
         while (i < this.state.items1.length) {
-            console.log(this.state.items1[i]);
             items.push(
                 <ProfileItem item={this.state.items1[i]}/>,
             );

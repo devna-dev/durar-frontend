@@ -78,7 +78,7 @@ class MyBooks extends Component {
                     {this.props.user.load &&
                     <ActivityIndicator animating={this.props.user.load} size={'large'} color={colors.primary}/>}
                     {/*{!this.props.user.load && <Text style={styles.find}>كتاب</Text>}*/}
-                    {!this.props.user.load && this.state.selected == 0 && this.props.user?.books?.reads &&this.props.user?.books?.reads.length !== 0 ? (
+                    {!this.props.user.load && this.state.selected == 0 && this.props.user?.books?.reads &&this.props.user?.books?.reads?.length !== 0 ? (
                             <FlatList
                                 data={this.props.user?.books?.reads}
                                 style={{marginLeft: '5%'}}
@@ -95,7 +95,7 @@ class MyBooks extends Component {
                         <Text style={styles.find}>لا يوجد كتب مقرؤة</Text>
                     }
 
-                    {!this.props.user.load && this.state.selected == 1 && this.props.user.books.favorites.length !== 0 ? (
+                    {!this.props.user.load && this.state.selected == 1 && this.props.user.books?.favorites?.length !== 0 ? (
                             <FlatList
                                 data={this.props.user.books.favorites}
                                 style={{marginLeft: '5%'}}
@@ -112,7 +112,7 @@ class MyBooks extends Component {
                         !this.props.user.load && this.state.selected == 1 &&
                         <Text style={styles.find}>لا يوجد كتب مفضلة</Text>
                     }
-                    {!this.props.user.load && this.state.selected == 2 && this.props.user.books.downloads.length !== 0 ? (
+                    {!this.props.user.load && this.state.selected == 2 && this.props.user.books?.downloads?.length !== 0 ? (
                             <FlatList
                                 data={this.props.user.books.downloads}
                                 style={{marginLeft: '5%'}}
@@ -128,7 +128,7 @@ class MyBooks extends Component {
                         !this.props.user.load && this.state.selected == 2 &&
                         <Text style={styles.find}>لا يوجد كتب محملة</Text>
                     }
-                    {!this.props.user.load && this.state.selected == 3 && this.props.user.books.listens.length !== 0 ? (
+                    {!this.props.user.load && this.state.selected == 3 && this.props.user.books?.listens?.length !== 0 ? (
                             <FlatList
                                 data={this.props.user?.books?.listens}
                                 style={{marginLeft: '5%'}}
@@ -161,7 +161,7 @@ class MyBooks extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+
     return {
         ...state,
     };

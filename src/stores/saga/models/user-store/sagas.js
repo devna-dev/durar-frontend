@@ -133,7 +133,7 @@ function* user_books() {
     //   value: books,
     //   preview: 'Click for books: ' + 'books',
     // });
-    console.log('book for user', books);
+
     yield put({type: GET_user_books_SUCCESS, form: books});
   } catch (err) {
     console.log(err, 'err user books');
@@ -143,7 +143,7 @@ function* user_books() {
 function* support_saga_api(action) {
   try {
     const support = yield support_api(action.form);
-    console.log('support for user', support);
+
     yield put({type: support_success, form: support});
   } catch (err) {
     if (err.message === 'Timeout' || err.message === 'Network request failed') {
