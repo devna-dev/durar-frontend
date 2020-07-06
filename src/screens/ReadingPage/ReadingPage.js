@@ -23,6 +23,9 @@ import {SelectableText} from '@astrocoders/react-native-selectable-text';
 import Clipboard from '@react-native-community/clipboard';
 import Tts from 'react-native-tts';
 import AudioBooks from '../AudioBooks/AudioBooks';
+import AudioPlayer from 'react-native-play-audio';
+import Sound from 'react-native-sound';
+
 import {
   decrease_page,
   GET_BOOK_CONTENT_PENDING,
@@ -58,6 +61,9 @@ class ReadingPage extends Component {
       start: 0,
       end: 0,
       index: 0,
+      font: 13,
+      color: colors.black,
+      play: false,
     };
   }
   componentDidMount() {
@@ -70,11 +76,11 @@ class ReadingPage extends Component {
     this._unsubscribe();
   }
   start = async () => {
-    this.setState({
-      moon: 0,
-      moon_icon: svg_photo.read_moon,
-      back: colors.white,
-    });
+    // this.setState({
+    //   moon: 0,
+    //   moon_icon: svg_photo.read_moon,
+    //   back: colors.white,
+    // });
     await storage.setItem('moon', 0);
     const {lookupId} = this.props.route.params;
 
@@ -328,20 +334,20 @@ class ReadingPage extends Component {
                     }}
                   />
                 )}
-              {!this.props.book.load &&
-                this.renderContent(this.state.index)?.length === 0 && (
-                  <Text
-                    style={[
-                      styles.item1_text,
-                      {
-                        color:
-                          this.state.moon == 2 ? colors.white : colors.primary,
-                        textAlign: 'center',
-                      },
-                    ]}>
-                    هناك مشكلة في عرض المحتوى رجاءً اسحب مرة اخرى لتحديث المحتوى
-                  </Text>
-                )}
+              {/*{!this.props.book.load &&*/}
+              {/*  this.renderContent(this.state.index)?.length === 0 && (*/}
+              {/*    <Text*/}
+              {/*      style={[*/}
+              {/*        styles.item1_text,*/}
+              {/*        {*/}
+              {/*          color:*/}
+              {/*            this.state.moon == 2 ? colors.white : colors.primary,*/}
+              {/*          textAlign: 'center',*/}
+              {/*        },*/}
+              {/*      ]}>*/}
+              {/*      هناك مشكلة في عرض المحتوى رجاءً اسحب مرة اخرى لتحديث المحتوى*/}
+              {/*    </Text>*/}
+              {/*  )}*/}
             </ScrollView>
           )}
         </Content>
@@ -402,14 +408,15 @@ class ReadingPage extends Component {
                   });
                   await storage.setItem('moon', 1);
                   break;
-
                 case 1:
                   this.setState({
                     moon: 2,
                     moon_icon: svg_photo.read_moon,
                     back: colors.black,
+                    color: colors.white,
                   });
                   await storage.setItem('moon', 2);
+                  this.start();
                   break;
 
                 case 2:
@@ -432,14 +439,77 @@ class ReadingPage extends Component {
             ]}>
             <SvgUri uri={this.state.moon_icon} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('AudioBooks')}
-            style={styles.headerItem}>
-            <SvgUri uri={svg_photo.read_paly} />
+          {/*                    <TouchableOpacity*/}
+          {/*                        onPress={() => {*/}
+          {/*                            this.setState({play: !this.state.play})*/}
+          {/*                                Sound.setCategory('Playback');*/}
+          {/*let url='http://95.111.251.63:8000/media/books/1/audio/WhatsApp_Audio_2020-07-05_at_12.36.22_PM.mp4'*/}
+          {/*// Load the sound file 'whoosh.mp3' from the app bundle*/}
+          {/*// See notes below about preloading sounds within initialization code below.*/}
+          {/*                                var whoosh = new Sound(url, Sound.MAIN_BUNDLE, (error) => {*/}
+          {/*                                    if(!this.state.play){*/}
+          {/*                                        whoosh.release()*/}
+          {/*                                        this.setState({play: false})*/}
+          {/*                                        url=null*/}
+          {/*                                    }else {*/}
+          {/*                                        alert(this.state.play)*/}
+          {/*                                        if (error) {*/}
+          {/*                                        console.log('failed to load the sound', error);*/}
+          {/*                                        return;*/}
+          {/*                                    }*/}
+          {/*                                    // loaded successfully*/}
+          {/*                                    console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());*/}
+          {/*                                    // Play the sound with an onEnd callback*/}
+          {/*                                    whoosh.play((success) => {*/}
+          {/*                                        if (success) {*/}
+          {/*                                            this.setState({play: true})*/}
+          {/*                                            console.log('successfully finished playing');*/}
+          {/*                                        } else {*/}
+          {/*                                            console.log('playback failed due to audio decoding errors');*/}
+          {/*                                        }*/}
+          {/*                                    });*/}
+          {/*                                    }*/}
+          {/*                                });*/}
+          {/*                                // Pause the sound*/}
+          {/*// Stop the sound and rewind to the beginning*/}
+          {/*// Release the audio player resource*/}
+          {/*                                whoosh.release();*/}
+          {/*                            // AudioPlayer.onEnd(() => {*/}
+          {/*                            //     console.log('on end');*/}
+          {/*                            // });*/}
+          {/*                            //*/}
+          {/*                            // const url ='http://95.111.251.63:8000/media/books/1/audio/WhatsApp_Audio_2020-07-05_at_12.36.22_PM.mp4';*/}
+          {/*                            // AudioPlayer.prepare(url, () => {*/}
+          {/*                            //     AudioPlayer.play();*/}
+          {/*                            //*/}
+          {/*                            //     AudioPlayer.getDuration((duration) => {*/}
+          {/*                            //         console.log(duration);*/}
+          {/*                            //     });*/}
+          {/*                            //     setInterval(() => {*/}
+          {/*                            //         AudioPlayer.getCurrentTime((currentTime) => {*/}
+          {/*                            //             console.log(currentTime);*/}
+          {/*                            //         });*/}
+          {/*                            //     }, 1000);*/}
+          {/*                            //     AudioPlayer.stop();*/}
+          {/*                            //     AudioPlayer.pause();*/}
+          {/*                            //    // AudioPlayer.setCurrentTime(50.5);*/}
+          {/*                            // })*/}
+          {/*                        }}*/}
+          {/*                        style={styles.headerItem}>*/}
+          {/*                        <SvgUri uri={svg_photo.read_paly}/>*/}
+          {/*                    </TouchableOpacity>*/}
+          <TouchableOpacity onPress={() => {
+            if (this.state.font == 13) {
+              this.setState({font: 16});
+            } else if (this.state.font == 16) {
+              this.setState({font: 20});
+            } else if (this.state.font == 20) {
+              this.setState({font: 13});
+            }
+            this.start();
+          }} style={styles.headerItem}>
+            <SvgUri uri={svg_photo.format}/>
           </TouchableOpacity>
-          <View style={styles.headerItem}>
-            <SvgUri uri={svg_photo.format} />
-          </View>
           <TouchableOpacity
             onPress={() => {
               this.state.search ? this.nextSearchPage() : this.goNextPage();
