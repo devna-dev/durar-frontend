@@ -36,6 +36,7 @@ const post_note = 'Book/post_note';
 const post_note_success = 'Book/post_note_success';
 const post_note_fail = 'Book/post_note_fail';
 const GET_BOOK_NOTES_FAILURE = 'Book/GET_BOOK_NOTES_FAILURE';
+const GET_BOOK_NOTES_PENDING = 'Book/GET_BOOK_NOTES_PENDING';
 const GET_BOOK_DETAIL_FAILURE = 'Book/GET_BOOK_DETAIL_FAILURE';
 const GET_BOOK_CONTENT_FAILURE = 'Book/GET_BOOK_CONTENT_FAILURE';
 const SEARCH_IN_BOOK_PENDING = 'Book/SEARCH_IN_BOOK_PENDING';
@@ -81,6 +82,7 @@ export {
   post_note_success,
   post_note_fail,
   GET_BOOK_NOTES_FAILURE,
+  GET_BOOK_NOTES_PENDING,
   GET_BOOK_DETAIL_FAILURE,
   GET_BOOK_CONTENT_FAILURE,
   SEARCH_IN_BOOK_PENDING,

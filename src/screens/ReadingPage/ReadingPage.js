@@ -33,7 +33,7 @@ import {
   increase_page,
   post_note,
   SEARCH_IN_BOOK_PENDING,
-  CLEAR_SEARCH_IN_BOOK,
+  CLEAR_SEARCH_IN_BOOK, GET_BOOK_NOTES_PENDING,
 } from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
 import AddNotes from '../AddNotes/AddNotes';
@@ -177,7 +177,10 @@ class ReadingPage extends Component {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => this.setState({menu: !this.state.menu})}
+            onPress={() => {
+              this.setState({menu: !this.state.menu});
+              if (this.props.book?.book_notes.length === 0) this.getNotes();
+            }}
             style={[
               styles.headerItem,
               {
@@ -214,9 +217,9 @@ class ReadingPage extends Component {
           }>
           {this.state.menu ? (
             <View>
-              {this.props.book?.bookComments.length !== 0 ? (
+              {this.props.book?.book_notes.length !== 0 ? (
                 <FlatList
-                  data={this.props.book?.bookComments}
+                  data={this.props.book?.book_notes}
                   style={{}}
                   renderItem={({item}) => (
                     <Swipeout
@@ -311,6 +314,10 @@ class ReadingPage extends Component {
                     customWrapper={(content, attr) =>
                       this.renderText(attr, content, this.state.moon)
                     }
+                    baseFontStyle={{
+                      fontSize: this.state.font,
+                      color: this.state.color,
+                    }}
                     tagsStyles={{
                       i: {
                         textAlign: 'center',
@@ -535,7 +542,10 @@ class ReadingPage extends Component {
       page: this.props.book.page,
     });
   };
-
+  getNotes = () => {
+    const {lookupId} = this.props.route.params;
+    this.props.getNotes({lookupId});
+  };
   goNextPage = async () => {
     await this.props.toNextPage();
     const {lookupId} = this.props.route.params;
@@ -653,6 +663,11 @@ const mapDispatchToProps = (dispatch) => ({
   searchContent: (form) =>
     dispatch({
       type: SEARCH_IN_BOOK_PENDING,
+      form,
+    }),
+  getNotes: (form) =>
+    dispatch({
+      type: GET_BOOK_NOTES_PENDING,
       form,
     }),
   clearSearch: () =>

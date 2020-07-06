@@ -76,6 +76,7 @@ export async function getBookApi(payload) {
 }
 
 export async function getBookNotesApi(payload) {
+  console.log(settings.API_URL + `books/${payload}/notes/`);
   return fetch(settings.API_URL + `books/${payload}/notes/`, {
     method: 'Get',
     headers: {

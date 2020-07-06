@@ -30,6 +30,7 @@ import {
   post_review,
   post_review_success,
   post_review_fail,
+  GET_BOOK_NOTES_PENDING,
   GET_BOOK_Notes_SUCCESS,
   post_note,
   post_note_success,
@@ -50,7 +51,7 @@ const initialState = {
   book: null,
   bookPageContent: '',
   searchedContent: [],
-  bookComments: [],
+  book_notes: [],
   bookReviews: [],
   book_error: null,
   note_errors: null,
@@ -151,6 +152,8 @@ const reducer = (state = initialState, action) => {
       };
     case GET_BOOK_DETAIL_PENDING:
       return {...state, loading: 'get_book_detail', load: true};
+    case GET_BOOK_NOTES_PENDING:
+      return {...state, loading: 'get_book_notes', load: true};
     case GET_BOOK_DETAIL_SUCCESS:
       return {
         ...state,
@@ -166,7 +169,7 @@ const reducer = (state = initialState, action) => {
     case GET_BOOK_Notes_SUCCESS:
       return {
         ...state,
-        bookComments: action.form,
+        book_notes: action.form,
         load: false,
       };
     case GET_BOOK_NOTES_FAILURE:

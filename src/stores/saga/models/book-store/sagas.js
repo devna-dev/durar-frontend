@@ -5,6 +5,7 @@ import {
   post_note,
   post_note_success,
   post_note_fail,
+  GET_BOOK_NOTES_PENDING,
   GET_BOOK_NOTES_FAILURE,
   GET_BOOK_DETAIL_FAILURE,
   GET_BOOK_CONTENT_FAILURE,
@@ -84,6 +85,7 @@ const handler = function* () {
   yield takeEvery(suggest, suggest_api);
   yield takeEvery(donate, donate_api);
   yield takeEvery(get_activities, get_activities_api);
+  yield takeEvery(GET_BOOK_NOTES_PENDING, get_notes_api);
 };
 
 const isNullOrUndeclared = (value) =>
@@ -258,7 +260,7 @@ function* postReviewApi(form) {
 
 function* postNoteApi(form) {
   try {
-    const postedNote = yield call(post_notes_api, form);
+    const postedNote = yield call(post_notes_api, form.form);
     if (postedNote) {
       yield put({type: post_note_success});
     }
@@ -278,4 +280,18 @@ function* searchContentApi(form) {
     yield put({type: SEARCH_IN_BOOK_FAIL, form: err});
   }
 }
+
+function* get_notes_api(form) {
+  const {response, error} = yield call(getBookNotesApi, form.form.lookupId);
+  // console.log(response, "response", error, "error");
+  if (!isNullOrUndeclared(response)) {
+    yield put({
+      type: GET_BOOK_Notes_SUCCESS,
+      form: response,
+    });
+  } else {
+    yield put({type: GET_BOOK_NOTES_FAILURE, form: error});
+  }
+}
+
 export {handler};
