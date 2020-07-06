@@ -201,8 +201,8 @@ const reducer = (state = initialState, action) => {
     case get_popular_books:
       return {...state, loading: 'get_popular_books', load: true};
     case get_popular_books_success:
-      return {...state, books: action.form, load: false};
-    case get_activities:
+      return {...state, home_books: action.form, books: action.form, load: false};
+      case get_activities:
       return {...state, loading: 'get_activities', load: true};
     case get_activities_success:
       return {...state, activities: action.form, load: false};

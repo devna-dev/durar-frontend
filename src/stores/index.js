@@ -9,21 +9,22 @@ function init(history) {
     // ======================================================
     // Middleware Configuration
     // ======================================================
+    const enhancers = [];
+    // ======================================================
     let sagaMiddleware;
     if (__DEV__) {
         const sagaMonitor = Reactotron.createSagaMonitor();
         sagaMiddleware = createSagaMiddleware({ sagaMonitor });
         console.tron =  Reactotron;
+        // enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
         console.disableYellowBox = true;
     } else {
         sagaMiddleware = createSagaMiddleware();
-   }
-    const middleware = [sagaMiddleware];
+    }
 
-    // ======================================================
+    const middleware = [sagaMiddleware];
     // Store Enhancers
     // ======================================================
-    const enhancers = [];
     const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
 
     // ======================================================

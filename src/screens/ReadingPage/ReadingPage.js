@@ -111,9 +111,11 @@ class ReadingPage extends Component {
           width: '90%',
           alignSelf: 'center',
           color: moon == 2 ? colors.white : colors.black,
-          fontSize: 50
+          fontSize: 50,
         }}
-        TextComponent={(value) => <Text style={{fontSize: 100, color: 'red'}}>{value}</Text>}
+        TextComponent={(value) => (
+          <Text style={{fontSize: 100, color: 'red'}}>{value}</Text>
+        )}
         textValueProp={{style: {fontSize: 100, color: 'red'}}}
         onSelection={({eventType, content, selectionStart, selectionEnd}) => {
           if (eventType === 'Copy') {
@@ -284,41 +286,62 @@ class ReadingPage extends Component {
             </View>
           ) : (
             <ScrollView style={{flex: 1}}>
-              {!this.props.book.load && (
-                <HTML
-                  html={this.renderContent(this.state.index)}
-                  renderers={{
-                    span: this.renderText.bind(this),
-                    h1: this.renderText.bind(this),
-                    h2: this.renderText.bind(this),
-                    h3: this.renderText.bind(this),
-                    h4: this.renderText.bind(this),
-                    h5: this.renderText.bind(this),
-                    h6: this.renderText.bind(this),
-                    p: this.renderText.bind(this),
-                    em: this.renderText.bind(this),
-                  }}
-                  textSelectable={true}
-                  customWrapper={(content, attr) =>
-                    this.renderText(attr, content, this.state.moon)
-                  }
-                  tagsStyles={ {i: {textAlign: 'center', fontStyle: 'italic', color: 'grey'}} }
-                onHTMLParsed={(dom, RNElements) => {
-                    // Find the index of the first paragraph
-                    const ad = {
-                      wrapper: 'Text',
-                      tagName: 'mycustomblock',
-                      attribs: {},
-                      parent: false,
-                      parentTag: false,
-                      nodeIndex: 4,
-                    };
-                    // Insert the component
-                    RNElements.splice(4, 0, ad);
-                    return RNElements;
-                  }}
-                />
-              )}
+              {!this.props.book.load &&
+                this.renderContent(this.state.index)?.length !== 0 && (
+                  <HTML
+                    html={this.renderContent(this.state.index)}
+                    renderers={{
+                      span: this.renderText.bind(this),
+                      h1: this.renderText.bind(this),
+                      h2: this.renderText.bind(this),
+                      h3: this.renderText.bind(this),
+                      h4: this.renderText.bind(this),
+                      h5: this.renderText.bind(this),
+                      h6: this.renderText.bind(this),
+                      p: this.renderText.bind(this),
+                      em: this.renderText.bind(this),
+                    }}
+                    textSelectable={true}
+                    customWrapper={(content, attr) =>
+                      this.renderText(attr, content, this.state.moon)
+                    }
+                    tagsStyles={{
+                      i: {
+                        textAlign: 'center',
+                        fontStyle: 'italic',
+                        color: 'grey',
+                      },
+                    }}
+                    onHTMLParsed={(dom, RNElements) => {
+                      // Find the index of the first paragraph
+                      const ad = {
+                        wrapper: 'Text',
+                        tagName: 'mycustomblock',
+                        attribs: {},
+                        parent: false,
+                        parentTag: false,
+                        nodeIndex: 4,
+                      };
+                      // Insert the component
+                      RNElements.splice(4, 0, ad);
+                      return RNElements;
+                    }}
+                  />
+                )}
+              {!this.props.book.load &&
+                this.renderContent(this.state.index)?.length === 0 && (
+                  <Text
+                    style={[
+                      styles.item1_text,
+                      {
+                        color:
+                          this.state.moon == 2 ? colors.white : colors.primary,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    هناك مشكلة في عرض المحتوى رجاءً اسحب مرة اخرى لتحديث المحتوى
+                  </Text>
+                )}
             </ScrollView>
           )}
         </Content>
@@ -489,7 +512,6 @@ class ReadingPage extends Component {
     this.setState({isAddNoteModalVisible: true});
   };
   addNote = (note) => {
-
     const {lookupId} = this.props.route.params;
     const {isWithTashkeel, start, end} = this.state;
     const form = {
