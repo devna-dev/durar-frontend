@@ -171,6 +171,7 @@ class Home extends Component {
                                         navigation={this.props.navigation}
                                         item={item.item}
                                         image={item.item?.cover_image}
+                                        audio
                                     />
                                 )}
                             />

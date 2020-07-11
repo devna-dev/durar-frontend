@@ -87,6 +87,7 @@ class MyBooks extends Component {
                                         navigation={this.props.navigation}
                                         now
                                         item={item}
+                                        audio
                                     />
                                 )}
                             />
