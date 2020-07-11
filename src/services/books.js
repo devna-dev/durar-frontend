@@ -1,7 +1,6 @@
 import settings from '../config/settings';
 import storage from '../config/storage';
 import {queryString} from '../utils/queryString';
-import {Share} from "react-native";
 
 export async function getBooks() {
   return fetch(settings.API_URL + 'books/', {
@@ -442,6 +441,19 @@ export async function update_profile_api(data) {
         }
     });
 
+  Object.keys(data).forEach((key) => {
+    if (key === 'photo') {
+      if (data[key]) {
+        body.append('photo', {
+          uri: data.photo.uri,
+          name: data.photo.type.replace('/', '.'),
+          type: data.photo.type,
+        });
+      }
+    } else {
+      body.append(key, data[key]);
+    }
+  });
   return fetch(settings.API_URL + 'user/', {
     method: 'PUT',
     headers: {
