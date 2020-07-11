@@ -30,6 +30,7 @@ import {add_to_fav, share_book} from '../../services/books';
 import Toast from '../../components/Toast/Toast';
 import storage from '../../config/storage';
 import {clear} from "../../stores/saga/models/user-store/actions";
+import AudioBook from "../AudioBook/AudioBook";
 
 class Book extends Component {
     constructor(props) {
@@ -207,7 +208,7 @@ class Book extends Component {
                                         styles.dark_font2,
                                         {
                                             textAlign: 'left',
-                                            width: 280,
+                                            width: 250,
                                         },
                                     ]}>
                                     {book && book.title}
@@ -227,10 +228,18 @@ class Book extends Component {
                             {/*</TouchableOpacity>*/}
                             <TouchableOpacity
                                 onPress={() => {
+                                    this.props.navigation.navigate('AudioBook')
+
+                                }}
+                                style={[styles.headerItemView, {width: 40}]}>
+                                <SvgUri width={38} height={38} uri={svg_photo.play}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
                                     //this.props.navigation.navigate('NotificationsList')
                                 }
                                 }
-                                style={[styles.headerItemView, {width: 40}]}>
+                                style={[styles.headerItemView, {width: 40, marginHorizontal: 5}]}>
                                 <SvgUri style={styles.back_img} uri={svg_photo.book_menu}/>
                             </TouchableOpacity>
                             {/*</View>*/}

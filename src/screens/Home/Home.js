@@ -164,7 +164,7 @@ class Home extends Component {
                             <FlatList
                                 data={this.props.book?.home_books?.reads}
                                 horizontal
-                                inverted={true}
+                                inverted={false}
                                 style={{marginLeft: '5%'}}
                                 renderItem={(item) => (
                                     <HomeBookItem
@@ -187,7 +187,7 @@ class Home extends Component {
                         <FlatList
                             data={this.props.book?.home_books?.recent}
                             horizontal
-                            inverted={true}
+                            inverted={false}
                             style={{marginLeft: '5%'}}
                             renderItem={(item) => (
                                 <HomeBookItem
@@ -232,7 +232,7 @@ class Home extends Component {
                         <FlatList
                             data={this.props.book?.home_books?.listens}
                             horizontal
-                            inverted={true}
+                            inverted={false}
                             style={{marginLeft: '5%'}}
                             renderItem={(item) => (
                                 <HomeBookItem

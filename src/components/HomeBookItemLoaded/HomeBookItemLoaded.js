@@ -5,6 +5,7 @@ import {SvgUri} from "react-native-svg";
 import {svg_photo} from "../../assets/svg/svg";
 import {colors} from "../../config/styles";
 import {Rating, AirbnbRating} from 'react-native-ratings';
+import Sound from "react-native-sound";
 
 export default class HomeBookItemLoaded extends Component {
 
@@ -16,7 +17,7 @@ export default class HomeBookItemLoaded extends Component {
         return (
             <TouchableOpacity onPress={()=>this.props.navigation.navigate('Book', { lookupId: this.props.item.item.id})} style={[styles.container, {
                 flexDirection: this.props.now || this.props.search ? 'row' : 'column',
-                width: this.props.now || this.props.search ? '96%' : 100,
+                width: this.props.now || this.props.search ? '96%' : 180,
                 height: this.props.now || this.props.search ? 120 : 181,
                 marginVertical: this.props.now || this.props.search ? 5 : 0,
                 backgroundColor: this.props.item.index % 2 === 0 ? colors.white : colors.grey1,
@@ -72,6 +73,72 @@ export default class HomeBookItemLoaded extends Component {
 
                             }}/>
                     }
+                </View>
+                    <View style={{
+                        flexDirection:'row',
+                        width:170,
+                        justifyContent:'space-between'
+                    }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({play: !this.state.play})
+                                Sound.setCategory('Playback');
+                                this.whoosh.play(success=>{
+                                    alert('success')
+                                })
+                                // this.whoosh = new Sound(this.state.url, Sound.MAIN_BUNDLE, (error) => {
+                                //     if (!this.state.play) {
+                                //         this.whoosh.release()
+                                //         this.setState({play: false})
+                                //         this.url = null
+                                //     } else {
+                                //        // alert(this.state.play)
+                                //         if (error) {
+                                //             console.log('failed to load the sound', error);
+                                //             return;
+                                //         }
+                                //
+                                //         this.whoosh.play((success) => {
+                                //             if (success) {
+                                //                 this.setState({play: true})
+                                //                 console.log('successfully finished playing');
+                                //             } else {
+                                //                 console.log('playback failed due to audio decoding errors');
+                                //             }
+                                //         });
+                                //     }
+                                // });
+
+                                //this.whoosh.release();
+                            }}
+                            style={styles.headerItem}>
+                            <SvgUri uri={svg_photo.read_paly}/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => {
+
+                                this.whoosh.pause(()=>{
+                                    alert('pause')
+                                });
+                                // this.whoosh.stop(() => {
+                                // });
+                            }}
+                            style={styles.headerItem}>
+                            <SvgUri uri={svg_photo.pause}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+
+                                // this.whoosh.pause(()=>{
+                                //     alert('pause')
+                                // });
+                                this.whoosh.stop(() => {
+                                });
+                            }}
+                            style={styles.headerItem}>
+                            <SvgUri uri={svg_photo.pause}/>
+                        </TouchableOpacity>
                 </View>
             </TouchableOpacity>
         )

@@ -75,5 +75,6 @@ export const svg_photo = {
     thesis:'https://ik.imagekit.io/eufr55kd3z/landscape-text-files_3-IQlNdCZlW.svg',
     eye:'https://ik.imagekit.io/eufr55kd3z/eye_1hckvPPz1kN.svg',
     empty_star:'https://ik.imagekit.io/eufr55kd3z/Path_11597_czxRmZeiLP.svg',
-    trash:'https://ik.imagekit.io/eufr55kd3z/Trash_pohtyIu_P-G.svg'
+    trash:'https://ik.imagekit.io/eufr55kd3z/Trash_pohtyIu_P-G.svg',
+    pause: 'https://ik.imagekit.io/bpar5ppixc/iconfinder_Pause_2270301_a5rXkmA_y.svg'
 }

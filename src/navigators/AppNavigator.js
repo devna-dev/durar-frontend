@@ -48,6 +48,7 @@ import TermsAndConditions from "../screens/TermsAndConditions/TermsAndConditions
 import PrivacyPolicy from "../screens/PrivacyPolicy/PrivacyPolicy";
 import SubCategory from "../screens/Library/SubCategory";
 import SeminarActivity from "../screens/Activity/SeminarActivity";
+import AudioBook from "../screens/AudioBook/AudioBook";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -242,6 +243,7 @@ export function DrawerNavigator() {
       <Drawer.Screen name="AudioBooks" component={AudioBooks} />
       <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
         <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+        <Drawer.Screen name="AudioBook" component={AudioBook} />
     </Drawer.Navigator>
   );
 }
@@ -291,6 +293,8 @@ export function DrawerNavigator2() {
       <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
       <Drawer.Screen name="Library" component={Library} />
       <Drawer.Screen name="SubCategory" component={SubCategory} />
+        <Drawer.Screen name="AudioBook" component={AudioBook} />
+
     </Drawer.Navigator>
   );
 }
@@ -337,6 +341,8 @@ export function DrawerNavigator3() {
       <Drawer.Screen name="MyBooks" component={MyBooks} />
         <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
         <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+        <Drawer.Screen name="AudioBook" component={AudioBook} />
+
     </Drawer.Navigator>
   );
 }
@@ -383,6 +389,8 @@ export function DrawerNavigator4() {
       <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
         <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
         <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+        <Drawer.Screen name="AudioBook" component={AudioBook} />
+
     </Drawer.Navigator>
   );
 }
