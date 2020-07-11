@@ -1,6 +1,7 @@
 import settings from '../config/settings';
 import storage from '../config/storage';
 import {queryString} from '../utils/queryString';
+import {Share} from "react-native";
 
 export async function getBooks() {
   return fetch(settings.API_URL + 'books/', {
@@ -346,15 +347,15 @@ export async function get_audio_books() {
 }
 
 export async function post_review_api(payload) {
-  //alert(payload.body.comment)
-  return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: await storage.getItem('token'),
-    },
-    body: JSON.stringify(payload.body),
-  }).then((response) => response.json());
+    //alert(payload.body.comment)
+    return fetch(settings.API_URL + `books/${payload.lookupId}/reviews/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+        body: JSON.stringify(payload.body),
+    }).then((response) => response.json());
 }
 
 export async function add_to_fav(id) {
@@ -367,6 +368,25 @@ export async function add_to_fav(id) {
     body: JSON.stringify({
       book: id,
     }),
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res);
+      return res;
+    });
+}
+
+export async function share_book(id) {
+  //alert(id)
+  return fetch(settings.API_URL + 'user/share/Book/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+      body: JSON.stringify({
+          book: id,
+      }),
   })
     .then((response) => response.json())
     .then((res) => {
@@ -408,11 +428,20 @@ export async function search_content_api(payload) {
 
 export async function update_profile_api(data) {
   let body = new FormData();
-  // Object.keys(data).forEach(key => {
-  //     body.append(key, data[key]);
-  // });
-  body.append('photo', data.photo);
-  console.log(data);
+    Object.keys(data).forEach((key) => {
+        if (key === 'photo') {
+            if (data[key]) {
+                body.append('photo', {
+                    uri: data.photo.uri,
+                    name: data.photo.type.replace('/', '.'),
+                    type: data.photo.type,
+                });
+            }
+        } else {
+            body.append(key, data[key]);
+        }
+    });
+
   return fetch(settings.API_URL + 'user/', {
     method: 'PUT',
     headers: {

@@ -68,14 +68,15 @@ class Home extends Component {
     };
 
     async componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            // do something
-            this.start();
-        });
+        this.start();
+        // this._unsubscribe = this.props.navigation.addListener('focus', () => {
+        //     // do something
+        //
+        // });
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
+        // this._unsubscribe();
     }
 
     async start() {

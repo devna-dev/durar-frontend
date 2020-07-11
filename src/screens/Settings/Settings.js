@@ -111,6 +111,7 @@ export default class Settings extends Component {
                                style={styles.input}/>
 
                     <Text style={styles.find}> معلومات الحساب</Text>
+                    <Text style={styles.find}> نوع العضوية:</Text>
                     <View style={[styles.avatar_view, {
                         paddingVertical: 0,
                         paddingRight: 15,
@@ -165,10 +166,13 @@ export default class Settings extends Component {
         })
         if (update['permissions']) {
             await storage.setItem('user', update)
+            this.setState({ loading: false });
+            await storage.setItem('user', update);
             this.refs.Successfully.showToast('تم تعديل البيانات بنجاح ', 8000);
         } else {
             if (update['birthday'][0]) {
                 this.setState({birthday_error: update['birthday'][0]})
+                this.setState({ birthday_error: update['birthday'][0] });
             }
         }
 

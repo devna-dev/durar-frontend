@@ -34,7 +34,8 @@ export default StyleSheet.create({
     player:{
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        alignSelf:'flex-start'
     },
     view:{
         width:100,

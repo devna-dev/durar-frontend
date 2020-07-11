@@ -63,6 +63,7 @@ function Root() {
       <RootStack.Screen name="Walkthrough" component={Walkthrough} />
       <RootStack.Screen name="Login" component={Login} />
       <RootStack.Screen name="Register" component={Register} />
+      <RootStack.Screen name="Book" component={Book} />
     </RootStack.Navigator>
   );
 }

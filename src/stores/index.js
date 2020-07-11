@@ -16,7 +16,7 @@ function init(history) {
         const sagaMonitor = Reactotron.createSagaMonitor();
         sagaMiddleware = createSagaMiddleware({ sagaMonitor });
         console.tron =  Reactotron;
-        enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+        // enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
         console.disableYellowBox = true;
     } else {
         sagaMiddleware = createSagaMiddleware();

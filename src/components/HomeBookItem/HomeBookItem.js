@@ -20,6 +20,7 @@ export default class HomeBookItem extends Component {
       <TouchableOpacity
         onPress={() => {
           try {
+
             this.props.navigation.navigate('Book', {
               lookupId: this.props.item?.id,
             });

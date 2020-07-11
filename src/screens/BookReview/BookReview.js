@@ -20,7 +20,7 @@ export default class BookReview extends Component {
     super(props);
     this.state = {
       text: '',
-      rating: 3,
+      rating: 0,
     };
   }
 

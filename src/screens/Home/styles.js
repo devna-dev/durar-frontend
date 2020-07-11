@@ -114,7 +114,9 @@ export default StyleSheet.create({
         height: 50,
         paddingVertical: 5,
         backgroundColor: 'white',
-        paddingHorizontal: '5%'
+        paddingHorizontal: '5%',
+        position:'absolute',
+        bottom:0
     },
     btn: {
         width: 150,
