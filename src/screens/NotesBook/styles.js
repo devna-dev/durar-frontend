@@ -54,6 +54,7 @@ export default StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: colors.grey1,
         marginBottom: '3%',
+        padding: 5,
         borderRadius: 5
     },
     header2: {
@@ -78,7 +79,7 @@ export default StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: 5,
+        //marginHorizontal: 5,
         alignSelf: 'center',
         flexDirection: 'row',
     },

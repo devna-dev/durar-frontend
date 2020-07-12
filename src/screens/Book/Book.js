@@ -156,7 +156,7 @@ class Book extends Component {
                     style={styles.indicator}
                 />
 
-                {!this.props.book.load && (
+                {(!this.props.book.load || !!this.props.book ) && (
                     <Content
                         refreshControl={
                             <RefreshControl

@@ -10,3 +10,14 @@ export async function getUserNotes() {
     },
   }).then((response) => response.json());
 }
+
+
+export async function getUserBooksNotes() {
+  return fetch(settings.API_URL + `user/book-notes/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+  }).then((response) => response.json());
+}

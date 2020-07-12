@@ -333,7 +333,7 @@ export async function get_books_using_sub_categories(id) {
 }
 
 export async function get_audio_books(id) {
-    return fetch(settings.API_URL + 'books/'+id+'/audio/', {
+    return fetch(settings.API_URL + 'books/?has_audio=true', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './styles';
 import Container from '../../components/Containers/Container';
 import Content from '../../components/Containers/Content';
@@ -11,18 +11,19 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import {SvgUri} from 'react-native-svg';
-import {svg_photo} from '../../assets/svg/svg';
-import {colors} from '../../config/styles';
+import { SvgUri } from 'react-native-svg';
+import { svg_photo } from '../../assets/svg/svg';
+import { colors } from '../../config/styles';
 import Swipeout from 'react-native-swipeout';
 import SearchFilters from '../SearchFilters/SearchFilters';
 import Sort from '../Sort/Sort';
 import HomeBookItemLoaded from '../../components/HomeBookItemLoaded/HomeBookItemLoaded';
 import AddNotes from '../AddNotes/AddNotes';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   CLEAR_NOTES,
   PENDING_REQUEST_NOTES,
+  PENDING_REQUEST_BOOKS_NOTES,
 } from '../../stores/saga/models/notes-store/actions';
 
 class NotesBook extends Component {
@@ -40,10 +41,50 @@ class NotesBook extends Component {
   }
 
   onStart = () => {
-    this.props.getNotes();
+    const { selected } = this.state;
+    if (selected == 0)
+      this.props.getNotes();
+    else if (selected == 1)
+      this.props.getBooksNotes();
   };
+
+  _renderNoteItem = (item, index) => (
+    <Swipeout
+      style={styles.swipe}
+      right={[
+        {
+          component: (
+            <TouchableOpacity
+              onPress={() => { }}
+              style={styles.edit1}>
+              <View style={styles.edit}>
+                <SvgUri uri={svg_photo.trash} />
+              </View>
+            </TouchableOpacity>
+          ),
+        },
+      ]}>
+      <View style={styles.diff_view}>
+        <Text
+          style={[styles.address_text, { color: colors.primary }]}>
+          وجه الإختلاف بين
+        </Text>
+        <Text style={[styles.address_text, { fontSize: 13 }]}>
+          هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن
+          الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو
+          الكلمات
+        </Text>
+        <Text
+          style={[styles.address_text, { color: colors.primary }]}>
+          كتاب: تاريح الخلفاء
+        </Text>
+      </View>
+    </Swipeout>
+  )
+
+
   render() {
-    const {notes, load} = this.props;
+    const { notes, load } = this.props;
     return (
       <Container style={styles.container}>
         <Content style={styles.content}>
@@ -60,13 +101,13 @@ class NotesBook extends Component {
               </TouchableOpacity>
               <Text style={styles.headerTitle}>دفتر الملاحظات</Text>
             </View>
-            <TouchableOpacity onPress={() => this.setState({note: true})}>
+            <TouchableOpacity onPress={() => this.setState({ note: true })}>
               <SvgUri style={styles.back_img1} uri={svg_photo.fill_add} />
             </TouchableOpacity>
           </View>
           <View style={styles.header1}>
             <TouchableOpacity
-              onPress={() => this.setState({selected: 0})}
+              onPress={() => this.setState({ selected: 0 })}
               style={[
                 styles.item_view,
                 {
@@ -87,7 +128,7 @@ class NotesBook extends Component {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.setState({selected: 1})}
+              onPress={() => this.setState({ selected: 1 })}
               style={[
                 styles.item_view,
                 {
@@ -108,70 +149,38 @@ class NotesBook extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.header}>
+          {this.state.selected == 0 && <View style={styles.header}>
             <SvgUri style={styles.back_img} uri={svg_photo.not_active_search} />
             <TextInput placeholder={'إسم الكتاب'} style={styles.input} />
             <SvgUri style={styles.back_img} uri={svg_photo.down_arrow} />
-          </View>
+          </View>}
           {load && notes ? (
             <FlatList
               data={notes}
               style={{}}
-              renderItem={(item, index) => (
-                <Swipeout
-                  style={styles.swipe}
-                  right={[
-                    {
-                      component: (
-                        <TouchableOpacity
-                          onPress={() => {}}
-                          style={styles.edit1}>
-                          <View style={styles.edit}>
-                            <SvgUri uri={svg_photo.trash} />
-                          </View>
-                        </TouchableOpacity>
-                      ),
-                    },
-                  ]}>
-                  <View style={styles.diff_view}>
-                    <Text
-                      style={[styles.address_text, {color: colors.primary}]}>
-                      وجه الإختلاف بين
-                    </Text>
-                    <Text style={[styles.address_text, {fontSize: 13}]}>
-                      هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن
-                      الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو
-                      الكلمات
-                    </Text>
-                    <Text
-                      style={[styles.address_text, {color: colors.primary}]}>
-                      كتاب: تاريح الخلفاء
-                    </Text>
-                  </View>
-                </Swipeout>
-              )}
+              renderItem={this._renderNoteItem}
             />
           ) : (
-            <Text
-              style={[
-                styles.address_text,
-                {color: colors.primary, alignSelf: 'center'},
-              ]}>
-              لا يوجد ملاحظات
-            </Text>
-          )}
+              <Text
+                style={[
+                  styles.address_text,
+                  { color: colors.primary, alignSelf: 'center' },
+                ]}>
+                لا يوجد ملاحظات
+              </Text>
+            )}
         </Content>
         <SearchFilters
           visible={this.state.filter}
-          onRequestClose={() => this.setState({filter: false})}
+          onRequestClose={() => this.setState({ filter: false })}
         />
         <Sort
           visible={this.state.sort}
-          onRequestClose={() => this.setState({sort: false})}
+          onRequestClose={() => this.setState({ sort: false })}
         />
         <AddNotes
           visible={this.state.note}
-          onRequestClose={() => this.setState({note: false})}
+          onRequestClose={() => this.setState({ note: false })}
         />
       </Container>
     );
@@ -194,6 +203,12 @@ const mapDispatchToProps = (dispatch) => ({
   getNotes: (form) =>
     dispatch({
       type: PENDING_REQUEST_NOTES,
+      form,
+    }),
+
+  getBooksNotes: (form) =>
+    dispatch({
+      type: PENDING_REQUEST_BOOKS_NOTES,
       form,
     }),
 });
