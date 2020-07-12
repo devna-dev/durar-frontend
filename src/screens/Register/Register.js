@@ -199,7 +199,10 @@ class Register extends Component {
     if (prevProps.user.allow_navigate !== this.props.user.allow_navigate) {
       this.setState(this.initialState);
       this.props.clear();
-      this.props.navigation.navigate('Login');
+      this.props.navigation.navigate('VerificationCode', {
+        email: this.state.email,
+        password: this.state.password,
+      });
     }
     if (this.getRegErrorProp('network_error')) {
       this.toast.current.showToast(

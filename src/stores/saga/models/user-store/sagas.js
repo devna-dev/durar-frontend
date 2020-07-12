@@ -67,13 +67,13 @@ function* loginApi(action) {
 function* verifyEmailApi(action) {
   try {
     let result = yield verify_email(action.form);
-    if (result.detail) {
-      yield put({type: verify_email_success, form: result});
+    if (result === 1) {
+      yield put({type: verify_email_success, form: {detail: result}});
     } else {
-      yield put({type: error, form: result});
+      yield put({type: error, form: {detail: result.detail || result}});
     }
   } catch (err) {
-    console.log('err', err);
+    console.log('err verifyEmailApi', err);
   }
 }
 
@@ -93,6 +93,7 @@ function* registerApi(action) {
   try {
     let result = yield user_register(action.form);
     if (result.token) {
+      yield storage.setItem('token', 'Bearer ' + result.token);
       yield put({type: REGISTER_USER_REQUEST_SUCCESS, form: result});
     } else {
       yield put({type: REGISTER_USER_REQUEST_FAILURE, form: result});
