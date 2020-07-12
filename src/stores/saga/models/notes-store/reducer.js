@@ -28,11 +28,11 @@ const reducer = (state = initialState, action) => {
     case PENDING_REQUEST_NOTES:
       return { ...state, load: true };
     case SUCCESS_REQUEST_NOTES:
-      return { ...state, notes: action.form, load: true };
+      return { ...state, notes: action.form || [], load: false };
     case PENDING_DELETE_NOTES:
       return { ...state, load: true };
     case SUCCESS_DELETE_NOTES:
-      return { ...state, notes_message: action.form, load: true };
+      return { ...state, notes_message: action.form, load: false };
     case NOTES_FAIL:
       return {
         ...state,
@@ -49,11 +49,11 @@ const reducer = (state = initialState, action) => {
     case PENDING_REQUEST_BOOKS_NOTES:
       return { ...state, load: true };
     case SUCCESS_REQUEST_BOOKS_NOTES:
-      return { ...state, booksNotes: action.form, load: true };
+      return { ...state, booksNotes: action.form || [], load: false };
     case PENDING_DELETE_BOOKS_NOTES:
       return { ...state, load: true };
     case SUCCESS_DELETE_BOOKS_NOTES:
-      return { ...state, notes_message: action.form, load: true };
+      return { ...state, notes_message: action.form, load: false };
     case BOOKS_NOTES_FAIL:
       return {
         ...state,

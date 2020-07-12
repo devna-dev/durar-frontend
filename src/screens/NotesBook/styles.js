@@ -158,6 +158,15 @@ export default StyleSheet.create({
         alignSelf: 'center',
         paddingHorizontal:10
     },
+    diff_view1: {
+        width: '90%',
+        borderRadius: 5,
+        borderColor: colors.grey2,
+        borderWidth: 1,
+        marginVertical: 5,
+        alignSelf: 'center',
+        paddingHorizontal:10
+    },
     address_text: {
         ...common.BoldFont,
         fontSize: 16,

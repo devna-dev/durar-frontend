@@ -3,7 +3,7 @@ import storage from '../config/storage';
 
 export async function getUserNotes() {
   return fetch(settings.API_URL + `user/notes/`, {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: await storage.getItem('token'),
@@ -14,7 +14,7 @@ export async function getUserNotes() {
 
 export async function getUserBooksNotes() {
   return fetch(settings.API_URL + `user/book-notes/`, {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: await storage.getItem('token'),
