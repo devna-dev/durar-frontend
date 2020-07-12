@@ -140,6 +140,7 @@ export default class Settings extends Component {
                     />
 
                     <Text style={styles.find}> معلومات الحساب</Text>
+
                     <View
                         style={[
                             styles.avatar_view,
@@ -184,6 +185,8 @@ export default class Settings extends Component {
                         <SvgUri style={styles.back_img} uri={svg_photo.edit} />
                         </TouchableOpacity>
                     </View>
+                    <Text style={styles.type}> عدد النقاط : </Text>
+                    <Text style={styles.type}> نوع العضوية : </Text>
                     <ActivityIndicator
                         animating={this.state.loading}
                         size="large"

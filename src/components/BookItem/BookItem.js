@@ -7,7 +7,8 @@ import {SvgUri} from 'react-native-svg';
 import {svg_photo} from '../../assets/svg/svg';
 import EditBookReview from '../../screens/BookReview/EditBookReview';
 import Swipeout from 'react-native-swipeout';
-import {post_like_review} from "../../services/books";
+import {delete_review_api, post_like_review} from "../../services/books";
+import Moment from 'moment/moment';
 
 export default class BookItem extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ export default class BookItem extends Component {
             EditBookReview: false,
             user_liked: true
         };
+
     }
 
     render() {
@@ -24,10 +26,15 @@ export default class BookItem extends Component {
         return (
             <Swipeout
                 style={styles.swipe}
+                scrollEnabled={true}
                 right={[
                     {
                         component: (
-                            <TouchableOpacity onPress={() => {
+                            <TouchableOpacity onPress={async () => {
+                                let delete_review = await delete_review_api(this.props.id, this.props.item.id)
+                                console.log('from delete *************************')
+                                console.log(delete_review)
+                                this.props.onPress()
                             }} style={styles.edit1}>
                                 <View style={styles.edit}>
                                     <SvgUri uri={svg_photo.trash}/>
@@ -69,14 +76,14 @@ export default class BookItem extends Component {
                                 <Text style={styles.text}>{this.props.item.likes}</Text>
                                 <Text style={styles.text}>إعجاب</Text>
                             </View>
-                            <TouchableOpacity onPress={async()=>{
-                                let like_review= await post_like_review(this.props.item.id)
-                                console.log('like_review',like_review)
-                                if (like_review['id']){
-                                    this.setState({user_liked:!this.state.user_liked})
+                            <TouchableOpacity onPress={async () => {
+                                let like_review = await post_like_review(this.props.item.id)
+                                console.log('like_review', like_review)
+                                if (like_review['id']) {
+                                    this.setState({user_liked: !this.state.user_liked})
                                 }
                             }} style={{marginHorizontal: 5}}>
-                                {this.props.item.like_id!=null ? (
+                                {this.props.item.like_id != null ? (
                                     <SvgUri uri={svg_photo.fill_like}/>
                                 ) : (
                                     <SvgUri uri={svg_photo.like}/>
@@ -86,9 +93,9 @@ export default class BookItem extends Component {
                         </View>
                         <View style={styles.left}>
                             {/*/!*{this.state.mine ? (*!/*/}
-                                {/*/!*<Text style={styles.description}>تعديل</Text>*!/*/}
+                            {/*/!*<Text style={styles.description}>تعديل</Text>*!/*/}
                             {/*/!*) : (*!/*/}
-                                <Text style={styles.description}>{this.props.item.creation_time}</Text>
+                                <Text style={styles.description}>{Moment(this.props.item.creation_time).format('DD-MMM-YYYY')}</Text>
                             {/*// )}*/}
                         </View>
                     </View>

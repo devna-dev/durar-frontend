@@ -165,6 +165,25 @@ export async function donate_to_api(form) {
         });
 }
 
+export async function delete_review_api(book, review) {
+    return fetch(settings.API_URL + 'books/' + book + '/reviews/' + review, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            console.log('delete review', res);
+            return res;
+        })
+        .catch((error) => {
+            console.log('error', error);
+            return error.response;
+        });
+}
+
 export async function get_activities_Api(form) {
     return fetch(settings.API_URL + 'activities', {
         method: 'GET',
@@ -183,6 +202,19 @@ export async function get_thesisApi(form) {
             Authorization: await storage.getItem('token'),
         },
     }).then((response) => response.json());
+}
+
+export async function get_most_downloaded(page) {
+    return fetch(settings.API_URL + 'books/popular/downloads/?page=' + page + '&page_size=10', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json())
+        .then(response => {
+            return response
+        })
 }
 
 export async function get_activity_seminars_details_api(form) {
@@ -457,7 +489,7 @@ export async function search_content_api(payload) {
 }
 
 export async function post_like_review(id) {
-    alert(id)
+
     return fetch(settings.API_URL + 'user/review/likes/', {
             method: 'POST',
             headers: {

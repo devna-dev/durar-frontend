@@ -20,7 +20,13 @@ export default class HomeBookItemLoaded extends Component {
     render() {
         return (
             <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Book', {lookupId: this.props.item.item.id})}
+                onPress={() => {
+                    if (this.props.thesis){
+
+                    }else{
+                        this.props.navigation.navigate('Book', {lookupId: this.props.item.item.id})
+                    }
+                }}
                 style={[styles.container, {
                     flexDirection: this.props.now || this.props.search ? 'row' : 'column',
                     width: this.props.now || this.props.search ? '96%' : 100,
@@ -60,7 +66,7 @@ export default class HomeBookItemLoaded extends Component {
                                 <View style={[styles.view,]}>
                                     <View style={[styles.progress, {backgroundColor: colors.secondary, width:this.props.item.item.read_progress * 100+ '%'}]}/>
                                 </View>
-                                <Text style={styles.text3}> {this.props.item.item.read_progress * 100}% </Text>
+                                <Text style={styles.text3}> {this.props.item.item.read_progress.toFixed(2) * 100}% </Text>
                             </View>
                             {this.props.item.item.has_audio &&
                             <TouchableOpacity onPress={async() => {

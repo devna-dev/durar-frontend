@@ -33,7 +33,7 @@ class Login extends Component {
           </View>
           <Image
             style={styles.logo}
-            source={require('../../assets/images/Screenshot_3.png')}
+            source={require('../../assets/images/signin.png')}
           />
           <Text style={styles.address}>الشاملة</Text>
           <Text style={styles.title}>تسجيل الدخول</Text>

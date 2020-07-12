@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet,I18nManager} from 'react-native';
 import {colors} from "../../config/styles";
 import common from "../../styles/common.style";
 
@@ -78,6 +78,7 @@ export default StyleSheet.create({
     },
     swipe:{
         backgroundColor:'transparent',
+
 
     }
 })

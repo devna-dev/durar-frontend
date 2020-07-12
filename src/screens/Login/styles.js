@@ -4,7 +4,7 @@ import {colors} from "../../config/styles";
 
 export default StyleSheet.create({
     container: {
-        backgroundColor: 'white'
+        backgroundColor: '#f8f8f8'
     },
     logo: {
         alignSelf: 'center',

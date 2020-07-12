@@ -88,7 +88,7 @@ export default class UploadVoiceBook extends Component {
                                                         </TouchableOpacity>}/>}
 
 
-                    {this.state.book_error && <Text style={styles.error}>*حقل مطلوب</Text>}
+                    <Text style={styles.error}>*حقل مطلوب</Text>
                     <Text style={styles.label}>ملحوظات</Text>
                     <Text style={styles.book_label1}>
                         يجب أن يكون الصوت واضح وليس بطئ أو سريعا جدا

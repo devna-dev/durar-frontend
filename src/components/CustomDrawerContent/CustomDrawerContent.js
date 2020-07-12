@@ -37,7 +37,7 @@ const data = [
         route: 'Thesis',
     },
     {
-        image: svg_photo.format,
+        image: svg_photo.active_shaved,
         title: 'الأنشطة',
         route: 'Activities',
     },
@@ -65,7 +65,7 @@ const data = [
     {
         image: svg_photo.notifications,
         title: 'إعدادات الإشعارات',
-        route: 'notifications',
+        route: 'Notifications',
     },
     {
         image: svg_photo.information,
@@ -235,7 +235,9 @@ class CustomDrawerContent extends Component {
                             review: false
                         })
                     }}
-                    sendContactUsForm={state => { alert(JSON.stringify(state)) }}
+                    sendContactUsForm={state => { this.setState({
+                        review: false
+                    })}}
                 />
                 {/*<AppReview visible={this.state.review}*/}
                            {/*onRequestClose={() => this.setState({review: false})}/>*/}

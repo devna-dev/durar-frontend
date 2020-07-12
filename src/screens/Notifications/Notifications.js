@@ -37,7 +37,15 @@ export default class Notifications extends Component {
                     <View style={styles.header1}>
                         <Text style={styles.find}>وضع الإشعارات</Text>
                         <Switch value={this.state.all}
-                                onChange={()=>{this.setState({all:!this.state.all})}}/>
+                                onChange={(value)=>{
+                                    this.setState({all:!this.state.all})
+                                if(this.state.all!==false){
+                                    this.setState({
+                                        version:false,
+                                        recommended:false,
+                                    })
+                                }
+                                }}/>
                     </View>
 
                     <View style={styles.header1}>

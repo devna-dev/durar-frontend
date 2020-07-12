@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Container from '../../components/Containers/Container';
 import Content from '../../components/Containers/Content';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, Platform} from 'react-native';
 import styles from './styles';
 import {colors} from '../../config/styles';
 import Button from '../../components/Button/Button';
@@ -36,6 +36,8 @@ class DonatedBook extends Component {
 
             message: '',
             message_error: '',
+            upload_voice_book: false,
+            photo:''
         };
     }
 
@@ -47,7 +49,7 @@ class DonatedBook extends Component {
                         <SvgUri style={styles.back_img}
                                 uri={svg_photo.back}/>
                     </TouchableOpacity>
-                    <Text style={styles.headerTitle}> إقتراح كتاب</Text>
+                    <Text style={styles.headerTitle}> التبرع بكتاب</Text>
                 </View>
                 <Content style={styles.content}>
                     <View style={[styles.book_view, {
@@ -98,7 +100,12 @@ class DonatedBook extends Component {
                                    onChangeText={(value) => this.change_message(value)}
                         />
                     </View>
-
+                    {/*<TouchableOpacity onPress={() => this.choose_file()}*/}
+                                      {/*style={this.state.upload_voice_book ? styles.book_view11 : styles.not_book_view1}>*/}
+                        {/*<SvgUri style={styles.back_img}*/}
+                                {/*uri={svg_photo.upload}/>*/}
+                        {/*<Text style={styles.book_label}>إضغط لرفع الملف الصوتى</Text>*/}
+                    {/*</TouchableOpacity>*/}
                     {this.state.success && <Text style={{
                         color: this.state.success ? colors.green1 : colors.error, ...common.RegularFont,
                         fontSize: 16,
@@ -167,6 +174,52 @@ class DonatedBook extends Component {
         }
         return true;
     }
+
+
+
+    choose_file() {
+        const options = {
+            title: 'Select Avatar',
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+
+        /**
+         * The first arg is the options object for customization (it can also be null or omitted for default options),
+         * The second arg is the callback which sends object: response (more info in the API Reference)
+         */
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                const source = response;
+
+                // You can also display the image using data:
+                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+                this.setState({
+                    photo_url: source.uri,
+                    upload_voice_book: true,
+                    photo: {
+                        name: source.fileName,
+                        type: source.type,
+                        uri:
+                            Platform.OS === 'android'
+                                ? source.uri
+                                : source.uri.replace('file://', ''),
+                    },
+                });
+            }
+        });
+    }
+
 
     async send_message() {
         this.setState({load: true})
