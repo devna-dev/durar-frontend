@@ -94,7 +94,7 @@ class Home extends Component {
 
 
     render() {
-
+console.log(this.props.book?.home_books?.reads && this.props.book?.home_books?.reads?this.props.book?.home_books:'')
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>

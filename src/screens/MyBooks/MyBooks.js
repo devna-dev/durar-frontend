@@ -38,15 +38,24 @@ class MyBooks extends Component {
     }
 
     componentDidMount() {
-        this.start();
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+
+            this.start();
+        });
+    }
+
+    componentWillUnmount() {
+         this._unsubscribe();
     }
 
     start() {
+        this.props.clear()
         this.props.GET_user_books();
     }
 
 
     render() {
+        console.log('cont',this.props.user?.books?.reads?this.props.user?.books?.reads.length:'')
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}

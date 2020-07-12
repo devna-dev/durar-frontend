@@ -33,7 +33,7 @@ export default class AudioFile extends Component {
                 } else {
                     console.log('playback failed due to audio decoding errors');
                     alert('Notice', 'audio file error. (Error code : 2)');
-
+                    this.whoosh.reset();
                 }
             });
         });
@@ -49,13 +49,22 @@ export default class AudioFile extends Component {
                 animationType="slide"
                 transparent={true}
                 visible={this.props.visible}
-                onRequestClose={this.props.onRequestClose}>
+                onRequestClose={()=>{
+                    this.whoosh.stop(() => {
+                    });
+                    this.props.onRequestClose()
+                }}>
                 <Container>
                     <Content style={{height: '100%', backgroundColor: 'rgba(0,0,0,0.7)'}}>
                         <View style={styles.modalContainer}>
                             {/*<Image style={styles.modal_img1}*/}
                             {/*source={require('../../assets/images/walkthrough_image.png')}/>*/}
+                            <View style={{flexDirection:'row',justifyContent:'space-between',width:'90%',alignSelf:'center',marginBottom:5}}>
                             <Text style={styles.modal_text}>ملفات الصوت لهذا الكتاب :</Text>
+                                <TouchableOpacity onPress={()=>this.props.onRequestClose()}>
+                                <SvgUri width={15} height={15} uri={svg_photo.close}/>
+                                </TouchableOpacity>
+                            </View>
                             <FlatList data={this.props.audio_books}
                                       renderItem={(item) => {
                                           console.log('item', item)
@@ -78,6 +87,7 @@ export default class AudioFile extends Component {
                                                               if (success) {
                                                                   console.log('successfully finished playing');
                                                               } else {
+                                                                  this.whoosh.release()
                                                                   console.log('playback failed due to audio decoding errors');
                                                                   this.whoosh = new Sound(item.item.url)
                                                                   this.whoosh.play()
@@ -105,7 +115,7 @@ export default class AudioFile extends Component {
                                                           });
                                                       }}
                                                       style={styles.headerItem}>
-                                                      <SvgUri width={15} height={15} uri={svg_photo.pause}/>
+                                                      <SvgUri width={15} height={15} uri={svg_photo.stop_paly}/>
                                                   </TouchableOpacity>
                                               </View>}
                                           </TouchableOpacity>

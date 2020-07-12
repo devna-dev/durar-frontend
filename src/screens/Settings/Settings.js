@@ -157,9 +157,9 @@ export default class Settings extends Component {
                             borderColor={'transparent'}
                             style={[styles.input1, { width: '85%' }]}
                         />
-                        <View style={[styles.item_view1, { width: 40 }]}>
+                        <TouchableOpacity onPress={()=>this.update_profile()} style={[styles.item_view1, { width: 40 }]}>
                             <SvgUri style={styles.back_img} uri={svg_photo.edit} />
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
                     <View
@@ -179,9 +179,10 @@ export default class Settings extends Component {
                             borderColor={'transparent'}
                             style={[styles.input1, { width: '85%' }]}
                         />
-                        <View style={[styles.item_view1, { width: 40 }]}>
-                            <SvgUri style={styles.back_img} uri={svg_photo.edit} />
-                        </View>
+                        <TouchableOpacity onPress={()=>this.update_profile()}
+                                          style={[styles.item_view1, { width: 40 }]}>
+                        <SvgUri style={styles.back_img} uri={svg_photo.edit} />
+                        </TouchableOpacity>
                     </View>
                     <ActivityIndicator
                         animating={this.state.loading}

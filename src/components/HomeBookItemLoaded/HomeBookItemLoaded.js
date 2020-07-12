@@ -18,7 +18,6 @@ export default class HomeBookItemLoaded extends Component {
     }
 
     render() {
-        console.log(this.props.item.item.id)
         return (
             <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Book', {lookupId: this.props.item.item.id})}

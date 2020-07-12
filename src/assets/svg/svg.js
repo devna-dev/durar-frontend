@@ -44,6 +44,7 @@ export const svg_photo = {
     information: 'https://ik.imagekit.io/eufr55kd3z/information_nFqNltMgV.svg',
     chat: 'https://ik.imagekit.io/eufr55kd3z/chat_G2Z6iZkasM3.svg',
     support: 'https://ik.imagekit.io/eufr55kd3z/support_fKwTTvj9iUs.svg',
+    star: 'https://ik.imagekit.io/eufr55kd3z/star_AxydZK9mB.svg',
     suggested_book: 'https://ik.imagekit.io/eufr55kd3z/chat_R6mcMe22P.svg',
     saved: 'https://ik.imagekit.io/eufr55kd3z/saved_GY4q9kLy-ZX.svg',
     favourite: 'https://ik.imagekit.io/eufr55kd3z/favorite_vuHIfmEV0yR.svg',
@@ -64,6 +65,7 @@ export const svg_photo = {
     read_back: 'https://ik.imagekit.io/eufr55kd3z/arrow_eF8Gfg3Vg.svg',
     read_forward: 'https://ik.imagekit.io/eufr55kd3z/arrow_GAyAg5KG3.svg',
     read_paly: 'https://ik.imagekit.io/eufr55kd3z/play_0qsAvNyLF.svg',
+    stop_paly: 'https://ik.imagekit.io/eufr55kd3z/Path_11582_r7aMNYAL2lt.svg',
     read_moon: 'https://ik.imagekit.io/eufr55kd3z/phases_t8f6Ue1Hg.svg',
     sun: 'https://ik.imagekit.io/eufr55kd3z/night_mode_LyejC-0dm.svg',
     format: 'https://ik.imagekit.io/eufr55kd3z/format-size_Qn1kz50tj.svg',
@@ -76,5 +78,8 @@ export const svg_photo = {
     eye:'https://ik.imagekit.io/eufr55kd3z/eye_1hckvPPz1kN.svg',
     empty_star:'https://ik.imagekit.io/eufr55kd3z/Path_11597_czxRmZeiLP.svg',
     trash:'https://ik.imagekit.io/eufr55kd3z/Trash_pohtyIu_P-G.svg',
-    pause: 'https://ik.imagekit.io/bpar5ppixc/iconfinder_Pause_2270301_a5rXkmA_y.svg'
+    pause: 'https://ik.imagekit.io/bpar5ppixc/iconfinder_Pause_2270301_a5rXkmA_y.svg',
+    download:'https://ik.imagekit.io/eufr55kd3z/download_r_KgYNhYKck.svg',
+    download_icon:'https://ik.imagekit.io/eufr55kd3z/Group_302_XOY7w77Xk.svg',
+    notifications:'https://ik.imagekit.io/eufr55kd3z/notification_settings_0GeApBLtC.svg'
 }

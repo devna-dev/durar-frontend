@@ -178,10 +178,10 @@ class DonatedBook extends Component {
                 url: this.state.message,
             };
             let donate = await donate_to_api(form)
-            if (donate['url']) {
-                this.setState({message_error: donate['url']})
-            } else {
+            if(donate['author']){
                 this.setState({success: true})
+            } else {
+                this.setState({message_error: donate['url']})
             }
             this.setState({load: false})
         }

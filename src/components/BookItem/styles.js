@@ -5,7 +5,7 @@ import common from "../../styles/common.style";
 
 export default StyleSheet.create({
     container: {
-        height: 191,
+      //  height: 191,
         marginBottom: '5%',
         width: '90%',
         alignSelf: 'center',
@@ -47,8 +47,10 @@ export default StyleSheet.create({
         color: colors.grey3,
         ...common.SemiBoldFont,
         fontSize: 13,
-        marginLeft:40,
-        marginVertical:5
+        //marginLeft:40,
+        marginVertical:5,
+        width:'95%',
+        alignSelf:'center'
     },
     right_footer:{
         height: '100%',

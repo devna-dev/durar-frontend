@@ -68,16 +68,17 @@ export async function getBookPageContent(payload) {
 }
 
 export async function getBookApi(payload) {
-    return fetch(settings.API_URL + `books/${payload}/`, {
+
+    return fetch(settings.API_URL + `books/${payload}`, {
         method: 'Get',
         headers: {
             accept: 'application/json',
+            Authorization: await storage.getItem('token'),
         },
     }).then((response) => response.json());
 }
 
 export async function getBookNotesApi(payload) {
-    console.log(settings.API_URL + `books/${payload}/notes/`);
     return fetch(settings.API_URL + `books/${payload}/notes/`, {
         method: 'Get',
         headers: {
@@ -332,8 +333,22 @@ export async function get_books_using_sub_categories(id) {
         });
 }
 
+export async function get_list_audio_books() {
+    return fetch(settings.API_URL + 'books/?has_audio=true', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            return res;
+        });
+}
+
 export async function get_audio_books(id) {
-    return fetch(settings.API_URL + 'books/'+id+'/audio/', {
+    return fetch(settings.API_URL + 'books/' + id + '/audio/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -377,22 +392,37 @@ export async function add_to_fav(id) {
 }
 
 export async function share_book(id) {
-  //alert(id)
-  return fetch(settings.API_URL + 'user/share/Book/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: await storage.getItem('token'),
-    },
-      body: JSON.stringify({
-          book: id,
-      }),
-  })
-    .then((response) => response.json())
-    .then((res) => {
-      console.log(res);
-      return res;
-    });
+    //alert(id)
+    return fetch(settings.API_URL + 'user/share/Book/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+        body: JSON.stringify({
+            book: id,
+        }),
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res);
+            return res;
+        });
+}
+
+export async function get_all_books() {
+    return fetch(settings.API_URL + 'books/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res);
+            return res;
+        });
 }
 
 export async function post_notes_api(payload) {
@@ -426,6 +456,25 @@ export async function search_content_api(payload) {
     ).then((response) => response.json());
 }
 
+export async function post_like_review(id) {
+    alert(id)
+    return fetch(settings.API_URL + 'user/review/likes/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: await storage.getItem('token'),
+            },
+            body: JSON.stringify({
+                "review": id
+            })
+        },
+    ).then((response) => response.json())
+        .then(res => {
+            console.log(res)
+            return res
+        })
+}
+
 export async function update_profile_api(data) {
     let body = new FormData();
     Object.keys(data).forEach((key) => {
@@ -453,6 +502,35 @@ export async function update_profile_api(data) {
         .then((response) => response.json())
         .then((res) => {
             console.log('profilllllle', res);
+            return res;
+        })
+        .catch((err) => {
+            console.log(err.response);
+        });
+}
+
+export async function upload_audio_file(id, data) {
+    console.log(data, id)
+    let body = new FormData();
+    body.append('type', 'audio')
+    body.append('approved', 'true')
+    body.append('url', {
+        uri: data.uri,
+        name: Platform.OS == 'android' ? data.name : data.type.replace('/', '.'),
+        type: data.type,
+    });
+    return fetch(settings.API_URL + 'books/' + id + '/audio/', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            // 'Content-Type': 'multipart/form-data',
+            Authorization: await storage.getItem('token'),
+        },
+        body: body,
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            console.log('uploaaaad aufio booooooooook', res);
             return res;
         })
         .catch((err) => {

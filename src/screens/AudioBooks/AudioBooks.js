@@ -12,7 +12,7 @@ import {colors} from "../../config/styles";
 import {clear, loading} from "../../stores/saga/models/user-store/actions";
 import {connect} from "react-redux";
 import {get_thesis} from "../../stores/saga/models/activities-store/actions";
-import {get_audio_books} from "../../services/books";
+import {get_audio_books, get_list_audio_books} from "../../services/books";
 import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
 
 
@@ -28,8 +28,8 @@ class AudioBooks extends Component {
 
     async componentDidMount() {
         this.setState({loading: true})
-        let audio_books = await get_audio_books();
-        console.log(audio_books)
+        let audio_books = await get_list_audio_books();
+        console.log('audio',audio_books)
         this.setState({audio_books})
         this.setState({loading: false})
     }
@@ -54,7 +54,7 @@ class AudioBooks extends Component {
                     <ActivityIndicator animating={this.state.loading} color={colors.primary} size={'large'}/>}
                     {this.state.audio_books.length != 0 && <FlatList data={this.state.audio_books}
                                                                      renderItem={(item) => <HomeBookItemLoaded
-                                                                         search
+                                                                         now
                                                                          audio
                                                                          navigation={this.props.navigation}
                                                                          item={item}/>}/>}
