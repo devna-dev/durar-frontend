@@ -21,3 +21,26 @@ export async function getUserBooksNotes() {
     },
   }).then((response) => response.json());
 }
+
+
+export async function addUserNotes(note) {
+  return fetch(settings.API_URL + `user/notes/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify({ note }),
+  }).then((response) => response.json());
+}
+
+export async function deleteUserNotes(note) {
+  return fetch(settings.API_URL + `user/notes/${note.id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify({ note }),
+  }).then((response) => response.json());
+}

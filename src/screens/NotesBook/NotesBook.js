@@ -16,6 +16,7 @@ import { SvgUri } from 'react-native-svg';
 import { svg_photo } from '../../assets/svg/svg';
 import { colors } from '../../config/styles';
 import Swipeout from 'react-native-swipeout';
+import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import SearchFilters from '../SearchFilters/SearchFilters';
 import Sort from '../Sort/Sort';
 import HomeBookItemLoaded from '../../components/HomeBookItemLoaded/HomeBookItemLoaded';
@@ -25,7 +26,10 @@ import {
   CLEAR_NOTES,
   PENDING_REQUEST_NOTES,
   PENDING_REQUEST_BOOKS_NOTES,
+  PENDING_ADD_NOTES,
+  PENDING_DELETE_NOTES,
 } from '../../stores/saga/models/notes-store/actions';
+import reactotron from 'reactotron-react-native';
 
 class NotesBook extends Component {
   constructor(props) {
@@ -41,6 +45,18 @@ class NotesBook extends Component {
     this.onStart();
   }
 
+  /* shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.booksNotes !== this.props.booksNotes ||
+      nextProps.notes !== this.props.notes ||
+      nextState.selected !== this.state.selected ||
+      nextState.note !== this.state.note
+    )
+      return true;
+    else
+      return false;
+  } */
+
+
   onStart = () => {
     const { selected } = this.state;
     if (selected == 0)
@@ -53,21 +69,18 @@ class NotesBook extends Component {
     const { selected } = this.state;
     if (selected == 0)
       return (
-        <Swipeout
-          style={styles.swipe}
-          right={[
-            {
-              component: (
-                <TouchableOpacity
-                  onPress={() => { }}
-                  style={styles.edit1}>
-                  <View style={styles.edit}>
-                    <SvgUri uri={svg_photo.trash} />
-                  </View>
-                </TouchableOpacity>
-              ),
-            },
-          ]}>
+        <SwipeRow
+          disableRightSwipe={true}
+          style={{ alignItems: "stretch" }}
+          rightOpenValue={-75}
+          closeOnRowPress={true}>
+
+          <TouchableOpacity
+            onPress={() => { this.props.deleteNote(item, () => this.onStart()) }}
+            style={styles.swipeDelete}>
+            <SvgUri uri={svg_photo.trash} />
+          </TouchableOpacity>
+
           <View style={styles.diff_view}>
             <Text
               style={[styles.address_text, { color: colors.primary }]}>
@@ -83,34 +96,34 @@ class NotesBook extends Component {
               كتاب: تاريح الخلفاء
         </Text>
           </View>
-        </Swipeout>);
+        </SwipeRow>);
 
     else if (selected == 1)
       return (
-        <Swipeout
-          style={styles.swipe}
-          left={[
-            {
-              component: (
-                <TouchableOpacity
-                  onPress={() => { }}
-                  style={styles.edit1}>
-                  <View style={styles.edit}>
-                    <SvgUri uri={svg_photo.trash} />
-                  </View>
-                </TouchableOpacity>
-              ),
-            },
-          ]}>
-          <View style={[styles.diff_view, {height: ""}]}>
+        <SwipeRow
+          disableRightSwipe={true}
+          style={{ alignItems: "stretch" }}
+          rightOpenValue={-75}
+          closeOnRowPress={true}>
+
+          <TouchableOpacity
+            onPress={() => { this.props.deleteNote(item, () => this.onStart()) }}
+            style={styles.swipeDelete}>
+            <SvgUri uri={svg_photo.trash} />
+          </TouchableOpacity>
+
+          <View style={styles.diff_view1}>
             <Text style={[styles.address_text, { fontSize: 13 }]}>
-              {item.note}
+              {item?.note}
             </Text>
           </View>
-        </Swipeout>);
+        </SwipeRow>
+      );
     else
       return (null);
   }
+
+
 
 
   render() {
@@ -123,9 +136,7 @@ class NotesBook extends Component {
             refreshing={this.props.load}
             colors={[colors.primary]}
             size={'large'}
-            onRefresh={async () => {
-              this.start();
-            }}
+            onRefresh={this.start}
           />
         }>
           <View
@@ -141,9 +152,9 @@ class NotesBook extends Component {
               </TouchableOpacity>
               <Text style={styles.headerTitle}>دفتر الملاحظات</Text>
             </View>
-            <TouchableOpacity onPress={() => this.setState({ note: true })}>
+            {selected == 1 && <TouchableOpacity onPress={() => this.setState({ note: true })}>
               <SvgUri style={styles.back_img1} uri={svg_photo.fill_add} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
           <View style={styles.header1}>
             <TouchableOpacity
@@ -195,9 +206,11 @@ class NotesBook extends Component {
             <SvgUri style={styles.back_img} uri={svg_photo.down_arrow} />
           </View>}
 
+
           <FlatList
-            data={selected == 0 ? booksNotes : notes}
+            data={this.state.selected == 0 ? this.props.booksNotes : this.props.notes}
             style={{}}
+            contentContainerStyle={{ paddingHorizontal: "5%" }}
             renderItem={this._renderNoteItem}
             ListEmptyComponent={
               <Text
@@ -211,6 +224,7 @@ class NotesBook extends Component {
 
           />
 
+
         </Content>
         <SearchFilters
           visible={this.state.filter}
@@ -222,6 +236,8 @@ class NotesBook extends Component {
         />
         <AddNotes
           visible={this.state.note}
+          addNote={(note) => { this.props.addNote(note, () => { this.setState({ note: false }, () => this.onStart()) }) }}
+          isAdding={this.props.isAdding}
           onRequestClose={() => this.setState({ note: false })}
         />
       </Container>
@@ -234,12 +250,27 @@ const mapStateToProps = (state) => {
     notes: state.notesStore.notes,
     booksNotes: state.notesStore.booksNotes,
     load: state.notesStore.load,
+    isAdding: state.notesStore.isAdding,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
   clear: () =>
     dispatch({
       type: CLEAR_NOTES,
+    }),
+
+  addNote: (note, callback) =>
+    dispatch({
+      type: PENDING_ADD_NOTES,
+      note,
+      callback
+    }),
+
+  deleteNote: (note, callback) =>
+    dispatch({
+      type: PENDING_DELETE_NOTES,
+      note,
+      callback
     }),
 
   getNotes: (form) =>

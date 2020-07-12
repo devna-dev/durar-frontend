@@ -12,6 +12,9 @@ import {
   PENDING_DELETE_BOOKS_NOTES,
   SUCCESS_DELETE_BOOKS_NOTES,
   BOOKS_NOTES_FAIL,
+
+  PENDING_ADD_NOTES,
+  FINISH_ADD_NOTES
 } from './actions';
 
 const initialState = {
@@ -20,6 +23,8 @@ const initialState = {
   booksNotes: [],
   notes_message: '',
   notes_errors: null,
+
+  isAdding: false,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -61,6 +66,12 @@ const reducer = (state = initialState, action) => {
         notes_errors: action.form,
         loading: 'error',
       };
+
+
+    case PENDING_ADD_NOTES:
+      return { ...state, isAdding: true };
+    case FINISH_ADD_NOTES:
+      return { ...state, isAdding: false };
 
     default:
       return state;

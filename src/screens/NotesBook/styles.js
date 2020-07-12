@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import common from "../../styles/common.style";
-import {colors} from "../../config/styles";
+import { colors } from "../../config/styles";
 
 export default StyleSheet.create({
     container: {
@@ -149,50 +149,57 @@ export default StyleSheet.create({
         textAlignVertical: 'center'
     },
     diff_view: {
-        width: '90%',
+        width: '100%',
+        backgroundColor: "white",
         height: 150,
         borderRadius: 5,
         borderColor: colors.grey2,
+        backgroundColor: "white",
         borderWidth: 1,
         marginVertical: 5,
         alignSelf: 'center',
-        paddingHorizontal:10
+        paddingHorizontal: 10
     },
     diff_view1: {
-        width: '90%',
+        width: '100%',
+        minHeight: 70,
         borderRadius: 5,
         borderColor: colors.grey2,
+        backgroundColor: "white",
         borderWidth: 1,
         marginVertical: 5,
         alignSelf: 'center',
-        paddingHorizontal:10
+        paddingHorizontal: 10
     },
     address_text: {
         ...common.BoldFont,
         fontSize: 16,
         color: colors.grey3
     },
-    edit:{
-        alignItems:'center',
-        justifyContent:'center',
-        marginBottom:20,
-        height:191,
-        backgroundColor:'red',
-        alignSelf:'center',
-        width:'100%'
+    edit: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+        height: 191,
+        backgroundColor: 'red',
+        alignSelf: 'center',
+        width: '100%'
     },
-    edit1:{
-        alignItems:'center',
-        justifyContent:'center',
+    edit1: {
+        alignItems: 'center',
+        justifyContent: 'center',
         //marginBottom:20,
         // height:191,
-        backgroundColor:'white',
-        alignSelf:'center',
-        width:'100%'
+        backgroundColor: 'white',
+        alignSelf: 'center',
+        width: '100%'
     },
-    swipe:{
-        backgroundColor:'transparent',
+    swipe: {
+        backgroundColor: 'transparent',
 
+    },
+    swipeDelete: {
+        flex: 1, alignSelf: "stretch", justifyContent: "center", alignItems: "center", backgroundColor: "red", width: 65, borderRadius: 5, marginVertical: 5,
     }
 
 })
