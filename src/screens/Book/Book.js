@@ -13,6 +13,7 @@ import {
     TouchableOpacity,
     View,
     Share,
+    Linking
 } from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import {Rating, AirbnbRating} from 'react-native-ratings';
@@ -26,11 +27,12 @@ import {
     post_review,
 } from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
-import {add_to_fav, share_book} from '../../services/books';
+import {add_to_fav, get_audio_books, getBookApi, share_book} from '../../services/books';
 import Toast from '../../components/Toast/Toast';
 import storage from '../../config/storage';
 import {clear} from "../../stores/saga/models/user-store/actions";
 import AudioBook from "../AudioBook/AudioBook";
+import AudioFile from "../../components/HomeBookItemLoaded/AudioFile";
 
 class Book extends Component {
     constructor(props) {
@@ -40,6 +42,9 @@ class Book extends Component {
             EditBookReview: false,
             fav: false,
             access: false,
+            audio: false,
+            audio_books: [],
+            lines:4
         };
     }
 
@@ -64,8 +69,7 @@ class Book extends Component {
             const {
                 params: {lookupId},
             } = this.props.route;
-            // console.tron.log(lookupId, 'lookupId');
-            console.log(lookupId, 'lookupId');
+
             this.props.getBook({lookupId});
             this.props.get_current_read();
         } catch (e) {
@@ -83,12 +87,12 @@ class Book extends Component {
             book: {book, bookReviews},
             user,
         } = this.props;
-        // console.log(book?.cover_image);
+        console.log('/////////////////////////////////');
+        console.log(this.props.book.book && this.props.book.book.is_favorite ? this.props.book.book.is_favorite : '')
         const {
             params: {lookupId},
         } = this.props.route;
 
-        console.log('ddddddddd', book);
         return (
             <Container style={styles.container}>
                 <View style={styles.toast}>
@@ -116,7 +120,7 @@ class Book extends Component {
                             <SvgUri
                                 style={styles.back_img}
                                 uri={
-                                    this.state.fav
+                                    this.props.book.book && this.props.book.book.is_favorite == true
                                         ? svg_photo.favourite
                                         : svg_photo.favourite_book
                                 }
@@ -126,20 +130,22 @@ class Book extends Component {
                             onPress={async () => {
                                 let shareOptions = {
                                     title: 'تطبيق الشاملة',
-                                    message: book.cover_image + 'شارك الكتاب مع الأصدقاء',
+                                    message: book.cover_image + 'شارك الكتاب مع الأصدقاء    ',
                                     url: book.cover_image,
                                 };
 
                                 Share.share(shareOptions)
-                                    .then((res) => {
-                                        this.refs.Successfully.showToast(
-                                            'تم مشاركة الكتاب',
-                                            8000,)
+                                    .then((res, activityType) => {
+                                        console.log(activityType)
+                                        if (res.action === Share.dismissedAction) console.log('Share dismissed');
+                                        else console.log('Share successful');
+
 
                                     })
                                     .catch((err) => {
                                         err && console.log(err);
                                     });
+
 
                                 let add_fav = await share_book(book.id);
                                 console.log('Share', add_fav)
@@ -227,36 +233,32 @@ class Book extends Component {
                             {/*/>*/}
                             {/*</TouchableOpacity>*/}
                             <TouchableOpacity
-                                onPress={() => {
-                                    this.props.navigation.navigate('AudioBook')
-
+                                onPress={async () => {
+                                    let audio_books = await get_audio_books(book.id)
+                                    this.setState({audio: !this.state.audio, audio_books})
                                 }}
                                 style={[styles.headerItemView, {width: 40}]}>
                                 <SvgUri width={38} height={38} uri={svg_photo.play}/>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => {
-                                    //this.props.navigation.navigate('NotificationsList')
+                                    if (book.pdf != null) {
+                                        Linking.openURL(book.pdf)
+                                    } else {
+                                        alert('الملف غير  متاح')
+                                    }
+
                                 }
                                 }
                                 style={[styles.headerItemView, {width: 40, marginHorizontal: 5}]}>
-                                <SvgUri style={styles.back_img} uri={svg_photo.book_menu}/>
+                                <SvgUri style={styles.back_img} uri={svg_photo.download}/>
                             </TouchableOpacity>
                             {/*</View>*/}
                         </View>
-                        <Text style={styles.description}>{book?.description}</Text>
-                        {bookReviews.length != 0 && (
-                            <View style={styles.bar}>
-                                <Text style={styles.headerTitle}>التقييمات</Text>
-                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
-                            </View>
-                        )}
-                        <FlatList
-                            data={bookReviews}
-                            renderItem={({item, index}) => (
-                                <BookItem item={item} index={index}/>
-                            )}
-                        />
+                        <TouchableOpacity onPress={()=>this.setState({lines:10})}>
+                            <Text style={styles.description} numberOfLines={this.state.lines}>{book?.description}</Text>
+                        </TouchableOpacity>
+
                         {this.state.access && (
                             <Button
                                 title={'تقييم الكتاب'}
@@ -269,7 +271,7 @@ class Book extends Component {
                         this.props.book.home_books.reads.length != 0 && (
                             <View style={styles.bar}>
                                 <Text style={styles.headerTitle}>المستخدمون يقرأون أيضا</Text>
-                                <Text style={styles.headerTitle1}>عرض المزيد</Text>
+                                {/*<Text style={styles.headerTitle1}>عرض المزيد</Text>*/}
                             </View>
                         )}
                         {this.props.book?.books?.reads &&
@@ -278,12 +280,16 @@ class Book extends Component {
                                 data={this.props.book?.books?.reads}
                                 horizontal
                                 renderItem={(item) => (
-                                    <Image
-                                        style={styles.img}
-                                        source={{
-                                            uri: item.item.cover_image,
-                                        }}
-                                    />
+                                    <TouchableOpacity onPress={() => {
+                                        this.props.navigation.push('Book', {lookupId: book.id})
+                                    }}>
+                                        <Image
+                                            style={styles.img}
+                                            source={{
+                                                uri: item.item.cover_image,
+                                            }}
+                                        />
+                                    </TouchableOpacity>
                                 )}
                             />
                         )}
@@ -291,6 +297,19 @@ class Book extends Component {
                             title={'قراءة الكتاب'}
                             style={styles.btn}
                             onPress={this.onPressReadBook}
+                        />
+
+                        {bookReviews.length != 0 && (
+                            <View style={styles.bar}>
+                                <Text style={styles.headerTitle}>التقييمات</Text>
+                                {/*<Text style={styles.headerTitle1}>عرض المزيد</Text>*/}
+                            </View>
+                        )}
+                        <FlatList
+                            data={bookReviews}
+                            renderItem={({item, index}) => (
+                                <BookItem item={item} id={book.id} index={index} onPress={() => this.start()}/>
+                            )}
                         />
                     </Content>
                 )}
@@ -307,6 +326,9 @@ class Book extends Component {
                         this.start();
                     }}
                 />
+                <AudioFile visible={this.state.audio}
+                           onRequestClose={() => this.setState({audio: false})}
+                           audio_books={this.state.audio_books}/>
             </Container>
         );
     }

@@ -77,7 +77,7 @@ export default class HomeBookItem extends Component {
                   ]}
                 />
               </View>
-              <Text style={styles.text3}> 80% </Text>
+              <Text style={styles.text3}> {this.props.item.item.read_progress * 100}% </Text>
               <TouchableOpacity
                 onPress={() => {
                   this.props.read(this.props.item?.id);
@@ -102,10 +102,10 @@ export default class HomeBookItem extends Component {
                 isDisabled
                 count={5}
                 showRating={false}
-                defaultRating={3}
+                defaultRating={this.props.item.rating!=null?this.props.item.rating:0}
                 size={20}
               />
-              <Text style={styles.text2}>360 صفحة</Text>
+              <Text style={styles.text2}>{this.props.item.page_count} صفحة</Text>
             </View>
           )}
         </View>

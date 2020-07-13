@@ -36,7 +36,7 @@ export default class HistoryCategories extends Component {
         }
     }
 
-    async componentDidMount() {
+    async start() {
         //alert('ddd',this.props.route.params.id)
         this.setState({loading: true})
         let get_books = await get_books_using_sub_categories(this.props.route.params.id)
@@ -44,6 +44,15 @@ export default class HistoryCategories extends Component {
         this.setState({loading: false, get_books})
     }
 
+    componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.start();
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe();
+    }
 
     render() {
         return (

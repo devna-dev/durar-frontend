@@ -49,6 +49,7 @@ import PrivacyPolicy from "../screens/PrivacyPolicy/PrivacyPolicy";
 import SubCategory from "../screens/Library/SubCategory";
 import SeminarActivity from "../screens/Activity/SeminarActivity";
 import AudioBook from "../screens/AudioBook/AudioBook";
+import Badges from "../screens/Badges/Badges";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -233,6 +234,7 @@ export function DrawerNavigator() {
       <Drawer.Screen name="Activities" component={Activities} />
       <Drawer.Screen name="Activity" component={Activity} />
       <Drawer.Screen name="SeminarActivity" component={SeminarActivity} />
+      <Drawer.Screen name="Badges" component={Badges} />
       <Drawer.Screen name="Discussions" component={Discussions} />
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
@@ -335,6 +337,7 @@ export function DrawerNavigator3() {
       <Drawer.Screen name="Discussions" component={Discussions} />
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
+      <Drawer.Screen name="Badges" component={Badges} />
       <Drawer.Screen name="Book" component={Book} />
         <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
         <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
@@ -386,6 +389,7 @@ export function DrawerNavigator4() {
       <Drawer.Screen name="Discussions" component={Discussions} />
       <Drawer.Screen name="Thesis" component={Thesis} />
       <Drawer.Screen name="SystemPoints" component={SystemPoints} />
+      <Drawer.Screen name="Badges" component={Badges} />
       <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
         <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
         <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />

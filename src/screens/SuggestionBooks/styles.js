@@ -119,5 +119,11 @@ export default StyleSheet.create({
         ...common.SemiBoldFont,
         fontSize: 13,
         color:colors.grey3
+    },
+    success:{
+        ...common.RegularFont,
+        fontSize:14,
+        alignSelf:'center',
+        color:colors.green1
     }
 })
