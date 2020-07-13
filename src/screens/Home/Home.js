@@ -69,6 +69,7 @@ class Home extends Component {
     async componentDidMount() {
         let points = await storage.getItem('points');
         this.setState({points})
+        this.start();
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.start();
         });
