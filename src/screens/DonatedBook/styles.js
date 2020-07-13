@@ -114,5 +114,43 @@ export default StyleSheet.create({
         fontSize: 13,
         color: colors.grey3,
         width: '100%'
-    }
+    },
+    book_view111: {
+        height: 110,
+        width: '90%',
+        borderRadius: 10,
+        borderColor: colors.grey1,
+        borderWidth: 1,
+        alignSelf: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: '3%'
+    },
+    book_view11: {
+        height: 110,
+        width: '90%',
+        borderRadius: 10,
+        borderColor: colors.grey1,
+        borderWidth: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: '3%',
+        borderStyle: 'dashed',
+
+    },
+    not_book_view1: {
+        height: 110,
+        width: '90%',
+        borderRadius: 10,
+        borderColor: colors.error,
+        borderWidth: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: '3%',
+        borderStyle: 'dashed',
+
+    },
 })

@@ -128,4 +128,12 @@ export default StyleSheet.create({
         width: '85%',
         alignSelf: 'center',
     },
+    item:{
+        width:'90%',
+        height:35,
+        borderRadius:10,
+        borderColor:colors.grey2,
+        borderWidth:1,
+        alignSelf:'center'
+    }
 })

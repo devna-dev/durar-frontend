@@ -32,7 +32,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: 60,
-        paddingHorizontal: '3.5%'
+        paddingHorizontal: '3.5%',
     },
     headerTitle: {
         ...common.BlackFont,

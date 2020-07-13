@@ -187,6 +187,8 @@ function* getBook(form) {
             call(getBookApi, form.form.lookupId),
             call(getBookReviewsApi, form.form.lookupId),
         ]);
+        console.log('get booooooooooooooooooooooooooooooooooook')
+        console.log(book)
         if (book) {
             yield put({type: GET_BOOK_SUCCESS, form: {book, reviews}});
         }
@@ -219,7 +221,8 @@ function* get_activities_api(form) {
 function* suggest_api(action) {
     try {
         const denotation = yield suggest_to_api(action.form);
-
+        console.log('fffffffffffffffffffffffffffffffffffffffff')
+        console.log(denotation)
         yield put({type: suggest_success, form: denotation});
     } catch (err) {
         if (err.message === 'Timeout' || err.message === 'Network request failed') {

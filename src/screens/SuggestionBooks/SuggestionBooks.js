@@ -93,7 +93,7 @@ class SuggestionBooks extends Component {
                         />
                     </View>
 
-
+                    {!this.props.book.load && <Text style={styles.success}>{this.props.book.message != '' ? 'تم إرسال الاقتراح بنجاح' : ''}</Text>}
                     <Button title={'إرسال'}
                             style={styles.btn1}
                             load={this.props.book.load}

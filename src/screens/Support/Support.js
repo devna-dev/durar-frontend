@@ -96,7 +96,7 @@ class Support extends Component {
                     <Text style={[styles.input, {
                         color: colors.green1,
                         textAlign: 'center',
-                    }]}>{this.props.user.message.creation_time && 'تم إرسال الرسالة بنجاح'}</Text>
+                    }]}>{this.props.user.message&&this.props.user.message.creation_time ? 'تم إرسال الرسالة بنجاح':''}</Text>
 
                     <Button title={'إرسال'}
                             style={styles.btn1}
@@ -140,11 +140,17 @@ class Support extends Component {
     }
 
     validation_email() {
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (this.state.email == '') {
             this.setState({email_error: '*حقل مطلوب'});
             return false;
+        } else if (!re.test(this.state.email)) {
+            this.setState({email_error: 'ادخل بريداً الكترونياً صحيحاً'});
+            return false;
+        } else {
+            return true;
         }
-        return true;
+
     }
 
     validation_subject() {
