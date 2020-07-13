@@ -35,7 +35,7 @@ export async function addUserNotes(note) {
 }
 
 export async function deleteUserNotes(note) {
-  return fetch(settings.API_URL + `user/notes/${note.id}`, {
+  return fetch(settings.API_URL + `user/notes/${note.id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export async function deleteUserNotes(note) {
 
 
 export async function deleteUserBooksNotes(note) {
-  return fetch(settings.API_URL + `/books/${note?.book?.id}/notes/${note.id}`, {
+  return fetch(settings.API_URL + `books/${note?.book?.id}/notes/${note.id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

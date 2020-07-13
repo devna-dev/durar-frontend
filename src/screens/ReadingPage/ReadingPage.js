@@ -512,6 +512,7 @@ class ReadingPage extends Component {
         <AddNotes
           visible={this.state.isAddNoteModalVisible}
           onRequestClose={this.onCloseAddNoteModal}
+          isBookNotes={true}
           addNote={this.addNote}
         />
       </Container>
@@ -575,14 +576,14 @@ class ReadingPage extends Component {
   onOpenAddNoteModal = () => {
     this.setState({isAddNoteModalVisible: true});
   };
-  addNote = (note) => {
+  addNote = (note, title) => {
     const {lookupId} = this.props.route.params;
     const {isWithTashkeel, start, end} = this.state;
     const form = {
       lookupId,
       body: {
         tashkeel_on: isWithTashkeel,
-        title: 'string',
+        title: title,
         note,
         page: this.props.book.page,
         start,

@@ -380,7 +380,7 @@ export async function get_list_audio_books() {
 }
 
 export async function get_audio_books(id) {
-    return fetch(settings.API_URL + 'books/?has_audio=true', {
+    return fetch(settings.API_URL + `books/${id}/audio/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

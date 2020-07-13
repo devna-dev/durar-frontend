@@ -155,12 +155,12 @@ class Book extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <ActivityIndicator
+                {/* <ActivityIndicator
                     animating={this.props.book.load}
                     size="large"
                     color={colors.primary}
                     style={styles.indicator}
-                />
+                /> */}
 
                 {(!this.props.book.load || !!this.props.book ) && (
                     <Content
@@ -232,15 +232,15 @@ class Book extends Component {
                             {/*uri={svg_photo.favourite_book}*/}
                             {/*/>*/}
                             {/*</TouchableOpacity>*/}
-                            <TouchableOpacity
+                            {!!book && book?.has_audio && <TouchableOpacity
                                 onPress={async () => {
                                     let audio_books = await get_audio_books(book.id)
                                     this.setState({audio: !this.state.audio, audio_books})
                                 }}
                                 style={[styles.headerItemView, {width: 40}]}>
                                 <SvgUri width={38} height={38} uri={svg_photo.play}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity
+                            </TouchableOpacity>}
+                            {!!book && book?.pdf && <TouchableOpacity
                                 onPress={() => {
                                     if (book.pdf != null) {
                                         Linking.openURL(book.pdf)
@@ -252,7 +252,7 @@ class Book extends Component {
                                 }
                                 style={[styles.headerItemView, {width: 40, marginHorizontal: 5}]}>
                                 <SvgUri style={styles.back_img} uri={svg_photo.download}/>
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
                             {/*</View>*/}
                         </View>
                         <TouchableOpacity onPress={()=>this.setState({lines:10})}>
@@ -297,7 +297,7 @@ class Book extends Component {
                             title={'قراءة الكتاب'}
                             style={styles.btn}
                             onPress={this.onPressReadBook}
-                        />
+                        />}
 
                         {bookReviews.length != 0 && (
                             <View style={styles.bar}>

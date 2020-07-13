@@ -132,13 +132,13 @@ class Home extends Component {
                         </TouchableOpacity>}
                     </View>
                 </View>
-                {this.props.book.load ? (
+                {/* {this.props.book.load ? (
                     <ActivityIndicator
                         color={colors.primary}
                         size={'large'}
                         animating={this.props.book.load}
                     />
-                ) : (
+                ) : ( */}
                     <Content style={styles.content} refreshControl={
                         <RefreshControl
                             refreshing={this.props.book.load}
@@ -152,6 +152,7 @@ class Home extends Component {
                         <View style={{width: '100%'}}>
                             <FlatList data={this.props.book.activities.last_activities}
                                       horizontal
+                                      showsHorizontalScrollIndicator={false}
                                       style={{marginLeft: '2%'}}
                                       renderItem={(item) => this._renderItem(item)}
                             />
@@ -170,6 +171,7 @@ class Home extends Component {
                             <FlatList
                                 data={this.props.book?.home_books?.reads}
                                 horizontal
+                                showsHorizontalScrollIndicator={false}
                                 inverted={false}
                                 style={{marginLeft: '5%'}}
                                 renderItem={(item) => (
@@ -206,6 +208,7 @@ class Home extends Component {
                         <FlatList
                             data={this.props.book?.home_books?.recent}
                             horizontal
+                            showsHorizontalScrollIndicator={false}
                             inverted={false}
                             style={{marginLeft: '5%'}}
                             renderItem={(item) => (
@@ -234,6 +237,7 @@ class Home extends Component {
                                 },
                             ]}
                             horizontal
+                            showsHorizontalScrollIndicator={false}
                             style={{marginLeft: '5%', marginTop: '3%'}}
                             renderItem={(item) => this.notes_bar(item)}
                         />
@@ -261,7 +265,7 @@ class Home extends Component {
                             )}
                         />
                     </Content>
-                )}
+                {/* )} */}
                 {!this.state.guest && this.props.book.current_books.length != 0 && (
                     <TouchableOpacity
                         onPress={() => this.setState({readable: !this.state.readable})}

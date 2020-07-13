@@ -29,6 +29,7 @@ import {colors} from "../../config/styles";
 import common from "../../styles/common.style";
 import Moment from 'moment/moment';
 import storage from "../../config/storage";
+import reactotron from 'reactotron-react-native';
 
 class Activity extends Component {
 
@@ -65,9 +66,10 @@ class Activity extends Component {
             this.setState({access: false})
         }
         console.log(this.props.route)
+        reactotron.log(this.props.route)
         const {id, dis} = this.props.route.params;
         this.setState({loading: true})
-        if (dis) {
+        if (!!dis) {
             let discussion = await get_discussion_details(id)
             this.setState({discussion})
             console.log('dddddd', discussion)
@@ -220,4 +222,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Activity);
+/*  */export default connect(mapStateToProps, mapDispatchToProps)(Activity);

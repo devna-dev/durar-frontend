@@ -68,8 +68,13 @@ function* delete_user_notes(payload) {
     if (notes) {
       yield put({ type: SUCCESS_DELETE_NOTES, });
       payload?.callback && payload?.callback()
+    } else {
+      yield put({ type: SUCCESS_DELETE_NOTES, });
+      payload?.callback && payload?.callback()
     }
   } catch (err) {
+    yield put({ type: SUCCESS_DELETE_NOTES, });
+    payload?.callback && payload?.callback()
     console.log(err, 'err notes');
   }
 }
@@ -80,8 +85,13 @@ function* delete_user_Books_notes(payload) {
     if (notes) {
       yield put({ type: SUCCESS_DELETE_BOOKS_NOTES, });
       payload?.callback && payload?.callback()
+    } else {
+      yield put({ type: SUCCESS_DELETE_BOOKS_NOTES, });
+      payload?.callback && payload?.callback()
     }
   } catch (err) {
+    yield put({ type: SUCCESS_DELETE_BOOKS_NOTES, });
+    payload?.callback && payload?.callback()
     console.log(err, 'err notes');
   }
 }
