@@ -40,11 +40,13 @@ export default StyleSheet.create({
     find: {
         ...common.BlackFont,
         fontSize: 16,
+        alignSelf: 'flex-start',
     },
     type: {
         ...common.BoldFont,
         fontSize: 14,
-        marginHorizontal:15
+        marginHorizontal:15,
+        alignSelf: 'flex-start',
     },
     item_view1: {
         height: 40,

@@ -2,18 +2,38 @@ import React, {Component} from 'react';
 import styles from './styles';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {FlatList, Text, View, TouchableOpacity} from "react-native";
+import {FlatList, Text, View, TouchableOpacity,Image} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
 import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
 import {colors} from "../../config/styles";
+import {get_points} from '../../stores/saga/models/user-store/actions';
+import {connect} from 'react-redux';
 
-export default class Badges extends Component {
+class Badges extends Component {
 
     constructor(props) {
         super(props)
         this.state = {}
     }
+
+     componentDidMount() {
+        this.props.getPoints();
+    }
+
+    _renderItem = ({item}) => {
+        return (
+            <View style={[styles.view_item_list]}>
+                <Image
+                    style={{ width: 50 ,height:50, marginBottom : 10 }}
+                    source={{uri:item.icon} }
+
+                />
+                <Text style={[styles.item_text1, { fontSize: 13, alignSelf: 'center', width: '100%', textAlign: 'center', paddingHorizontal:2 }]}> {item.title}</Text>
+                <Text style={[styles.text3, { fontSize: 13 }]}>{item.type}</Text>
+            </View>
+        )
+    };
 
     render() {
         return (
@@ -26,29 +46,35 @@ export default class Badges extends Component {
                             <Text style={styles.text3}>أوسمتى</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('SystemPoints')}
-                                          style={[styles.headerItemView, {flexDirection: 'row'}]}>
+                                          style={styles.headerItemView}>
                             <SvgUri style={styles.back_img}
                                     uri={svg_photo.gift}/>
-                            <Text style={styles.text2}>160 </Text>
+                            <Text style={styles.text2}>{this.props.user.points ? this.props.user.points.total : 0} </Text>
                         </TouchableOpacity>
-
                     </View>
-                    <FlatList data={[
-                        {}, {}, {}, {}, {},
-                        {}, {}, {}, {}, {},
-                        {}, {}, {}, {}, {},
-                    ]}
+                    {this.props.user.points && this.props.user.points.badges.length > 0 && (
+                         <FlatList data={this.props.user.points.badges}
                               numColumns={3}
                               style={{alignSelf: 'center',marginTop:10}}
-                              renderItem={(item) => <View style={[styles.view_item_list,]}>
-                                  <SvgUri uri={svg_photo.cup}
-                                  style={{marginBottom:15}}/>
-                                  <Text style={[styles.item_text1, {fontSize: 14,alignSelf:'center',width:'100%',textAlign:'center'}]}> حتى النهاية</Text>
-                                  <Text style={[styles.text3, {fontSize: 13}]}>3 كتب</Text>
-                              </View>}/>
+                              renderItem={(item) =>  this._renderItem(item)}
+                              /> 
+                    )}
                 </Content>
             </Container>
         )
     }
 
 }
+
+const mapStateToProps = (state) => {
+    return {
+        ...state,
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+    getPoints: () => dispatch({
+        type: get_points,
+    }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Badges);

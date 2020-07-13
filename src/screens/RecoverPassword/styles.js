@@ -89,4 +89,7 @@ export default StyleSheet.create({
         width: '85%',
         alignSelf: 'center',
     },
+    toast: {
+        alignItems: 'center',
+    },
 })

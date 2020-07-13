@@ -22,6 +22,9 @@ const GET_user_books = 'GET_user_books';
 const GET_user_books_SUCCESS = 'GET_user_books_SUCCESS';
 const support = 'support';
 const support_success = 'support_success';
+const resend_code = 'resend_code';
+const get_points = 'get_points';
+const success_get_points = 'success_get_points';
 
 export {
   GET_ALL_USER_INFO_REQUEST,
@@ -46,4 +49,7 @@ export {
   GET_user_books_SUCCESS,
   support,
   support_success,
+  resend_code,
+  get_points,
+  success_get_points,
 };

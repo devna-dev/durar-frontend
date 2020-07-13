@@ -17,6 +17,10 @@ import {
     GET_user_books_SUCCESS,
     support,
     support_success,
+    resend_code,
+    get_points,
+    success_get_points,
+
 } from './actions';
 
 import {
@@ -28,6 +32,8 @@ import {
     user_logout,
     get_user_books,
     support_api,
+    reSend_code,
+    get_user_points,
 } from '../../../../services/auth';
 import storage from '../../../../config/storage';
 
@@ -35,10 +41,12 @@ const handler = function* () {
     yield takeLatest(login, loginApi);
     yield takeLatest(reset, forgetApi);
     yield takeLatest(verify_email_pending, verifyEmailApi);
+    yield takeLatest(resend_code, reSendCodeApi);
     yield takeLatest(REGISTER_USER_REQUEST_PENDING, registerApi);
     yield takeLatest(logout, logoutApi);
     yield takeLatest(GET_user_books, user_books);
     yield takeLatest(support, support_saga_api);
+    yield takeLatest(get_points, get_pointsApi);
 };
 
 function* loginApi(action) {
@@ -47,6 +55,10 @@ function* loginApi(action) {
         if (result.token) {
             yield storage.setItem('token', 'Bearer ' + result.token);
             let user = yield user_info(result.token);
+            let points = yield get_user_points();
+            if (points){
+              storage.setItem('points', points.total);
+            }
             yield storage.setItem('user', user);
             yield put({type: success_login, form: result});
         } else {
@@ -77,6 +89,27 @@ function* verifyEmailApi(action) {
   }
 }
 
+function* reSendCodeApi() {
+  try {
+    let result = yield reSend_code();
+    console.log('result', result);
+  } catch (err) {
+    console.log('err reSendCodeApi', err);
+  }
+}
+
+function* get_pointsApi() {
+  try {
+    let result = yield get_user_points();
+    console.log('result points', result);
+    if (result) {
+      yield put({type: success_get_points, form: result});
+    }
+  } catch (err) {
+    console.log('err get_pointsApi', err);
+  }
+}
+
 function* forgetApi(action) {
     try {
         let result = yield user_forget(action.form);
@@ -94,6 +127,7 @@ function* registerApi(action) {
     try {
         let result = yield user_register(action.form);
         if (result.token) {
+            yield storage.setItem('token', 'Bearer ' + result.token);
             yield put({type: REGISTER_USER_REQUEST_SUCCESS, form: result});
         } else {
             yield put({type: REGISTER_USER_REQUEST_FAILURE, form: result});

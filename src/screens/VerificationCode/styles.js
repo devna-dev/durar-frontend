@@ -97,4 +97,7 @@ export default StyleSheet.create({
         alignSelf: 'center',
         textAlign:'center'
     },
+    toast: {
+        alignItems: 'center',
+    },
 })
