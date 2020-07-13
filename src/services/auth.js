@@ -24,7 +24,7 @@ export function user_forget(form) {
 }
 
 export async function verify_email(form) {
-    return fetch(settings.API_URL + `/accounts/verify-email/${form.code}/`, {
+    return fetch(settings.API_URL + `accounts/verify-email/${form.code}/`, {
         method: 'PUT',
         headers: {
             accept: 'application/json',

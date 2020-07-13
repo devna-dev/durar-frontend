@@ -65,16 +65,16 @@ function* loginApi(action) {
 }
 
 function* verifyEmailApi(action) {
-    try {
-        let result = yield verify_email(action.form);
-        if (result.detail) {
-            yield put({type: verify_email_success, form: result});
-        } else {
-            yield put({type: error, form: result});
-        }
-    } catch (err) {
-        console.log('err', err);
+  try {
+    let result = yield verify_email(action.form);
+    if (result === 1) {
+      yield put({type: verify_email_success, form: {detail: result}});
+    } else {
+      yield put({type: error, form: {detail: result.detail || result}});
     }
+  } catch (err) {
+    console.log('err verifyEmailApi', err);
+  }
 }
 
 function* forgetApi(action) {

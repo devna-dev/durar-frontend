@@ -214,6 +214,7 @@ export default class Settings extends Component {
             await storage.setItem('user', update);
             this.refs.Successfully.showToast('تم تعديل البيانات بنجاح ', 8000);
         } else {
+            this.setState({ loading: false });
             if (update['birthday'][0]) {
                 this.setState({ birthday_error: update['birthday'][0] });
             }
