@@ -22,6 +22,7 @@ import HTML from 'react-native-render-html';
 import {SelectableText} from '@astrocoders/react-native-selectable-text';
 import Clipboard from '@react-native-community/clipboard';
 import Tts from 'react-native-tts';
+import PageView from './PageView';
 import AudioBooks from '../AudioBooks/AudioBooks';
 import AudioPlayer from 'react-native-play-audio';
 import Sound from 'react-native-sound';
@@ -116,7 +117,7 @@ class ReadingPage extends Component {
           textAlign: 'right',
           width: '90%',
           alignSelf: 'center',
-          color: moon == 2 ? colors.white : colors.black,
+          color: this.state.color,//moon == 2 ? colors.white : colors.black,
           fontSize: 50,
         }}
         TextComponent={(value) => (
@@ -295,51 +296,18 @@ class ReadingPage extends Component {
             </View>
           ) : (
             <ScrollView style={{flex: 1}}>
-              {!this.props.book.load &&
-                this.renderContent(this.state.index)?.length !== 0 && (
-                  <HTML
-                    html={this.renderContent(this.state.index)}
-                    renderers={{
-                      span: this.renderText.bind(this),
-                      h1: this.renderText.bind(this),
-                      h2: this.renderText.bind(this),
-                      h3: this.renderText.bind(this),
-                      h4: this.renderText.bind(this),
-                      h5: this.renderText.bind(this),
-                      h6: this.renderText.bind(this),
-                      p: this.renderText.bind(this),
-                      em: this.renderText.bind(this),
-                    }}
-                    textSelectable={true}
-                    customWrapper={(content, attr) =>
-                      this.renderText(attr, content, this.state.moon)
-                    }
-                    baseFontStyle={{
-                      fontSize: this.state.font,
-                      color: this.state.color,
-                    }}
-                    tagsStyles={{
-                      i: {
-                        textAlign: 'center',
-                        fontStyle: 'italic',
-                        color: 'grey',
-                      },
-                    }}
-                    onHTMLParsed={(dom, RNElements) => {
-                      // Find the index of the first paragraph
-                      const ad = {
-                        wrapper: 'Text',
-                        tagName: 'mycustomblock',
-                        attribs: {},
-                        parent: false,
-                        parentTag: false,
-                        nodeIndex: 4,
-                      };
-                      // Insert the component
-                      RNElements.splice(4, 0, ad);
-                      return RNElements;
-                    }}
-                  />
+              {(!this.props.book.load ||
+                this.renderContent()?.length !== 0 ) && (
+                  <PageView
+                    color={this.state.color}
+                    back={this.state.back}
+                    font={this.state.font}
+                    moon={this.state.moon}
+                    index={this.state.index}
+                    renderContent={this.renderContent}
+                    renderText={this.renderText}
+                    onOpenAddNoteModal={this.onOpenAddNoteModal}
+                   />
                 )}
               {/*{!this.props.book.load &&*/}
               {/*  this.renderContent(this.state.index)?.length === 0 && (*/}
@@ -412,8 +380,9 @@ class ReadingPage extends Component {
                     moon: 1,
                     moon_icon: svg_photo.read_moon,
                     back: colors.white,
+                    color: colors.black,
                   });
-                  await storage.setItem('moon', 1);
+                  //await storage.setItem('moon', 1);
                   break;
                 case 1:
                   this.setState({
@@ -422,7 +391,7 @@ class ReadingPage extends Component {
                     back: colors.black,
                     color: colors.white,
                   });
-                  await storage.setItem('moon', 2);
+                  //await storage.setItem('moon', 2);
                   this.start();
                   break;
 
@@ -431,8 +400,9 @@ class ReadingPage extends Component {
                     moon: 0,
                     moon_icon: svg_photo.sun,
                     back: '#FFF4E6',
+                    color: "#333333",
                   });
-                  await storage.setItem('moon', 0);
+                  //await storage.setItem('moon', 0);
                   break;
               }
             }}
@@ -605,7 +575,7 @@ class ReadingPage extends Component {
         end,
       },
     };
-    this.props.createNote(form);
+    this.props.createNote(form, ()=>{this.setState({isAddNoteModalVisible : false})});
   };
   searchContent = (text) => {
     const {lookupId} = this.props.route.params;
@@ -655,10 +625,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({
       type: decrease_page,
     }),
-  createNote: (form) =>
+  createNote: (form, callback) =>
     dispatch({
       type: post_note,
       form,
+      callback
     }),
   searchContent: (form) =>
     dispatch({

@@ -272,6 +272,7 @@ function* postNoteApi(form) {
         const postedNote = yield call(post_notes_api, form.form);
         if (postedNote) {
             yield put({type: post_note_success});
+            form?.callback && form?.callback()
         }
     } catch (err) {
         yield put({type: post_note_fail, form: err});

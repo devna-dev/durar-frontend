@@ -404,7 +404,7 @@ export async function post_notes_api(payload) {
             'Content-Type': 'application/json',
             Authorization: await storage.getItem('token'),
         },
-        body: payload.body,
+        body: JSON.stringify(payload.body),
     }).then((response) => response.json());
 }
 
