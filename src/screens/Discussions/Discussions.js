@@ -10,7 +10,7 @@ import {
     Text,
     View,
     TouchableOpacity,
-    ActivityIndicator
+    ActivityIndicator, RefreshControl
 } from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
@@ -40,6 +40,7 @@ class Discussions extends Component {
                loading: true,
                count: 2
            })
+           this.page = 1;
             this.load_more();
         });
     }
@@ -111,7 +112,17 @@ class Discussions extends Component {
         // alert(this.props.route.params.type)
         return (
             <Container style={styles.container}>
-                <Content style={styles.content}>
+                <Content style={styles.content} 
+                    refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.loading}
+                                colors={[colors.primary]}
+                                size={'large'}
+                                onRefresh={async () => {
+                                    this.load_more();
+                                }}
+                            />
+                        }>
                     <View style={styles.back_view}>
                         <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.header0}>
                             <SvgUri style={styles.back_img}
@@ -125,7 +136,7 @@ class Discussions extends Component {
                               onEndReached={() => this.load_more()}
                               renderItem={(item) => <TouchableOpacity onPress={()=>{
                                   if(this.props.route.params.type == 0){
-                                          this.props.navigation.navigate('Activity', {id: item.item.id, dis: this.props.dis})
+                                          this.props.navigation.navigate('Activity', {id: item.item.id, dis: true})
                                       }else{
                                           this.props.navigation.navigate('SeminarActivity', {id: item.item.id})
                                       }
@@ -145,7 +156,7 @@ class Discussions extends Component {
                                       </View>
                                   </View>
                               </TouchableOpacity>}/>
-                    <ActivityIndicator color={colors.primary} size={'large'} animating={this.state.loading}/>
+                    {/* <ActivityIndicator color={colors.primary} size={'large'} animating={this.state.loading}/> */}
                 </Content>
             </Container>
         )

@@ -10,7 +10,7 @@ import {
     Text,
     View,
     TouchableOpacity,
-    ActivityIndicator
+    ActivityIndicator, RefreshControl,
 } from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
@@ -77,15 +77,26 @@ class Activities extends Component {
                     <View style={styles.leftHeader}>
                     </View>
                 </View>
-                {this.props.book.load ?
+                {/* {this.props.book.load ?
                     <ActivityIndicator animating={this.props.book.load}
                                        color={colors.primary}
                                        size={'large'}/>
-                    :
-                    <Content style={styles.content}>
+                    : */}
+                    <Content style={styles.content}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.props.book.load}
+                                colors={[colors.primary]}
+                                size={'large'}
+                                onRefresh={async () => {
+                                    this.props.get_activities()
+                                }}
+                            />
+                        }>
                         <View style={{width: '100%',}}>
-                            <FlatList data={[this.props.book.activities.last_activities[0]]}
+                            <FlatList data={[this.props.book.activities?.last_activities[0]]}
                                       horizontal
+                                      showsHorizontalScrollIndicator={false}
                                       style={{marginLeft: '2%'}}
                                       renderItem={(item) => this._renderItem(item)}
                             />
@@ -100,10 +111,10 @@ class Activities extends Component {
                         {this.props.book.activities.discussions && this.props.book.activities.discussions.length != 0 &&
                         <FlatList data={this.props.book.activities.discussions}
                                   horizontal
-                                  inverted={false}
+                                  showsHorizontalScrollIndicator={false}
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <ActivityItem item={item}
-                                                                      dis
+                                                                      dis={true}
                                                                       navigation={this.props.navigation}/>}/>}
 
                         {this.props.book.activities.seminars && this.props.book.activities.seminars.length != 0 &&
@@ -115,6 +126,7 @@ class Activities extends Component {
                         {this.props.book.activities.seminars != [] &&
                         <FlatList data={this.props.book.activities.seminars}
                                   horizontal
+                                  showsHorizontalScrollIndicator={false}
                                   inverted={false}
                                   style={{marginLeft: '5%'}}
                                   renderItem={(item) => <ActivityItem item={item}
@@ -134,7 +146,7 @@ class Activities extends Component {
                         {/*navigation={this.props.navigation}/>}/>}*/}
 
                     </Content>
-                }
+                {/* } */}
             </Container>
         )
     }

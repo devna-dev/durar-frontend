@@ -64,9 +64,9 @@ export default class HomeBookItemLoaded extends Component {
                         }]}>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <View style={[styles.view,]}>
-                                    <View style={[styles.progress, {backgroundColor: colors.secondary, width:this.props.item.item.read_progress * 100+ '%'}]}/>
+                                    <View style={[styles.progress, {backgroundColor: colors.secondary, width:this.props.item?.item?.read_progress * 100+ '%'}]}/>
                                 </View>
-                                <Text style={styles.text3}> {this.props.item.item.read_progress.toFixed(2) * 100}% </Text>
+                                <Text style={styles.text3}> {this.props.item?.item?.read_progress?.toFixed(2) * 100}% </Text>
                             </View>
                             {this.props.item.item.has_audio &&
                             <TouchableOpacity onPress={async() => {

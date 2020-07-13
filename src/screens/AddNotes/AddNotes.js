@@ -24,6 +24,7 @@ export default class AddNotes extends Component {
     super(props);
     this.state = {
       note: '',
+      title: '',
     };
   }
   componentDidMount() { }
@@ -53,9 +54,18 @@ export default class AddNotes extends Component {
               </TouchableOpacity>
             </View>
             <Text style={[styles.text]}>الملاحظات</Text>
+            {!!this.props.isBookNotes &&
+              <View style={[styles.book_view, { height: 60 }]}>
+                <TextInput
+                  placeholder={'العنوان'}
+                  // value={'ذكر'}
+                  onChangeText={(text) => this.handleChanges('title', text)}
+                  style={styles.input}
+                />
+              </View>}
             <View style={styles.book_view}>
               <TextInput
-                placeholder={'إسم الكتاب'}
+                placeholder={'الملاحظة'}
                 // value={'ذكر'}
                 onChangeText={(text) => this.handleChanges('note', text)}
                 style={styles.input}
@@ -70,7 +80,7 @@ export default class AddNotes extends Component {
               style={styles.btn}
               textColor={colors.white}
               load={this.props.isAdding}
-              onPress={() => { this.props.addNote(this.state.note); this.handleChanges('note', "") }}
+              onPress={() => { this.props.addNote(this.state.note, this.state.title); this.handleChanges('title', ""); this.handleChanges('note', "") }}
             />
           </View>
         </View>

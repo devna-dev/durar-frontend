@@ -76,7 +76,8 @@ class Menu extends Component {
                     <FlatList
                       data={[{}, {}]}
                       renderItem={(item) => (
-                        <View style={styles.item1}>
+                        <TouchableOpacity style={styles.item1}
+                          onPress={() => {this.props.navigation.setParams({ page: item?.page }); this.props.navigation.closeDrawer()}}>
                           <Text style={styles.item1_text}>{item.title}</Text>
                           <Text style={styles.item2_text}>
                             {this.getIndexing(
@@ -86,13 +87,14 @@ class Menu extends Component {
                               page_count,
                             )}
                           </Text>
-                        </View>
+                        </TouchableOpacity>
                       )}
                     />
                   </View>
                 ) : (
                   <View style={styles.item}>
-                    <View style={styles.item1}>
+                    <TouchableOpacity style={styles.item1}
+                      onPress={() => {this.props.navigation.setParams({ page: item?.page }); this.props.navigation.closeDrawer()}}>
                       <Text style={styles.item1_text}>{item.title}</Text>
                       <Text style={styles.item2_text}>
                         {this.getIndexing(
@@ -102,7 +104,7 @@ class Menu extends Component {
                           page_count,
                         )}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 );
               }}
