@@ -6,7 +6,6 @@ import HTML from 'react-native-render-html';
 import { SelectableText } from '@astrocoders/react-native-selectable-text';
 import Clipboard from '@react-native-community/clipboard';
 import Tts from 'react-native-tts';
-import reactotron from 'reactotron-react-native';
 
 export default class PageView extends Component {
     constructor(props) {
@@ -43,6 +42,11 @@ export default class PageView extends Component {
                             start: selectionStart,
                             end: selectionEnd,
                         });
+                        this.props.onSelectText && this.props.onSelectText({
+                            selectedText: str,
+                            start: selectionStart,
+                            end: selectionEnd,
+                        });
                         console.log(str, 'content');
                         this.props.onOpenAddNoteModal();
                     } else if (eventType === 'Voice') {
@@ -56,7 +60,6 @@ export default class PageView extends Component {
 
 
     render() {
-        reactotron.log(this.props);
         return (
             <HTML
                 html={this.props.renderContent()}

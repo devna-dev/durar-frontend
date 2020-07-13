@@ -44,3 +44,15 @@ export async function deleteUserNotes(note) {
     body: JSON.stringify({ note }),
   }).then((response) => response.json());
 }
+
+
+export async function deleteUserBooksNotes(note) {
+  return fetch(settings.API_URL + `/books/${note?.book?.id}/notes/${note.id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: await storage.getItem('token'),
+    },
+    body: JSON.stringify({ note }),
+  }).then((response) => response.json());
+}

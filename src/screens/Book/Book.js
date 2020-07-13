@@ -257,7 +257,7 @@ class Book extends Component {
                                 <BookItem item={item} index={index}/>
                             )}
                         />
-                        {this.state.access && (
+                        {this.state.access && !!this.props.book?.books && (
                             <Button
                                 title={'تقييم الكتاب'}
                                 onPress={() => this.setState({book_review: true})}
@@ -287,11 +287,11 @@ class Book extends Component {
                                 )}
                             />
                         )}
-                        <Button
+                        {!!this.props.book?.book && <Button
                             title={'قراءة الكتاب'}
                             style={styles.btn}
                             onPress={this.onPressReadBook}
-                        />
+                        />}
                     </Content>
                 )}
                 <BookReview
@@ -315,10 +315,10 @@ class Book extends Component {
         const {
             book: {book},
         } = this.props;
-        this.props.navigation.navigate('ReadingPage', {
+        !!book?.id && this.props.navigation.navigate('ReadingPage', {
             screen: 'ReadingPage',
             params: {
-                lookupId: book.id,
+                lookupId: book?.id,
             },
         });
     };

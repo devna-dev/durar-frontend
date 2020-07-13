@@ -15,6 +15,7 @@ import {
   GET_Search_Result_SUCCESS,
   GET_BOOK_CONTENT_PENDING,
   GET_BOOK_CONTENT_SUCCESS,
+  set_page,
   increase_page,
   decrease_page,
   get_popular_books,
@@ -203,6 +204,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         bookPageContent: action.form,
         load: false,
+      };
+    case set_page:
+      return {
+        ...state,
+        page:
+          action?.page > 0 && state.page < state?.bookDetail?.page_count
+            ? action?.page
+            :state.page
       };
     case increase_page:
       return {

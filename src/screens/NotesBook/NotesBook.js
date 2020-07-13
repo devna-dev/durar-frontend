@@ -28,6 +28,7 @@ import {
   PENDING_REQUEST_BOOKS_NOTES,
   PENDING_ADD_NOTES,
   PENDING_DELETE_NOTES,
+  PENDING_DELETE_BOOKS_NOTES,
 } from '../../stores/saga/models/notes-store/actions';
 import reactotron from 'reactotron-react-native';
 
@@ -76,26 +77,35 @@ class NotesBook extends Component {
           closeOnRowPress={true}>
 
           <TouchableOpacity
-            onPress={() => { this.props.deleteNote(item, () => this.onStart()) }}
+            onPress={() => { this.props.deleteBooksNote(item, () => this.onStart()) }}
             style={styles.swipeDelete}>
             <SvgUri uri={svg_photo.trash} />
           </TouchableOpacity>
 
-          <View style={styles.diff_view}>
+          <TouchableOpacity
+          activeOpacity={1}
+            onPress={() => {
+              this.props.navigation.navigate('ReadingPage', {
+                screen: 'ReadingPage',
+                params: {
+                  lookupId: item?.book?.id,
+                  page: item?.page,
+                }
+              })
+            }}
+            style={styles.diff_view}>
             <Text
               style={[styles.address_text, { color: colors.primary }]}>
-              وجه الإختلاف بين
-        </Text>
+              {item?.title}
+            </Text>
             <Text style={[styles.address_text, { fontSize: 13 }]}>
-              هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن
-              الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو
-              الكلمات
-        </Text>
+              {item?.note}
+            </Text>
             <Text
               style={[styles.address_text, { color: colors.primary }]}>
-              كتاب: تاريح الخلفاء
-        </Text>
-          </View>
+              كتاب: {item?.book?.title}
+            </Text>
+          </TouchableOpacity>
         </SwipeRow>);
 
     else if (selected == 1)
@@ -136,7 +146,7 @@ class NotesBook extends Component {
             refreshing={this.props.load}
             colors={[colors.primary]}
             size={'large'}
-            onRefresh={this.start}
+            onRefresh={this.onStart}
           />
         }>
           <View
@@ -273,6 +283,12 @@ const mapDispatchToProps = (dispatch) => ({
       callback
     }),
 
+  deleteBooksNote: (note, callback) =>
+    dispatch({
+      type: PENDING_DELETE_BOOKS_NOTES,
+      note,
+      callback
+    }),
   getNotes: (form) =>
     dispatch({
       type: PENDING_REQUEST_NOTES,

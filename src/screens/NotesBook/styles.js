@@ -151,7 +151,7 @@ export default StyleSheet.create({
     diff_view: {
         width: '100%',
         backgroundColor: "white",
-        height: 150,
+        minHeight: 120,
         borderRadius: 5,
         borderColor: colors.grey2,
         backgroundColor: "white",

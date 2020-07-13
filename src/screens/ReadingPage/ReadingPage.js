@@ -31,6 +31,7 @@ import {
   decrease_page,
   GET_BOOK_CONTENT_PENDING,
   GET_BOOK_DETAIL_PENDING,
+  set_page,
   increase_page,
   post_note,
   SEARCH_IN_BOOK_PENDING,
@@ -66,6 +67,9 @@ class ReadingPage extends Component {
       color: colors.black,
       play: false,
     };
+    const {lookupId, page} = this.props.route.params;
+
+    this.props.setPage(page||1);
   }
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
@@ -76,13 +80,22 @@ class ReadingPage extends Component {
   componentWillUnmount() {
     this._unsubscribe();
   }
+  componentDidUpdate(prevProps){
+    if(this.props?.route?.params !== prevProps?.route?.params){
+      this.setState({index: this.props?.route?.params?.page || 1},()=>{
+        this.props.setPage(this.props?.route?.params?.page || 1);
+        setTimeout(()=>this.start(), 200) ;
+      });
+    }
+  }
+
   start = async () => {
     // this.setState({
     //   moon: 0,
     //   moon_icon: svg_photo.read_moon,
     //   back: colors.white,
     // });
-    await storage.setItem('moon', 0);
+    //await storage.setItem('moon', 0);
     const {lookupId} = this.props.route.params;
 
     this.props.getBookDetail({
@@ -307,6 +320,7 @@ class ReadingPage extends Component {
                     renderContent={this.renderContent}
                     renderText={this.renderText}
                     onOpenAddNoteModal={this.onOpenAddNoteModal}
+                    onSelectText={(state)=>this.setState(state)}
                    />
                 )}
               {/*{!this.props.book.load &&*/}
@@ -343,8 +357,8 @@ class ReadingPage extends Component {
                 {color: this.state.moon == 2 ? colors.white : colors.black},
               ]}>{`${
               search && searchText != ''
-                ? this.props.book.searchedContent[this.state.index]?.page || 1
-                : this.props.book.page
+                ? this.props?.book?.searchedContent[this.state.index]?.page || 1
+                : this.props?.book?.page
             } / ${
               this.props.book?.book?.page_count ||
               this.props.book?.bookDetail?.page_count
@@ -575,7 +589,7 @@ class ReadingPage extends Component {
         end,
       },
     };
-    this.props.createNote(form, ()=>{this.setState({isAddNoteModalVisible : false})});
+    this.props.createNote(form, ()=>{this.setState({isAddNoteModalVisible : false},()=>this.start())});
   };
   searchContent = (text) => {
     const {lookupId} = this.props.route.params;
@@ -616,6 +630,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({
       type: GET_BOOK_CONTENT_PENDING,
       form,
+    }),
+
+  setPage: (page) =>
+    dispatch({
+      type: set_page,
+      page
     }),
   toNextPage: () =>
     dispatch({
