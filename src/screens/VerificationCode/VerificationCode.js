@@ -9,9 +9,10 @@ import OTPInputView from '@twotalltotems/react-native-otp-input'
 import Register from "../Register/Register";
 import {svg_photo} from "../../assets/svg/svg";
 import {SvgUri} from "react-native-svg";
-import { clear, loading, reset, verify_email_pending ,login} from '../../stores/saga/models/user-store/actions';
+import { clear, resend_code, verify_email_pending ,login} from '../../stores/saga/models/user-store/actions';
 import { connect } from 'react-redux';
 import { CommonActions} from  '@react-navigation/native';
+import Toast from '../../components/Toast/Toast';
 
 
 
@@ -24,9 +25,16 @@ class VerificationCode extends Component {
             code_error: '',
             email : this.props.route.params.email,
             password : this.props.route.params.password,
+            showReSend: false,
         };
     }
 
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({showReSend : true});
+            
+        }, 60000);
+    }
 
     render() {
         return (
@@ -38,6 +46,9 @@ class VerificationCode extends Component {
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>كود التفعيل</Text>
                     <View style={styles.back_img}/>
+                </View>
+                <View style={styles.toast}>
+                    <Toast ref="Successfully" backgroundColor="#146632" position="top" />
                 </View>
                 <Content style={styles.content}>
 
@@ -59,7 +70,11 @@ class VerificationCode extends Component {
                             textColor={colors.white}
                             onPress={this.verifyCode.bind(this)}
                     />
-                    <Text style={[styles.text2, {textDecorationLine: 'underline'}]}>لم تصل إليك رساله التفعيل؟</Text>
+                    {this.state.showReSend && (
+                        <TouchableOpacity onPress={() => this.resendCode()}>
+                            <Text style={[styles.text2, { textDecorationLine: 'underline' }]}>لم تصل إليك رساله التفعيل؟</Text>
+                        </TouchableOpacity>
+                    )}
                 </Content>
             </Container>
         )
@@ -110,6 +125,12 @@ class VerificationCode extends Component {
         }
     }
 
+    resendCode = () => {
+        this.props.resendCode();
+        this.refs.Successfully.showToast('تم اعادة ارسال الرمز ', 2000);
+
+    }
+
 }
 const mapStateToProps = (state) => {
     return {
@@ -127,6 +148,9 @@ const mapDispatchToProps = (dispatch) => ({
     login: (form) => dispatch({
         type: login,
         form,
+    }),
+    resendCode: () => dispatch({
+        type: resend_code,
     }),
 });
 

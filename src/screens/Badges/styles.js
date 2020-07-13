@@ -59,11 +59,11 @@ export default StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         paddingHorizontal: '1.5%',
-        width: 90,
+        //width: 90,
         alignSelf: 'center',
         marginBottom: '3%',
         borderRadius: 25,
-        backgroundColor:colors.grey2
+        backgroundColor:colors.grey2,
     },
     input: {
         ...common.RegularFont,

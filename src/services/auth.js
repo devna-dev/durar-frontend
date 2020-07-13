@@ -32,6 +32,17 @@ export async function verify_email(form) {
         },
     }).then((response) => response.json());
 }
+
+export async function reSend_code() {
+    return fetch(settings.API_URL + `accounts/verify-email/`, {
+        method: 'Get',
+        headers: {
+            accept: 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json());
+}
+
 export function user_register(form) {
     return fetch(settings.API_URL + 'accounts/registration/', {
         method: 'POST',
@@ -54,6 +65,16 @@ export async function user_info(token) {
 
 }
 
+export async function get_user_points() {
+    return fetch(settings.API_URL + 'user/points/', {
+        method: 'Get',
+        headers: {
+            accept: 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+    }).then((response) => response.json());
+}
+
 export async function user_logout() {
     return fetch(settings.API_URL + 'accounts/logout/', {
         method: 'POST',
@@ -66,7 +87,7 @@ export async function user_logout() {
 }
 
 export async function get_user_books() {
-    return fetch(settings.API_URL + `user/books`, {
+    return fetch(settings.API_URL + `user/books/`, {
         method: 'Get',
         headers: {
             accept: 'application/json',

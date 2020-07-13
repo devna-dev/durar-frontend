@@ -35,7 +35,6 @@ class Login extends Component {
             style={styles.logo}
             source={require('../../assets/images/signin.png')}
           />
-          <Text style={styles.address}>الشاملة</Text>
           <Text style={styles.title}>تسجيل الدخول</Text>
           <TextInput placeholder={'البريد الالكتروني'}
             value={this.state.email}

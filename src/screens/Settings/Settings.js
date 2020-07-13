@@ -19,10 +19,10 @@ import TextInput from "../../components/TextInput/TextInput";
 import storage from "../../config/storage";
 import { update_profile_api } from "../../services/books";
 import Toast from '../../components/Toast/Toast';
+import {connect} from 'react-redux';
+import {get_points} from '../../stores/saga/models/user-store/actions';
 
-export default class Settings extends Component {
-
-
+class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,6 +53,7 @@ export default class Settings extends Component {
             photo_url: user['photo_url'],
         });
         console.log('dsssssssssssssss', user);
+        this.props.getPoints();
     }
 
     render() {
@@ -185,8 +186,8 @@ export default class Settings extends Component {
                         <SvgUri style={styles.back_img} uri={svg_photo.edit} />
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.type}> عدد النقاط : </Text>
-                    <Text style={styles.type}> نوع العضوية : </Text>
+                    <Text style={styles.type}> عدد النقاط : {this.props.user.points && this.props.user.points.total}</Text>
+                    <Text style={styles.type}> نوع العضوية : {this.props.user.points && this.props.user.points.membership}</Text>
                     <ActivityIndicator
                         animating={this.state.loading}
                         size="large"
@@ -263,3 +264,16 @@ export default class Settings extends Component {
         });
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        ...state,
+    };
+};
+const mapDispatchToProps = (dispatch) => ({
+    getPoints: () => dispatch({
+        type: get_points,
+    }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

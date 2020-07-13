@@ -15,6 +15,7 @@ import {
   GET_user_books_SUCCESS,
   support,
   support_success,
+  success_get_points,
 } from './actions';
 
 const initialState = {
@@ -33,6 +34,8 @@ const initialState = {
   books: [],
   isEmailVerified: false,
   message: '',
+  points: null,
+
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -76,6 +79,11 @@ const reducer = (state = initialState, action) => {
         detail: '',
         load: false,
         loading: 'success',
+      };
+    case success_get_points:
+      return {
+        ...state,
+        points: action.form,
       };
     case error:
       return {

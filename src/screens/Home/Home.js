@@ -41,6 +41,7 @@ class Home extends Component {
             guest: true,
             loading: true,
             user: '',
+            points: 0,
         };
     }
 
@@ -66,7 +67,8 @@ class Home extends Component {
     };
 
     async componentDidMount() {
-
+        let points = await storage.getItem('points');
+        this.setState({points})
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.start();
         });
@@ -112,7 +114,7 @@ class Home extends Component {
                             onPress={() => this.props.navigation.navigate('Badges')}
                             style={[styles.headerItemView, {flexDirection: 'row',}]}>
                             <SvgUri style={styles.back_img} uri={svg_photo.gift}/>
-                            <Text style={styles.text2}>160 </Text>
+                            <Text style={styles.text2}>{this.state.points} </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
