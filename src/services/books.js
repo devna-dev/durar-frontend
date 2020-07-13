@@ -380,7 +380,7 @@ export async function get_list_audio_books() {
 }
 
 export async function get_audio_books(id) {
-    return fetch(settings.API_URL + 'books/' + id + '/audio/', {
+    return fetch(settings.API_URL + 'books/?has_audio=true', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -466,7 +466,7 @@ export async function post_notes_api(payload) {
             'Content-Type': 'application/json',
             Authorization: await storage.getItem('token'),
         },
-        body: payload.body,
+        body: JSON.stringify(payload.body),
     }).then((response) => response.json());
 }
 

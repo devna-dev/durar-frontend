@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Modal,
   View,
@@ -9,9 +9,9 @@ import {
   FlatList,
 } from 'react-native';
 import styles from './styles';
-import {colors} from '../../config/styles';
-import {svg_photo} from '../../assets/svg/svg';
-import {SvgUri} from 'react-native-svg';
+import { colors } from '../../config/styles';
+import { svg_photo } from '../../assets/svg/svg';
+import { SvgUri } from 'react-native-svg';
 import Button from '../../components/Button/Button';
 
 /**
@@ -26,9 +26,9 @@ export default class AddNotes extends Component {
       note: '',
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
   handleChanges = (key, value) => {
-    this.setState({[key]: value});
+    this.setState({ [key]: value });
   };
 
   render() {
@@ -40,16 +40,16 @@ export default class AddNotes extends Component {
         transparent={true}
         visible={this.props.visible}
         onRequestClose={this.props.onRequestClose}>
-        <View style={{height: '100%', backgroundColor: 'rgba(0,0,0,0.7)'}}>
+        <View style={{ height: '100%', backgroundColor: 'rgba(0,0,0,0.7)' }}>
           <View style={styles.modalContainer}>
             <View style={styles.bar1}>
-              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <SvgUri uri={svg_photo.active_add} />
 
                 <Text style={[styles.text3]}>إضافة ملاحظه</Text>
               </View>
               <TouchableOpacity onPress={this.props.onRequestClose}>
-                <Text style={[styles.text3, {color: colors.grey3}]}>إلغاء</Text>
+                <Text style={[styles.text3, { color: colors.grey3 }]}>إلغاء</Text>
               </TouchableOpacity>
             </View>
             <Text style={[styles.text]}>الملاحظات</Text>
@@ -69,7 +69,8 @@ export default class AddNotes extends Component {
               title={'إضافة'}
               style={styles.btn}
               textColor={colors.white}
-              onPress={() => this.props.addNote(this.state.note)}
+              load={this.props.isAdding}
+              onPress={() => { this.props.addNote(this.state.note); this.handleChanges('note', "") }}
             />
           </View>
         </View>

@@ -162,7 +162,7 @@ class Book extends Component {
                     style={styles.indicator}
                 />
 
-                {!this.props.book.load && (
+                {(!this.props.book.load || !!this.props.book ) && (
                     <Content
                         refreshControl={
                             <RefreshControl
@@ -293,7 +293,7 @@ class Book extends Component {
                                 )}
                             />
                         )}
-                        <Button
+                        {!!this.props.book?.book && <Button
                             title={'قراءة الكتاب'}
                             style={styles.btn}
                             onPress={this.onPressReadBook}
@@ -337,10 +337,10 @@ class Book extends Component {
         const {
             book: {book},
         } = this.props;
-        this.props.navigation.navigate('ReadingPage', {
+        !!book?.id && this.props.navigation.navigate('ReadingPage', {
             screen: 'ReadingPage',
             params: {
-                lookupId: book.id,
+                lookupId: book?.id,
             },
         });
     };
