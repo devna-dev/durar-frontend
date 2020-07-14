@@ -8,6 +8,7 @@ import Sound from "react-native-sound";
 import { SvgUri } from "react-native-svg";
 import reactotron from 'reactotron-react-native';
 import SeekBar from './SeekBar';
+import { audio_progess } from '../../services/books'
 
 let url = ''
 export default class AudioFile extends Component {
@@ -23,29 +24,14 @@ export default class AudioFile extends Component {
 
             totalLength: 0,
             currentPosition: 0,
+
+            progress: 0,
         };
 
         Sound.setCategory('Playback');
 
         this.intervalPlayer = undefined;
-        this.Player = undefined; /* = new Sound(this.state.url, Sound.MAIN_BUNDLE, (error) => {
-            if (error) {
-                console.log('failed to load the sound', error);
-                return;
-            }
-            // loaded successfully
-            //console.log('duration in seconds: ' + this.whoosh.getDuration() + 'number of channels: ' + this.whoosh.getNumberOfChannels());
-            // Play the sound with an onEnd callback
-            // this.whoosh.play((success) => {
-            //     if (success) {
-            //         console.log('successfully finished playing');
-            //     } else {
-            //         console.log('playback failed due to audio decoding errors');
-            //         alert('Notice', 'audio file error. (Error code : 2)');
-            //         this.whoosh.reset();
-            //     }
-            // });
-        }); */
+        this.Player = undefined;
     }
 
     onPressAudio = (url) => {
@@ -54,7 +40,6 @@ export default class AudioFile extends Component {
             this.Player = undefined;
         }
         this.setState({ status: 0, isAudio: false });
-        reactotron.log(url);
         this.Player = new Sound(url, Sound.MAIN_BUNDLE, (error) => {
             if (error) {
                 reactotron.log('failed to load the sound', error);
@@ -72,7 +57,8 @@ export default class AudioFile extends Component {
             this.setState({ status: 1 });
             this.intervalPlayer = setInterval(() => {
                 this.Player !== undefined && this.Player.getCurrentTime((seconds) => {
-                    this.setState({ currentPosition: seconds })
+                    //reactotron.log((seconds * 100) / (this.state?.totalLength));
+                    this.setState({ currentPosition: seconds, progress: ((seconds * 100) / (this.state?.totalLength)) });
                 });
             }, 100);
             this.Player.play((success) => {
@@ -89,6 +75,7 @@ export default class AudioFile extends Component {
     onPauseAudio = () => {
         if (this.Player !== undefined) {
             this.Player.pause(() => {
+                audio_progess(this.props.bookId, this.props.audio_books?.[this.state.index]?.id, Math.round(this.state.progress))
                 this.setState({ status: 2 }, () => {
                     this.intervalPlayer && clearInterval(this.intervalPlayer);
                     this.intervalPlayer = undefined;
@@ -100,6 +87,7 @@ export default class AudioFile extends Component {
     onStopAudio = () => {
         if (this.Player !== undefined) {
             this.Player.stop(() => {
+                audio_progess(this.props.bookId, this.props.audio_books?.[this.state.index]?.id, this.state.progress)
                 this.setState({ status: 0 }, () => {
                     this.intervalPlayer && clearInterval(this.intervalPlayer);
                     this.intervalPlayer = undefined;
@@ -110,8 +98,9 @@ export default class AudioFile extends Component {
 
     onResetAudio = () => {
         if (this.Player !== undefined) {
+            audio_progess(this.props.bookId, this.props.audio_books?.[this.state.index]?.id, this.state.progress)
             this.Player.reset().release();
-            this.setState({ status: 0, isAudio: false });
+            this.setState({ status: 0, isAudio: false, progress: 0 });
             this.Player = undefined;
 
             this.intervalPlayer && clearInterval(this.intervalPlayer);

@@ -258,7 +258,8 @@ class Home extends Component {
                         <FlatList
                             data={this.props.book?.home_books?.listens}
                             horizontal
-                            inverted={false}
+                            inverted={true}
+                            showsHorizontalScrollIndicator={false}
                             style={{marginLeft: '5%'}}
                             renderItem={(item) => (
                                 <HomeBookItem

@@ -342,6 +342,7 @@ class Book extends Component {
                 />
                 <AudioFile visible={this.state.audio}
                            onRequestClose={() => this.setState({audio: false})}
+                           bookId={book?.id}
                            audio_books={this.state.audio_books}/>
             </Container>
         );

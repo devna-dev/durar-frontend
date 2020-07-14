@@ -589,3 +589,23 @@ export async function upload_audio_file(id, data) {
             console.log(err.response);
         });
 }
+
+
+export async function audio_progess(book, audio, progress) {
+    return fetch(settings.API_URL + `books/${book}/listen/progress/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+        body: JSON.stringify({
+            audio: audio,
+            progress: progress,
+        }),
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res);
+            return res;
+        });
+}
