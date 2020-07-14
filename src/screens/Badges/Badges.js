@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styles from './styles';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import {FlatList, Text, View, TouchableOpacity,Image} from "react-native";
+import {FlatList, Text, View, TouchableOpacity,Image,ActivityIndicator} from "react-native";
 import {SvgUri} from "react-native-svg";
 import {svg_photo} from '../../assets/svg/svg'
 import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
@@ -25,12 +25,12 @@ class Badges extends Component {
         return (
             <View style={[styles.view_item_list]}>
                 <Image
-                    style={{ width: 50 ,height:50, marginBottom : 10 }}
+                    style={{ width: 80 ,height:80}}
                     source={{uri:item.icon} }
 
                 />
                 <Text style={[styles.item_text1, { fontSize: 13, alignSelf: 'center', width: '100%', textAlign: 'center', paddingHorizontal:2 }]}> {item.title}</Text>
-                <Text style={[styles.text3, { fontSize: 13 }]}>{item.type}</Text>
+                <Text style={[styles.text3, { fontSize: 13 }]}>{item.points}</Text>
             </View>
         )
     };
@@ -52,13 +52,17 @@ class Badges extends Component {
                             <Text style={styles.text2}>{this.props.user.points ? this.props.user.points.total : 0} </Text>
                         </TouchableOpacity>
                     </View>
-                    {this.props.user.points && this.props.user.points.badges.length > 0 && (
+                    {this.props.user.points && this.props.user.points.badges.length > 0 ? (
                          <FlatList data={this.props.user.points.badges}
                               numColumns={3}
                               style={{alignSelf: 'center',marginTop:10}}
                               renderItem={(item) =>  this._renderItem(item)}
                               /> 
+                    ) :
+                    (
+                        <ActivityIndicator animating={this.props.load} color={colors.primary} size={'large'} />
                     )}
+
                 </Content>
             </Container>
         )

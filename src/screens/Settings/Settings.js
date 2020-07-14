@@ -52,7 +52,7 @@ class Settings extends Component {
             gender: user['gender'] === 'F' ? 'أنثى' : 'ذكر',
             photo_url: user['photo_url'],
         });
-        console.log('dsssssssssssssss', user);
+        //console.log('dsssssssssssssss', user);
         this.props.getPoints();
     }
 
@@ -236,14 +236,14 @@ class Settings extends Component {
          * The second arg is the callback which sends object: response (more info in the API Reference)
          */
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
+            //console.log('Response = ', response);
 
             if (response.didCancel) {
-                console.log('User cancelled image picker');
+                //console.log('User cancelled image picker');
             } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
+                //console.log('ImagePicker Error: ', response.error);
             } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
+                //console.log('User tapped custom button: ', response.customButton);
             } else {
                 const source = response;
 

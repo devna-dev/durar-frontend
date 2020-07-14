@@ -25,7 +25,7 @@ export default class Walkthrough extends Component {
     }
 
     _renderItem = ({item}) => {
-        console.log('item', item)
+       // console.log('item', item)
         return (
             <View style={styles.item_view}>
                 <Image style={styles.item_img}

@@ -55,7 +55,7 @@ class MyBooks extends Component {
 
 
     render() {
-        console.log('cont',this.props.user?.books?.reads?this.props.user?.books?.reads.length:'')
+        //console.log('cont',this.props.user?.books?.reads?this.props.user?.books?.reads.length:'')
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}

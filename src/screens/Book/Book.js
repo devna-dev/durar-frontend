@@ -100,8 +100,8 @@ class Book extends Component {
             book: {book, bookReviews},
             user,
         } = this.props;
-        console.log('/////////////////////////////////');
-        console.log(this.props.book.book && this.props.book.book.is_favorite ? this.props.book.book.is_favorite : '')
+        //console.log('/////////////////////////////////');
+        //console.log(this.props.book.book && this.props.book.book.is_favorite ? this.props.book.book.is_favorite : '')
         const {
             params: {lookupId},
         } = this.props.route;
@@ -149,7 +149,7 @@ class Book extends Component {
 
                                 Share.share(shareOptions)
                                     .then((res, activityType) => {
-                                        console.log(activityType)
+                                        //console.log(activityType)
                                         if (res.action === Share.dismissedAction) console.log('Share dismissed');
                                         else console.log('Share successful');
 

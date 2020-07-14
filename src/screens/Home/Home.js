@@ -67,8 +67,6 @@ class Home extends Component {
     };
 
     async componentDidMount() {
-        let points = await storage.getItem('points');
-        this.setState({points})
         this.start();
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.start();
@@ -97,13 +95,13 @@ class Home extends Component {
             this.setState({user});
             this.props.get_current_read();
             this.setState({guest: false});
+            let points = await storage.getItem('points');
+            this.setState({points})
         }
     }
 
 
     render() {
-        console.log(this.props.book?.home_books?.reads && this.props.book?.home_books?.reads ? this.props.book?.home_books : '')
-
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
@@ -111,12 +109,14 @@ class Home extends Component {
                         <SvgUri style={styles.back_img} uri={svg_photo.menu}/>
                     </TouchableOpacity>
                     <View style={styles.leftHeader}>
-                        <TouchableOpacity
-                            onPress={() => this.props.navigation.navigate('Badges')}
-                            style={[styles.headerItemView, {flexDirection: 'row',}]}>
-                            <SvgUri style={styles.back_img} uri={svg_photo.gift}/>
-                            <Text style={styles.text2}>{this.state.points} </Text>
-                        </TouchableOpacity>
+                        {!this.state.guest && (
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate('Badges')}
+                                style={[styles.headerItemView, { flexDirection: 'row', }]}>
+                                <SvgUri style={styles.back_img} uri={svg_photo.gift} />
+                                <Text style={styles.text2}>{this.state.points} </Text>
+                            </TouchableOpacity>
+                        )}
                         <TouchableOpacity
                             onPress={() => {
                                 // this.props.navigation.navigate('NotificationsList')
