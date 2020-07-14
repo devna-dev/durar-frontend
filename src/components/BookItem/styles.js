@@ -6,10 +6,10 @@ import common from "../../styles/common.style";
 export default StyleSheet.create({
     container: {
       //  height: 191,
-        marginBottom: '5%',
-        width: '90%',
+        //marginBottom: '5%',
+        width: '100%',
         alignSelf: 'center',
-        borderRadius: 5,
+        //borderRadius: 5,
         borderWidth: 1,
         borderColor: colors.grey1
     },
@@ -68,13 +68,22 @@ export default StyleSheet.create({
         width:'100%'
     },
     edit1:{
-        alignItems:'center',
+        flex: 1, 
+        alignSelf: "stretch", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        backgroundColor: "red",
+        width: 65, 
+        borderRadius: 5, 
+        marginVertical: 5,
+
+        /* alignItems:'center',
         justifyContent:'center',
         //marginBottom:20,
         // height:191,
         backgroundColor:'white',
         alignSelf:'center',
-        width:'100%'
+        width:'100%' */
     },
     swipe:{
         backgroundColor:'transparent',

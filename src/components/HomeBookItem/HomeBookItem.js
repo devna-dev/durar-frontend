@@ -65,7 +65,7 @@ export default class HomeBookItem extends Component {
               تأليف: {this.props.item?.author.name}
             </Text>
           ) : (
-            <Text style={styles.text2}>{this.props.item?.author.name}</Text>
+            <Text style={styles.text2}>{this.props.item?.author?.name}</Text>
           )}
           {this.props.now && (
             <View style={styles.player}>
@@ -77,7 +77,7 @@ export default class HomeBookItem extends Component {
                   ]}
                 />
               </View>
-              <Text style={styles.text3}> {this.props.item.item.read_progress * 100}% </Text>
+              <Text style={styles.text3}> {(this.props.item?.item?.read_progress||0) * 100}% </Text>
               <TouchableOpacity
                 onPress={() => {
                   this.props.read(this.props.item?.id);

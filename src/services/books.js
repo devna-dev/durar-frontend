@@ -166,7 +166,7 @@ export async function donate_to_api(form) {
 }
 
 export async function delete_review_api(book, review) {
-    return fetch(settings.API_URL + 'books/' + book + '/reviews/' + review, {
+    return fetch(settings.API_URL + 'books/' + book + '/reviews/' + review + "/", {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -422,6 +422,23 @@ export async function add_to_fav(id) {
             return res;
         });
 }
+
+export async function delete_from_fav(id) {
+    return fetch(settings.API_URL + `user/favorites/${id}/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+        
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res);
+            return res;
+        });
+}
+
 
 export async function share_book(id) {
     //alert(id)

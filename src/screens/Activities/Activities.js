@@ -94,7 +94,7 @@ class Activities extends Component {
                             />
                         }>
                         <View style={{width: '100%',}}>
-                            <FlatList data={[this.props.book.activities?.last_activities[0]]}
+                            <FlatList data={this.props.book.activities?.last_activities?.[0]?[this.props.book.activities?.last_activities[0]] : []}
                                       horizontal
                                       showsHorizontalScrollIndicator={false}
                                       style={{marginLeft: '2%'}}
