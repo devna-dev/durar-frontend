@@ -13,6 +13,7 @@ import {
   get_categories,
   clear,
   search_result,
+  get_authors,
 } from '../../stores/saga/models/book-store/actions';
 import {loading} from '../../stores/saga/models/user-store/actions';
 
@@ -27,11 +28,13 @@ class Search1 extends Component {
       show_sub_categories: false,
       sub_categories: [],
       show_categories: false,
+      show_authers: false,
       loading: false,
       payload: {
         category_id: '',
         title: '',
         sub_category_id: '',
+        auther_id: '',
       },
     };
   }
@@ -39,6 +42,7 @@ class Search1 extends Component {
   start() {
     this.props.clear();
     this.props.get_categories();
+    this.props.get_authors();
   }
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
@@ -64,6 +68,7 @@ class Search1 extends Component {
             onChangeText={(text) =>
               this.setState({...state, payload: {title: text}})
             }
+            onFocus={() => this.setState({...state, selected: 0})}
           />
           <SvgUri style={styles.back_img} uri={svg_photo.voice} />
         </View>
@@ -94,7 +99,7 @@ class Search1 extends Component {
                 بحث كتاب
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => this.setState({...state, selected: 1})}
               style={[
                 styles.item_view,
@@ -118,7 +123,7 @@ class Search1 extends Component {
                 {' '}
                 بحث محتوى
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <TouchableOpacity
             onPress={() => this.setState({...state, selected: 2})}
@@ -147,6 +152,75 @@ class Search1 extends Component {
               بحث عن كاتب
             </Text>
           </TouchableOpacity>
+          {this.state.selected == 2 && (
+            <View style={{paddingTop : 10}}>
+             <TouchableOpacity
+             onPress={() =>
+               this.setState({show_authers: !this.state.show_authers})
+             }
+             style={[styles.bar4, {borderColor: colors.grey1}]}>
+             <Text style={[styles.text3, {color: colors.grey3}]}>
+               اختر اسم الكاتب
+             </Text>
+             <SvgUri
+               style={styles.back_img}
+               uri={
+                 this.state.show_authers
+                   ? svg_photo.down_arrow
+                   : svg_photo.up_arrow
+               }
+             />
+           </TouchableOpacity>
+           {this.state.show_authers && (
+             <FlatList
+               data={this.props.book.authors}
+               style={{marginHorizontal: '3.5%'}}
+               numColumns={2}
+               renderItem={({item, index}) => (
+                 <TouchableOpacity
+                   onPress={() => {
+                     this.setState({
+                       ...state,
+                       index: index,
+                       payload: {
+                        ...this.state.payload,
+                        auther_id: item.id,
+                      },
+                     });
+                   }}
+                   style={[
+                     styles.item_view,
+ 
+                     {
+                      width: 160,
+                      borderRadius: 10,
+                       marginBottom: 5,
+                       paddingHorizontal:5,
+                       backgroundColor:
+                         this.state.index == index
+                           ? colors.secondary
+                           : colors.white,
+                       borderColor:
+                         this.state.index == index
+                           ? colors.secondary
+                           : colors.grey1,
+                       borderWidth: 1,
+                       marginHorizontal: '2%',
+                     },
+                   ]}>
+                   <Text
+                     style={[
+                       styles.text3,
+                       {color: colors.primary, fontWeight: '900'},
+                     ]}>
+                     {item.name}
+                   </Text>
+                 </TouchableOpacity>
+               )}
+             />
+           )}
+           </View>
+          )}
           <Text style={styles.item_text1}>التصنيف الرئيسي</Text>
           <TouchableOpacity
             onPress={() =>
@@ -281,7 +355,8 @@ class Search1 extends Component {
           )}
           {(payload.category_id != '' ||
             payload.title != '' ||
-            payload.sub_category_id != '') && (
+            payload.sub_category_id != '' ||
+            payload.auther_id != '') && (
             <Button
               title={'بحث'}
               load={this.props.book.load}
@@ -292,6 +367,7 @@ class Search1 extends Component {
                   sub_category: this.state.payload.sub_category_id,
                   title: this.state.payload.title,
                   content: this.state.selected,
+                  author: this.state.payload.auther_id,
                 };
                 this.props.search_result(form);
                 this.props.navigation.navigate('Search', form);
@@ -329,6 +405,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({
       type: search_result,
       form,
+    }),
+    get_authors: () =>
+    dispatch({
+      type: get_authors,
     }),
 });
 

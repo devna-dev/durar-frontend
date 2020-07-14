@@ -15,6 +15,7 @@ import {
   GET_user_books_SUCCESS,
   support,
   support_success,
+  get_points,
   success_get_points,
 } from './actions';
 
@@ -80,9 +81,15 @@ const reducer = (state = initialState, action) => {
         load: false,
         loading: 'success',
       };
+    case get_points:
+      return {
+        ...state,
+        load: true,
+      };
     case success_get_points:
       return {
         ...state,
+        load: false,
         points: action.form,
       };
     case error:

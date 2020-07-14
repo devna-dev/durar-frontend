@@ -522,6 +522,7 @@ export async function update_profile_api(data) {
             body.append(key, data[key]);
         }
     });
+    //console.log('send update_profile_api');
     return fetch(settings.API_URL + 'user/', {
         method: 'PUT',
         headers: {
@@ -531,9 +532,11 @@ export async function update_profile_api(data) {
         },
         body: body,
     })
-        .then((response) => response.json())
+        .then((response) => { 
+            //console.log('response response',response);
+            return (response.json())})
         .then((res) => {
-            console.log('profilllllle', res);
+            //console.log('profilllllle', res);
             return res;
         })
         .catch((err) => {

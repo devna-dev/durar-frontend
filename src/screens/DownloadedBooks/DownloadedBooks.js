@@ -40,7 +40,6 @@ export default class DownloadedBooks extends Component {
    async componentDidMount() {
         this.setState({loading:true})
     let most_downloaded= await get_most_downloaded(this.page)
-       console.log(most_downloaded)
        this.setState({most_downloaded:most_downloaded['results']})
        this.setState({loading:false})
     }

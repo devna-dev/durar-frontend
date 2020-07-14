@@ -22,7 +22,7 @@ export default class BookItem extends Component {
     }
 
     render() {
-        console.log('xxxxxxxxxxxxxxxx', this.props.item)
+        //console.log('xxxxxxxxxxxxxxxx', this.props.item)
         return (
             <Swipeout
                 style={styles.swipe}
@@ -32,8 +32,8 @@ export default class BookItem extends Component {
                         component: (
                             <TouchableOpacity onPress={async () => {
                                 let delete_review = await delete_review_api(this.props.id, this.props.item.id)
-                                console.log('from delete *************************')
-                                console.log(delete_review)
+                                //console.log('from delete *************************')
+                                //console.log(delete_review)
                                 this.props.onPress()
                             }} style={styles.edit1}>
                                 <View style={styles.edit}>
@@ -78,7 +78,7 @@ export default class BookItem extends Component {
                             </View>
                             <TouchableOpacity onPress={async () => {
                                 let like_review = await post_like_review(this.props.item.id)
-                                console.log('like_review', like_review)
+                                //console.log('like_review', like_review)
                                 if (like_review['id']) {
                                     this.setState({user_liked: !this.state.user_liked})
                                 }

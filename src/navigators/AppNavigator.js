@@ -91,7 +91,6 @@ export default function AppNavigator() {
   useEffect(() => {
     async function fetchData() {
       let user = await storage.getItem('token');
-      // console.log(user, 'userdfsdf');
       if (user) {
         setUserLoggedIn(true);
       }
@@ -207,7 +206,7 @@ export function DrawerNavigator() {
     useEffect(() => {
         async function fetchData() {
             let user = await storage.getItem('token');
-            console.log(user, 'userdfsdf');
+            //console.log(user, 'userdfsdf');
             if (user) {
                 setUserLoggedIn(true)
             }
@@ -256,7 +255,7 @@ export function DrawerNavigator1() {
     useEffect(() => {
         async function fetchData() {
             let user = await storage.getItem('token');
-            console.log(user, 'userdfsdf');
+            //console.log(user, 'userdfsdf');
             if (user) {
                 setUserLoggedIn(true)
             }
@@ -280,7 +279,7 @@ export function DrawerNavigator2() {
     useEffect(() => {
         async function fetchData() {
             let user = await storage.getItem('token');
-            console.log(user, 'userdfsdf');
+            //console.log(user, 'userdfsdf');
             if (user) {
                 setUserLoggedIn(true)
             }
@@ -307,7 +306,7 @@ export function DrawerNavigator3() {
     useEffect(() => {
         async function fetchData() {
             let user = await storage.getItem('token');
-            console.log(user, 'userdfsdf');
+            //console.log(user, 'userdfsdf');
             if (user) {
                 setUserLoggedIn(true)
             }
@@ -356,7 +355,7 @@ export function DrawerNavigator4() {
     useEffect(() => {
         async function fetchData() {
             let user = await storage.getItem('token');
-            console.log(user, 'userdfsdf');
+            //console.log(user, 'userdfsdf');
             if (user) {
                 setUserLoggedIn(true)
             }

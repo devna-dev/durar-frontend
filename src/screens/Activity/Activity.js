@@ -65,18 +65,18 @@ class Activity extends Component {
         } else {
             this.setState({access: false})
         }
-        console.log(this.props.route)
+        //console.log(this.props.route)
         reactotron.log(this.props.route)
         const {id, dis} = this.props.route.params;
         this.setState({loading: true})
         if (!!dis) {
             let discussion = await get_discussion_details(id)
             this.setState({discussion})
-            console.log('dddddd', discussion)
+            //console.log('dddddd', discussion)
         } else {
             let discussion = await get_sem_details(id)
             this.setState({discussion})
-            console.log('dddddd', discussion)
+           // console.log('dddddd', discussion)
             //this.props.get_activity_details({id});
         }
         this.setState({loading: false})
@@ -169,7 +169,7 @@ class Activity extends Component {
                                                                                               if (this.props.route.params.dis) {
                                                                                                   this.setState({loading: true})
                                                                                                   let result = await regiter_to_discussions(this.props.route.params.id)
-                                                                                                  console.log('registered', result)
+                                                                                                  //console.log('registered', result)
                                                                                                   this.start()
                                                                                                   this.setState({
                                                                                                       success: true,
@@ -180,7 +180,7 @@ class Activity extends Component {
                                                                                               } else {
                                                                                                   this.setState({loading: true})
                                                                                                   let result = await regiter_to_activity(this.props.route.params.id)
-                                                                                                  console.log('registered', result)
+                                                                                                  //console.log('registered', result)
                                                                                                   this.start()
                                                                                                   this.setState({
                                                                                                       success: true,

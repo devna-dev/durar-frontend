@@ -14,7 +14,7 @@ const TrackingBar = ({
                          minimumTrackTintColor = 'white',
                          thumbTintColor = 'white',
                      }) => {
-    console.log(playSeconds, duration, durationString);
+    //console.log(playSeconds, duration, durationString);
     return (
         <View
             style={{marginVertical: 5, marginHorizontal: 15, flexDirection: 'row'}}>
