@@ -8,6 +8,7 @@ const GET_BOOK_DETAIL_SUCCESS = 'GET_BOOK_DETAIL_SUCCESS';
 const GET_BOOK_FAILURE = 'GET_BOOK_FAILURE';
 const GET_BOOK_PENDING = 'GET_BOOK_PENDING';
 const GET_BOOK_SUCCESS = 'GET_BOOK_SUCCESS';
+const CLEAR_BOOK_DATA = 'CLEAR_BOOK_DATA';
 const get_authors_success = 'get_authors_success';
 const get_authors = 'get_authors';
 const search_result = 'search_result';
@@ -57,6 +58,7 @@ export {
   GET_BOOK_PENDING,
   GET_BOOK_SUCCESS,
   GET_BOOK_FAILURE,
+  CLEAR_BOOK_DATA,
   get_authors_success,
   get_authors,
   search_result,

@@ -34,7 +34,8 @@ export default StyleSheet.create({
     pagination: {},
     item_view: {
         backgroundColor: 'transparent',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent:"center"
     },
     text: {
         ...common.RegularFont,

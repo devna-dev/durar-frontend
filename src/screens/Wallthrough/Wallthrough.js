@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
 import Carousel, {Pagination} from 'react-native-snap-carousel';
@@ -17,13 +17,8 @@ export default class Walkthrough extends Component {
         super(props);
         this.state = {
             items: [ {
-                image:'https://elearningindustry.com/wp-content/uploads/2016/05/top-10-books-every-college-student-read-e1464023124869.jpeg'
-            },
-                {
-                image:'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-            }, {
-                image:'https://img.jakpost.net/c/2019/03/02/2019_03_02_66706_1551461528._large.jpg'
-            },],
+                image: require("../../assets/images/ic_launcher_round.png"),//'https://elearningindustry.com/wp-content/uploads/2016/05/top-10-books-every-college-student-read-e1464023124869.jpeg'
+            }],
             sliderActiveSlide: 0,
             isLoggedIn: false,
         }
@@ -34,9 +29,9 @@ export default class Walkthrough extends Component {
         return (
             <View style={styles.item_view}>
                 <Image style={styles.item_img}
-                       source={{uri:item.image}}/>
-                <Text style={styles.text} selectable={true}>أكثر من 5000 كتاب مجانى</Text>
-                <Text style={styles.text1}>المكتبة الشاملة هي أكبر وأشمل مكتبة كتب دينية إسلامية</Text>
+                       source={item.image}/>
+                <Text style={styles.text}>أكثر من 5000 كتاب مجانى</Text>
+                <Text style={styles.text1}>مكتبة درر هي أكبر وأشمل مكتبة كتب دينية إسلامية</Text>
             </View>
         )
     };
@@ -58,8 +53,8 @@ export default class Walkthrough extends Component {
                             }}
                             data={this.state.items}
                             renderItem={(item) => this._renderItem(item)}
-                            sliderWidth={350}
-                            itemWidth={330}
+                            sliderWidth={Dimensions.get('window').width}
+                            itemWidth={Dimensions.get('window').width * .9}
                             type="default"
                             removeClippedSubviews={false}
                             onSnapToItem={(index) => this.setState({sliderActiveSlide: index})}

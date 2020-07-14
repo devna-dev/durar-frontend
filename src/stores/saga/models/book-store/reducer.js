@@ -9,6 +9,7 @@ import {
   GET_BOOK_PENDING,
   GET_BOOK_SUCCESS,
   GET_BOOK_FAILURE,
+  CLEAR_BOOK_DATA,
   get_authors_success,
   get_authors,
   search_result,
@@ -149,6 +150,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         book: action.form?.book,
         bookReviews: action.form?.reviews,
+        load: false,
+      };
+    case CLEAR_BOOK_DATA:
+      return {
+        ...state,
+        book: null,
+        bookReviews: [],
         load: false,
       };
     case GET_BOOK_DETAIL_PENDING:

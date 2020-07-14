@@ -25,6 +25,7 @@ import {
     GET_BOOK_PENDING,
     get_current_read,
     post_review,
+    CLEAR_BOOK_DATA,
 } from '../../stores/saga/models/book-store/actions';
 import {connect} from 'react-redux';
 import {add_to_fav, get_audio_books, getBookApi, share_book} from '../../services/books';
@@ -49,14 +50,26 @@ class Book extends Component {
     }
 
     componentDidMount() {
-        this.props.clear()
+        //this.props.clear()
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.start();
+        });
+        this.__unsubscribe = this.props.navigation.addListener('blur', () => {
+            this.props.clearBook();
         });
     }
 
     componentWillUnmount() {
         this._unsubscribe();
+        this.__unsubscribe();
+        this.props.clearBook();
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props.route?.params?.lookupId !== prevProps.route?.params?.lookupId){
+            this.props.clearBook();
+            this.start();
+        }
     }
 
     start = async () => {
@@ -155,14 +168,14 @@ class Book extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                {/* <ActivityIndicator
+                {this.props.book.load && !book  && <ActivityIndicator
                     animating={this.props.book.load}
                     size="large"
                     color={colors.primary}
                     style={styles.indicator}
-                /> */}
+                /> }
 
-                {(!this.props.book.load || !!this.props.book ) && (
+                {(!this.props.book.load || !!book ) && (
                     <Content
                         refreshControl={
                             <RefreshControl
@@ -194,12 +207,12 @@ class Book extends Component {
                                         isDisabled
                                         count={5}
                                         showRating={false}
-                                        defaultRating={3}
+                                        defaultRating={book?.rating || 0}
                                         size={14}
                                     />
                                 </View>
                                 <Text style={styles.light_font}>{`من ${
-                                book?.rating || 0
+                                    (book?.rating||0).toFixed(1) || 0
                                     } تقييم`}</Text>
                             </View>
                         </View>
@@ -259,7 +272,7 @@ class Book extends Component {
                             <Text style={styles.description} numberOfLines={this.state.lines}>{book?.description}</Text>
                         </TouchableOpacity>
 
-                        {this.state.access && (
+                        {!!book && this.state.access && (
                             <Button
                                 title={'تقييم الكتاب'}
                                 onPress={() => this.setState({book_review: true})}
@@ -281,12 +294,12 @@ class Book extends Component {
                                 horizontal
                                 renderItem={(item) => (
                                     <TouchableOpacity onPress={() => {
-                                        this.props.navigation.push('Book', {lookupId: book.id})
+                                        this.props.navigation.navigate('Book', {lookupId: item?.item?.id})
                                     }}>
                                         <Image
                                             style={styles.img}
                                             source={{
-                                                uri: item.item.cover_image,
+                                                uri: item?.item?.cover_image,
                                             }}
                                         />
                                     </TouchableOpacity>
@@ -307,6 +320,7 @@ class Book extends Component {
                         )}
                         <FlatList
                             data={bookReviews}
+                            contentContainerStyle={{paddingHorizontal:"5%"}}
                             renderItem={({item, index}) => (
                                 <BookItem item={item} id={book.id} index={index} onPress={() => this.start()}/>
                             )}
@@ -359,6 +373,10 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({
             type: GET_BOOK_PENDING,
             form,
+        }),
+    clearBook: ()=>
+        dispatch({
+            type: CLEAR_BOOK_DATA
         }),
     postReview: (form) =>
         dispatch({
