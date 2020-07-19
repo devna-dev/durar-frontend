@@ -260,7 +260,7 @@ function TabNavigator() {
       <Tab.Screen name="Home" component={HomeStackNavigator} />
       <Tab.Screen name="Register" component={RegisterStackNavigator} />
       <Tab.Screen name="Activity" component={ActivityStackNavigator} />
-      <Tab.Screen name="SavingBooks" component={SavingBoooksStackNavigator} />
+      {/* <Tab.Screen name="SavingBooks" component={SavingBoooksStackNavigator} /> */}
       <Tab.Screen name="Profile" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );

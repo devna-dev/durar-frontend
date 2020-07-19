@@ -70,6 +70,9 @@ class ReadingPage extends Component {
       color: colors.black,
       play: false,
     };
+
+    this.searchWaiting = null;
+
     const { lookupId, page } = this.props.route.params;
     this.props.setPage(page || 1, lookupId);
     this.props.setCurrentReading(lookupId);
@@ -111,21 +114,45 @@ class ReadingPage extends Component {
   renderContent = () => {
     const { book } = this.props;
     const { lookupId } = this.props.route.params;
+    const { moon } = this.state;
     if (
       this.state.search &&
-      book.searchedContent.length !== 0 &&
+      book.searchedContent.length > 0 &&
       this.state.searchText != ''
     ) {
-      console.log(
+      /* console.log(
         book.searchedContent[this.state.index].text,
         'book.searchedContent[this.state.index].text',
-      );
-      return book.searchedContent[this.state.index].text;
+      ); */
+
+      switch (moon) {
+        case 1:
+          return book.searchedContent[this.state.index].text; + " ";
+        case 2:
+          return book.searchedContent[this.state.index].text; + "  ";
+        case 3:
+          return book.searchedContent[this.state.index].text; + "   ";
+
+        default:
+          return book.searchedContent[this.state.index].text;;
+      }
     }
     //console.log(book?.bookPageContent?.[lookupId], 'book?.bookPageContent');
     //console.log(book?.bookDetail?.[lookupId]?.content?.[this.props.book.page], 'book?.bookPageContent');
     //return book?.bookPageContent?.[lookupId];
-    return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text;
+
+    // Force html to rerender
+    switch (moon) {
+      case 1:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + " ";
+      case 2:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + "  ";
+      case 3:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + "   ";
+
+      default:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text;
+    }
   };
 
 
@@ -239,7 +266,10 @@ class ReadingPage extends Component {
               colors={[colors.primary]}
               size={'large'}
               onRefresh={async () => {
-                this.start();
+                if (this.state.search) {
+                  this.state.searchText && this.searchContent(this.state.searchText);
+                } else
+                  this.start();
               }}
             />
           }>
@@ -258,7 +288,7 @@ class ReadingPage extends Component {
                       closeOnRowPress={true}>
 
                       <TouchableOpacity
-                        onPress={() => { this.props.deleteNote(item, () => { this.start(); this.forceUpdate() }) }}
+                        onPress={() => { this.props.deleteNote(item, () => { this.start(); }) }}
                         style={styles.swipeDelete}>
                         <SvgUri uri={svg_photo.trash} />
                       </TouchableOpacity>
@@ -368,12 +398,13 @@ class ReadingPage extends Component {
                 styles.item2_text,
                 { color: this.state.moon == 2 ? colors.white : colors.black },
               ]}>{`${
-                search && searchText != ''
-                  ? this.props?.book?.searchedContent[this.state.index]?.page || 1
+                search && searchText !== ''
+                  ? (this.props?.book?.searchedContent[this.state.index]?.page + 1)
                   : this.props?.book?.page
                 } / ${
-                this.props.book?.book?.page_count ||
-                this.props.book?.bookDetail?.[lookupId]?.page_count || 0
+                search && searchText !== '' ?
+                  this.props.book?.searchedContent?.length :
+                  (this.props.book?.book?.page_count || this.props.book?.bookDetail?.[lookupId]?.page_count || 0)
                 } صفحة`}</Text>
           </View>
         )}
@@ -407,8 +438,7 @@ class ReadingPage extends Component {
                     moon_icon: svg_photo.read_moon,
                     back: colors.white,
                     color: colors.black,
-                  });
-                  //await storage.setItem('moon', 1);
+                  }, () => this.forceUpdate());
                   break;
                 case 1:
                   this.setState({
@@ -416,9 +446,7 @@ class ReadingPage extends Component {
                     moon_icon: svg_photo.read_moon,
                     back: colors.black,
                     color: colors.white,
-                  });
-                  //await storage.setItem('moon', 2);
-                  //this.start();
+                  }, () => this.forceUpdate());
                   break;
 
                 case 2:
@@ -427,8 +455,7 @@ class ReadingPage extends Component {
                     moon_icon: svg_photo.sun,
                     back: '#FFF4E6',
                     color: "#333333",
-                  });
-                  //await storage.setItem('moon', 0);
+                  }, () => this.forceUpdate());
                   break;
               }
             }}
@@ -615,12 +642,21 @@ class ReadingPage extends Component {
       tashkeel: isWithTashkeel,
       word: text,
     };
+    this.setState({ index: 0 });
     this.props.searchContent(data);
   };
+
   handleTextChange = (text) => {
     this.setState({ searchText: text });
-    text ? this.searchContent(text) : this.getPage();
+
+    if (this.searchWaiting)
+      clearTimeout(this.searchWaiting);
+    this.searchWaiting = setTimeout(() => {
+      this.searchWaiting = null;
+      text && this.searchContent(text);// : this.getPage();
+    }, 500);
   };
+
   onPressShowSearch = () => {
     this.setState({ search: !this.state.search });
     if (!this.state.search) {
