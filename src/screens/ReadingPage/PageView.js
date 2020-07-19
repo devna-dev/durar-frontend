@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     Text,
+    Platform
 } from 'react-native';
 import HTML from 'react-native-render-html';
 import { SelectableText } from '@astrocoders/react-native-selectable-text';
@@ -21,7 +22,7 @@ export default class PageView extends Component {
                 menuItems={['Copy', 'Add Note', 'Voice']}
                 //onHighlightPress={() => alert('g')}
                 style={{
-                    textAlign: 'right',
+                    textAlign: Platform.OS === "ios" ? 'right' : "left",
                     width: '90%',
                     alignSelf: 'center',
                     color: this.props.color,
