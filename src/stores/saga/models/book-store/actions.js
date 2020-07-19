@@ -1,10 +1,11 @@
-const clear = 'clear';
+const clear = 'book/clear';
 const get_books = 'get_books';
 const get_categories = 'get_categories';
 const get_books_success = 'get_books_success';
 const get_categories_success = 'get_categories_success';
 const GET_BOOK_DETAIL_PENDING = 'GET_BOOK_DETAIL_PENDING';
 const GET_BOOK_DETAIL_SUCCESS = 'GET_BOOK_DETAIL_SUCCESS';
+const GET_BOOK_DETAIL_FAILED = 'GET_BOOK_DETAIL_FAILED';
 const GET_BOOK_FAILURE = 'GET_BOOK_FAILURE';
 const GET_BOOK_PENDING = 'GET_BOOK_PENDING';
 const GET_BOOK_SUCCESS = 'GET_BOOK_SUCCESS';
@@ -14,6 +15,7 @@ const get_authors = 'get_authors';
 const search_result = 'search_result';
 const get_popular_books = 'get_popular_books';
 const get_popular_books_success = 'get_popular_books_success';
+const get_popular_books_failed = 'get_popular_books_failed';
 const GET_Search_Result_SUCCESS = 'GET_Search_Result_SUCCESS';
 const GET_BOOK_CONTENT_PENDING = 'GET_BOOK_CONTENT_PENDING';
 const GET_BOOK_CONTENT_SUCCESS = 'GET_BOOK_CONTENT_SUCCESS';
@@ -41,11 +43,13 @@ const GET_BOOK_NOTES_FAILURE = 'Book/GET_BOOK_NOTES_FAILURE';
 const GET_BOOK_NOTES_PENDING = 'Book/GET_BOOK_NOTES_PENDING';
 const GET_BOOK_DETAIL_FAILURE = 'Book/GET_BOOK_DETAIL_FAILURE';
 const GET_BOOK_CONTENT_FAILURE = 'Book/GET_BOOK_CONTENT_FAILURE';
+const SET_CURRENT_READING_BOOK = 'SET_CURRENT_READING_BOOK';
 const SEARCH_IN_BOOK_PENDING = 'Book/SEARCH_IN_BOOK_PENDING';
 const SEARCH_IN_BOOK_SUCCESS = 'Book/SEARCH_IN_BOOK_SUCCESS';
 const SEARCH_IN_BOOK_FAIL = 'Book/SEARCH_IN_BOOK_FAIL';
 const CLEAR_SEARCH_IN_BOOK = 'Book/CLEAR_SEARCH_IN_BOOK';
 const DONATION_FAILURE = 'DONATION_FAILURE';
+const CLEAR_SEARCH_CACHE = 'CLEAR_SEARCH_CACHE';
 
 export {
   clear,
@@ -55,6 +59,7 @@ export {
   get_categories_success,
   GET_BOOK_DETAIL_PENDING,
   GET_BOOK_DETAIL_SUCCESS,
+  GET_BOOK_DETAIL_FAILED,
   GET_BOOK_PENDING,
   GET_BOOK_SUCCESS,
   GET_BOOK_FAILURE,
@@ -71,6 +76,7 @@ export {
   decrease_page,
   get_popular_books,
   get_popular_books_success,
+  get_popular_books_failed,
   get_current_read,
   get_current_read_success,
   suggest,
@@ -93,7 +99,9 @@ export {
   SEARCH_IN_BOOK_SUCCESS,
   SEARCH_IN_BOOK_FAIL,
   CLEAR_SEARCH_IN_BOOK,
+  SET_CURRENT_READING_BOOK,
   donate,
   donate_success,
   DONATION_FAILURE,
+  CLEAR_SEARCH_CACHE,
 };

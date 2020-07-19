@@ -67,16 +67,18 @@ const reducer = (state = initialState, action) => {
         isEmailVerified: action.form.detail,
       };
     case clear:
-      return {...initialState, loading: 'clear'};
+      return { ...initialState, loading: 'clear' };
     case logout:
-      return {...initialState, loading: 'logout'};
+      return { ...initialState, loading: 'logout' };
     case login:
-      return {loading: 'login', ...initialState, load: true};
+      return { loading: 'login', ...initialState, load: true };
     case success_login:
       return {
-        ...action.form,
+        ...initialState,
+        ...action.form?.user,
+        token: action.form?.token,
         allow_navigate: true,
-        details: action.form.detail,
+        //details: action.form.detail,
         detail: '',
         load: false,
         loading: 'success',
@@ -94,6 +96,7 @@ const reducer = (state = initialState, action) => {
       };
     case error:
       return {
+        ...state,
         load: false,
         allow_navigate: false,
         login_errors: action.form,
@@ -101,7 +104,7 @@ const reducer = (state = initialState, action) => {
         loading: 'error',
       };
     case REGISTER_USER_REQUEST_PENDING:
-      return {...state, load: true};
+      return { ...state, load: true };
     case REGISTER_USER_REQUEST_SUCCESS:
       return {
         ...state,
@@ -118,7 +121,7 @@ const reducer = (state = initialState, action) => {
         allow_navigate: false,
       };
     case GET_user_books:
-      return {loading: 'user_books', load: true};
+      return { ...state, loading: 'user_books', load: true };
     case GET_user_books_SUCCESS:
       return {
         ...state,
@@ -126,7 +129,7 @@ const reducer = (state = initialState, action) => {
         load: false,
       };
     case support:
-      return {loading: 'support', load: true};
+      return { loading: 'support', load: true };
     case support_success:
       return {
         ...state,
@@ -138,4 +141,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export {reducer};
+export { reducer };

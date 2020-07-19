@@ -83,9 +83,9 @@ class NotesBook extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-          activeOpacity={1}
+            activeOpacity={1}
             onPress={() => {
-              this.props.navigation.navigate('ReadingPage', {
+              this.props.navigation.push('ReadingPage', {
                 screen: 'ReadingPage',
                 params: {
                   lookupId: item?.book?.id,

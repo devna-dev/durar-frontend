@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import styles from './styles';
 
 /**
@@ -15,8 +15,13 @@ class Container extends Component {
   render() {
     const { style } = this.props;
     return (
-      <KeyboardAvoidingView ref={c => (this._root = c)} {...this.props} style={[styles.container, style , {borderRadius:this.props.rounded?20:0} ]} >
-          {this.props.children}
+      <KeyboardAvoidingView
+        ref={c => (this._root = c)}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        {...this.props}
+        style={[styles.container, style, { borderRadius: this.props.rounded ? 20 : 0 }]} >
+        {this.props.children}
       </KeyboardAvoidingView>
     );
   }

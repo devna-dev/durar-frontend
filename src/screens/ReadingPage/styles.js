@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../config/styles';
+import { StyleSheet } from 'react-native';
+import { colors } from '../../config/styles';
 import common from '../../styles/common.style';
 
 export default StyleSheet.create({
@@ -32,11 +32,12 @@ export default StyleSheet.create({
     borderTopWidth: 1,
   },
   diff_view: {
-    width: '90%',
+    width: '100%',
     // height: 115,
     paddingVertical: 10,
     borderRadius: 5,
     borderColor: colors.grey2,
+    backgroundColor: "white",
     borderWidth: 1,
     marginVertical: 5,
     alignSelf: 'center',
@@ -52,6 +53,7 @@ export default StyleSheet.create({
     width: '90%',
     height: 40,
     position: 'absolute',
+    top: "5%",
     alignSelf: 'center',
     zIndex: 1,
     borderRadius: 5,
@@ -105,4 +107,7 @@ export default StyleSheet.create({
     fontSize: 13,
     color: colors.grey3,
   },
+  swipeDelete: {
+    flex: 1, alignSelf: "stretch", justifyContent: "center", alignItems: "center", backgroundColor: "red", width: 65, borderRadius: 5, marginVertical: 5,
+  }
 });

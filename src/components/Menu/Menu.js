@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Container from '../Containers/Container';
 import Content from '../Containers/Content';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
-import {svg_photo} from '../../assets/svg/svg';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { svg_photo } from '../../assets/svg/svg';
 import styles from './styles';
-import {SvgUri} from 'react-native-svg';
+import { SvgUri } from 'react-native-svg';
 import storage from '../../config/storage';
-import {colors} from '../../config/styles';
-import {connect} from 'react-redux';
+import { colors } from '../../config/styles';
+import { connect } from 'react-redux';
 
 let back = colors.white;
 class Menu extends Component {
@@ -50,15 +50,18 @@ class Menu extends Component {
       }
     });
 
-    const {
+    /* const {
       bookDetail: {
         data,
         page_count,
       },
-    } = this.props;
+    } = this.props; */
 
+    const data = this.props.bookDetail?.[this.props.currentReading]?.data;
+    const page_count = this.props.bookDetail?.[this.props.currentReading]?.page_count;
+    
     return (
-      <Container style={{backgroundColor: back}}>
+      <Container style={{ backgroundColor: back }}>
         <TouchableOpacity
           onPress={() => this.props.navigation.closeDrawer()}
           style={styles.svg_view}>
@@ -68,7 +71,7 @@ class Menu extends Component {
           {data?.indexes?.headings && (
             <FlatList
               data={data?.indexes?.headings}
-              renderItem={({item, index}) => {
+              renderItem={({ item, index }) => {
                 return item?.sub_heading ? (
                   <View style={styles.item}>
                     <Text style={styles.item_text}>{item.title}</Text>
@@ -77,7 +80,7 @@ class Menu extends Component {
                       data={[{}, {}]}
                       renderItem={(item) => (
                         <TouchableOpacity style={styles.item1}
-                          onPress={() => {this.props.navigation.setParams({ page: item?.page }); this.props.navigation.closeDrawer()}}>
+                          onPress={() => { this.props.navigation.setParams({ page: item?.page }); this.props.navigation.closeDrawer() }}>
                           <Text style={styles.item1_text}>{item.title}</Text>
                           <Text style={styles.item2_text}>
                             {this.getIndexing(
@@ -92,21 +95,21 @@ class Menu extends Component {
                     />
                   </View>
                 ) : (
-                  <View style={styles.item}>
-                    <TouchableOpacity style={styles.item1}
-                      onPress={() => {this.props.navigation.setParams({ page: item?.page }); this.props.navigation.closeDrawer()}}>
-                      <Text style={styles.item1_text}>{item.title}</Text>
-                      <Text style={styles.item2_text}>
-                        {this.getIndexing(
-                          item,
-                          index,
-                          data?.indexes?.headings,
-                          page_count,
-                        )}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                );
+                    <View style={styles.item}>
+                      <TouchableOpacity style={styles.item1}
+                        onPress={() => { this.props.navigation.setParams({ page: item?.page }); this.props.navigation.closeDrawer() }}>
+                        <Text style={styles.item1_text}>{item.title}</Text>
+                        <Text style={styles.item2_text}>
+                          {this.getIndexing(
+                            item,
+                            index,
+                            data?.indexes?.headings,
+                            page_count,
+                          )}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
               }}
             />
           )}
@@ -118,7 +121,7 @@ class Menu extends Component {
     if (index + 1 < pageCount - 2 && headings[index + 1]) {
       return `من ${item.page} إلى ${
         (index + 1 < pageCount - 2 && headings[index + 1].page) || ''
-      }`;
+        }`;
     }
     return `إلى ${item.page}`;
   };
@@ -131,7 +134,8 @@ const mapStateToProps = (state) => {
   //   preview: 'Click for details: ' + 'state',
   // });
   return {
-    bookDetail: {...state.book.bookDetail},
+    bookDetail: { ...state.book.bookDetail },
+    currentReading: state.book.currentReading,
   };
 };
 

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
-import  computeProps  from '../../utils/computeProps';
+import computeProps from '../../utils/computeProps';
 
 
 const deviceHeight = Dimensions.get('window').height;
@@ -29,13 +29,14 @@ class Content extends Component {
                 automaticallyAdjustContentInsets={false}
                 resetScrollToCoords={this.props.disableKBDismissScroll ? null : { x: 0, y: 0 }}
                 keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps ? this.props.keyboardShouldPersistTaps : 'handled'}
-                showsVerticalScrollIndicator={true}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 enableAutomaticScroll={true}
                 contentContainerStyle={
-                    this.props.center? {
-                        flexGrow : 1,
+                    this.props.center ? {
+                        flexGrow: 1,
                         justifyContent: 'center',
-                    } : {flexGrow: 1}
+                    } : { flexGrow: 1 }
                 }
                 ref={c => {
                     this._scrollview = c;

@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import common from "../../styles/common.style";
-import {colors} from "../../config/styles";
+import { colors } from "../../config/styles";
 
 export default StyleSheet.create({
     container: {
@@ -46,7 +46,7 @@ export default StyleSheet.create({
     },
     leftHeader: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         width: '60%'
     },
@@ -54,6 +54,7 @@ export default StyleSheet.create({
         backgroundColor: colors.grey1,
         height: 40,
         width: 90,
+        marginRight: 15,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20
@@ -115,8 +116,8 @@ export default StyleSheet.create({
         paddingVertical: 5,
         backgroundColor: 'white',
         paddingHorizontal: '5%',
-        position:'absolute',
-        bottom:0
+        position: 'absolute',
+        bottom: 0
     },
     btn: {
         width: 150,

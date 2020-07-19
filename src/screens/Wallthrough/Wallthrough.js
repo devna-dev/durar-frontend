@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {FlatList, Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, Image, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import styles from "./styles";
-import {colors} from "../../config/styles";
+import { colors } from "../../config/styles";
 import Button from "../../components/Button/Button";
 import Register from "../Register/Register";
 import storage from '../../config/storage';
@@ -16,7 +16,7 @@ export default class Walkthrough extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [ {
+            items: [{
                 image: require("../../assets/images/ic_launcher_round.png"),//'https://elearningindustry.com/wp-content/uploads/2016/05/top-10-books-every-college-student-read-e1464023124869.jpeg'
             }],
             sliderActiveSlide: 0,
@@ -24,12 +24,12 @@ export default class Walkthrough extends Component {
         }
     }
 
-    _renderItem = ({item}) => {
-       // console.log('item', item)
+    _renderItem = ({ item }) => {
+        // console.log('item', item)
         return (
             <View style={styles.item_view}>
                 <Image style={styles.item_img}
-                       source={item.image}/>
+                    source={item.image} />
                 <Text style={styles.text}>أكثر من 5000 كتاب مجانى</Text>
                 <Text style={styles.text1}>مكتبة درر هي أكبر وأشمل مكتبة كتب دينية إسلامية</Text>
             </View>
@@ -44,9 +44,9 @@ export default class Walkthrough extends Component {
 
     render() {
         return (
-            <Container style={{backgroundColor: 'white'}}>
-                <Content>
-                    <View style={{width: '100%',}}>
+            <Container style={{ backgroundColor: 'white' }}>
+                <Content style={{ paddingTop: "10%" }} contentContainerStyle={{ alignItem: "center", justifyContent: "center" }} >
+                    <View style={{ width: '100%', alignItem: "center", justifyContent: "center" }}>
                         <Carousel
                             ref={(c) => {
                                 this._carousel = c;
@@ -57,7 +57,7 @@ export default class Walkthrough extends Component {
                             itemWidth={Dimensions.get('window').width * .9}
                             type="default"
                             removeClippedSubviews={false}
-                            onSnapToItem={(index) => this.setState({sliderActiveSlide: index})}
+                            onSnapToItem={(index) => this.setState({ sliderActiveSlide: index })}
                         />
                         <Pagination
                             dotsLength={this.state.items.length}
@@ -75,15 +75,15 @@ export default class Walkthrough extends Component {
                     </View>
 
                     <Button title={'إنشاء حساب جديد'}
-                            onPress={() => this.props.navigation.replace('Register')}
-                            style={styles.btn}/>
+                        onPress={() => this.props.navigation.navigate('Register')}
+                        style={styles.btn} />
                     <Button title={'تسجيل دخول'}
-                            style={styles.btn1}
-                            onPress={() => this.props.navigation.replace('Login')}
-                            textColor={colors.white}
+                        style={styles.btn1}
+                        onPress={() => this.props.navigation.navigate('Login')}
+                        textColor={colors.white}
                     />
                     <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('TabNavigator')}>
+                        onPress={() => this.props.navigation.replace('App')}>
                         <Text style={styles.text2}>التصفح كضيف</Text>
                     </TouchableOpacity>
                 </Content>
