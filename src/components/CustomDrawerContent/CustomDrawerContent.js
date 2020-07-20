@@ -41,10 +41,15 @@ const data = [
         title: 'الأنشطة',
         route: 'Activities',
     },
+    // {
+    //     image: svg_photo.donation,
+    //     title: 'التبرع بكتاب',
+    //     route: 'DonatedBook',
+    // },
     {
         image: svg_photo.donation,
-        title: 'التبرع بكتاب',
-        route: 'DonatedBook',
+        title: 'التبرع للتطبيق',
+        route: 'DonatedWays',
     },
     {
         image: svg_photo.download_icon,
@@ -164,6 +169,7 @@ class CustomDrawerContent extends Component {
     }
 
     async componentDidMount() {
+        console.log('componentDidMount')
         let user = await storage.getItem('user');
         this.setState({user: user.data.user});
         this.setState({user1: user.data});
@@ -171,6 +177,7 @@ class CustomDrawerContent extends Component {
             this.setState({visible: true});
         }
         if (await storage.getItem('token')) {
+            console.log('storage.getItem',storage.getItem('token'))
             this.setState({access: true})
         } else {
             this.setState({access: false})

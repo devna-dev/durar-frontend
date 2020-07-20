@@ -44,6 +44,9 @@ import {
     post_review_success,
     post_review_fail,
     SUGGEST_FAILURE,
+    creditCardDonate,
+    creditCardDonate_success,
+    creditCardDonate_failure,
 } from './actions';
 import {
     getBooks,
@@ -63,6 +66,7 @@ import {
     search_content_api,
     post_notes_api,
     getBookNotesApi,
+    creditCard_donate_to_api,
 } from '../../../../services/books';
 import storage from '../../../../config/storage';
 
@@ -82,6 +86,7 @@ const handler = function* () {
     yield takeEvery(search_result, get_search_result);
     yield takeEvery(GET_BOOK_CONTENT_PENDING, get_Book_Content);
     yield takeEvery(donate, donate_api);
+    yield takeEvery(creditCardDonate, creditCardDonate_api);
     yield takeEvery(GET_BOOK_NOTES_PENDING, get_notes_api);
 };
 
@@ -243,6 +248,28 @@ function* donate_api(action) {
         if (err.message === 'Timeout' || err.message === 'Network request failed') {
             yield put({
                 type: DONATION_FAILURE,
+                form: { network_error: [err.message] },
+            });
+        }
+        console.log('err', JSON.stringify(err));
+    }
+}
+
+function* creditCardDonate_api(action) {
+    try {
+        const donation = yield creditCard_donate_to_api(action.form);
+        if (donation === true) {
+            yield put({ type: creditCardDonate_success, form: donation });
+        } else {
+            yield put({
+                type: creditCardDonate_failure,
+                form: donation,
+            });
+        }
+    } catch (err) {
+        if (err.message === 'Timeout' || err.message === 'Network request failed') {
+            yield put({
+                type: creditCardDonate_failure,
                 form: { network_error: [err.message] },
             });
         }

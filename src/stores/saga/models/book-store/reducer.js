@@ -50,6 +50,9 @@ import {
   donate_success,
   DONATION_FAILURE,
   CLEAR_SEARCH_CACHE,
+  creditCardDonate,
+  creditCardDonate_success,
+  creditCardDonate_failure,
 } from './actions';
 
 const initialState = {
@@ -81,6 +84,7 @@ const initialState = {
   category_id: '',
   load: false,
   message: '',
+  donation_success: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -122,6 +126,23 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         donation_error: action.form,
+        load: false,
+      };
+    case creditCardDonate:
+      return { ...state, loading: 'creditCardDonate', load: true };
+    case creditCardDonate_success:
+      return {
+        ...state,
+        loading: 'creditCardDonate_success',
+        message: action.form,
+        donation_success: action.form,
+        load: false,
+      };
+    case creditCardDonate_failure:
+      return {
+        ...state,
+        donation_error: action.form,
+        donation_success: false,
         load: false,
       };
     case get_categories:

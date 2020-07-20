@@ -165,6 +165,26 @@ export async function donate_to_api(form) {
         });
 }
 
+export async function creditCard_donate_to_api(form) {
+    return fetch(settings.API_URL + 'payments/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
+        },
+        body: JSON.stringify(form),
+    })
+        .then((response) => response.json())
+        .then((res) => {
+            console.log('creditCard_donate_to_api', res);
+            return res;
+        })
+        .catch((error) => {
+            console.log('creditCard_donate_to_api error', error);
+            return error.response;
+        });
+}
+
 export async function delete_review_api(book, review) {
     return fetch(settings.API_URL + 'books/' + book + '/reviews/' + review + "/", {
         method: 'DELETE',

@@ -30,6 +30,9 @@ const suggest_success = 'suggest_success';
 const SUGGEST_FAILURE = 'SUGGEST_FAILURE';
 const donate = 'donate';
 const donate_success = 'donate_success';
+const creditCardDonate = 'creditCardDonate';
+const creditCardDonate_success = 'creditCardDonate_success';
+const creditCardDonate_failure = 'creditCardDonate_failure';
 const get_activities = 'get_activities';
 const get_activities_success = 'get_activities_access';
 const post_review = 'post_review';
@@ -104,4 +107,7 @@ export {
   donate_success,
   DONATION_FAILURE,
   CLEAR_SEARCH_CACHE,
+  creditCardDonate,
+  creditCardDonate_success,
+  creditCardDonate_failure,
 };
