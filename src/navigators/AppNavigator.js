@@ -1,22 +1,23 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer, NavigationActions} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer, NavigationActions } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import Walkthrough from '../screens/Wallthrough/Wallthrough';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/Login/Login';
 import RecoverPassword from '../screens/RecoverPassword/RecoverPassword';
-import {Text, TouchableOpacity, View} from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import VerificationCode from '../screens/VerificationCode/VerificationCode';
 import Register from '../screens/Register/Register';
 import RecoverVerificationCode from '../screens/RecoverVerificationCode/RecoverVerificationCode';
 import Home from '../screens/Home/Home';
-import {colors} from '../config/styles';
+import { colors } from '../config/styles';
 import common from '../styles/common.style';
-import {SvgUri} from 'react-native-svg';
-import {svg_photo} from '../assets/svg/svg';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { SvgUri } from 'react-native-svg';
+import { svg_photo } from '../assets/svg/svg';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Search from '../screens/Search/Search';
 import Settings from '../screens/Settings/Settings';
 import Search1 from '../screens/Search/Search1';
@@ -51,71 +52,9 @@ import SeminarActivity from "../screens/Activity/SeminarActivity";
 import AudioBook from "../screens/AudioBook/AudioBook";
 import Badges from "../screens/Badges/Badges";
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-const RootStack = createStackNavigator();
-const AuthStack = createStackNavigator();
-
-function Root() {
-  return (
-    <RootStack.Navigator initialRouteName="TabNavigator" headerMode={'none'}>
-      <RootStack.Screen name="Home" component={Home} />
-      <RootStack.Screen name="TabNavigator" component={TabNavigator} />
-      <RootStack.Screen name="Walkthrough" component={Walkthrough} />
-      <RootStack.Screen name="Login" component={Login} />
-      <RootStack.Screen name="Register" component={Register} />
-      <RootStack.Screen name="Book" component={Book} />
-    </RootStack.Navigator>
-  );
-}
-function Auth() {
-  return (
-    <AuthStack.Navigator initialRouteName="Walkthrough" headerMode={'none'}>
-      <AuthStack.Screen name="Walkthrough" component={Walkthrough} />
-      <AuthStack.Screen name="Login" component={Login} />
-      <AuthStack.Screen name="RecoverPassword" component={RecoverPassword} />
-      <AuthStack.Screen name="VerificationCode" component={VerificationCode} />
-      <AuthStack.Screen name="Register" component={Register} />
-      <AuthStack.Screen
-        name="RecoverVerificationCode"
-        component={RecoverVerificationCode}
-      />
-      <AuthStack.Screen name="TabNavigator" component={TabNavigator} />
-    </AuthStack.Navigator>
-  );
-}
-export default function AppNavigator() {
-  const [isLoggedIn, setUserLoggedIn] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      let user = await storage.getItem('token');
-      if (user) {
-        setUserLoggedIn(true);
-      }
-    }
-    fetchData();
-  });
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" headerMode={'none'}>
-        <Stack.Screen name="Splash" component={Splash} />
-        {isLoggedIn ? (
-          <Stack.Screen name="Root" component={Root} />
-        ) : (
-          <Stack.Screen name="Auth" component={Auth} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
 export function ReadingPageNavigator() {
-
-
-    return (
+  return (
     <Drawer.Navigator
       drawerPosition={'left'}
       initialRouteName="ReadingPage"
@@ -125,11 +64,138 @@ export function ReadingPageNavigator() {
   );
 }
 
-export function TabNavigator() {
+const HomeStack = createStackNavigator();
+function HomeStackNavigator() {
+
+  return (
+    <HomeStack.Navigator initialRouteName="Home" headerMode='none' >
+      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name="Settings" component={Settings} />
+      <HomeStack.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
+      <HomeStack.Screen name="DonatedBook" component={DonatedBook} />
+      <HomeStack.Screen name="Notifications" component={Notifications} />
+      <HomeStack.Screen name="AboutApp" component={AboutApp} />
+      <HomeStack.Screen name="SuggestionBooks" component={SuggestionBooks} />
+      <HomeStack.Screen name="DownloadedBooks" component={DownloadedBooks} />
+      <HomeStack.Screen name="Support" component={Support} />
+      <HomeStack.Screen name="NotificationsList" component={NotificationsList} />
+      <HomeStack.Screen name="Profile" component={Profile} />
+      <HomeStack.Screen name="NotesBook" component={NotesBook} />
+      <HomeStack.Screen name="Activities" component={Activities} />
+      <HomeStack.Screen name="Activity" component={Activity} />
+      <HomeStack.Screen name="SeminarActivity" component={SeminarActivity} />
+      <HomeStack.Screen name="Badges" component={Badges} />
+      <HomeStack.Screen name="Discussions" component={Discussions} />
+      <HomeStack.Screen name="Thesis" component={Thesis} />
+      <HomeStack.Screen name="SystemPoints" component={SystemPoints} />
+      <HomeStack.Screen name="Book" component={Book} />
+      <HomeStack.Screen name="ReadingPage" component={ReadingPageNavigator} />
+      <HomeStack.Screen name="HistoryCategories" component={HistoryCategories} />
+      <HomeStack.Screen name="MyBooks" component={MyBooks} />
+      <HomeStack.Screen name="AudioBooks" component={AudioBooks} />
+      <HomeStack.Screen name="TermsAndConditions" component={TermsAndConditions} />
+      <HomeStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <HomeStack.Screen name="AudioBook" component={AudioBook} />
+    </HomeStack.Navigator>
+  );
+}
+
+const RegisterStack = createStackNavigator();
+function RegisterStackNavigator() {
+  return (
+    <RegisterStack.Navigator initialRouteName="Search1" headerMode='none' >
+      <RegisterStack.Screen name="Search1" component={Search1} />
+      <RegisterStack.Screen name="Search" component={Search} />
+    </RegisterStack.Navigator>
+  );
+}
+
+const ActivityStack = createStackNavigator();
+function ActivityStackNavigator() {
+  return (
+    <ActivityStack.Navigator initialRouteName="Library" headerMode='none' >
+      <ActivityStack.Screen name="HistoryCategories" component={HistoryCategories} />
+      <ActivityStack.Screen name="Library" component={Library} />
+      <ActivityStack.Screen name="SubCategory" component={SubCategory} />
+      <ActivityStack.Screen name="AudioBook" component={AudioBook} />
+    </ActivityStack.Navigator>
+  );
+}
+
+const SavingBoooksStack = createStackNavigator();
+function SavingBoooksStackNavigator() {
+  return (
+    <SavingBoooksStack.Navigator initialRouteName="Home" headerMode='none' >
+      <SavingBoooksStack.Screen name="Home" component={Home} />
+      <SavingBoooksStack.Screen name="Settings" component={Settings} />
+      <SavingBoooksStack.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
+      <SavingBoooksStack.Screen name="DonatedBook" component={DonatedBook} />
+      <SavingBoooksStack.Screen name="Notifications" component={Notifications} />
+      <SavingBoooksStack.Screen name="AboutApp" component={AboutApp} />
+      <SavingBoooksStack.Screen name="SuggestionBooks" component={SuggestionBooks} />
+      <SavingBoooksStack.Screen name="DownloadedBooks" component={DownloadedBooks} />
+      <SavingBoooksStack.Screen name="Support" component={Support} />
+      <SavingBoooksStack.Screen name="NotificationsList" component={NotificationsList} />
+      <SavingBoooksStack.Screen name="Profile" component={Profile} />
+      <SavingBoooksStack.Screen name="NotesBook" component={NotesBook} />
+      <SavingBoooksStack.Screen name="Activities" component={Activities} />
+      <SavingBoooksStack.Screen name="Activity" component={Activity} />
+      <SavingBoooksStack.Screen name="SeminarActivity" component={SeminarActivity} />
+      <SavingBoooksStack.Screen name="Discussions" component={Discussions} />
+      <SavingBoooksStack.Screen name="Thesis" component={Thesis} />
+      <SavingBoooksStack.Screen name="SystemPoints" component={SystemPoints} />
+      <SavingBoooksStack.Screen name="Badges" component={Badges} />
+      <SavingBoooksStack.Screen name="Book" component={Book} />
+      <SavingBoooksStack.Screen name="ReadingPage" component={ReadingPageNavigator} />
+      <SavingBoooksStack.Screen name="HistoryCategories" component={HistoryCategories} />
+      <SavingBoooksStack.Screen name="MyBooks" component={MyBooks} />
+      <SavingBoooksStack.Screen name="TermsAndConditions" component={TermsAndConditions} />
+      <SavingBoooksStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <SavingBoooksStack.Screen name="AudioBook" component={AudioBook} />
+    </SavingBoooksStack.Navigator>
+  );
+}
+
+const ProfileStack = createStackNavigator();
+function ProfileStackNavigator() {
+  return (
+    <ProfileStack.Navigator initialRouteName="MyBooks" headerMode='none' >
+      <ProfileStack.Screen name="MyBooks" component={MyBooks} />
+      <ProfileStack.Screen name="Book" component={Book} />
+      <ProfileStack.Screen name="ReadingPage" component={ReadingPageNavigator} />
+      <ProfileStack.Screen name="NotificationsList" component={NotificationsList} />
+      <ProfileStack.Screen name="Home" component={Home} />
+      <ProfileStack.Screen name="Settings" component={Settings} />
+      <ProfileStack.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
+      <ProfileStack.Screen name="DonatedBook" component={DonatedBook} />
+      <ProfileStack.Screen name="Notifications" component={Notifications} />
+      <ProfileStack.Screen name="AboutApp" component={AboutApp} />
+      <ProfileStack.Screen name="SuggestionBooks" component={SuggestionBooks} />
+      <ProfileStack.Screen name="DownloadedBooks" component={DownloadedBooks} />
+      <ProfileStack.Screen name="Support" component={Support} />
+      <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen name="NotesBook" component={NotesBook} />
+      <ProfileStack.Screen name="Activities" component={Activities} />
+      <ProfileStack.Screen name="SeminarActivity" component={SeminarActivity} />
+      <ProfileStack.Screen name="Activity" component={Activity} />
+      <ProfileStack.Screen name="Discussions" component={Discussions} />
+      <ProfileStack.Screen name="Thesis" component={Thesis} />
+      <ProfileStack.Screen name="SystemPoints" component={SystemPoints} />
+      <ProfileStack.Screen name="Badges" component={Badges} />
+      <ProfileStack.Screen name="HistoryCategories" component={HistoryCategories} />
+      <ProfileStack.Screen name="TermsAndConditions" component={TermsAndConditions} />
+      <ProfileStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <ProfileStack.Screen name="AudioBook" component={AudioBook} />
+    </ProfileStack.Navigator>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+function TabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({route, descriptors, jumpToIndex, navigation}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+      screenOptions={({ route, descriptors, jumpToIndex, navigation }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === 'Home') {
             iconName = focused
@@ -163,7 +229,7 @@ export function TabNavigator() {
                   width={20}
                   height={20}
                   uri={iconName}
-                  style={{marginTop: 10}}
+                  style={{ marginTop: 10 }}
                 />
                 {focused && (
                   <View
@@ -191,209 +257,53 @@ export function TabNavigator() {
           backgroundColor: 'white',
         },
       }}>
-      <Tab.Screen name="Home" component={DrawerNavigator} />
-      <Tab.Screen name="Register" component={DrawerNavigator1} />
-      <Tab.Screen name="Activity" component={DrawerNavigator2} />
-      {/*<Tab.Screen name="SavingBooks" component={DrawerNavigator3} />*/}
-      <Tab.Screen name="Profile" component={DrawerNavigator4} />
+      <Tab.Screen name="Home" component={HomeStackNavigator} />
+      <Tab.Screen name="Register" component={RegisterStackNavigator} />
+      <Tab.Screen name="Activity" component={ActivityStackNavigator} />
+      {/* <Tab.Screen name="SavingBooks" component={SavingBoooksStackNavigator} /> */}
+      <Tab.Screen name="Profile" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );
 }
 
-export function DrawerNavigator() {
-    const [isLoggedIn, setUserLoggedIn] = useState(false);
-    let x = false;
-    useEffect(() => {
-        async function fetchData() {
-            let user = await storage.getItem('token');
-            //console.log(user, 'userdfsdf');
-            if (user) {
-                setUserLoggedIn(true)
-            }
-        }
-        fetchData();
-    });
+const MainDrawer = createDrawerNavigator();
+function MainDrawerNavigator() {
+  const user = useSelector(state => state.user);
+  const isLoggedIn = !!user?.token;
   return (
-    <Drawer.Navigator
+    <MainDrawer.Navigator
       drawerPosition={'right'}
       initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn}/>}>
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Settings" component={Settings} />
-      <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
-      <Drawer.Screen name="DonatedBook" component={DonatedBook} />
-      <Drawer.Screen name="Notifications" component={Notifications} />
-      <Drawer.Screen name="AboutApp" component={AboutApp} />
-      <Drawer.Screen name="SuggestionBooks" component={SuggestionBooks} />
-      <Drawer.Screen name="DownloadedBooks" component={DownloadedBooks} />
-      <Drawer.Screen name="Support" component={Support} />
-      <Drawer.Screen name="NotificationsList" component={NotificationsList} />
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="NotesBook" component={NotesBook} />
-      <Drawer.Screen name="Activities" component={Activities} />
-      <Drawer.Screen name="Activity" component={Activity} />
-      <Drawer.Screen name="SeminarActivity" component={SeminarActivity} />
-      <Drawer.Screen name="Badges" component={Badges} />
-      <Drawer.Screen name="Discussions" component={Discussions} />
-      <Drawer.Screen name="Thesis" component={Thesis} />
-      <Drawer.Screen name="SystemPoints" component={SystemPoints} />
-      <Drawer.Screen name="Book" component={Book} />
-        <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
-        <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
-      <Drawer.Screen name="MyBooks" component={MyBooks} />
-      <Drawer.Screen name="AudioBooks" component={AudioBooks} />
-      <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
-        <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
-        <Drawer.Screen name="AudioBook" component={AudioBook} />
-    </Drawer.Navigator>
-  );
-}
-
-export function DrawerNavigator1() {
-    const [isLoggedIn, setUserLoggedIn] = useState(false);
-    let x = false;
-    useEffect(() => {
-        async function fetchData() {
-            let user = await storage.getItem('token');
-            //console.log(user, 'userdfsdf');
-            if (user) {
-                setUserLoggedIn(true)
-            }
-        }
-        fetchData();
-    });
-    return (
-    <Drawer.Navigator
-      drawerPosition={'right'}
-      initialRouteName="Search1"
       drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn} />}>
-      <Drawer.Screen name="Search1" component={Search1} />
-      <Drawer.Screen name="Search" component={Search} />
-    </Drawer.Navigator>
+      <MainDrawer.Screen name="Home" component={TabNavigator} />
+    </MainDrawer.Navigator>
   );
 }
 
-export function DrawerNavigator2() {
-    const [isLoggedIn, setUserLoggedIn] = useState(false);
-    let x = false;
-    useEffect(() => {
-        async function fetchData() {
-            let user = await storage.getItem('token');
-            //console.log(user, 'userdfsdf');
-            if (user) {
-                setUserLoggedIn(true)
-            }
-        }
-        fetchData();
-    });
+
+const Stack = createStackNavigator();
+const MainNavigator = ({ user }) => {
+  const isLoggedIn = !!user?.token;
   return (
-    <Drawer.Navigator
-      drawerPosition={'right'}
-      initialRouteName="Library"
-      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn} />}>
-      <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
-      <Drawer.Screen name="Library" component={Library} />
-      <Drawer.Screen name="SubCategory" component={SubCategory} />
-        <Drawer.Screen name="AudioBook" component={AudioBook} />
+    <Stack.Navigator headerMode='none' initialRouteName={isLoggedIn ? "App" : "Walkthrough"}>
+      {!isLoggedIn && <Stack.Screen name="Walkthrough" component={Walkthrough} />}
+      {!isLoggedIn && <Stack.Screen name="Login" component={Login} />}
+      {!isLoggedIn && <Stack.Screen name="RecoverPassword" component={RecoverPassword} />}
+      {!isLoggedIn && <Stack.Screen name="VerificationCode" component={VerificationCode} />}
+      {!isLoggedIn && <Stack.Screen name="Register" component={Register} />}
+      {!isLoggedIn && <Stack.Screen name="RecoverVerificationCode" component={RecoverVerificationCode} />}
 
-    </Drawer.Navigator>
-  );
-}
+      <Stack.Screen name='App' component={MainDrawerNavigator} />
+    </Stack.Navigator>
+  )
+};
 
-export function DrawerNavigator3() {
-    const [isLoggedIn, setUserLoggedIn] = useState(false);
-    let x = false;
-    useEffect(() => {
-        async function fetchData() {
-            let user = await storage.getItem('token');
-            //console.log(user, 'userdfsdf');
-            if (user) {
-                setUserLoggedIn(true)
-            }
-        }
-        fetchData();
-    });
+export default AppNavigator = () => {
+  const user = useSelector(state => state.user);
+
   return (
-    <Drawer.Navigator
-      drawerPosition={'right'}
-      initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn}/>}>
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Settings" component={Settings} />
-      <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
-      <Drawer.Screen name="DonatedBook" component={DonatedBook} />
-      <Drawer.Screen name="Notifications" component={Notifications} />
-      <Drawer.Screen name="AboutApp" component={AboutApp} />
-      <Drawer.Screen name="SuggestionBooks" component={SuggestionBooks} />
-      <Drawer.Screen name="DownloadedBooks" component={DownloadedBooks} />
-      <Drawer.Screen name="Support" component={Support} />
-      <Drawer.Screen name="NotificationsList" component={NotificationsList} />
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="NotesBook" component={NotesBook} />
-      <Drawer.Screen name="Activities" component={Activities} />
-      <Drawer.Screen name="Activity" component={Activity} />
-      <Drawer.Screen name="SeminarActivity" component={SeminarActivity} />
-      <Drawer.Screen name="Discussions" component={Discussions} />
-      <Drawer.Screen name="Thesis" component={Thesis} />
-      <Drawer.Screen name="SystemPoints" component={SystemPoints} />
-      <Drawer.Screen name="Badges" component={Badges} />
-      <Drawer.Screen name="Book" component={Book} />
-        <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
-        <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
-      <Drawer.Screen name="MyBooks" component={MyBooks} />
-        <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
-        <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
-        <Drawer.Screen name="AudioBook" component={AudioBook} />
-
-    </Drawer.Navigator>
+    <NavigationContainer>
+      <MainNavigator user={user} />
+    </NavigationContainer>
   );
-}
-
-export function DrawerNavigator4() {
-    const [isLoggedIn, setUserLoggedIn] = useState(false);
-    let x = false;
-    useEffect(() => {
-        async function fetchData() {
-            let user = await storage.getItem('token');
-            //console.log(user, 'userdfsdf');
-            if (user) {
-                setUserLoggedIn(true)
-            }
-        }
-        fetchData();
-    });
-  return (
-    <Drawer.Navigator
-      drawerPosition={'right'}
-      initialRouteName="MyBooks"
-      drawerContent={(props) => <CustomDrawerContent {...props} token_fixed={isLoggedIn}/>}>
-      <Drawer.Screen name="MyBooks" component={MyBooks} />
-      <Drawer.Screen name="Book" component={Book} />
-        <Drawer.Screen name="ReadingPage" component={ReadingPageNavigator} />
-        <Drawer.Screen name="NotificationsList" component={NotificationsList} />
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Settings" component={Settings} />
-      <Drawer.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
-      <Drawer.Screen name="DonatedBook" component={DonatedBook} />
-      <Drawer.Screen name="Notifications" component={Notifications} />
-      <Drawer.Screen name="AboutApp" component={AboutApp} />
-      <Drawer.Screen name="SuggestionBooks" component={SuggestionBooks} />
-      <Drawer.Screen name="DownloadedBooks" component={DownloadedBooks} />
-      <Drawer.Screen name="Support" component={Support} />
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="NotesBook" component={NotesBook} />
-      <Drawer.Screen name="Activities" component={Activities} />
-      <Drawer.Screen name="SeminarActivity" component={SeminarActivity} />
-      <Drawer.Screen name="Activity" component={Activity} />
-      <Drawer.Screen name="Discussions" component={Discussions} />
-      <Drawer.Screen name="Thesis" component={Thesis} />
-      <Drawer.Screen name="SystemPoints" component={SystemPoints} />
-      <Drawer.Screen name="Badges" component={Badges} />
-      <Drawer.Screen name="HistoryCategories" component={HistoryCategories} />
-        <Drawer.Screen name="TermsAndConditions" component={TermsAndConditions} />
-        <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
-        <Drawer.Screen name="AudioBook" component={AudioBook} />
-
-    </Drawer.Navigator>
-  );
-}
+};

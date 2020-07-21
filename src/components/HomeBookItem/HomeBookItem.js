@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './styles';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {SvgUri} from 'react-native-svg';
-import {svg_photo} from '../../assets/svg/svg';
-import {colors} from '../../config/styles';
-import {Rating, AirbnbRating} from 'react-native-ratings';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { SvgUri } from 'react-native-svg';
+import { svg_photo } from '../../assets/svg/svg';
+import { colors } from '../../config/styles';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 import ReadingPage from '../../screens/ReadingPage/ReadingPage';
 
 export default class HomeBookItem extends Component {
@@ -21,7 +21,7 @@ export default class HomeBookItem extends Component {
         onPress={() => {
           try {
 
-            this.props.navigation.navigate('Book', {
+            this.props.navigation.push('Book', {
               lookupId: this.props.item?.id,
             });
           } catch (e) {
@@ -49,7 +49,7 @@ export default class HomeBookItem extends Component {
           source={{
             uri: this.props.image
               ? this.props.image
-              :this.props.item?.cover_image
+              : this.props.item?.cover_image
           }}
         />
         <View
@@ -65,28 +65,28 @@ export default class HomeBookItem extends Component {
               تأليف: {this.props.item?.author.name}
             </Text>
           ) : (
-            <Text style={styles.text2}>{this.props.item?.author?.name}</Text>
-          )}
+              <Text style={styles.text2}>{this.props.item?.author?.name}</Text>
+            )}
           {this.props.now && (
             <View style={styles.player}>
               <View style={[styles.view]}>
                 <View
                   style={[
                     styles.progress,
-                    {backgroundColor: colors.secondary, width: '80%'},
+                    { backgroundColor: colors.secondary, width: '80%' },
                   ]}
                 />
               </View>
-              <Text style={styles.text3}> {(this.props.item?.item?.read_progress||0) * 100}% </Text>
+              <Text style={styles.text3}> {(this.props.item?.item?.read_progress || 0) * 100}% </Text>
               <TouchableOpacity
                 onPress={() => {
                   this.props.read(this.props.item?.id);
                   this.props.navigation.navigate('ReadingPage', {
-                      screen: 'ReadingPage',
+                    screen: 'ReadingPage',
                     params: {
-                        lookupId: this.props.item?.id,
+                      lookupId: this.props.item?.id,
                     }
-                });
+                  });
                 }}>
                 <SvgUri uri={svg_photo.play || ''} />
               </TouchableOpacity>
@@ -96,13 +96,13 @@ export default class HomeBookItem extends Component {
             <View
               style={[
                 styles.player,
-                {width: 220, justifyContent: 'space-between'},
+                { width: 220, justifyContent: 'space-between' },
               ]}>
               <AirbnbRating
                 isDisabled
                 count={5}
                 showRating={false}
-                defaultRating={this.props.item.rating!=null?this.props.item.rating:0}
+                defaultRating={this.props.item.rating != null ? this.props.item.rating : 0}
                 size={20}
               />
               <Text style={styles.text2}>{this.props.item.page_count} صفحة</Text>

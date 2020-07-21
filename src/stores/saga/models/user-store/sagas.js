@@ -1,4 +1,4 @@
-import {takeLatest, put, takeEvery} from 'redux-saga/effects';
+import { takeLatest, put, takeEvery } from 'redux-saga/effects';
 
 import {
     login,
@@ -56,20 +56,20 @@ function* loginApi(action) {
             yield storage.setItem('token', 'Bearer ' + result.token);
             let user = yield user_info(result.token);
             let points = yield get_user_points();
-            if (points){
-              storage.setItem('points', points.total);
+            if (points) {
+                storage.setItem('points', points.total);
             }
             yield storage.setItem('user', user);
-            yield put({type: success_login, form: result});
+            yield put({ type: success_login, form: result });
         } else {
-            yield put({type: error, form: result});
+            yield put({ type: error, form: result });
         }
     } catch (err) {
         // alert(err)
         if (err.message === 'Timeout' || err.message === 'Network request failed') {
             yield put({
                 type: error,
-                form: {network_error: ['Please make sure you are connected']},
+                form: { network_error: ['Please make sure you are connected'] },
             });
         }
         console.log('err', err);
@@ -77,46 +77,46 @@ function* loginApi(action) {
 }
 
 function* verifyEmailApi(action) {
-  try {
-    let result = yield verify_email(action.form);
-    if (result === 1) {
-      yield put({type: verify_email_success, form: {detail: result}});
-    } else {
-      yield put({type: error, form: {detail: result.detail || result}});
+    try {
+        let result = yield verify_email(action.form);
+        if (result === 1) {
+            yield put({ type: verify_email_success, form: { detail: result } });
+        } else {
+            yield put({ type: error, form: { detail: result.detail || result } });
+        }
+    } catch (err) {
+        console.log('err verifyEmailApi', err);
     }
-  } catch (err) {
-    console.log('err verifyEmailApi', err);
-  }
 }
 
 function* reSendCodeApi() {
-  try {
-    let result = yield reSend_code();
-    console.log('result', result);
-  } catch (err) {
-    console.log('err reSendCodeApi', err);
-  }
+    try {
+        let result = yield reSend_code();
+        console.log('result', result);
+    } catch (err) {
+        console.log('err reSendCodeApi', err);
+    }
 }
 
 function* get_pointsApi() {
-  try {
-    let result = yield get_user_points();
-    console.log('result points', result);
-    if (result) {
-      yield put({type: success_get_points, form: result});
+    try {
+        let result = yield get_user_points();
+        console.log('result points', result);
+        if (result) {
+            yield put({ type: success_get_points, form: result });
+        }
+    } catch (err) {
+        console.log('err get_pointsApi', err);
     }
-  } catch (err) {
-    console.log('err get_pointsApi', err);
-  }
 }
 
 function* forgetApi(action) {
     try {
         let result = yield user_forget(action.form);
         if (result.detail) {
-            yield put({type: success_reset, form: result});
+            yield put({ type: success_reset, form: result });
         } else {
-            yield put({type: error, form: result});
+            yield put({ type: error, form: result });
         }
     } catch (err) {
         console.log('err', err);
@@ -128,16 +128,16 @@ function* registerApi(action) {
         let result = yield user_register(action.form);
         if (result.token) {
             yield storage.setItem('token', 'Bearer ' + result.token);
-            yield put({type: REGISTER_USER_REQUEST_SUCCESS, form: result});
+            yield put({ type: REGISTER_USER_REQUEST_SUCCESS, form: result });
         } else {
-            yield put({type: REGISTER_USER_REQUEST_FAILURE, form: result});
+            yield put({ type: REGISTER_USER_REQUEST_FAILURE, form: result });
         }
     } catch (err) {
         // alert(err)
         if (err.message === 'Timeout' || err.message === 'Network request failed') {
             yield put({
                 type: REGISTER_USER_REQUEST_FAILURE,
-                form: {network_error: [err.message]},
+                form: { network_error: [err.message] },
             });
         }
     }
@@ -147,13 +147,13 @@ function* logoutApi(action) {
     try {
         let result = yield user_logout(action.form);
         if (result.token) {
-            yield put({type: clear});
+            yield put({ type: clear });
         }
     } catch (err) {
         if (err.message === 'Timeout' || err.message === 'Network request failed') {
             yield put({
                 type: REGISTER_USER_REQUEST_FAILURE,
-                form: {network_error: [err.message]},
+                form: { network_error: [err.message] },
             });
         }
         console.log('err', JSON.stringify(err));
@@ -169,7 +169,7 @@ function* user_books() {
         //   preview: 'Click for books: ' + 'books',
         // });
 
-        yield put({type: GET_user_books_SUCCESS, form: books});
+        yield put({ type: GET_user_books_SUCCESS, form: books });
     } catch (err) {
         console.log(err, 'err user books');
     }
@@ -180,16 +180,16 @@ function* support_saga_api(action) {
         const support = yield support_api(action.form);
         console.log('fffffffffffffffffffffffffffffffffffffffff')
         console.log(support)
-        yield put({type: support_success, form: support});
+        yield put({ type: support_success, form: support });
     } catch (err) {
         if (err.message === 'Timeout' || err.message === 'Network request failed') {
             yield put({
                 type: REGISTER_USER_REQUEST_FAILURE,
-                form: {network_error: [err.message]},
+                form: { network_error: [err.message] },
             });
         }
         console.log('err', JSON.stringify(err));
     }
 }
 
-export {handler};
+export { handler };

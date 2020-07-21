@@ -40,7 +40,7 @@ class Search1 extends Component {
   }
 
   start() {
-    this.props.clear();
+    //this.props.clear();
     this.props.get_categories();
     this.props.get_authors();
   }

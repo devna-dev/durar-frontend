@@ -50,7 +50,7 @@ export default StyleSheet.create({
         width: '90%',
         alignSelf: 'center',
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
     },
     book: {
         width: 160,

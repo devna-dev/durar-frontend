@@ -49,7 +49,7 @@ class MyBooks extends Component {
     }
 
     start() {
-        this.props.clear()
+        //this.props.clear()
         this.props.GET_user_books();
     }
 

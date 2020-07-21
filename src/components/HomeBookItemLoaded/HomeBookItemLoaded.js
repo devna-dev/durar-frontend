@@ -24,7 +24,7 @@ export default class HomeBookItemLoaded extends Component {
                     if (this.props.thesis){
 
                     }else{
-                        this.props.navigation.navigate('Book', {lookupId: this.props.item.item.id})
+                        this.props.navigation.push('Book', {lookupId: this.props.item.item.id})
                     }
                 }}
                 style={[styles.container, {

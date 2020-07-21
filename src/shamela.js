@@ -1,20 +1,24 @@
-import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import {I18nManager} from 'react-native';
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {Provider as StoreProvider} from 'react-redux';
+import React, { Component } from 'react';
+import { View, Text, Image } from 'react-native';
+import { I18nManager } from 'react-native';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Provider as StoreProvider } from 'react-redux';
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/es/integration/react";
 import storage from './config/storage';
 import AppNavigator from '../src/navigators/AppNavigator';
 import store from '../src/stores';
-import {handler} from '../src/stores/saga/models/user-store/sagas'
+import { colors } from "./config/styles";
+import Container from './components/Containers/Container';
+import { handler } from '../src/stores/saga/models/user-store/sagas'
 
 
 class shamela extends Component {
     constructor(props) {
         super(props);
         this.state = {
-             //rootPage: <Splash/>,
+            //rootPage: <Splash/>,
             language: 'ar',
             user: null,
             connection_Status: '',
@@ -31,11 +35,20 @@ class shamela extends Component {
         });
     }
 
+    renderPersistLoading = () => (
+        <Container style={{ backgroundColor: colors.orange1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image style={{ width: 200, height: 200 }} source={require('./assets/images/test_logo.jpeg')} />
+        </Container>
+    )
+
     render() {
+        const persistor = persistStore(store);
         const { state, actions } = this.props;
         return (
             <StoreProvider store={store}>
-               <AppNavigator/>
+                <PersistGate loading={this.renderPersistLoading()} persistor={persistor}>
+                    <AppNavigator />
+                </PersistGate>
             </StoreProvider>
         );
     }

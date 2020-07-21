@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Container from '../../components/Containers/Container';
 import Content from '../../components/Containers/Content';
 import {
@@ -13,13 +13,14 @@ import {
   RefreshControl,
 } from 'react-native';
 import styles from './styles';
-import {SvgUri} from 'react-native-svg';
-import {svg_photo} from '../../assets/svg/svg';
-import {colors} from '../../config/styles';
+import { SvgUri } from 'react-native-svg';
+import { svg_photo } from '../../assets/svg/svg';
+import { colors } from '../../config/styles';
+import { SwipeRow } from 'react-native-swipe-list-view';
 import Swipeout from 'react-native-swipeout';
 import storage from '../../config/storage';
 import HTML from 'react-native-render-html';
-import {SelectableText} from '@astrocoders/react-native-selectable-text';
+import { SelectableText } from '@astrocoders/react-native-selectable-text';
 import Clipboard from '@react-native-community/clipboard';
 import Tts from 'react-native-tts';
 import PageView from './PageView';
@@ -36,17 +37,19 @@ import {
   post_note,
   SEARCH_IN_BOOK_PENDING,
   CLEAR_SEARCH_IN_BOOK, GET_BOOK_NOTES_PENDING,
+  CLEAR_SEARCH_CACHE,
+  SET_CURRENT_READING_BOOK,
 } from '../../stores/saga/models/book-store/actions';
-import {connect} from 'react-redux';
+import {
+  PENDING_DELETE_NOTES,
+} from '../../stores/saga/models/notes-store/actions';
+import { connect } from 'react-redux';
 import AddNotes from '../AddNotes/AddNotes';
 
-const htmlContent = `
-    <h1>This HTML snippet is now rendered with native components !</h1>
-    <h2>Enjoy a webview-free and blazing fast application</h2>
-    <img src="https://i.imgur.com/dHLmxfO.jpg?2" />
-    <em style="textAlign: center;">Look at how happy this native cat is</em>
-`;
+
 Tts.setDefaultLanguage('ar-SA');
+
+
 class ReadingPage extends Component {
   constructor(props) {
     super(props);
@@ -67,37 +70,38 @@ class ReadingPage extends Component {
       color: colors.black,
       play: false,
     };
-    const {lookupId, page} = this.props.route.params;
 
-    this.props.setPage(page||1);
+    this.searchWaiting = null;
+
+    const { lookupId, page } = this.props.route.params;
+    this.props.setPage(page || 1, lookupId);
+    this.props.setCurrentReading(lookupId);
   }
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       // do something
+      const { lookupId } = this.props.route.params;
+      this.props.setCurrentReading(lookupId);
       this.start();
     });
   }
   componentWillUnmount() {
+    const { lookupId } = this.props.route.params;
     this._unsubscribe();
+    this.props.clearBookCache(lookupId);
   }
-  componentDidUpdate(prevProps){
-    if(this.props?.route?.params !== prevProps?.route?.params){
-      this.setState({index: this.props?.route?.params?.page || 1},()=>{
-        this.props.setPage(this.props?.route?.params?.page || 1);
-        setTimeout(()=>this.start(), 200) ;
+  componentDidUpdate(prevProps) {
+    if (this.props?.route?.params !== prevProps?.route?.params) {
+      this.setState({ index: this.props?.route?.params?.page || 1 }, () => {
+        const { lookupId } = this.props.route.params;
+        this.props.setPage(this.props?.route?.params?.page || 1, lookupId);
+        //setTimeout(() => this.start(), 200);
       });
     }
   }
 
   start = async () => {
-    // this.setState({
-    //   moon: 0,
-    //   moon_icon: svg_photo.read_moon,
-    //   back: colors.white,
-    // });
-    //await storage.setItem('moon', 0);
-    const {lookupId} = this.props.route.params;
-
+    const { lookupId } = this.props.route.params;
     this.props.getBookDetail({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
@@ -105,39 +109,72 @@ class ReadingPage extends Component {
     });
     // alert(lookupId)
   };
+
+
   renderContent = () => {
-    const {book} = this.props;
+    const { book } = this.props;
+    const { lookupId } = this.props.route.params;
+    const { moon } = this.state;
     if (
       this.state.search &&
-      book.searchedContent.length !== 0 &&
+      book.searchedContent.length > 0 &&
       this.state.searchText != ''
     ) {
-      console.log(
+      /* console.log(
         book.searchedContent[this.state.index].text,
         'book.searchedContent[this.state.index].text',
-      );
-      return book.searchedContent[this.state.index].text;
+      ); */
+
+      switch (moon) {
+        case 1:
+          return book.searchedContent[this.state.index].text; + " ";
+        case 2:
+          return book.searchedContent[this.state.index].text; + "  ";
+        case 3:
+          return book.searchedContent[this.state.index].text; + "   ";
+
+        default:
+          return book.searchedContent[this.state.index].text;;
+      }
     }
-    console.log(book?.bookPageContent, 'book?.bookPageContent');
-    return book?.bookPageContent;
+    //console.log(book?.bookPageContent?.[lookupId], 'book?.bookPageContent');
+    //console.log(book?.bookDetail?.[lookupId]?.content?.[this.props.book.page], 'book?.bookPageContent');
+    //return book?.bookPageContent?.[lookupId];
+
+    // Force html to rerender
+    switch (moon) {
+      case 1:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + " ";
+      case 2:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + "  ";
+      case 3:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + "   ";
+
+      default:
+        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text;
+    }
   };
+
+
   renderText = (htmlAttribs, children, moon) => {
+    const { lookupId } = this.props.route.params;
+
     return (
       <SelectableText
         menuItems={['Copy', 'Add Note', 'Voice']}
         onHighlightPress={() => alert('g')}
         style={{
-          textAlign: 'right',
+          textAlign: 'left',
           width: '90%',
           alignSelf: 'center',
           color: this.state.color,//moon == 2 ? colors.white : colors.black,
           fontSize: 50,
         }}
         TextComponent={(value) => (
-          <Text style={{fontSize: 100, color: 'red'}}>{value}</Text>
+          <Text style={{ fontSize: 100, color: 'red' }}>{value}</Text>
         )}
-        textValueProp={{style: {fontSize: 100, color: 'red'}}}
-        onSelection={({eventType, content, selectionStart, selectionEnd}) => {
+        textValueProp={{ style: { fontSize: 100, color: 'red' } }}
+        onSelection={({ eventType, content, selectionStart, selectionEnd }) => {
           if (eventType === 'Copy') {
             Clipboard.setString(content);
           } else if (eventType === 'Add Note') {
@@ -159,9 +196,11 @@ class ReadingPage extends Component {
   };
 
   render() {
-    const {search, searchText} = this.state;
+    const { search, searchText } = this.state;
+    const { lookupId } = this.props.route.params;
+
     return (
-      <Container style={{backgroundColor: this.state.back}}>
+      <Container style={{ backgroundColor: this.state.back }}>
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}
@@ -187,13 +226,13 @@ class ReadingPage extends Component {
           </TouchableOpacity>
           <View style={styles.headerItem}>
             <TouchableOpacity onPress={this.handlePressTashkeel}>
-              <SvgUri uri={svg_photo.shape} style={{marginTop: '80%'}} />
+              <SvgUri uri={svg_photo.shape} style={{ marginTop: '80%' }} />
             </TouchableOpacity>
           </View>
           <TouchableOpacity
             onPress={() => {
-              this.setState({menu: !this.state.menu});
-              if (this.props.book?.book_notes.length === 0) this.getNotes();
+              this.setState({ menu: !this.state.menu });
+              if (this.props.book?.book_notes?.[lookupId]?.length == 0) this.getNotes();
             }}
             style={[
               styles.headerItem,
@@ -218,39 +257,42 @@ class ReadingPage extends Component {
             <SvgUri uri={svg_photo.menu} />
           </TouchableOpacity>
         </View>
+
+
         <Content
           refreshControl={
             <RefreshControl
-              refreshing={this.props.book.load}
+              refreshing={this.props.book.bookDetailLoading}
               colors={[colors.primary]}
               size={'large'}
               onRefresh={async () => {
-                this.start();
+                if (this.state.search) {
+                  this.state.searchText && this.searchContent(this.state.searchText);
+                } else
+                  this.start();
               }}
             />
           }>
           {this.state.menu ? (
             <View>
-              {this.props.book?.book_notes.length !== 0 ? (
+              {this.props.book?.book_notes?.[lookupId]?.length > 0 ? (
                 <FlatList
-                  data={this.props.book?.book_notes}
+                  data={this.props.book?.book_notes?.[lookupId]}
                   style={{}}
-                  renderItem={({item}) => (
-                    <Swipeout
-                      style={styles.swipe}
-                      right={[
-                        {
-                          component: (
-                            <TouchableOpacity
-                              onPress={() => {}}
-                              style={styles.edit1}>
-                              <View style={styles.edit}>
-                                <SvgUri uri={svg_photo.trash} />
-                              </View>
-                            </TouchableOpacity>
-                          ),
-                        },
-                      ]}>
+                  contentContainerStyle={{ paddingHorizontal: 20 }}
+                  renderItem={({ item }) => (
+                    <SwipeRow
+                      disableRightSwipe={true}
+                      style={{ alignItems: "stretch" }}
+                      rightOpenValue={-75}
+                      closeOnRowPress={true}>
+
+                      <TouchableOpacity
+                        onPress={() => { this.props.deleteNote(item, () => { this.start(); }) }}
+                        style={styles.swipeDelete}>
+                        <SvgUri uri={svg_photo.trash} />
+                      </TouchableOpacity>
+
                       <View style={styles.diff_view}>
                         <Text
                           style={[
@@ -263,7 +305,7 @@ class ReadingPage extends Component {
                               textAlign: 'left',
                             },
                           ]}>
-                          وجه الإختلاف بين
+                          {item?.title}
                         </Text>
                         <Text
                           numberOfLines={3}
@@ -279,73 +321,73 @@ class ReadingPage extends Component {
                                   : colors.grey3,
                             },
                           ]}>
-                          {item?.comment}
+                          {item?.note}
                         </Text>
                         {/*<Text style={[styles.address_text,{color:colors.primary}]}>كتاب: تاريح الخلفاء</Text>*/}
                         <TouchableOpacity
-                          onPress={() => {}}
+                          onPress={() => { this.props.setPage(item?.page, lookupId); this.setState({ menu: !this.state.menu }); }}
                           style={styles.edit1}>
-                          <Text style={{underlineColorAndroid: '#000'}}>
+                          <Text style={{ underlineColorAndroid: '#000' }}>
                             عرض الملاحظة
                           </Text>
                         </TouchableOpacity>
                       </View>
-                    </Swipeout>
+                    </SwipeRow>
                   )}
                 />
               ) : (
-                <Text
-                  style={[
-                    styles.address_text,
-                    {
-                      color:
-                        this.state.moon == 2 ? colors.white : colors.primary,
-                      textAlign: 'center',
-                    },
-                  ]}>
-                  لا يوجد ملاحظات على هذا الكتاب
-                </Text>
-              )}
+                  <Text
+                    style={[
+                      styles.address_text,
+                      {
+                        color:
+                          this.state.moon == 2 ? colors.white : colors.primary,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    لا يوجد ملاحظات على هذا الكتاب
+                  </Text>
+                )}
             </View>
           ) : (
-            <ScrollView style={{flex: 1}}>
-              {(!this.props.book.load ||
-                this.renderContent()?.length !== 0 ) && (
-                  <PageView
-                    color={this.state.color}
-                    back={this.state.back}
-                    font={this.state.font}
-                    moon={this.state.moon}
-                    index={this.state.index}
-                    renderContent={this.renderContent}
-                    renderText={this.renderText}
-                    onOpenAddNoteModal={this.onOpenAddNoteModal}
-                    onSelectText={(state)=>this.setState(state)}
-                   />
-                )}
-              {/*{!this.props.book.load &&*/}
-              {/*  this.renderContent(this.state.index)?.length === 0 && (*/}
-              {/*    <Text*/}
-              {/*      style={[*/}
-              {/*        styles.item1_text,*/}
-              {/*        {*/}
-              {/*          color:*/}
-              {/*            this.state.moon == 2 ? colors.white : colors.primary,*/}
-              {/*          textAlign: 'center',*/}
-              {/*        },*/}
-              {/*      ]}>*/}
-              {/*      هناك مشكلة في عرض المحتوى رجاءً اسحب مرة اخرى لتحديث المحتوى*/}
-              {/*    </Text>*/}
-              {/*  )}*/}
-            </ScrollView>
-          )}
+              <ScrollView style={{ flex: 1 }}>
+                {(!this.props.book.load ||
+                  this.renderContent()?.length !== 0) && (
+                    <PageView
+                      color={this.state.color}
+                      back={this.state.back}
+                      font={this.state.font}
+                      moon={this.state.moon}
+                      index={this.state.index}
+                      renderContent={this.renderContent}
+                      renderText={this.renderText}
+                      onOpenAddNoteModal={this.onOpenAddNoteModal}
+                      onSelectText={(state) => this.setState(state)}
+                    />
+                  )}
+                {/*{!this.props.book.load &&*/}
+                {/*  this.renderContent(this.state.index)?.length === 0 && (*/}
+                {/*    <Text*/}
+                {/*      style={[*/}
+                {/*        styles.item1_text,*/}
+                {/*        {*/}
+                {/*          color:*/}
+                {/*            this.state.moon == 2 ? colors.white : colors.primary,*/}
+                {/*          textAlign: 'center',*/}
+                {/*        },*/}
+                {/*      ]}>*/}
+                {/*      هناك مشكلة في عرض المحتوى رجاءً اسحب مرة اخرى لتحديث المحتوى*/}
+                {/*    </Text>*/}
+                {/*  )}*/}
+              </ScrollView>
+            )}
         </Content>
         {!this.state.menu && (
           <View style={styles.item1}>
             <Text
               style={[
                 styles.item1_text,
-                {color: this.state.moon == 2 ? colors.white : colors.black},
+                { color: this.state.moon == 2 ? colors.white : colors.black },
               ]}>
               {search && searchText != ''
                 ? this.props.book.searchedContent[this.state.index]?.page || 1
@@ -354,15 +396,16 @@ class ReadingPage extends Component {
             <Text
               style={[
                 styles.item2_text,
-                {color: this.state.moon == 2 ? colors.white : colors.black},
+                { color: this.state.moon == 2 ? colors.white : colors.black },
               ]}>{`${
-              search && searchText != ''
-                ? this.props?.book?.searchedContent[this.state.index]?.page || 1
-                : this.props?.book?.page
-            } / ${
-              this.props.book?.book?.page_count ||
-              this.props.book?.bookDetail?.page_count
-            } صفحة`}</Text>
+                search && searchText !== ''
+                  ? (this.props?.book?.searchedContent[this.state.index]?.page + 1)
+                  : this.props?.book?.page
+                } / ${
+                search && searchText !== '' ?
+                  this.props.book?.searchedContent?.length :
+                  (this.props.book?.book?.page_count || this.props.book?.bookDetail?.[lookupId]?.page_count || 0)
+                } صفحة`}</Text>
           </View>
         )}
         {this.state.search && (
@@ -395,8 +438,7 @@ class ReadingPage extends Component {
                     moon_icon: svg_photo.read_moon,
                     back: colors.white,
                     color: colors.black,
-                  });
-                  //await storage.setItem('moon', 1);
+                  }, () => this.forceUpdate());
                   break;
                 case 1:
                   this.setState({
@@ -404,9 +446,7 @@ class ReadingPage extends Component {
                     moon_icon: svg_photo.read_moon,
                     back: colors.black,
                     color: colors.white,
-                  });
-                  //await storage.setItem('moon', 2);
-                  this.start();
+                  }, () => this.forceUpdate());
                   break;
 
                 case 2:
@@ -415,8 +455,7 @@ class ReadingPage extends Component {
                     moon_icon: svg_photo.sun,
                     back: '#FFF4E6',
                     color: "#333333",
-                  });
-                  //await storage.setItem('moon', 0);
+                  }, () => this.forceUpdate());
                   break;
               }
             }}
@@ -491,15 +530,15 @@ class ReadingPage extends Component {
           {/*                    </TouchableOpacity>*/}
           <TouchableOpacity onPress={() => {
             if (this.state.font == 13) {
-              this.setState({font: 16});
+              this.setState({ font: 16 });
             } else if (this.state.font == 16) {
-              this.setState({font: 20});
+              this.setState({ font: 20 });
             } else if (this.state.font == 20) {
-              this.setState({font: 13});
+              this.setState({ font: 13 });
             }
-            this.start();
+            //this.start();
           }} style={styles.headerItem}>
-            <SvgUri uri={svg_photo.format}/>
+            <SvgUri uri={svg_photo.format} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -519,8 +558,8 @@ class ReadingPage extends Component {
     );
   }
   handlePressTashkeel = () => {
-    const {lookupId} = this.props.route.params;
-    this.setState({isWithTashkeel: !this.state.isWithTashkeel});
+    const { lookupId } = this.props.route.params;
+    this.setState({ isWithTashkeel: !this.state.isWithTashkeel });
     this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
@@ -528,57 +567,59 @@ class ReadingPage extends Component {
     });
   };
   getNotes = () => {
-    const {lookupId} = this.props.route.params;
-    this.props.getNotes({lookupId});
+    const { lookupId } = this.props.route.params;
+    this.props.getNotes({ lookupId });
   };
-  goNextPage = async () => {
-    await this.props.toNextPage();
-    const {lookupId} = this.props.route.params;
-    // alert(this.props.book.page)
+  goNextPage = () => {
+    const { lookupId } = this.props.route.params;
+    this.props.toNextPage(lookupId);
+    /* const { lookupId } = this.props.route.params;
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
-    });
+    }); */
   };
   getPage = () => {
-    const {lookupId} = this.props.route.params;
+    const { lookupId } = this.props.route.params;
     this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
   };
-  goPreviousPage = async () => {
-    await this.props.toPreviousPage();
-    const {lookupId} = this.props.route.params;
+  goPreviousPage = () => {
+    const { lookupId } = this.props.route.params;
+    this.props.toPreviousPage(lookupId);
+    /* const { lookupId } = this.props.route.params;
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
-    });
+    }); */
   };
   nextSearchPage = () => {
-    const {searchedContent} = this.props.book;
-    const {index} = this.state;
+    const { searchedContent } = this.props.book;
+    const { index } = this.state;
     this.setState({
       index: index + 1 > searchedContent.length - 1 ? index : index + 1,
     });
   };
   prevSearchPage = () => {
-    const {index} = this.state;
-    this.setState({index: index - 1 < 0 ? index : index - 1});
+    const { index } = this.state;
+    this.setState({ index: index - 1 < 0 ? index : index - 1 });
   };
   onCloseAddNoteModal = () => {
-    this.setState({isAddNoteModalVisible: false});
+    this.setState({ isAddNoteModalVisible: false });
   };
 
   onOpenAddNoteModal = () => {
-    this.setState({isAddNoteModalVisible: true});
+    this.setState({ isAddNoteModalVisible: true });
   };
+
   addNote = (note, title) => {
-    const {lookupId} = this.props.route.params;
-    const {isWithTashkeel, start, end} = this.state;
+    const { lookupId } = this.props.route.params;
+    const { isWithTashkeel, start, end } = this.state;
     const form = {
       lookupId,
       body: {
@@ -590,24 +631,34 @@ class ReadingPage extends Component {
         end,
       },
     };
-    this.props.createNote(form, ()=>{this.setState({isAddNoteModalVisible : false},()=>this.start())});
+    this.props.createNote(form, () => { this.setState({ isAddNoteModalVisible: false }, () => this.start()) });
   };
+
   searchContent = (text) => {
-    const {lookupId} = this.props.route.params;
-    const {isWithTashkeel} = this.state;
+    const { lookupId } = this.props.route.params;
+    const { isWithTashkeel } = this.state;
     const data = {
       lookupId,
       tashkeel: isWithTashkeel,
       word: text,
     };
+    this.setState({ index: 0 });
     this.props.searchContent(data);
   };
+
   handleTextChange = (text) => {
-    this.setState({searchText: text});
-    text ? this.searchContent(text) : this.getPage();
+    this.setState({ searchText: text });
+
+    if (this.searchWaiting)
+      clearTimeout(this.searchWaiting);
+    this.searchWaiting = setTimeout(() => {
+      this.searchWaiting = null;
+      text && this.searchContent(text);// : this.getPage();
+    }, 500);
   };
+
   onPressShowSearch = () => {
-    this.setState({search: !this.state.search});
+    this.setState({ search: !this.state.search });
     if (!this.state.search) {
       this.props.clearSearch();
     }
@@ -617,7 +668,7 @@ class ReadingPage extends Component {
 const mapStateToProps = (state) => {
   // console.log(state);
   return {
-    book: {...state.book},
+    book: { ...state.book },
   };
 };
 
@@ -633,18 +684,21 @@ const mapDispatchToProps = (dispatch) => ({
       form,
     }),
 
-  setPage: (page) =>
+  setPage: (page, lookupId) =>
     dispatch({
       type: set_page,
-      page
+      page,
+      lookupId,
     }),
-  toNextPage: () =>
+  toNextPage: (lookupId) =>
     dispatch({
       type: increase_page,
+      lookupId
     }),
-  toPreviousPage: () =>
+  toPreviousPage: (lookupId) =>
     dispatch({
       type: decrease_page,
+      lookupId,
     }),
   createNote: (form, callback) =>
     dispatch({
@@ -662,9 +716,26 @@ const mapDispatchToProps = (dispatch) => ({
       type: GET_BOOK_NOTES_PENDING,
       form,
     }),
+  setCurrentReading: (lookupId) =>
+    dispatch({
+      type: SET_CURRENT_READING_BOOK,
+      lookupId,
+    }),
   clearSearch: () =>
     dispatch({
       type: CLEAR_SEARCH_IN_BOOK,
+    }),
+  clearBookCache: (lookupId) =>
+    dispatch({
+      type: CLEAR_SEARCH_CACHE,
+      lookupId
+    }),
+
+  deleteNote: (note, callback) =>
+    dispatch({
+      type: PENDING_DELETE_NOTES,
+      note,
+      callback
     }),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ReadingPage);
