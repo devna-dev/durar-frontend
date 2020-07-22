@@ -17,7 +17,7 @@ export default class Walkthrough extends Component {
         super(props);
         this.state = {
             items: [{
-                image: require("../../assets/images/ic_launcher_round.png"),//'https://elearningindustry.com/wp-content/uploads/2016/05/top-10-books-every-college-student-read-e1464023124869.jpeg'
+                image: require("../../assets/images/Logo-Final.png"),//'https://elearningindustry.com/wp-content/uploads/2016/05/top-10-books-every-college-student-read-e1464023124869.jpeg'
             }],
             sliderActiveSlide: 0,
             isLoggedIn: false,

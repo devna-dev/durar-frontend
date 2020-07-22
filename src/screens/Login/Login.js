@@ -8,7 +8,7 @@ import Button from '../../components/Button/Button';
 import RecoverPassword from '../RecoverPassword/RecoverPassword';
 import { svg_photo } from '../../assets/svg/svg';
 import { SvgUri } from 'react-native-svg';
-import { login, clear, loading } from '../../stores/saga/models/user-store/actions';
+import { login, clear, loading,resend_code } from '../../stores/saga/models/user-store/actions';
 import { connect } from 'react-redux';
 import Toast from '../../components/Toast';
 
@@ -108,8 +108,17 @@ class Login extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.user.allow_navigate !== this.props.user.allow_navigate) {
       this.setState(this.initialState);
-      this.props.navigation.replace('TabNavigator');
-    }
+        this.props.navigation.replace('App');
+      } 
+      if (prevProps.user.loginEmailVerified !== this.props.user.loginEmailVerified) {
+        if (this.props.user.loginEmailVerified) {
+          this.props.resendCode();
+          this.props.navigation.navigate('VerificationCode', {
+            email: this.state.email,
+            password: this.state.password,
+          });
+        }
+      }
     if (!!this.getLogErrorProp('network_error')) {
       this.toast.current.showToast(this.getLogErrorProp('network_error'));
     }
@@ -182,6 +191,9 @@ const mapDispatchToProps = (dispatch) => ({
     type: loading,
     form,
   }),
+  resendCode: () => dispatch({
+    type: resend_code,
+}),
 });
 
 

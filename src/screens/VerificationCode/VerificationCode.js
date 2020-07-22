@@ -69,6 +69,7 @@ class VerificationCode extends Component {
                             style={styles.btn1}
                             textColor={colors.white}
                             onPress={this.verifyCode.bind(this)}
+                            load={this.props.user.load}
                     />
                     {this.state.showReSend && (
                         <TouchableOpacity onPress={() => this.resendCode()}>
@@ -86,7 +87,7 @@ class VerificationCode extends Component {
             this.setState({code: '', code_error: 'الرمز خظأ'})
          }
        if (this.props.user.isEmailVerified) {
-            this.props.clear();
+            //this.props.clear();
             let form = {
                 email: this.state.email,
                 password: this.state.password,
@@ -99,7 +100,7 @@ class VerificationCode extends Component {
             CommonActions.reset({
               index: 0,
               routes: [
-                { name: 'TabNavigator' }
+                { name: 'App' }
               ],
             })
           );

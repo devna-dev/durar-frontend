@@ -5,6 +5,7 @@ const GET_ALL_USER_INFO_REQUEST_FAILURE =
   'user/GET_ALL_USER_INFO_REQUEST_FAILURE';
 const login = 'login';
 const success_login = 'success_login';
+const login_email_verified = 'login_email_verified';
 const success = 'success';
 const error = 'error';
 const loading = 'loading';
@@ -32,6 +33,7 @@ export {
   GET_ALL_USER_INFO_REQUEST_FAILURE,
   login,
   success_login,
+  login_email_verified,
   success,
   error,
   loading,

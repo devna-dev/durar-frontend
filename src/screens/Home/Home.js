@@ -47,7 +47,14 @@ class Home extends Component {
 
     _renderItem = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Activities')} style={styles.item_view}>
+            <TouchableOpacity onPress={()=> {
+                if (item.type === 'discussion'){
+                    this.props.navigation.navigate('Activity',{id:item.id , dis:true})
+                } else if (item.type === 'seminar'){
+                    this.props.navigation.navigate('SeminarActivity',{id:item.id })
+                }
+               
+                }} style={styles.item_view}>
                 <View style={styles.right_side} />
                 <ImageBackground style={styles.item_img}
                     imageStyle={{ borderRadius: 5 }}
@@ -114,7 +121,7 @@ class Home extends Component {
                         <SvgUri style={styles.back_img} uri={svg_photo.bell} />
                         <SvgUri style={styles.back_img1} uri={svg_photo.badge} />
                     </TouchableOpacity>
-                    {!!this.props.user?.token &&
+                    {!!this.props.user?.token ? (
                         <TouchableOpacity
                         //onPress={() => this.props.navigation.navigate('Profile')}
                         >
@@ -122,7 +129,15 @@ class Home extends Component {
                                 style={styles.avatar}
                                 source={{ uri: this.state.user.photo_url ? this.state.user.photo_url : '' }}
                             />
-                        </TouchableOpacity>}
+                        </TouchableOpacity>)
+                        : (
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.replace('Walkthrough')}
+                                style={[styles.loginView]}>
+                                <Text style={styles.loginText}>تسجيل الدخول </Text>
+                            </TouchableOpacity>
+                        )
+                    }
                 </View>
             </View>
         )
@@ -152,6 +167,31 @@ class Home extends Component {
                             renderItem={(item) => this._renderItem(item)}
                         />
                     </View>
+                    {!!this.props.user?.token && (
+                        <FlatList
+                            data={[
+                                {
+                                    image: svg_photo.library,
+                                    title: 'قراءاتى ',
+                                    route: 'MyBooks',
+                                },
+                                {
+                                    image: svg_photo.note,
+                                    title: 'ملاحظاتي',
+                                    route: 'NotesBook',
+                                },
+                                {
+                                    image: svg_photo.voice_book,
+                                    title: 'كتب صوتية',
+                                    route: 'AudioBooks',
+                                },
+                            ]}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            style={{marginTop: '3%' }}
+                            renderItem={(item) => this.notes_bar(item)}
+                        />
+                    )}
                     {this.props.book?.home_books?.reads && this.props.book?.home_books?.reads.length != 0 &&
                         <View style={styles.bar}>
                             <Text style={styles.headerTitle}>الأكثر قراءه هذا الشهر</Text>
@@ -202,30 +242,6 @@ class Home extends Component {
                                 item={item.item}
                             />
                         )}
-                    />
-
-                    <FlatList
-                        data={[
-                            {
-                                image: svg_photo.library,
-                                title: 'قراءاتى الأن',
-                                route: 'MyBooks',
-                            },
-                            {
-                                image: svg_photo.note,
-                                title: 'دفتر الملاحظات',
-                                route: 'NotesBook',
-                            },
-                            {
-                                image: svg_photo.voice_book,
-                                title: 'كتب صوتية',
-                                route: 'AudioBooks',
-                            },
-                        ]}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        style={{ marginLeft: '5%', marginTop: '3%' }}
-                        renderItem={(item) => this.notes_bar(item)}
                     />
                     {this.props.book?.home_books?.listens && this.props.book?.home_books?.listens.length != 0 &&
                         <View style={styles.bar}>

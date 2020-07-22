@@ -71,6 +71,11 @@ class Activities extends Component {
         return (
             <Container style={styles.container}>
                 <View style={styles.header}>
+                <TouchableOpacity
+                            onPress={() => this.props.navigation.goBack()}
+                            style={styles.header0}>
+                            <SvgUri style={styles.back_img} uri={svg_photo.back} />
+                        </TouchableOpacity>
                     <View>
                         <Text style={styles.headerTitle2}>الأنشطة</Text>
                     </View>

@@ -28,7 +28,7 @@ export async function verify_email(form) {
         method: 'PUT',
         headers: {
             accept: 'application/json',
-            Authorization: await storage.getItem('token'),
+            Authorization: await storage.getItem('tokenRegister'),
         },
     }).then((response) => response.json());
 }
@@ -38,7 +38,7 @@ export async function reSend_code() {
         method: 'Get',
         headers: {
             accept: 'application/json',
-            Authorization: await storage.getItem('token'),
+            Authorization: await storage.getItem('tokenRegister'),
         },
     }).then((response) => response.json());
 }

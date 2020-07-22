@@ -39,7 +39,7 @@ class Search extends Component {
         ...this.props.route.params,
       },
     };
-    props.clear();
+    //props.clear();
     this.start();
   }
   clearFilter = () => {

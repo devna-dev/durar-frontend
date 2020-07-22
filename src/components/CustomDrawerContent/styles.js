@@ -38,7 +38,17 @@ export default StyleSheet.create({
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop:'5%'
+        marginTop:'5%',
+        marginBottom:'15%'
+    },
+    Loginbtn: {
+        width: 120, height: 40,
+        backgroundColor: colors.green3,
+        alignSelf: 'center',
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom:'15%'
     },
     text:{
         color:colors.white,

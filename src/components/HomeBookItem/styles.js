@@ -14,6 +14,13 @@ export default StyleSheet.create({
         //resizeMode: 'contain',
         borderRadius:5
     },
+    homeText: {
+        ...common.BlackFont,
+        fontSize: 12,
+        height:50,
+        width:'95%',
+        textAlign:'left'
+    },
     text1: {
         ...common.BlackFont,
         fontSize: 12,
