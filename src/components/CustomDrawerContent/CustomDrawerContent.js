@@ -231,6 +231,10 @@ class CustomDrawerContent extends Component {
                     defaultStars={5}
                     isVisible={true}
                     sendBtnText={'Send'}
+                    modalTitle={"كيف تقيم هذا التطبيق؟"}
+                    rateBtnText={"تقييم"}
+                    cancelBtnText={"إلغاء"}
+                    starLabels={['فظيع', 'سيئ', 'جيد', 'ممتاز', 'عظيم']}
                     commentPlaceholderText={'Placeholder text'}
                     emptyCommentErrorMessage={'Empty comment error message'}
                     playStoreUrl={'market://details?id=com.yakinori'}

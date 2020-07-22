@@ -129,7 +129,7 @@ function ActivityStackNavigator() {
 const SavingBoooksStack = createStackNavigator();
 function SavingBoooksStackNavigator() {
   return (
-    <SavingBoooksStack.Navigator initialRouteName="Home" headerMode='none' >
+    <SavingBoooksStack.Navigator initialRouteName="Activities" headerMode='none' >
       <SavingBoooksStack.Screen name="Home" component={Home} />
       <SavingBoooksStack.Screen name="Settings" component={Settings} />
       <SavingBoooksStack.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
@@ -268,7 +268,7 @@ function TabNavigator() {
       <Tab.Screen name="Home" component={HomeStackNavigator} />
       <Tab.Screen name="Register" component={RegisterStackNavigator} />
       <Tab.Screen name="Activity" component={ActivityStackNavigator} />
-      {/* <Tab.Screen name="SavingBooks" component={SavingBoooksStackNavigator} /> */}
+      <Tab.Screen name="SavingBooks" component={SavingBoooksStackNavigator} />
       {isLoggedIn && <Tab.Screen name="Profile" component={ProfileStackNavigator} />}
     </Tab.Navigator>
   );

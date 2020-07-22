@@ -124,7 +124,7 @@ class Book extends Component {
                 </TouchableOpacity>
                 <View style={styles.leftHeader}>
                     <View style={[styles.headerItemView, { flexDirection: 'row' }]} />
-                    <TouchableOpacity
+                    {!!singleBook[lookupId] && <TouchableOpacity
                         onPress={async () => {
                             if (singleBook[lookupId]?.favorite === null || singleBook[lookupId]?.favorite === undefined) {
                                 let add_fav = await add_to_fav(singleBook[lookupId]?.id);
@@ -156,7 +156,7 @@ class Book extends Component {
                                     : svg_photo.favourite
                             }
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
 
                     {!!singleBook[lookupId] &&
                         <TouchableOpacity
@@ -180,11 +180,11 @@ class Book extends Component {
 
                         </TouchableOpacity>}
 
-                    <TouchableOpacity
+                    {!!singleBook[lookupId] && <TouchableOpacity
                         onPress={async () => {
                             let shareOptions = {
                                 title: 'تطبيق الشاملة',
-                                message: singleBook[lookupId]?.cover_image + 'شارك الكتاب مع الأصدقاء    ',
+                                message: `كتاب: ${singleBook[lookupId]?.title} \n ${singleBook[lookupId]?.description}  \n ${singleBook[lookupId]?.cover_image}`,
                                 url: singleBook[lookupId]?.cover_image,
                             };
 
@@ -205,7 +205,7 @@ class Book extends Component {
                         style={[styles.headerItemView, { width: 40 }]}>
                         <Image style={{ width: 40, height: 40 }} resizeMethod="resize" resizeMode="contain" source={require('../../assets/images/share.png')} />
 
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
             </View>
         )
