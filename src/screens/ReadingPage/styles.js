@@ -50,10 +50,11 @@ export default StyleSheet.create({
   },
   search_bar: {
     backgroundColor: 'white',
-    width: '90%',
+    width: '100%',
     height: 40,
-    position: 'absolute',
-    top: "5%",
+    marginBottom: 5,
+    //position: 'absolute',
+    //top: "5%",
     alignSelf: 'center',
     zIndex: 1,
     borderRadius: 5,
@@ -66,7 +67,7 @@ export default StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
-    marginTop: 60,
+    //marginTop: 60,
     flexDirection: 'row',
     alignItems: 'center',
   },

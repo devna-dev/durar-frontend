@@ -98,6 +98,7 @@ function HomeStackNavigator() {
       <HomeStack.Screen name="AudioBooks" component={AudioBooks} />
       <HomeStack.Screen name="TermsAndConditions" component={TermsAndConditions} />
       <HomeStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <ActivityStack.Screen name="SubCategory" component={SubCategory} />
       <HomeStack.Screen name="AudioBook" component={AudioBook} />
     </HomeStack.Navigator>
   );

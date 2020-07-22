@@ -27,9 +27,13 @@ import {
     get_current_read,
     post_review,
     CLEAR_BOOK_DATA,
+    SAVE_LOACL_BOOK,
+    DELETE_LOACL_BOOK,
+
+    GET_BOOK_SUCCESS,
 } from '../../stores/saga/models/book-store/actions';
 import { connect } from 'react-redux';
-import { add_to_fav, get_audio_books, getBookApi, share_book } from '../../services/books';
+import { add_to_fav, delete_from_fav, get_audio_books, getBookApi, share_book, getBookDetailApi } from '../../services/books';
 import Toast from '../../components/Toast/Toast';
 import storage from '../../config/storage';
 import { clear } from "../../stores/saga/models/user-store/actions";
@@ -80,18 +84,27 @@ class Book extends Component {
         }
 
         const {
-            params: { lookupId },
+            params: { lookupId, isLocal },
         } = this.props.route;
 
-        try {
-            this.props.getBook({ lookupId });
-            this.props.get_current_read();
-        } catch (e) {
-            // alert(e);
+
+        if (!!isLocal) {
+            this.props.getBookFromLocal({
+                book: this.props.book?.savedBook[lookupId],
+                reviews: [],
+            }, lookupId);
+        } else {
+            try {
+                this.props.getBook({ lookupId });
+                this.props.get_current_read();
+            } catch (e) {
+                // alert(e);
+            }
         }
 
-
-        this.setState({ fav: this.props.book.singleBook[lookupId] && this.props.book.singleBook[lookupId]?.is_favorite ? this.props.book.singleBook[lookupId]?.is_favorite : false })
+        this.setState({
+            fav: !this.props.book?.singleBook[lookupId] || this.props.book?.singleBook[lookupId]?.favorite === null || this.props.book?.singleBook?.[lookupId]?.favorite === undefined ? false : true
+        })
     };
 
 
@@ -113,25 +126,60 @@ class Book extends Component {
                     <View style={[styles.headerItemView, { flexDirection: 'row' }]} />
                     <TouchableOpacity
                         onPress={async () => {
-                            let add_fav = await add_to_fav(singleBook[lookupId]?.id);
-                            if (add_fav.id) {
-                                this.setState({ fav: true });
+                            if (singleBook[lookupId]?.favorite === null || singleBook[lookupId]?.favorite === undefined) {
+                                let add_fav = await add_to_fav(singleBook[lookupId]?.id);
+                                if (add_fav.id) {
+                                    this.setState({ fav: true });
+                                    this.start();
+                                    this.refs.Successfully.showToast(
+                                        'تم إضافة الكتاب إلى المفضلة',
+                                        4000,
+                                    );
+                                }
+                            } else {
+                                let del_fav = await delete_from_fav(singleBook[lookupId]?.favorite);
+                                this.setState({ fav: false });
+                                this.start();
                                 this.refs.Successfully.showToast(
-                                    'تم إضافة الكتاب إلى المفضلة',
-                                    8000,
+                                    'تم إزالة الكتاب من المفضلة',
+                                    4000,
                                 );
                             }
+
                         }}
                         style={[styles.headerItemView, { width: 40 }]}>
                         <SvgUri
                             style={styles.back_img}
                             uri={
-                                this.props.book.singleBook[lookupId] && this.props.book.singleBook[lookupId]?.is_favorite == true
-                                    ? svg_photo.favourite
-                                    : svg_photo.favourite_book
+                                singleBook[lookupId]?.favorite === null || singleBook[lookupId]?.favorite === undefined
+                                    ? svg_photo.favourite_book
+                                    : svg_photo.favourite
                             }
                         />
                     </TouchableOpacity>
+
+                    {!!singleBook[lookupId] &&
+                        <TouchableOpacity
+                            onPress={async () => {
+
+                                if (!!this.props.book?.savedBook[lookupId]) {
+                                    this.props.deleteBookLocal({
+                                        lookupId,
+                                    });
+                                } else {
+                                    const bookDetails = await getBookDetailApi({ lookupId, isWithTashkeel: false });
+                                    this.props.saveBookLocal({
+                                        lookupId,
+                                        book: singleBook[lookupId],
+                                        bookDetails: bookDetails?.response,
+                                    });
+                                }
+                            }}
+                            style={[styles.headerItemView, { width: 40 }]}>
+                            <Image style={{ width: 40, height: 40 }} resizeMethod="resize" resizeMode="contain" source={!!this.props.book?.savedBook?.[lookupId] ? require('../../assets/images/delSave.png') : require('../../assets/images/save.png')} />
+
+                        </TouchableOpacity>}
+
                     <TouchableOpacity
                         onPress={async () => {
                             let shareOptions = {
@@ -155,7 +203,8 @@ class Book extends Component {
                             console.log('Share', add_fav)
                         }}
                         style={[styles.headerItemView, { width: 40 }]}>
-                        <SvgUri style={styles.back_img} uri={svg_photo.book_menu} />
+                        <Image style={{ width: 40, height: 40 }} resizeMethod="resize" resizeMode="contain" source={require('../../assets/images/share.png')} />
+
                     </TouchableOpacity>
                 </View>
             </View>
@@ -204,9 +253,10 @@ class Book extends Component {
                                 <Text style={styles.light_font}>عدد الصفحات</Text>
                                 <Text style={styles.dark_font}>{singleBook[lookupId] && singleBook[lookupId]?.page_count}</Text>
                                 <Text style={styles.light_font}>القسم</Text>
-                                <Text style={styles.dark_font1}>
-                                    {singleBook[lookupId] && singleBook[lookupId].category?.name}
-                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => { this.props.navigation.navigate('SubCategory', { id: singleBook[lookupId]?.category?.id }) }}>
+                                    <Text style={styles.dark_font1}>{singleBook[lookupId] && singleBook[lookupId].category?.name}</Text>
+                                </TouchableOpacity>
                                 <Text style={styles.light_font}>التقييم</Text>
                                 <View style={{ alignSelf: 'flex-start' }}>
                                     <AirbnbRating
@@ -360,13 +410,14 @@ class Book extends Component {
             book: { singleBook },
         } = this.props;
         const {
-            params: { lookupId },
+            params: { lookupId, isLocal },
         } = this.props.route;
 
         !!singleBook[lookupId]?.id && this.props.navigation.push('ReadingPage', {
             screen: 'ReadingPage',
             params: {
                 lookupId: singleBook[lookupId]?.id,
+                isLocal: isLocal,
             },
         });
     };
@@ -399,6 +450,22 @@ const mapDispatchToProps = (dispatch) => ({
     get_current_read: () =>
         dispatch({
             type: get_current_read,
+        }),
+    saveBookLocal: (form) =>
+        dispatch({
+            type: SAVE_LOACL_BOOK,
+            form
+        }),
+    deleteBookLocal: (form) =>
+        dispatch({
+            type: DELETE_LOACL_BOOK,
+            form
+        }),
+    getBookFromLocal: (form, lookupId) =>
+        dispatch({
+            type: GET_BOOK_SUCCESS,
+            form,
+            lookupId
         }),
     clear: () =>
         dispatch({

@@ -1,7 +1,8 @@
 import settings from '../config/settings';
 import storage from '../config/storage';
-import {queryString} from '../utils/queryString';
-import {Platform} from 'react-native'
+import { useSelector } from 'react-redux'
+import { queryString } from '../utils/queryString';
+import { Platform } from 'react-native'
 
 export async function getBooks() {
     return fetch(settings.API_URL + 'books/', {
@@ -14,6 +15,15 @@ export async function getBooks() {
 
 export async function getCategories() {
     return fetch(settings.API_URL + 'categories/', {
+        method: 'Get',
+        headers: {
+            accept: 'application/json',
+        },
+    }).then((response) => response.json());
+}
+
+export async function getSubCategories(cat) {
+    return fetch(settings.API_URL + `categories/${cat}/`, {
         method: 'Get',
         headers: {
             accept: 'application/json',
@@ -46,8 +56,8 @@ export async function getBookDetailApi(payload) {
         },
     )
         .then((response) => response.json())
-        .then((response) => ({response}))
-        .catch((error) => ({error}));
+        .then((response) => ({ response }))
+        .catch((error) => ({ error }));
 }
 
 export async function getBookPageContent(payload) {
@@ -63,13 +73,13 @@ export async function getBookPageContent(payload) {
         },
     )
         .then((response) => response.json())
-        .then((response) => ({response}))
-        .catch((error) => ({error}));
+        .then((response) => ({ response }))
+        .catch((error) => ({ error }));
 }
 
 export async function getBookApi(payload) {
 
-    return fetch(settings.API_URL + `books/${payload}`, {
+    return fetch(settings.API_URL + `books/${payload}/`, {
         method: 'Get',
         headers: {
             accept: 'application/json',
@@ -89,8 +99,8 @@ export async function getBookNotesApi(payload) {
         .then((response) => {
             return response.json();
         })
-        .then((response) => ({response}))
-        .catch((error) => ({error}));
+        .then((response) => ({ response }))
+        .catch((error) => ({ error }));
 }
 
 export async function getBookReviewsApi(payload) {
@@ -125,6 +135,9 @@ export async function popular_booksApi() {
 }
 
 export async function get_current_readApi() {
+    //console.log("sdsdfsdfsdfsd");
+    //const token = useSelector(state => state.user?.token)
+    //console.log(token);
     return fetch(settings.API_URL + 'user/reads/', {
         method: 'Get',
         headers: {
@@ -450,13 +463,14 @@ export async function delete_from_fav(id) {
             'Content-Type': 'application/json',
             Authorization: await storage.getItem('token'),
         },
-        
+
     })
         .then((response) => response.json())
         .then((res) => {
             console.log(res);
             return res;
-        });
+        })
+        .catch(err => (err));
 }
 
 
@@ -528,15 +542,15 @@ export async function search_content_api(payload) {
 export async function post_like_review(id) {
 
     return fetch(settings.API_URL + 'user/review/likes/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: await storage.getItem('token'),
-            },
-            body: JSON.stringify({
-                "review": id
-            })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: await storage.getItem('token'),
         },
+        body: JSON.stringify({
+            "review": id
+        })
+    },
     ).then((response) => response.json())
         .then(res => {
             console.log(res)
@@ -569,9 +583,10 @@ export async function update_profile_api(data) {
         },
         body: body,
     })
-        .then((response) => { 
+        .then((response) => {
             //console.log('response response',response);
-            return (response.json())})
+            return (response.json())
+        })
         .then((res) => {
             //console.log('profilllllle', res);
             return res;
