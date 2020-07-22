@@ -41,10 +41,15 @@ const data = [
         title: 'الأنشطة',
         route: 'Activities',
     },
+    // {
+    //     image: svg_photo.donation,
+    //     title: 'التبرع بكتاب',
+    //     route: 'DonatedBook',
+    // },
     {
         image: svg_photo.donation,
-        title: 'التبرع بكتاب',
-        route: 'DonatedBook',
+        title: 'التبرع للتطبيق',
+        route: 'DonatedWays',
     },
     {
         image: svg_photo.download_icon,

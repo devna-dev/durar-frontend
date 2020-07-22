@@ -22,7 +22,9 @@ import Search from '../screens/Search/Search';
 import Settings from '../screens/Settings/Settings';
 import Search1 from '../screens/Search/Search1';
 import UploadVoiceBook from '../screens/UploadVoiceBook/UploadVoiceBook';
-import DonatedBook from '../screens/DonatedBook/DonatedBook';
+//import DonatedBook from '../screens/DonatedBook/DonatedBook';
+import DonatedWays from '../screens/DonatedWays/DonatedWays';
+import CreditCard from '../screens/CreditCard/CreditCard';
 import Notifications from '../screens/Notifications/Notifications';
 import AboutApp from '../screens/AboutApp/AboutApp';
 import SuggestionBooks from '../screens/SuggestionBooks/SuggestionBooks';
@@ -72,7 +74,8 @@ function HomeStackNavigator() {
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name="Settings" component={Settings} />
       <HomeStack.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
-      <HomeStack.Screen name="DonatedBook" component={DonatedBook} />
+      <HomeStack.Screen name="DonatedWays" component={DonatedWays} />
+      <HomeStack.Screen name="CreditCard" component={CreditCard} />
       <HomeStack.Screen name="Notifications" component={Notifications} />
       <HomeStack.Screen name="AboutApp" component={AboutApp} />
       <HomeStack.Screen name="SuggestionBooks" component={SuggestionBooks} />
@@ -129,7 +132,8 @@ function SavingBoooksStackNavigator() {
       <SavingBoooksStack.Screen name="Home" component={Home} />
       <SavingBoooksStack.Screen name="Settings" component={Settings} />
       <SavingBoooksStack.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
-      <SavingBoooksStack.Screen name="DonatedBook" component={DonatedBook} />
+      <SavingBoooksStack.Screen name="DonatedWays" component={DonatedWays} />
+      <SavingBoooksStack.Screen name="CreditCard" component={CreditCard} />
       <SavingBoooksStack.Screen name="Notifications" component={Notifications} />
       <SavingBoooksStack.Screen name="AboutApp" component={AboutApp} />
       <SavingBoooksStack.Screen name="SuggestionBooks" component={SuggestionBooks} />
@@ -167,7 +171,8 @@ function ProfileStackNavigator() {
       <ProfileStack.Screen name="Home" component={Home} />
       <ProfileStack.Screen name="Settings" component={Settings} />
       <ProfileStack.Screen name="UploadVoiceBook" component={UploadVoiceBook} />
-      <ProfileStack.Screen name="DonatedBook" component={DonatedBook} />
+      <ProfileStack.Screen name="DonatedWays" component={DonatedWays} />
+      <ProfileStack.Screen name="CreditCard" component={CreditCard} />
       <ProfileStack.Screen name="Notifications" component={Notifications} />
       <ProfileStack.Screen name="AboutApp" component={AboutApp} />
       <ProfileStack.Screen name="SuggestionBooks" component={SuggestionBooks} />
