@@ -197,6 +197,8 @@ function ProfileStackNavigator() {
 
 const Tab = createBottomTabNavigator();
 function TabNavigator() {
+  const user = useSelector(state => state.user);
+  const isLoggedIn = !!user?.token;
   return (
     <Tab.Navigator
       screenOptions={({ route, descriptors, jumpToIndex, navigation }) => ({
@@ -266,7 +268,7 @@ function TabNavigator() {
       <Tab.Screen name="Register" component={RegisterStackNavigator} />
       <Tab.Screen name="Activity" component={ActivityStackNavigator} />
       {/* <Tab.Screen name="SavingBooks" component={SavingBoooksStackNavigator} /> */}
-      <Tab.Screen name="Profile" component={ProfileStackNavigator} />
+      {isLoggedIn && <Tab.Screen name="Profile" component={ProfileStackNavigator} />}
     </Tab.Navigator>
   );
 }

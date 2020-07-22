@@ -209,14 +209,20 @@ class CustomDrawerContent extends Component {
                             </TouchableOpacity>
                         )}
                     />
-                    {this.props.token_fixed && <TouchableOpacity onPress={async () => {
+                    {this.props.token_fixed ? (<TouchableOpacity onPress={async () => {
                         await storage.clear()
-                        //this.props.logout()
-                        RNRestart.Restart();
+                        this.props.clear()
+                        //RNRestart.Restart();
                         this.props.navigation.replace('Walkthrough')
                     }} style={styles.btn}>
                         <Text style={styles.text}>تسجيل الخروج</Text>
-                    </TouchableOpacity>}
+                    </TouchableOpacity> )
+                    : ( <TouchableOpacity onPress={ () => {
+                        this.props.navigation.replace('Walkthrough')
+                    }} style={styles.Loginbtn}>
+                        <Text style={styles.text}>تسجيل الدخول</Text>
+                    </TouchableOpacity>
+                    )}
                 </Content>
                 <RateModal
                     rateBtnText={'Rate'}

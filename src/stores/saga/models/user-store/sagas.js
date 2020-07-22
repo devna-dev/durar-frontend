@@ -20,7 +20,7 @@ import {
     resend_code,
     get_points,
     success_get_points,
-
+    login_email_verified,
 } from './actions';
 
 import {
@@ -52,7 +52,7 @@ const handler = function* () {
 function* loginApi(action) {
     try {
         let result = yield user_login(action.form);
-        if (result.token) {
+        if (result.token && result.user.email_verified) {
             yield storage.setItem('token', 'Bearer ' + result.token);
             let user = yield user_info(result.token);
             let points = yield get_user_points();
@@ -61,6 +61,9 @@ function* loginApi(action) {
             }
             yield storage.setItem('user', user);
             yield put({ type: success_login, form: result });
+        } else if (result.token && !result.user.email_verified){
+            yield storage.setItem('tokenRegister', 'Bearer ' + result.token);
+            yield put({ type: login_email_verified, form: result });
         } else {
             yield put({ type: error, form: result });
         }
@@ -127,7 +130,7 @@ function* registerApi(action) {
     try {
         let result = yield user_register(action.form);
         if (result.token) {
-            yield storage.setItem('token', 'Bearer ' + result.token);
+            yield storage.setItem('tokenRegister', 'Bearer ' + result.token);
             yield put({ type: REGISTER_USER_REQUEST_SUCCESS, form: result });
         } else {
             yield put({ type: REGISTER_USER_REQUEST_FAILURE, form: result });

@@ -1,6 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import common from "../../styles/common.style";
 import { colors } from "../../config/styles";
+
+const { width, height } = Dimensions.get('window');
+const screenWigth = width < height ? width : height;
 
 export default StyleSheet.create({
     container: {
@@ -64,8 +67,22 @@ export default StyleSheet.create({
         fontSize: 16,
         color: '#73726E'
     },
+    loginView: {
+        backgroundColor: colors.grey1,
+        height: 40,
+        width: 120,
+        marginRight: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 20
+    },
+    loginText: {
+        ...common.BoldFont,
+        fontSize: 14,
+        color: '#73726E'
+    },
     item_img: {
-        width: 327,
+        width: screenWigth - 40 ,
         height: 156,
         borderRadius: 5
     },
@@ -148,7 +165,7 @@ export default StyleSheet.create({
     bar_item_view: {
         flexDirection: 'row',
         borderRadius: 20,
-        width: 150,
+        width: 120,
         height: 40,
         borderColor: colors.grey1,
         borderWidth: 1,

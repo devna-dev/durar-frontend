@@ -1,6 +1,7 @@
 import {
   success_login,
   login,
+  login_email_verified,
   error,
   clear,
   reset,
@@ -34,6 +35,7 @@ const initialState = {
   register_errors: null,
   books: [],
   isEmailVerified: false,
+  loginEmailVerified: false,
   message: '',
   points: null,
 
@@ -82,6 +84,15 @@ const reducer = (state = initialState, action) => {
         detail: '',
         load: false,
         loading: 'success',
+        loginEmailVerified: false,
+      };
+    case login_email_verified:
+      return {
+        ...state,
+        allow_navigate: false,
+        load: false,
+        loading: 'login_email_verified',
+        loginEmailVerified: true,
       };
     case get_points:
       return {
@@ -129,7 +140,7 @@ const reducer = (state = initialState, action) => {
         load: false,
       };
     case support:
-      return { loading: 'support', load: true };
+      return { ...state, loading: 'support', load: true };
     case support_success:
       return {
         ...state,
