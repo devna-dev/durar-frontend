@@ -169,7 +169,6 @@ class CustomDrawerContent extends Component {
     }
 
     async componentDidMount() {
-        console.log('componentDidMount')
         let user = await storage.getItem('user');
         this.setState({user: user.data.user});
         this.setState({user1: user.data});
@@ -177,7 +176,6 @@ class CustomDrawerContent extends Component {
             this.setState({visible: true});
         }
         if (await storage.getItem('token')) {
-            console.log('storage.getItem',storage.getItem('token'))
             this.setState({access: true})
         } else {
             this.setState({access: false})
