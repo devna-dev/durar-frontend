@@ -32,6 +32,7 @@ import {
   decrease_page,
   GET_BOOK_CONTENT_PENDING,
   GET_BOOK_DETAIL_PENDING,
+  GET_BOOK_DETAIL_SUCCESS,
   set_page,
   increase_page,
   post_note,
@@ -101,58 +102,32 @@ class ReadingPage extends Component {
   }
 
   start = async () => {
-    const { lookupId } = this.props.route.params;
-    this.props.getBookDetail({
-      lookupId,
-      isWithTashkeel: this.state.isWithTashkeel,
-      page: this.props.book.page,
-    });
-    // alert(lookupId)
+    const { lookupId, isLocal } = this.props.route.params;
+
+    if (!!isLocal) {
+      this.props.getBookDetailFromLocal(this.props.book?.savedBookDetails[lookupId], lookupId);
+    } else {
+      this.props.getBookDetail({
+        lookupId,
+        isWithTashkeel: this.state.isWithTashkeel,
+        page: this.props.book.page,
+      });
+    }
   };
 
 
   renderContent = () => {
     const { book } = this.props;
     const { lookupId } = this.props.route.params;
-    const { moon } = this.state;
+    const { moon, index } = this.state;
     if (
       this.state.search &&
       book.searchedContent.length > 0 &&
       this.state.searchText != ''
     ) {
-      /* console.log(
-        book.searchedContent[this.state.index].text,
-        'book.searchedContent[this.state.index].text',
-      ); */
-
-      switch (moon) {
-        case 1:
-          return book.searchedContent[this.state.index].text; + " ";
-        case 2:
-          return book.searchedContent[this.state.index].text; + "  ";
-        case 3:
-          return book.searchedContent[this.state.index].text; + "   ";
-
-        default:
-          return book.searchedContent[this.state.index].text;;
-      }
+      return book.searchedContent[index].text;
     }
-    //console.log(book?.bookPageContent?.[lookupId], 'book?.bookPageContent');
-    //console.log(book?.bookDetail?.[lookupId]?.content?.[this.props.book.page], 'book?.bookPageContent');
-    //return book?.bookPageContent?.[lookupId];
-
-    // Force html to rerender
-    switch (moon) {
-      case 1:
-        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + " ";
-      case 2:
-        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + "  ";
-      case 3:
-        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text + "   ";
-
-      default:
-        return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text;
-    }
+    return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text;
   };
 
 
@@ -226,7 +201,7 @@ class ReadingPage extends Component {
           </TouchableOpacity>
           <View style={styles.headerItem}>
             <TouchableOpacity onPress={this.handlePressTashkeel}>
-              <SvgUri uri={svg_photo.shape} style={{ marginTop: '80%' }} />
+              <SvgUri uri={this.state.isWithTashkeel ? svg_photo.shape : svg_photo.shape} style={{ marginTop: '80%' }} />
             </TouchableOpacity>
           </View>
           <TouchableOpacity
@@ -411,7 +386,7 @@ class ReadingPage extends Component {
         {this.state.search && (
           <View style={styles.search_bar}>
             <TextInput
-              placeholder={'بحث عن كتاب'}
+              placeholder={'البحث عن كلمة'}
               style={styles.input}
               value={this.state.searchText}
               onChangeText={this.handleTextChange}
@@ -560,11 +535,16 @@ class ReadingPage extends Component {
   handlePressTashkeel = () => {
     const { lookupId } = this.props.route.params;
     this.setState({ isWithTashkeel: !this.state.isWithTashkeel });
-    this.props.getPageContent({
+    this.props.getBookDetail({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
     });
+    /* this.props.getPageContent({
+      lookupId,
+      isWithTashkeel: this.state.isWithTashkeel,
+      //page: this.props.book.page,
+    }); */
   };
   getNotes = () => {
     const { lookupId } = this.props.route.params;
@@ -731,6 +711,12 @@ const mapDispatchToProps = (dispatch) => ({
       lookupId
     }),
 
+  getBookDetailFromLocal: (form, lookupId) =>
+    dispatch({
+      type: GET_BOOK_DETAIL_SUCCESS,
+      form,
+      lookupId
+    }),
   deleteNote: (note, callback) =>
     dispatch({
       type: PENDING_DELETE_NOTES,

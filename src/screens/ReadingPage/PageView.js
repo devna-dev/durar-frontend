@@ -12,8 +12,43 @@ export default class PageView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            content: this.props.renderContent()
         };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.renderContent() !== this.state.content) {
+            return this.setState({ content: this.props.renderContent() });
+        }
+        if (this.props.font != prevProps.font) {
+            switch (this.props.font) {
+                case 13:
+                    return this.setState({ content: this.state.content + " " });
+                case 16:
+                    return this.setState({ content: this.state.content + "  " });
+                case 20:
+                    return this.setState({ content: this.state.content + "   " });
+                default:
+                    return this.setState({ content: this.state.content });
+            }
+        }
+
+        if (this.props.moon != prevProps.moon) {
+            switch (this.props.moon) {
+                case 0:
+                    return this.setState({ content: this.state.content + " " });
+                case 1:
+                    return this.setState({ content: this.state.content + "  " });
+                case 2:
+                    return this.setState({ content: this.state.content + "   " });
+                default:
+                    return this.setState({ content: this.state.content });
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        Tts.stop();
     }
 
     renderText = (htmlAttribs, children, moon) => {
@@ -51,10 +86,33 @@ export default class PageView extends Component {
                         console.log(str, 'content');
                         this.props.onOpenAddNoteModal();
                     } else if (eventType === 'Voice') {
-                        Tts.speak(content);
+                        Tts.stop();
+                        Tts.getInitStatus().then(() => {
+                            Tts.speak(content,
+                                Platform.select({
+                                    ios: {
+                                        //iosVoiceId: 'com.apple.ttsbundle.Moira-compact',
+                                        //rate: 0.8,
+                                    },
+                                    android: {
+                                        androidParams: {
+                                            //KEY_PARAM_PAN: -1,
+                                            //KEY_PARAM_VOLUME: 0.8,
+                                            //KEY_PARAM_STREAM: 'STREAM_MUSIC',
+                                        },
+                                    }
+                                })
+                            );
+                        }, (err) => {
+                            if (err.code === 'no_engine') {
+                                Tts.requestInstallEngine();
+                            }
+                        }
+                        );
+
                     }
                 }}
-                value={<Text style={{ color: this.props.color }}>{children}</Text>}
+                value={<Text style={{ color: this.props.color, fontSize: this.props.font }}>{children}</Text>}
             />
         );
     };
@@ -63,7 +121,7 @@ export default class PageView extends Component {
     render() {
         return (
             <HTML
-                html={this.props.renderContent()}
+                html={this.state.content}
                 renderers={{
                     span: this.renderText.bind(this),
                     h1: this.renderText.bind(this),
@@ -79,7 +137,7 @@ export default class PageView extends Component {
                 customWrapper={(content, attr) =>
                     this.renderText(attr, content, this.props.moon)
                 }
-                /* baseFontStyle={{
+                baseFontStyle={{
                     fontSize: this.props.font,
                     color: this.props.color,
                 }}
@@ -89,7 +147,7 @@ export default class PageView extends Component {
                         fontStyle: 'italic',
                         color: this.props.color,
                     },
-                }} */
+                }}
                 onHTMLParsed={(dom, RNElements) => {
                     // Find the index of the first paragraph
                     const ad = {

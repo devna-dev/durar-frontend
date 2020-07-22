@@ -54,6 +54,11 @@ const CLEAR_SEARCH_IN_BOOK = 'Book/CLEAR_SEARCH_IN_BOOK';
 const DONATION_FAILURE = 'DONATION_FAILURE';
 const CLEAR_SEARCH_CACHE = 'CLEAR_SEARCH_CACHE';
 
+
+const SAVE_LOACL_BOOK = "SAVE_LOACL_BOOK";
+const DELETE_LOACL_BOOK = "DELETE_LOACL_BOOK";
+
+
 export {
   clear,
   get_books,
@@ -110,4 +115,7 @@ export {
   creditCardDonate,
   creditCardDonate_success,
   creditCardDonate_failure,
+
+  SAVE_LOACL_BOOK,
+  DELETE_LOACL_BOOK,
 };

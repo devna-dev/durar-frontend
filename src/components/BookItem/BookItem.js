@@ -34,7 +34,7 @@ export default class BookItem extends Component {
     }
 
     render() {
-        console.log('xxxxxxxxxxxxxxxx', this.props.item)
+        console.log({ 'review': this.props.item })
         if (!this.state.isMyReviw)
             return (
                 <View

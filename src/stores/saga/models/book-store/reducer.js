@@ -53,6 +53,8 @@ import {
   creditCardDonate,
   creditCardDonate_success,
   creditCardDonate_failure,
+  SAVE_LOACL_BOOK,
+  DELETE_LOACL_BOOK,
 } from './actions';
 
 const initialState = {
@@ -85,6 +87,10 @@ const initialState = {
   load: false,
   message: '',
   donation_success: false,
+
+
+  savedBook: {},
+  savedBookDetails: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -321,8 +327,26 @@ const reducer = (state = initialState, action) => {
         book_notes: tempBook_notes,
         bookPageContent: tempBookPageContent,
       };
+
+    case SAVE_LOACL_BOOK:
+      return {
+        ...state,
+        savedBook: { ...state.savedBook, [action?.form.lookupId]: action.form?.book },
+        savedBookDetails: { ...state.savedBookDetails, [action?.form.lookupId]: action.form?.bookDetails },
+      };
+    case DELETE_LOACL_BOOK:
+
+      let tempSavedBook = state.savedBook;
+      let tempSavedBookDetails = state.savedBookDetails;
+      !!tempSavedBook?.[action?.form?.lookupId] && delete tempSavedBook[action.form.lookupId];
+      !!tempSavedBookDetails?.[action?.form?.lookupId] && delete tempSavedBookDetails[action.form.lookupId];
+      return {
+        ...state,
+        savedBook: tempSavedBook,
+        savedBookDetails: tempSavedBookDetails,
+      };
     case clear:
-      return { ...initialState, loading: 'clear' };
+      return { ...initialState, ...state.savedBook, ...state.savedBookDetails };
     default:
       return state;
   }

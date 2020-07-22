@@ -87,7 +87,7 @@ export default class AudioFile extends Component {
     onStopAudio = () => {
         if (this.Player !== undefined) {
             this.Player.stop(() => {
-                audio_progess(this.props.bookId, this.props.audio_books?.[this.state.index]?.id, this.state.progress)
+                audio_progess(this.props.bookId, this.props.audio_books?.[this.state.index]?.id, Math.round(this.state.progress))
                 this.setState({ status: 0 }, () => {
                     this.intervalPlayer && clearInterval(this.intervalPlayer);
                     this.intervalPlayer = undefined;
@@ -98,7 +98,7 @@ export default class AudioFile extends Component {
 
     onResetAudio = () => {
         if (this.Player !== undefined) {
-            audio_progess(this.props.bookId, this.props.audio_books?.[this.state.index]?.id, this.state.progress)
+            audio_progess(this.props.bookId, this.props.audio_books?.[this.state.index]?.id, Math.round(this.state.progress))
             this.Player.reset().release();
             this.setState({ status: 0, isAudio: false, progress: 0 });
             this.Player = undefined;
@@ -167,7 +167,7 @@ export default class AudioFile extends Component {
                             <FlatList data={this.props.audio_books}
                                 renderItem={(item) => {
                                     return (
-                                        <View style={{ paddingVertical: 10, borderBottomColor: "#dfdfdf", borderBottomWidth: 1 }}>
+                                        <View style={{ paddingVertical: 10, marginVertical: 5, marginHorizontal: 10, borderRadius: 5, borderColor: "#dfdfdf", borderWidth: 1 }}>
                                             <TouchableOpacity onPress={() => {
                                                 this.setState({ audio: true, index: item.index, url: item.item.url }, () => {
                                                     this.onPressAudio(this.state.url);
@@ -186,41 +186,23 @@ export default class AudioFile extends Component {
                                                             onPress={() => {
                                                                 //console.log(item.item.url)
                                                                 this.onPlayAudio();
-
-                                                                /* this.whoosh.play(success => {
-                                                                    if (success) {
-                                                                        console.log('successfully finished playing');
-                                                                    } else {
-                                                                        this.whoosh.release()
-                                                                        console.log('playback failed due to audio decoding errors');
-                                                                        this.whoosh = new Sound(item.item.url)
-                                                                        this.whoosh.play()
-                                                                    }
-                                                                }) */
                                                             }}
                                                             style={styles.headerItem}>
-                                                            <SvgUri width={15} height={15} uri={svg_photo.read_paly} />
+                                                            <Image style={{ width: 30, height: 30 }} resizeMethod="resize" resizeMode="contain" source={require('../../assets/images/play.png')} />
                                                         </TouchableOpacity>}
                                                         {this.state.status != 0 && this.state.status != 2 && <TouchableOpacity
                                                             onPress={() => {
                                                                 this.onPauseAudio();
-                                                                /* this.whoosh.pause(() => {
-                                                                    //  alert('pause')
-                                                                }); */
-
                                                             }}
                                                             style={styles.headerItem}>
-                                                            <SvgUri width={15} height={15} uri={svg_photo.pause} />
+                                                            <Image style={{ width: 30, height: 30 }} resizeMethod="resize" resizeMode="contain" source={require('../../assets/images/pause.png')} />
                                                         </TouchableOpacity>}
                                                         {this.state.status != 0 && <TouchableOpacity
                                                             onPress={() => {
                                                                 this.onStopAudio();
-
-                                                                /* this.whoosh.stop(() => {
-                                                                }); */
                                                             }}
                                                             style={styles.headerItem}>
-                                                            <SvgUri width={15} height={15} uri={svg_photo.stop_paly} />
+                                                            <Image style={{ width: 30, height: 30 }} resizeMethod="resize" resizeMode="contain" source={require('../../assets/images/stop.png')} />
                                                         </TouchableOpacity>}
                                                     </View>}
                                             </TouchableOpacity>
