@@ -40,7 +40,6 @@ class CreditCard extends Component {
         ) {
             this.setState({ donateSuccess: true });
             setTimeout(() => {
-                this.props.clear();
                 this.reset();
                 this.props.navigation.goBack();
             }, 2000);
@@ -286,10 +285,6 @@ const mapStateToProps = (state) => {
     };
 };
 const mapDispatchToProps = (dispatch) => ({
-    clear: () =>
-        dispatch({
-            type: clear,
-        }),
     donateByCreditCard: (form) =>
         dispatch({
             type: creditCardDonate,
