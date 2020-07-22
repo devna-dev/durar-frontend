@@ -18,6 +18,7 @@ const get_popular_books_success = 'get_popular_books_success';
 const get_popular_books_failed = 'get_popular_books_failed';
 const GET_Search_Result_SUCCESS = 'GET_Search_Result_SUCCESS';
 const GET_BOOK_CONTENT_PENDING = 'GET_BOOK_CONTENT_PENDING';
+const CLEAR_BOOK_CONTENT = 'CLEAR_BOOK_CONTENT';
 const GET_BOOK_CONTENT_SUCCESS = 'GET_BOOK_CONTENT_SUCCESS';
 const GET_BOOK_Notes_SUCCESS = 'GET_BOOK_Notes_SUCCESS';
 const set_page = 'set_page';
@@ -77,6 +78,7 @@ export {
   search_result,
   GET_Search_Result_SUCCESS,
   GET_BOOK_CONTENT_PENDING,
+  CLEAR_BOOK_CONTENT,
   GET_BOOK_CONTENT_SUCCESS,
   GET_BOOK_Notes_SUCCESS,
   set_page,

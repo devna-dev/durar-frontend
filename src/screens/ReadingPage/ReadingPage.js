@@ -31,6 +31,7 @@ import Sound from 'react-native-sound';
 import {
   decrease_page,
   GET_BOOK_CONTENT_PENDING,
+  CLEAR_BOOK_CONTENT,
   GET_BOOK_DETAIL_PENDING,
   GET_BOOK_DETAIL_SUCCESS,
   set_page,
@@ -70,6 +71,7 @@ class ReadingPage extends Component {
       font: 13,
       color: colors.black,
       play: false,
+      LoadedContent: undefined,
     };
 
     this.searchWaiting = null;
@@ -86,18 +88,23 @@ class ReadingPage extends Component {
       this.start();
     });
   }
+
   componentWillUnmount() {
     const { lookupId } = this.props.route.params;
     this._unsubscribe();
     this.props.clearBookCache(lookupId);
   }
   componentDidUpdate(prevProps) {
+    const { lookupId } = this.props.route.params;
     if (this.props?.route?.params !== prevProps?.route?.params) {
       this.setState({ index: this.props?.route?.params?.page || 1 }, () => {
-        const { lookupId } = this.props.route.params;
         this.props.setPage(this.props?.route?.params?.page || 1, lookupId);
         //setTimeout(() => this.start(), 200);
       });
+    }
+
+    if (!!this.props.book?.bookPageContent && this.props.book?.bookPageContent !== prevProps.book?.bookPageContent) {
+      this.setState({ LoadedContent: this.props.book?.bookPageContent[lookupId] })
     }
   }
 
@@ -112,6 +119,8 @@ class ReadingPage extends Component {
         isWithTashkeel: this.state.isWithTashkeel,
         page: this.props.book.page,
       });
+
+      this.getPage();
     }
   };
 
@@ -127,7 +136,8 @@ class ReadingPage extends Component {
     ) {
       return book.searchedContent[index].text;
     }
-    return book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text;
+
+    return this.state.LoadedContent ? this.state.LoadedContent : book?.bookDetail?.[lookupId]?.content?.[this.props.book.page - 1]?.text;
   };
 
 
@@ -534,31 +544,33 @@ class ReadingPage extends Component {
   }
   handlePressTashkeel = () => {
     const { lookupId } = this.props.route.params;
-    this.setState({ isWithTashkeel: !this.state.isWithTashkeel });
-    this.props.getBookDetail({
-      lookupId,
-      isWithTashkeel: this.state.isWithTashkeel,
-      page: this.props.book.page,
+    this.setState({ isWithTashkeel: !this.state.isWithTashkeel }, () => {
+      this.props.getBookDetail({
+        lookupId,
+        isWithTashkeel: this.state.isWithTashkeel,
+        page: this.props.book.page,
+      });
+      this.props.getPageContent({
+        lookupId,
+        isWithTashkeel: this.state.isWithTashkeel,
+        page: this.props.book.page,
+      });
     });
-    /* this.props.getPageContent({
-      lookupId,
-      isWithTashkeel: this.state.isWithTashkeel,
-      //page: this.props.book.page,
-    }); */
   };
   getNotes = () => {
     const { lookupId } = this.props.route.params;
     this.props.getNotes({ lookupId });
   };
-  goNextPage = () => {
+  goNextPage = async () => {
+    this.setState({ LoadedContent: undefined });
+    this.props.clearPageContent();
     const { lookupId } = this.props.route.params;
     this.props.toNextPage(lookupId);
-    /* const { lookupId } = this.props.route.params;
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
-    }); */
+    });
   };
   getPage = () => {
     const { lookupId } = this.props.route.params;
@@ -568,15 +580,16 @@ class ReadingPage extends Component {
       page: this.props.book.page,
     });
   };
-  goPreviousPage = () => {
+  goPreviousPage = async () => {
+    this.setState({ LoadedContent: undefined });
+    this.props.clearPageContent();
     const { lookupId } = this.props.route.params;
     this.props.toPreviousPage(lookupId);
-    /* const { lookupId } = this.props.route.params;
     await this.props.getPageContent({
       lookupId,
       isWithTashkeel: this.state.isWithTashkeel,
       page: this.props.book.page,
-    }); */
+    });
   };
   nextSearchPage = () => {
     const { searchedContent } = this.props.book;
@@ -663,7 +676,10 @@ const mapDispatchToProps = (dispatch) => ({
       type: GET_BOOK_CONTENT_PENDING,
       form,
     }),
-
+  clearPageContent: () =>
+    dispatch({
+      type: CLEAR_BOOK_CONTENT,
+    }),
   setPage: (page, lookupId) =>
     dispatch({
       type: set_page,

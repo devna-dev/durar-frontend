@@ -122,6 +122,8 @@ function ActivityStackNavigator() {
       <ActivityStack.Screen name="Library" component={Library} />
       <ActivityStack.Screen name="SubCategory" component={SubCategory} />
       <ActivityStack.Screen name="AudioBook" component={AudioBook} />
+      <SavingBoooksStack.Screen name="Book" component={Book} />
+      <SavingBoooksStack.Screen name="ReadingPage" component={ReadingPageNavigator} />
     </ActivityStack.Navigator>
   );
 }

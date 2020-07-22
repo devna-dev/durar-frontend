@@ -16,6 +16,7 @@ import {
   GET_Search_Result_SUCCESS,
   GET_BOOK_CONTENT_PENDING,
   GET_BOOK_CONTENT_SUCCESS,
+  CLEAR_BOOK_CONTENT,
   set_page,
   increase_page,
   decrease_page,
@@ -249,6 +250,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         bookPageContent: { ...state.bookPageContent, [action.lookupId]: action.form },
         load: false,
+      };
+    case CLEAR_BOOK_CONTENT:
+      return {
+        ...state,
+        bookPageContent: {},
       };
     case set_page:
       console.log(action?.page);
