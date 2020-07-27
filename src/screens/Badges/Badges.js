@@ -49,7 +49,7 @@ class Badges extends Component {
                                     uri={svg_photo.back}/>
                             <Text style={styles.text3}>أوسمتى</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {/* this.props.navigation.navigate('SystemPoints') */}}
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('SystemPoints') }}
                                           style={styles.headerItemView}>
                             <SvgUri style={styles.back_img}
                                     uri={svg_photo.gift}/>

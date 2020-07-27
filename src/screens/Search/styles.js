@@ -8,7 +8,14 @@ export default StyleSheet.create({
     },
     content: {
         //  marginTop: '5%',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+       
+    },
+    Authercontent: {
+        //  marginTop: '5%',
+        backgroundColor: 'white',
+        height:300,
+
     },
     back_img: {
         width: 30,
@@ -69,6 +76,7 @@ export default StyleSheet.create({
     input: {
         ...common.RegularFont,
         width: '100%',
+        textAlign:'right',
         textAlignVertical: 'center'
     },
     item_view: {
@@ -101,7 +109,8 @@ export default StyleSheet.create({
         fontSize: 14,
         ...common.BlackFont,
         marginVertical:'5%',
-        marginHorizontal:'7%'
+        marginHorizontal:'7%',
+        textAlign:'left'
     },
     active_item_text: {
         fontSize: 14,
@@ -153,5 +162,15 @@ export default StyleSheet.create({
         height: 50,
         borderRadius: 10,
         marginBottom: '5%'
+    },
+    autherTexe:{
+        ...common.BoldFont,
+        fontSize: 12,
+        alignSelf: 'center',
+        color: colors.grey3,
+        textAlignVertical:'center',
+        textAlign:'center',
+        color: colors.primary,
+        fontWeight: '900'
     }
 })

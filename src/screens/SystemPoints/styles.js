@@ -24,7 +24,7 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         height: 50,
-        paddingHorizontal: '3.5%'
+        paddingHorizontal: '3.5%',
     },
     headerTitle: {
         ...common.BoldFont,
@@ -59,7 +59,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         paddingHorizontal: '1.5%',
-        width: 90,
+        minWidth: 90,
         alignSelf: 'center',
         marginBottom: '3%',
         borderRadius: 25,
@@ -145,6 +145,12 @@ export default StyleSheet.create({
         fontSize: 14,
         alignSelf: 'center',
         color: colors.grey3,
+        textAlignVertical: 'center'
+    },
+    text2: {
+        ...common.BoldFont,
+        fontSize: 14,
+        alignSelf: 'center',
         textAlignVertical: 'center'
     },
     diff_view: {
