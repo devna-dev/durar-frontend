@@ -25,14 +25,16 @@ export default StyleSheet.create({
         ...common.BlackFont,
         fontSize: 12,
         height:20,
-        width:'95%'
+        width:'95%',
+        textAlign:'left'
     },
     text2: {
         ...common.SemiBoldFont,
         fontSize: 13,
         color:colors.grey3,
         height:20,
-        width:'95%'
+        width:'95%',
+        textAlign:'left'
     },
     text3: {
         ...common.BoldFont,

@@ -23,19 +23,23 @@ class Badges extends Component {
 
     _renderItem = ({item}) => {
         return (
-            <View style={[styles.view_item_list]}>
+            <View style={[styles.view_item_list,!item.points && {opacity:0.5}]}>
                 <Image
                     style={{ width: 80 ,height:80}}
                     source={{uri:item.icon} }
 
                 />
                 <Text style={[styles.item_text1, { fontSize: 13, alignSelf: 'center', width: '100%', textAlign: 'center', paddingHorizontal:2 }]}> {item.title}</Text>
-                <Text style={[styles.text3, { fontSize: 13 }]}>{item.points}</Text>
+                {item.points && <Text style={[styles.text3, { fontSize: 13 }]}>{item.points}</Text>}
             </View>
         )
     };
 
     render() {
+        let  data = []
+        if (this.props.user.points){
+         data = [...this.props.user.points.badges, ...this.props.user.points.unfulfilled_achievements];
+        }
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
@@ -45,19 +49,20 @@ class Badges extends Component {
                                     uri={svg_photo.back}/>
                             <Text style={styles.text3}>أوسمتى</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {/* this.props.navigation.navigate('SystemPoints') */}}
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('SystemPoints') }}
                                           style={styles.headerItemView}>
                             <SvgUri style={styles.back_img}
                                     uri={svg_photo.gift}/>
                             <Text style={styles.text2}>{this.props.user.points ? this.props.user.points.total : 0} </Text>
                         </TouchableOpacity>
                     </View>
-                    {this.props.user.points && this.props.user.points.badges.length > 0 ? (
-                         <FlatList data={this.props.user.points.badges}
+                    {this.props.user.points && data.length > 0 ? (
+                         <FlatList data={data}
                               numColumns={3}
                               style={{alignSelf: 'center',marginTop:10}}
                               renderItem={(item) =>  this._renderItem(item)}
                               /> 
+                             
                     ) :
                     (
                         <ActivityIndicator animating={this.props.load} color={colors.primary} size={'large'} />

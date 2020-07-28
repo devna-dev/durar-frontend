@@ -12,6 +12,7 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <React/RCTI18nUtil.h>
+#import <Firebase.h>
 
 
 static void InitializeFlipper(UIApplication *application) {
@@ -48,6 +49,9 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  if ([FIRApp defaultApp] == nil) {
+     [FIRApp configure];
+   }
   return YES;
 }
 

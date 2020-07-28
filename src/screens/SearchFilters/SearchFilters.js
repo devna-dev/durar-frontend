@@ -33,7 +33,7 @@ class SearchFilters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: '',
+      index: null,
     };
   }
 
@@ -108,13 +108,13 @@ class SearchFilters extends Component {
               <View style={[styles.bar2, {borderBottomWidth: 0}]}>
                 <Text style={styles.active_item_text1}> الكاتب</Text>
               </View>
-              <View style={[styles.bar4, {marginBottom: 15}]}>
+              {/* <View style={[styles.bar4, {marginBottom: 15}]}>
                 <Text style={styles.text3}> بحث</Text>
                 <SvgUri
                   style={styles.back_img}
                   uri={svg_photo.not_active_search}
                 />
-              </View>
+              </View> */}
               <FlatList
                 data={this.props.book.authors}
                 renderItem={({item, index}) => (
@@ -122,7 +122,7 @@ class SearchFilters extends Component {
                     key={item.id}
                     onPress={() => {
                       this.setState({index});
-                      this.props.onChangeValue('authorId', item.id);
+                      this.props.onChangeValue('author', item.id);
                     }}
                     style={[
                       styles.bar4,

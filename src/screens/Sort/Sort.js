@@ -73,7 +73,7 @@ export default class Sort extends Component {
                     name: 'عدد الصفحات من الأكثر',
                   },
                   {
-                    id: 'rate',
+                    id: '-rate',
                     name: 'أعلى التقييمات',
                   },
                   {

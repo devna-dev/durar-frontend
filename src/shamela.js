@@ -11,7 +11,8 @@ import AppNavigator from '../src/navigators/AppNavigator';
 import store from '../src/stores';
 import { colors } from "./config/styles";
 import Container from './components/Containers/Container';
-import { handler } from '../src/stores/saga/models/user-store/sagas'
+import { handler } from '../src/stores/saga/models/user-store/sagas';
+import NotificationController from '../src/notification/NotificationController';
 
 
 class shamela extends Component {
@@ -48,6 +49,7 @@ class shamela extends Component {
             <StoreProvider store={store}>
                 <PersistGate loading={this.renderPersistLoading()} persistor={persistor}>
                     <AppNavigator />
+                    <NotificationController />
                 </PersistGate>
             </StoreProvider>
         );

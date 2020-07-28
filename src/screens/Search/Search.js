@@ -20,7 +20,7 @@ import {
   loading,
 } from '../../stores/saga/models/user-store/actions';
 import {connect} from 'react-redux';
-import { search_result } from '../../stores/saga/models/book-store/actions';
+import {search_result} from '../../stores/saga/models/book-store/actions';
 import {colors} from "../../config/styles";
 // multiSliderValue: [0, 1],
 // select: false,
@@ -59,8 +59,7 @@ class Search extends Component {
         },
       });
     }
-
-  }
+  };
   start = () => {
     const form = {
       ...this.props.route.params,
@@ -94,7 +93,8 @@ class Search extends Component {
   onRequestClose = () => this.setState({sort: false});
   onRequestCloseFilter = () => this.setState({filter: false});
   render() {
-    const num = this.props.searchedBooks.length > 0  ? this.props.searchedBooks.length : 0 ;
+    const num =
+      this.props.searchedBooks.length > 0 ? this.props.searchedBooks.length : 0;
     const form = {
       ...this.props.route.params,
     };
@@ -121,24 +121,35 @@ class Search extends Component {
               <Text style={styles.active_item_text1}> ترتيب حسب</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.find}>وجدنا لك {num} كتاب</Text>
-                  <Text style={styles.active_item_text2}>مرتبه حسب الأكثر مشاهدة</Text>
-          {this.props.searchedBooks &&
-            this.props.searchedBooks.length > 0 ?
-              (
+          {this.props.load ? (
+            <ActivityIndicator
+              animating={this.props.searchedBooks.length !== 0}
+              color={colors.primary}
+              size={'large'}
+            />
+          ) : (
+            <View>
+              <Text style={styles.find}>وجدنا لك {num} كتاب</Text>
+              <Text style={styles.active_item_text2}>
+                مرتبه حسب الأكثر مشاهدة
+              </Text>
+              {this.props.searchedBooks && this.props.searchedBooks.length > 0 && (
                 <View>
                   <FlatList
                     data={this.props.searchedBooks}
-                    style={{ marginLeft: '5%' }}
-                    renderItem={({ item }) => (
-                      <HomeBookItem navigation={this.props.navigation} item={item} search />
+                    style={{marginLeft: '5%'}}
+                    renderItem={({item}) => (
+                      <HomeBookItem
+                        navigation={this.props.navigation}
+                        item={item}
+                        search
+                      />
                     )}
                   />
-                </View>)
-              : (
-              <ActivityIndicator animating={this.props.searchedBooks.length !== 0} color={colors.primary} size={'large'} />
+                </View>
               )}
-
+            </View>
+          )}
         </Content>
         <SearchFilters
           visible={this.state.filter}
@@ -164,6 +175,7 @@ const mapStateToProps = (state) => {
   // console.log(state);
   return {
     searchedBooks: state.book.searched_books,
+    load: state.book.load,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
@@ -178,10 +190,10 @@ const mapDispatchToProps = (dispatch) => ({
       form,
     }),
   search_result: (form) =>
-      dispatch({
-        type: search_result,
-        form,
-      }),
+    dispatch({
+      type: search_result,
+      form,
+    }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);
