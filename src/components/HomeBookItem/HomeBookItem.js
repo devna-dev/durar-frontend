@@ -65,7 +65,7 @@ export default class HomeBookItem extends Component {
               <Text style={styles.homeText} numberOfLines={2}> {this.props.item?.title}</Text>
             )}
           {this.props.now || this.props.search && (
-            <Text style={styles.text2}>
+            <Text style={styles.text2} numberOfLines={2}>
               تأليف: {this.props.item?.author.name}
             </Text>
           )}

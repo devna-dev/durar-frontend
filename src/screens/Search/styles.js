@@ -126,12 +126,14 @@ export default StyleSheet.create({
         fontSize: 13,
         ...common.BoldFont,
         color: colors.grey3,
-        marginHorizontal:'10%'
+        marginHorizontal:'10%',
+        textAlign:'left'
     },
     find: {
         ...common.BlackFont,
         fontSize: 16,
-        marginHorizontal:'10%'
+        marginHorizontal:'10%',
+        textAlign:'left'
     },
     bar4: {
         flexDirection: 'row',

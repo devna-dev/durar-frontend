@@ -26,6 +26,7 @@
 		9C0E438CBA9640148FD29D3E /* Cairo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 303C9DA5FD3C4E4A84366D65 /* Cairo-Regular.ttf */; };
 		A11CA286DDF1EB92513D60EC /* libPods-shamela-shamelaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B6107B6185BBCEE2E946852 /* libPods-shamela-shamelaTests.a */; };
 		B5203B7A15F44AEE8A4ADA87 /* Cairo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACDB1E1DF5AC4835BFF78708 /* Cairo-Black.ttf */; };
+		B98C382B24CECCDA007B50B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B98C382A24CECCDA007B50B8 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,8 @@
 		ACDB1E1DF5AC4835BFF78708 /* Cairo-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-Black.ttf"; path = "../assets/fonts/Cairo-Black.ttf"; sourceTree = "<group>"; };
 		B3BE277498D77B51F3B02466 /* Pods-shamela.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shamela.debug.xcconfig"; path = "Target Support Files/Pods-shamela/Pods-shamela.debug.xcconfig"; sourceTree = "<group>"; };
 		B7A547BFEF31498A9F0D2055 /* Cairo-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-ExtraLight.ttf"; path = "../assets/fonts/Cairo-ExtraLight.ttf"; sourceTree = "<group>"; };
+		B98C382A24CECCDA007B50B8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B98C382C24CED1BD007B50B8 /* shamela.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = shamela.entitlements; path = shamela/shamela.entitlements; sourceTree = "<group>"; };
 		C14DC3AD3A204799A74A0896 /* Cairo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-Bold.ttf"; path = "../assets/fonts/Cairo-Bold.ttf"; sourceTree = "<group>"; };
 		C1F287CDD06B4E6BAC712206 /* Cairo-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cairo-Light.ttf"; path = "../assets/fonts/Cairo-Light.ttf"; sourceTree = "<group>"; };
 		CF4FB80EE59B9BA72124CD31 /* libPods-shamela-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shamela-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,7 +140,9 @@
 		13B07FAE1A68108700A75B9A /* shamela */ = {
 			isa = PBXGroup;
 			children = (
+				B98C382C24CED1BD007B50B8 /* shamela.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				B98C382A24CECCDA007B50B8 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -320,8 +325,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 2485C32C44;
+						DevelopmentTeam = 67Y7CVC7FC;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -369,6 +375,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				B98C382B24CECCDA007B50B8 /* GoogleService-Info.plist in Resources */,
 				B5203B7A15F44AEE8A4ADA87 /* Cairo-Black.ttf in Resources */,
 				041D96FE7338406DAB9B9D52 /* Cairo-Bold.ttf in Resources */,
 				5D6AEC34F089490EA8AB5616 /* Cairo-ExtraLight.ttf in Resources */,
@@ -710,8 +717,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = shamela/shamela.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2485C32C44;
+				DEVELOPMENT_TEAM = 67Y7CVC7FC;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -724,8 +733,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shamela;
 				PRODUCT_NAME = shamela;
+				PROVISIONING_PROFILE_SPECIFIER = "Shamela dev";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -738,8 +748,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = shamela/shamela.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2485C32C44;
+				DEVELOPMENT_TEAM = 67Y7CVC7FC;
 				INFOPLIST_FILE = shamela/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -747,8 +759,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shamela;
 				PRODUCT_NAME = shamela;
+				PROVISIONING_PROFILE_SPECIFIER = "Shamela dev";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

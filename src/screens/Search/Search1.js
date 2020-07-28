@@ -22,7 +22,7 @@ class Search1 extends Component {
     super(props);
     this.state = {
       selected: 0,
-      index: 0,
+      index: null,
       index1: 0,
       sub_index: 0,
       show_sub_categories: false,
@@ -69,6 +69,7 @@ class Search1 extends Component {
               this.setState({ ...state, payload: { title: text } })
             }
             onFocus={() => this.setState({ ...state, selected: 0 })}
+            value={payload.title}
           />
           <SvgUri
             style={[styles.back_img, { marginRight: '7%' }]}
@@ -129,7 +130,7 @@ class Search1 extends Component {
             </TouchableOpacity> */}
 
             <TouchableOpacity
-              onPress={() => this.setState({ ...state, selected: 2 })}
+              onPress={() => this.setState({ ...state, selected: 2, payload: { ...this.state.payload, title: '' } })}
               style={[
                 styles.item_view,
                 {
@@ -223,7 +224,12 @@ class Search1 extends Component {
           <Text style={styles.item_text1}>التصنيف الرئيسي</Text>
           <TouchableOpacity
             onPress={() =>
-              this.setState({ show_categories: !this.state.show_categories })
+              this.setState({
+                show_categories: !this.state.show_categories, payload: {
+                  ...this.state.payload,
+                  category_id: '',
+                }
+              })
             }
             style={[styles.bar4, { borderColor: colors.grey1 }]}>
             <Text style={[styles.text3, { color: colors.grey3 }]}>
@@ -280,12 +286,12 @@ class Search1 extends Component {
                     ]}>
                     {item.name}
                   </Text>
-                  {/*<SvgUri style={styles.back_img1} uri={svg_photo.active_close}/>*/}
+                  {/* <SvgUri style={styles.back_img1} uri={svg_photo.active_close}/> */}
                 </TouchableOpacity>
               )}
             />
           )}
-          <Text style={styles.item_text1}>التصنيف الفرعي</Text>
+          {/* <Text style={styles.item_text1}>التصنيف الفرعي</Text>
           <TouchableOpacity
             onPress={() =>
               this.setState({
@@ -347,22 +353,22 @@ class Search1 extends Component {
                     ]}>
                     {item.name}
                   </Text>
-                  {/*<SvgUri style={styles.back_img1} uri={svg_photo.active_close}/>*/}
+                  <SvgUri style={styles.back_img1} uri={svg_photo.active_close}/>
                 </TouchableOpacity>
               )}
             />
-          )}
-          {(payload.category_id != '' ||
-            payload.title != '' ||
-            payload.sub_category_id != '' ||
-            payload.auther_id != '') && (
+          )} */}
+          {(payload.category_id !== '' ||
+            payload.title !== '' ||
+            payload.sub_category_id !== '' ||
+            payload.auther_id !== '') && (
               <Button
                 title={'بحث'}
                 load={this.props.book.load}
                 style={styles.btn1}
                 onPress={() => {
                   let form = {
-                    category_id: this.state.payload.category_id,
+                    category: this.state.payload.category_id,
                     sub_category: this.state.payload.sub_category_id,
                     title: this.state.payload.title,
                     content: this.state.selected,
