@@ -146,7 +146,8 @@ export default StyleSheet.create({
         fontSize: 14,
         alignSelf: 'center',
         color: colors.grey3,
-        textAlignVertical: 'center'
+        textAlignVertical: 'center',
+        textAlign:'left'
     },
     text2: {
         ...common.BoldFont,

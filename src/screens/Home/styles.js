@@ -82,15 +82,15 @@ export default StyleSheet.create({
         color: '#73726E'
     },
     item_img: {
-        width: screenWigth - 40 ,
+        width: screenWigth /1.1 ,
         height: 156,
         borderRadius: 5
     },
     item_view: {
         alignSelf: 'center',
-        width: 360,
+        width: screenWigth ,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     right_side: {
         backgroundColor: colors.grey1,
