@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import styles from './styles';
 import Container from "../../components/Containers/Container";
 import Content from "../../components/Containers/Content";
-import { FlatList, Text, View, TouchableOpacity } from "react-native";
+import { FlatList, Text, View, TouchableOpacity,ActivityIndicator } from "react-native";
 import { SvgUri } from "react-native-svg";
 import { svg_photo } from '../../assets/svg/svg';
 import HomeBookItemLoaded from "../../components/HomeBookItemLoaded/HomeBookItemLoaded";
+import {get_points} from '../../stores/saga/models/user-store/actions';
 import { colors } from "../../config/styles";
+import {connect} from 'react-redux';
 
-export default class SystemPoints extends Component {
+class SystemPoints extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  componentDidMount() {
+    this.props.getPoints();
+}
 
   render() {
     return (
@@ -28,12 +34,16 @@ export default class SystemPoints extends Component {
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate('SystemPoints')}
               style={styles.headerItemView}>
-              <SvgUri style={styles.back_img} uri={svg_photo.gift} />
-              <Text style={styles.text2}>160 </Text>
+              <SvgUri style={styles.back_img} uri={svg_photo.cup} />
+              {this.props.user.points && <Text style={styles.text2}>{this.props.user.points.total}</Text>}
             </TouchableOpacity>
           </View>
-          <Text style={styles.item_text}>نقاطك الحالية</Text>
-          <Text style={styles.item_text1}>160</Text>
+          {this.props.user.load ?(
+            <ActivityIndicator animating={this.props.load} color={colors.primary} size={'large'} />
+          ) : (
+            <View>
+               <Text style={styles.item_text}>نقاطك الحالية</Text>
+          {this.props.user.points && <Text style={styles.item_text1}>{this.props.user.points.total}</Text>}
           <FlatList
             data={[{}, {}, {}, {}, {}]}
             renderItem={(item) => (
@@ -60,8 +70,24 @@ export default class SystemPoints extends Component {
               </View>
             )}
           />
+            </View>
+          )}
+         
         </Content>
       </Container>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+      ...state,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  getPoints: () => dispatch({
+      type: get_points,
+  }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SystemPoints);
