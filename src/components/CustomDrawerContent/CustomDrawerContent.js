@@ -68,6 +68,11 @@ const data = [
         route: 'NotesBook',
     },
     {
+        image: svg_photo.active_shaved,
+        title: 'أوسمتي',
+        route: 'Badges',
+    },
+    {
         image: svg_photo.notifications,
         title: 'إعدادات الإشعارات',
         route: 'Notifications',

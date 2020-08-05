@@ -107,9 +107,9 @@ class Home extends Component {
                 <View style={styles.leftHeader}>
                     {!!this.props.user?.token &&
                         <TouchableOpacity
-                            onPress={() => this.props.navigation.navigate('Badges')}
+                            onPress={() => this.props.navigation.navigate('SystemPoints')}
                             style={[styles.headerItemView, { flexDirection: 'row', }]}>
-                            <SvgUri style={styles.back_img} uri={svg_photo.gift} />
+                            <SvgUri style={styles.back_img} uri={svg_photo.cup} />
                             <Text style={styles.text2}>{this.state.points} </Text>
                         </TouchableOpacity>
                     }

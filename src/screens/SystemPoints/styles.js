@@ -54,7 +54,7 @@ export default StyleSheet.create({
     },
     headerItemView: {
         flexDirection: 'row',
-        //justifyContent: 'space-between',
+        justifyContent: 'space-between',
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
@@ -92,7 +92,8 @@ export default StyleSheet.create({
         ...common.BoldFont,
         marginTop: 5,
         width:'89%',
-        alignSelf:'center'
+        alignSelf:'center',
+        textAlign:'left',
     },
     item_text1: {
         fontSize: 28,
@@ -145,7 +146,8 @@ export default StyleSheet.create({
         fontSize: 14,
         alignSelf: 'center',
         color: colors.grey3,
-        textAlignVertical: 'center'
+        textAlignVertical: 'center',
+        textAlign:'left'
     },
     text2: {
         ...common.BoldFont,

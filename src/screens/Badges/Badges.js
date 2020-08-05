@@ -26,7 +26,7 @@ class Badges extends Component {
             <View style={[styles.view_item_list,!item.points && {opacity:0.5}]}>
                 <Image
                     style={{ width: 80 ,height:80}}
-                    source={{uri:item.icon} }
+                    source={{uri:item.icon ? item.icon : `https://drr.smartpace.co.uk${item.default_icon}`}}
 
                 />
                 <Text style={[styles.item_text1, { fontSize: 13, alignSelf: 'center', width: '100%', textAlign: 'center', paddingHorizontal:2 }]}> {item.title}</Text>
@@ -52,7 +52,7 @@ class Badges extends Component {
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate('SystemPoints') }}
                                           style={styles.headerItemView}>
                             <SvgUri style={styles.back_img}
-                                    uri={svg_photo.gift}/>
+                                    uri={svg_photo.cup}/>
                             <Text style={styles.text2}>{this.props.user.points ? this.props.user.points.total : 0} </Text>
                         </TouchableOpacity>
                     </View>
@@ -65,7 +65,7 @@ class Badges extends Component {
                              
                     ) :
                     (
-                        <ActivityIndicator animating={this.props.load} color={colors.primary} size={'large'} />
+                        <ActivityIndicator animating={this.props.user.load} color={colors.primary} size={'large'} />
                     )}
 
                 </Content>
